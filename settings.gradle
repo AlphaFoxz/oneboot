@@ -1,0 +1,6 @@
+rootProject.name = 'oneboot'
+
+include ':common'
+include ':system'
+include ':sdk'
+include ':api'
