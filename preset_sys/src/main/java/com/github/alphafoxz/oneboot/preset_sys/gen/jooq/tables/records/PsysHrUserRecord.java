@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record6;
-import org.jooq.Row6;
+import org.jooq.Record9;
+import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
 
@@ -22,7 +22,7 @@ import org.springframework.lang.NonNull;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> implements Record6<Long, String, String, String, String, Long> {
+public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> implements Record9<Long, String, String, String, String, Long, Long, Boolean, Boolean> {
 
     private static final long serialVersionUID = 1L;
 
@@ -132,6 +132,57 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
         return (Long) get(5);
     }
 
+    /**
+     * Setter for <code>preset_sys.psys_hr_user.account_id</code>. 账户id
+     */
+    public PsysHrUserRecord setAccountId(@NonNull Long value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_hr_user.account_id</code>. 账户id
+     */
+    @NotNull
+    @NonNull
+    public Long getAccountId() {
+        return (Long) get(6);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_hr_user.enabled</code>. 是否可用
+     */
+    public PsysHrUserRecord setEnabled(@NonNull Boolean value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_hr_user.enabled</code>. 是否可用
+     */
+    @NotNull
+    @NonNull
+    public Boolean getEnabled() {
+        return (Boolean) get(7);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_hr_user.expired</code>. 是否过期
+     */
+    public PsysHrUserRecord setExpired(@NonNull Boolean value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_hr_user.expired</code>. 是否过期
+     */
+    @NotNull
+    @NonNull
+    public Boolean getExpired() {
+        return (Boolean) get(8);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -143,19 +194,19 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Record9 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row6<Long, String, String, String, String, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row9<Long, String, String, String, String, Long, Long, Boolean, Boolean> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row6<Long, String, String, String, String, Long> valuesRow() {
-        return (Row6) super.valuesRow();
+    public Row9<Long, String, String, String, String, Long, Long, Boolean, Boolean> valuesRow() {
+        return (Row9) super.valuesRow();
     }
 
     @Override
@@ -196,6 +247,24 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
 
     @Override
     @NonNull
+    public Field<Long> field7() {
+        return PsysHrUser.PSYS_HR_USER.ACCOUNT_ID;
+    }
+
+    @Override
+    @NonNull
+    public Field<Boolean> field8() {
+        return PsysHrUser.PSYS_HR_USER.ENABLED;
+    }
+
+    @Override
+    @NonNull
+    public Field<Boolean> field9() {
+        return PsysHrUser.PSYS_HR_USER.EXPIRED;
+    }
+
+    @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
@@ -232,6 +301,24 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
 
     @Override
     @NonNull
+    public Long component7() {
+        return getAccountId();
+    }
+
+    @Override
+    @NonNull
+    public Boolean component8() {
+        return getEnabled();
+    }
+
+    @Override
+    @NonNull
+    public Boolean component9() {
+        return getExpired();
+    }
+
+    @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
@@ -264,6 +351,24 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
     @NonNull
     public Long value6() {
         return getSubjectId();
+    }
+
+    @Override
+    @NonNull
+    public Long value7() {
+        return getAccountId();
+    }
+
+    @Override
+    @NonNull
+    public Boolean value8() {
+        return getEnabled();
+    }
+
+    @Override
+    @NonNull
+    public Boolean value9() {
+        return getExpired();
     }
 
     @Override
@@ -310,13 +415,37 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
 
     @Override
     @NonNull
-    public PsysHrUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull String value5, @NonNull Long value6) {
+    public PsysHrUserRecord value7(@NonNull Long value) {
+        setAccountId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysHrUserRecord value8(@NonNull Boolean value) {
+        setEnabled(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysHrUserRecord value9(@NonNull Boolean value) {
+        setExpired(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysHrUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull String value5, @NonNull Long value6, @NonNull Long value7, @NonNull Boolean value8, @NonNull Boolean value9) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
         value6(value6);
+        value7(value7);
+        value8(value8);
+        value9(value9);
         return this;
     }
 
@@ -334,7 +463,7 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
     /**
      * Create a detached, initialised PsysHrUserRecord
      */
-    public PsysHrUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String salt, @NonNull String nickname, @NonNull Long subjectId) {
+    public PsysHrUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String salt, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired) {
         super(PsysHrUser.PSYS_HR_USER);
 
         setId(id);
@@ -343,6 +472,9 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
         setSalt(salt);
         setNickname(nickname);
         setSubjectId(subjectId);
+        setAccountId(accountId);
+        setEnabled(enabled);
+        setExpired(expired);
         resetChangedOnNotNull();
     }
 
@@ -359,6 +491,9 @@ public class PsysHrUserRecord extends UpdatableRecordImpl<PsysHrUserRecord> impl
             setSalt(value.salt());
             setNickname(value.nickname());
             setSubjectId(value.subjectId());
+            setAccountId(value.accountId());
+            setEnabled(value.enabled());
+            setExpired(value.expired());
             resetChangedOnNotNull();
         }
     }

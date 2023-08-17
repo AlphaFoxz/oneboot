@@ -9,6 +9,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrAccount;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
 
 
@@ -42,6 +43,11 @@ public class Tables {
      * 动态访问控制_授权表
      */
     public static final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
+
+    /**
+     * The table <code>preset_sys.psys_hr_account</code>.
+     */
+    public static final PsysHrAccount PSYS_HR_ACCOUNT = PsysHrAccount.PSYS_HR_ACCOUNT;
 
     /**
      * 用户表

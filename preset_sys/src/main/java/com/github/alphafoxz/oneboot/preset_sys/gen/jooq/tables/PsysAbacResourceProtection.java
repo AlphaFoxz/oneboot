@@ -12,11 +12,11 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function4;
+import org.jooq.Function5;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -76,6 +76,12 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * <code>preset_sys.psys_abac_resource_protection.schema_name</code>. 结构名
      */
     public final TableField<PsysAbacResourceProtectionRecord, String> SCHEMA_NAME = createField(DSL.name("schema_name"), SQLDataType.VARCHAR(20).nullable(false), this, "结构名");
+
+    /**
+     * The column <code>preset_sys.psys_abac_resource_protection.enabled</code>.
+     * 是否生效
+     */
+    public final TableField<PsysAbacResourceProtectionRecord, Boolean> ENABLED = createField(DSL.name("enabled"), SQLDataType.BOOLEAN.nullable(false), this, "是否生效");
 
     private PsysAbacResourceProtection(Name alias, Table<PsysAbacResourceProtectionRecord> aliased) {
         this(alias, aliased, null);
@@ -171,19 +177,19 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row4<Long, String, String, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Long, String, String, String, Boolean> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function4<? super Long, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function5<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -191,7 +197,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

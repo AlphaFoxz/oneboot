@@ -1,9 +1,14 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.security;
 
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysHrAccountPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysHrUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
+import com.github.alphafoxz.oneboot.preset_sys.service.human_resources.crud.PsysHrAccountCrudService;
 import com.github.alphafoxz.oneboot.preset_sys.service.human_resources.crud.PsysHrUserCrudService;
 import jakarta.annotation.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +21,8 @@ import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_HR_US
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private PsysHrUserCrudService psysHrUserCrudService;
+    @Resource
+    private PsysHrAccountCrudService psysHrAccountCrudService;
 
     @Nullable
     @Override
@@ -23,16 +30,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (username == null) {
             return null;
         }
-        PsysHrUserPo psysHrUserPo = psysHrUserCrudService.selectOne(
+        PsysHrUserPo userPo = psysHrUserCrudService.selectOne(
                 PSYS_HR_USER.USERNAME.eq(username)
         );
-        if (psysHrUserPo == null) {
-            return null;
+        if (userPo == null) {
+            throw new OnebootAuthException("用户不存在 username： " + username, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        //TODO 需要设计为单账号多用户
+        PsysHrAccountPo accountPo = psysHrAccountCrudService.selectOne(userPo.accountId());
+        if (accountPo == null) {
+            throw new OnebootDirtyDataException("用户账号对应不上，请检查是否为脏数据 username： " + username, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setUsername(psysHrUserPo.username());
-        userDetails.setPassword(psysHrUserPo.password());
-        return null;
+        userDetails.setUsername(userPo.username());
+        userDetails.setPassword(userPo.password());
+        userDetails.setSubjectId(userPo.subjectId());
+        userDetails.setAccountNonExpired(!accountPo.expired() && !userPo.expired());
+        userDetails.setEnabled(accountPo.enable() && userPo.enabled());
+        //TODO 检查凭证是否过期
+        userDetails.setCredentialsNonExpired(true);
+        return userDetails;
     }
 }

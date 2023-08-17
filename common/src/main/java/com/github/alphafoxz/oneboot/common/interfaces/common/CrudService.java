@@ -24,12 +24,6 @@ public interface CrudService<TABLE extends TableImpl<RECORD>, PO extends java.la
     @NonNull
     public Class<PO> getPoClass();
 
-    public void startTransaction();
-
-    public void rollbackTransaction();
-
-    public void commitTransaction();
-
     public int insert(@NonNull RECORD record);
 
     public int insertMany(@NonNull RECORD... records);

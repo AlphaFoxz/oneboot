@@ -4,19 +4,23 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Indexes;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysHrUserRecord;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function6;
+import org.jooq.Function9;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row6;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -82,6 +86,21 @@ public class PsysHrUser extends TableImpl<PsysHrUserRecord> {
      */
     public final TableField<PsysHrUserRecord, Long> SUBJECT_ID = createField(DSL.name("subject_id"), SQLDataType.BIGINT.nullable(false), this, "主体id");
 
+    /**
+     * The column <code>preset_sys.psys_hr_user.account_id</code>. 账户id
+     */
+    public final TableField<PsysHrUserRecord, Long> ACCOUNT_ID = createField(DSL.name("account_id"), SQLDataType.BIGINT.nullable(false), this, "账户id");
+
+    /**
+     * The column <code>preset_sys.psys_hr_user.enabled</code>. 是否可用
+     */
+    public final TableField<PsysHrUserRecord, Boolean> ENABLED = createField(DSL.name("enabled"), SQLDataType.BOOLEAN.nullable(false), this, "是否可用");
+
+    /**
+     * The column <code>preset_sys.psys_hr_user.expired</code>. 是否过期
+     */
+    public final TableField<PsysHrUserRecord, Boolean> EXPIRED = createField(DSL.name("expired"), SQLDataType.BOOLEAN.nullable(false), this, "是否过期");
+
     private PsysHrUser(Name alias, Table<PsysHrUserRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -119,6 +138,12 @@ public class PsysHrUser extends TableImpl<PsysHrUserRecord> {
     @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
+    }
+
+    @Override
+    @NonNull
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.PSYS_HR_USER_ACCOUNT_ID_INDEX);
     }
 
     @Override
@@ -173,19 +198,19 @@ public class PsysHrUser extends TableImpl<PsysHrUserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row6<Long, String, String, String, String, Long> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row9<Long, String, String, String, String, Long, Long, Boolean, Boolean> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function6<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -193,7 +218,7 @@ public class PsysHrUser extends TableImpl<PsysHrUserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

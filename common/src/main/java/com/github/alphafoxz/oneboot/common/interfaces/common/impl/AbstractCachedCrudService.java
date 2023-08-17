@@ -4,6 +4,7 @@ import com.github.alphafoxz.oneboot.common.CommonConstants;
 import com.github.alphafoxz.oneboot.common.interfaces.common.CachePo;
 import com.github.alphafoxz.oneboot.common.interfaces.common.CrudService;
 import com.github.alphafoxz.oneboot.common.interfaces.common.LogAble;
+import com.github.alphafoxz.oneboot.common.interfaces.common.ReliableService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import org.jooq.Record;
@@ -18,43 +19,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * 带有缓存功能的CrudService实现类
  */
 public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>, PO extends java.lang.Record, RECORD extends UpdatableRecordImpl<RECORD>>
-        implements CrudService<TABLE, PO, RECORD>, LogAble, CachePo<PO> {
-    @SafeVarargs
-    public final void evictCache(@NonNull RECORD... records) {
-        Cache cache = getCache();
-        if (records.length == 0) {
-            return;
-        }
-        Field<Long> idField = (Field<Long>) getTable().getPrimaryKey().getFields().get(0);
-        if (cache != null) {
-            for (RECORD record : records) {
-                Long id = record.get(idField);
-                if (id == null) {
-                    continue;
-                }
-                cache.evictIfPresent(id);
-            }
-        }
-    }
+        implements CrudService<TABLE, PO, RECORD>, LogAble, CachePo<PO>, ReliableService {
+    @NonNull
+    public abstract DSLContext getDslContext();
 
     @NonNull
     public abstract CacheManager getCacheManager();
 
-    @Nullable
-    @Override
-    public final Cache getCache() {
-        return getCacheManager().getCache(getTable().getName());
-    }
+    private Field<Long> idField;
 
-    @NonNull
-    abstract public DSLContext getDslContext();
+    protected Field<Long> getIdField() {
+        if (idField == null) {
+            idField = (Field<Long>) getTable().getPrimaryKey().getFields().get(0);
+        }
+        return idField;
+    }
 
     @Override
     public void startTransaction() {
@@ -71,14 +56,35 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         getDslContext().rollback().execute();
     }
 
+    @Nullable
+    @Override
+    public Cache getCache() {
+        return getCacheManager().getCache(getTable().getName());
+    }
+
+    public void evictCaches(@NonNull RECORD... records) {
+        Cache cache = getCache();
+        if (records.length == 0) {
+            return;
+        }
+        if (cache != null) {
+            for (RECORD record : records) {
+                Long id = record.get(getIdField());
+                if (id == null) {
+                    continue;
+                }
+                cache.evictIfPresent(id);
+            }
+        }
+    }
+
     @Override
     public int insert(@NonNull RECORD record) {
         return getDslContext().executeInsert(record);
     }
 
-    @SafeVarargs
     @Override
-    public final int insertMany(@NonNull RECORD... records) {
+    public int insertMany(@NonNull RECORD... records) {
         int[] i = getDslContext().batchInsert(records).execute();
         return ArrayUtil.isEmpty(i) ? 0 : records.length;
     }
@@ -86,7 +92,6 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
     @Nullable
     @Override
     public PO selectOne(@Nullable SortField<?>[] orderBy, @NonNull Condition... conditions) {
-        Field<Long> idField = (Field<Long>) getTable().getPrimaryKey().getFields().get(0);
         SelectConditionStep<Record1<Long>> where = getDslContext().select(idField)
                 .from(getTable())
                 .where(conditions);
@@ -94,12 +99,12 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         if (ArrayUtil.isNotEmpty(orderBy)) {
             record = where.orderBy(orderBy).fetchAny();
         } else {
-            record = where.fetchOne();
+            record = where.fetchAny();
         }
         if (record == null) {
             return null;
         }
-        Long id = record.getValue(idField);
+        Long id = record.getValue(getIdField());
         return selectOne(id);
     }
 
@@ -112,7 +117,7 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         }
         SelectConditionStep<Record> where = getDslContext().select(getTable().fields())
                 .from(getTable())
-                .where(((Field<Long>) getTable().getPrimaryKey().getFields().get(0)).eq(id));
+                .where(getIdField().eq(id));
         long l = System.currentTimeMillis();
         Record record = where.fetchOne();
         l = System.currentTimeMillis() - l;
@@ -164,12 +169,6 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
     }
 
     @NonNull
-    @Override
-    public List<PO> selectList(int limit, @Nullable SortField<?>[] orderBy, @Nullable Condition... conditions) {
-        return selectList(0, limit, orderBy, conditions);
-    }
-
-    @NonNull
     private List<PO> selectList(long offset, int numOfRows, @Nullable SortField<?>[] orderBy, @Nullable Condition... conditions) {
         List<Long> records = selectIdList(offset, numOfRows, orderBy, conditions);
         List<PO> result = CollUtil.newArrayList();
@@ -177,6 +176,12 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
             result.add(selectOne(id));
         }
         return result;
+    }
+
+    @NonNull
+    @Override
+    public List<PO> selectList(int limit, @Nullable SortField<?>[] orderBy, @Nullable Condition... conditions) {
+        return selectList(0, limit, orderBy, conditions);
     }
 
     @Override
@@ -189,7 +194,7 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
 
     @Override
     public int update(@NonNull RECORD record) {
-        Long id = (Long) record.get(getTable().getPrimaryKey().getFields().get(0));
+        Long id = record.get(getIdField());
         if (id == null) {
             return 0;
         }
@@ -201,13 +206,11 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
 
     @Override
     public int deleteById(@NonNull RECORD record) {
-        Long id = (Long) record.get(getTable().getPrimaryKey().getFields().get(0));
+        Long id = record.get(getIdField());
         if (id == null) {
             return 0;
         }
-        evictCache(id);
-        int i = getDslContext().executeDelete(record);
-        evictCache(id);
+        int i = deleteById(id);
         return i;
     }
 
@@ -215,18 +218,17 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
     public int deleteById(long id) {
         evictCache(id);
         int i = getDslContext().delete(getTable())
-                .where(getTable().getPrimaryKey().getFields().get(0).getName() + " = ?", id)
+                .where(getIdField().getName() + " = ?", id)
                 .execute();
         evictCache(id);
         return i;
     }
 
-    @SafeVarargs
     @Override
-    public final int[] deleteByIds(@NonNull RECORD... records) {
-        evictCache(records);
+    public int[] deleteByIds(@NonNull RECORD... records) {
+        evictCaches(records);
         int[] execute = getDslContext().batchDelete(records).execute();
-        evictCache(records);
+        evictCaches(records);
         return execute;
     }
 
@@ -237,7 +239,7 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         }
         evictCache(ids);
         int i = getDslContext().delete(getTable())
-                .where(getTable().getPrimaryKey().getFields().get(0).in(Arrays.asList(ids)))
+                .where(getIdField().in(CollUtil.newArrayList(ids)))
                 .execute();
         evictCache(ids);
         return i;

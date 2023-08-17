@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.app.controller;
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
-import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestCrudService;
+import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestAbacCrudService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
 import jakarta.annotation.Resource;
@@ -26,11 +26,11 @@ import java.util.Map;
 @RequestMapping("/app/test")
 public class AppTestController {
     @Resource
-    private AppTestCrudService appTestCrudService;
+    private AppTestAbacCrudService appTestAbacCrudService;
     @Resource
     private CacheManager cacheManager;
 
-    @GetMapping("/cache/debug")
+    @GetMapping("/debug")
     public ResponseEntity<?> debug() {
         for (String cacheName : cacheManager.getCacheNames()) {
             System.err.println("=============" + cacheName + "============");
@@ -41,55 +41,55 @@ public class AppTestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/cache/query/{id}")
+    @GetMapping("/query/{id}")
     public ResponseEntity<AppTestPo> query(@PathVariable Long id) {
-        AppTestPo appTest = appTestCrudService.selectOne(id);
+        AppTestPo appTest = appTestAbacCrudService.selectOne(id);
         if (appTest == null) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(appTest);
     }
 
-    @GetMapping("/cache/queryPage")
+    @GetMapping("/queryPage")
     public ResponseEntity<Page<AppTestPo>> queryPage() {
-        Page<AppTestPo> appTests = appTestCrudService.selectPage(1, 10, DSL.trueCondition());
+        Page<AppTestPo> appTests = appTestAbacCrudService.selectPage(1, 10, DSL.trueCondition());
         return ResponseEntity.ok(appTests);
     }
 
-    @GetMapping("/cache/queryList")
+    @GetMapping("/queryList")
     public ResponseEntity<List<AppTestPo>> queryList() {
-        List<AppTestPo> appTest = appTestCrudService.selectList(10, DSL.trueCondition());
+        List<AppTestPo> appTest = appTestAbacCrudService.selectList(10, DSL.trueCondition());
         return ResponseEntity.ok(appTest);
     }
 
-    @GetMapping("/cache/insert/{id}")
+    @GetMapping("/insert/{id}")
     public ResponseEntity<?> insert(@PathVariable Long id) {
         AppTestRecord record = new AppTestRecord();
         record.setId(id);
         record.setTestTimestamptz(OffsetDateTime.now(ZoneId.systemDefault()));
         record.setTestVarchar50("test");
-        int i = appTestCrudService.insertMany(record);
+        int i = appTestAbacCrudService.insertMany(record);
         return ResponseEntity.ok(i);
     }
 
-    @GetMapping("/cache/update/{id}")
+    @GetMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable Long id) {
         Map<String, Object> updateMap = MapUtil.newHashMap();
         updateMap.put("id", id);
         updateMap.put("test_timestamptz", OffsetDateTime.now(ZoneId.systemDefault()));
         AppTestRecord appTestRecord = new AppTestRecord();
         appTestRecord.fromMap(updateMap);
-        int i = appTestCrudService.update(appTestRecord);
+        int i = appTestAbacCrudService.update(appTestRecord);
         return ResponseEntity.ok(i);
     }
 
-    @GetMapping("/cache/delete/{id}")
+    @GetMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        int i = appTestCrudService.deleteById(id);
+        int i = appTestAbacCrudService.deleteById(id);
         return ResponseEntity.ok(i);
     }
 
-    @GetMapping("/cache/cleanCache")
+    @GetMapping("/cleanCache")
     public ResponseEntity<?> cleanCache() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }

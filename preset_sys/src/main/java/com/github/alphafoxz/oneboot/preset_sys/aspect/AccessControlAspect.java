@@ -8,7 +8,7 @@ import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootException;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacActionType;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.AcApi;
-import com.github.alphafoxz.oneboot.common.interfaces.common.CrudService;
+import com.github.alphafoxz.oneboot.common.interfaces.common.ReliableService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
@@ -21,6 +21,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.jooq.TableRecord;
 import org.jooq.impl.TableImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -47,11 +48,11 @@ public class AccessControlAspect {
 
     @Around("accessControlPointcut() && @annotation(acAnno)")
     public Object aroundAccessControl(ProceedingJoinPoint point, AccessControl acAnno) {
-        CrudService<?, ?, ?> service;
-        if (point.getTarget() instanceof CrudService<?, ?, ?> s) {
+        ReliableService service;
+        if (point.getTarget() instanceof ReliableService s) {
             service = s;
         } else {
-            String msg = StrUtil.format("{}类中的注解使用有误，AccessControl目前只支持CrudService", point.getTarget().getClass());
+            String msg = StrUtil.format("{}类中的注解使用有误，AccessControl目前只能对可靠的服务实现", point.getTarget().getClass());
             throw new OnebootApiDesignException(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         Set<Long> paramBizIdSet = CollUtil.newHashSet();
@@ -142,7 +143,11 @@ public class AccessControlAspect {
             idSet = CollUtil.newHashSet();
         }
         if (resourceBizIdAnno.fromContainer()) {
-            if (arg instanceof Collection<?> collection) {
+            if (arg instanceof Page<?> page) {
+                for (Object obj : page.getContent()) {
+                    putBizIdsFromArg(idSet, resourceBizIdAnno, obj, deep + 1);
+                }
+            } else if (arg instanceof Collection<?> collection) {
                 for (Object obj : collection) {
                     putBizIdsFromArg(idSet, resourceBizIdAnno, obj, deep + 1);
                 }
@@ -160,10 +165,16 @@ public class AccessControlAspect {
             idSet.add((long) ReflectUtil.getFieldValue(arg, resourceBizIdAnno.fieldName()));
         } else if (arg instanceof TableRecord<?> tableRecord) {
             idSet.add((long) tableRecord.get(resourceBizIdAnno.fieldName()));
-        } else if (resourceBizIdAnno.fromSerializableBean()) {
-            idSet.add((long) ReflectUtil.getFieldValue(arg, resourceBizIdAnno.fieldName()));
+        } else if (arg instanceof Collection<?> collection) {
+            for (Object obj : collection) {
+                putBizIdsFromArg(idSet, resourceBizIdAnno, obj, deep + 1);
+            }
+        } else if (arg instanceof Page<?> page) {
+            for (Object obj : page.getContent()) {
+                putBizIdsFromArg(idSet, resourceBizIdAnno, obj, deep + 1);
+            }
         } else {
-            throw new OnebootApiDesignException(StrUtil.format("不可解析的资源类型{}，请检查设计是否出错", arg.getClass().getName()), HttpStatus.INTERNAL_SERVER_ERROR);
+            idSet.add((long) ReflectUtil.getFieldValue(arg, resourceBizIdAnno.fieldName()));
         }
         return idSet;
     }

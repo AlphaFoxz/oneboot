@@ -2,7 +2,9 @@ package com.github.alphafoxz.oneboot.preset_sys.service.access_control;
 
 import cn.hutool.json.JSONArray;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.*;
+import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacAttr;
+import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacPolicy;
+import com.github.alphafoxz.oneboot.common.interfaces.access_control.AcApi;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.impl.AbacAttrImpl;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.impl.AbstractAbacBusinessPolicy;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.impl.AbstractAbacOwnerPolicy;
@@ -23,6 +25,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,7 +53,7 @@ public class PsysAcApiService implements AcApi {
     public boolean access(@NonNull Long subjectId,
                           @NonNull String schemaName,
                           @NonNull String tableName,
-                          @NonNull Long resourceBizId,
+                          @Nullable Long resourceBizId,
                           @NonNull String actionType,
                           @NonNull Class<? extends AbacPolicy>[] policiesClass) {
         //TODO 测试
@@ -58,16 +61,17 @@ public class PsysAcApiService implements AcApi {
         //NOTE 第一步：查询资源是否受保护
         List<PsysAbacResourceProtectionPo> psysAbacResourceProtectionPoList = psysAbacResourceProtectionCrudService.selectList(5,
                 PSYS_ABAC_RESOURCE_PROTECTION.SCHEMA_NAME.eq(schemaName),
-                PSYS_ABAC_RESOURCE_PROTECTION.TABLE_NAME.eq(tableName)
+                PSYS_ABAC_RESOURCE_PROTECTION.TABLE_NAME.eq(tableName),
+                PSYS_ABAC_RESOURCE_PROTECTION.ENABLED.eq(true)
         );
         if (psysAbacResourceProtectionPoList.isEmpty()) {
             //不受保护的资源
             return true;
         }
         if (psysAbacResourceProtectionPoList.size() > 2) {
-            log.warn("同一资源有多于2种保护类型，请检查是否有重复数据或脏数据");
+            log.warn("同一资源有多于2种保护类型，请检查是否有重复数据或脏数据tableName：{}", tableName);
         }
-        //这个for循环理论上最多循环2次
+        //这个for循环理论上最多循环2次，一次是判断表权限，一次是判断数据行权限
         for (PsysAbacResourceProtectionPo psysAbacResourceProtectionPo : psysAbacResourceProtectionPoList) {
             //保护类型
             String resourceType = psysAbacResourceProtectionPo.resourceType();

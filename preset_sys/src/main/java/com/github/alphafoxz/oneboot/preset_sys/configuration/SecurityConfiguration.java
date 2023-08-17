@@ -3,17 +3,11 @@ package com.github.alphafoxz.oneboot.preset_sys.configuration;
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.SecureUtil;
-import com.github.alphafoxz.oneboot.preset_sys.enums.access_control.AbacRoleAttrNameEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -65,18 +59,6 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        //TODO 用户认证实现
-        UserDetails securityAdmin = User.builder()
-                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
-                .username("security_admin")
-                .password("security_admin")
-                .roles(AbacRoleAttrNameEnum.SECURITY_ADMIN.getName())
-                .build();
-        return new InMemoryUserDetailsManager(securityAdmin);
     }
 
     @Bean

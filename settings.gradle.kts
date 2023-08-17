@@ -13,5 +13,5 @@ pluginManagement {
 //}
 rootProject.name = "oneboot"
 
-include(":common", ":preset_sys", ":app", ":sdk")
+include(":common", ":preset_sys", ":app", ":sdk", ":tasks")
 

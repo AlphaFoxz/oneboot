@@ -4,6 +4,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Indexes;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceRecord;
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function6;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -131,14 +133,14 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
 
     @Override
     @NonNull
-    public UniqueKey<PsysAbacResourceRecord> getPrimaryKey() {
-        return Keys.PSYS_ABAC_RESOURCE_PK;
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.PSYS_ABAC_RESOURCE_BUSINESS_ID_INDEX);
     }
 
     @Override
     @NonNull
-    public List<UniqueKey<PsysAbacResourceRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.PSYS_ABAC_RESOURCE_PK2);
+    public UniqueKey<PsysAbacResourceRecord> getPrimaryKey() {
+        return Keys.PSYS_ABAC_RESOURCE_PK;
     }
 
     @Override

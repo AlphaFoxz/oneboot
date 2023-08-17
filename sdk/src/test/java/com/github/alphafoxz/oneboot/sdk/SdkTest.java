@@ -17,4 +17,9 @@ public class SdkTest {
     public void generateAllTest() {
         assert sdkGenCodeService.generateJavaRpc(snowflake.nextId()).isSuccess();
     }
+
+    @Test
+    public void nextId() {
+        System.err.println(snowflake.nextId());
+    }
 }

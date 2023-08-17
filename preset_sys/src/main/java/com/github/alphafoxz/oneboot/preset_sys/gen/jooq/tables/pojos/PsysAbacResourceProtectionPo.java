@@ -17,7 +17,8 @@ public record PsysAbacResourceProtectionPo(
     @NonNull Long id,
     @NonNull String resourceType,
     @NonNull String tableName,
-    @NonNull String schemaName
+    @NonNull String schemaName,
+    @NonNull Boolean enabled
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +57,12 @@ public record PsysAbacResourceProtectionPo(
         }
         else if (!this.schemaName.equals(other.schemaName))
             return false;
+        if (this.enabled == null) {
+            if (other.enabled != null)
+                return false;
+        }
+        else if (!this.enabled.equals(other.enabled))
+            return false;
         return true;
     }
 
@@ -67,6 +74,7 @@ public record PsysAbacResourceProtectionPo(
         result = prime * result + ((this.resourceType == null) ? 0 : this.resourceType.hashCode());
         result = prime * result + ((this.tableName == null) ? 0 : this.tableName.hashCode());
         result = prime * result + ((this.schemaName == null) ? 0 : this.schemaName.hashCode());
+        result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
         return result;
     }
 
@@ -78,6 +86,7 @@ public record PsysAbacResourceProtectionPo(
         sb.append(", ").append(resourceType);
         sb.append(", ").append(tableName);
         sb.append(", ").append(schemaName);
+        sb.append(", ").append(enabled);
 
         sb.append(")");
         return sb.toString();

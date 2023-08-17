@@ -19,7 +19,10 @@ public record PsysHrUserPo(
     @NonNull String password,
     @NonNull String salt,
     @NonNull String nickname,
-    @NonNull Long subjectId
+    @NonNull Long subjectId,
+    @NonNull Long accountId,
+    @NonNull Boolean enabled,
+    @NonNull Boolean expired
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +73,24 @@ public record PsysHrUserPo(
         }
         else if (!this.subjectId.equals(other.subjectId))
             return false;
+        if (this.accountId == null) {
+            if (other.accountId != null)
+                return false;
+        }
+        else if (!this.accountId.equals(other.accountId))
+            return false;
+        if (this.enabled == null) {
+            if (other.enabled != null)
+                return false;
+        }
+        else if (!this.enabled.equals(other.enabled))
+            return false;
+        if (this.expired == null) {
+            if (other.expired != null)
+                return false;
+        }
+        else if (!this.expired.equals(other.expired))
+            return false;
         return true;
     }
 
@@ -83,6 +104,9 @@ public record PsysHrUserPo(
         result = prime * result + ((this.salt == null) ? 0 : this.salt.hashCode());
         result = prime * result + ((this.nickname == null) ? 0 : this.nickname.hashCode());
         result = prime * result + ((this.subjectId == null) ? 0 : this.subjectId.hashCode());
+        result = prime * result + ((this.accountId == null) ? 0 : this.accountId.hashCode());
+        result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
+        result = prime * result + ((this.expired == null) ? 0 : this.expired.hashCode());
         return result;
     }
 
@@ -96,6 +120,9 @@ public record PsysHrUserPo(
         sb.append(", ").append(salt);
         sb.append(", ").append(nickname);
         sb.append(", ").append(subjectId);
+        sb.append(", ").append(accountId);
+        sb.append(", ").append(enabled);
+        sb.append(", ").append(expired);
 
         sb.append(")");
         return sb.toString();

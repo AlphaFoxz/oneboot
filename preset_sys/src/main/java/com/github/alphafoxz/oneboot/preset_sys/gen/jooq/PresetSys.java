@@ -9,6 +9,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrAccount;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
 
 import java.util.Arrays;
@@ -59,6 +60,11 @@ public class PresetSys extends SchemaImpl {
     public final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
 
     /**
+     * The table <code>preset_sys.psys_hr_account</code>.
+     */
+    public final PsysHrAccount PSYS_HR_ACCOUNT = PsysHrAccount.PSYS_HR_ACCOUNT;
+
+    /**
      * 用户表
      */
     public final PsysHrUser PSYS_HR_USER = PsysHrUser.PSYS_HR_USER;
@@ -86,6 +92,7 @@ public class PresetSys extends SchemaImpl {
             PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION,
             PsysAbacSubject.PSYS_ABAC_SUBJECT,
             PsysDacAuthorization.PSYS_DAC_AUTHORIZATION,
+            PsysHrAccount.PSYS_HR_ACCOUNT,
             PsysHrUser.PSYS_HR_USER
         );
     }

@@ -36,14 +36,9 @@ public @interface AbacResourceBizId {
     String fieldName() default "id";
 
     /**
-     * 被注解的资源本身就是一个Po或者Record之外的Java Bean，也可以是Map，程序会读取value属性指定的主键字段
-     */
-    boolean fromSerializableBean() default false;
-
-    /**
-     * 被注解的资源是一个容器（Map/Set/List等），通过遍历
+     * 被注解的资源是一个容器（支持Map/Set/List/Page等），但主要是防止Map类型产生歧义，通过遍历容器取出里面的id
      *
-     * @implSpec 注意：应始终保证容器的深度为1，不应该嵌套多层容器。嵌套多层容器应该始终放在crud以外的组件中，因为难于和数据库高效交互、高效缓存、同时降低了可维护性。如果你写出了这种方法，说明你做了个垃圾设计
+     * @implSpec 注意：除Page外，应始终保证容器的深度为1，不应该嵌套多层容器。嵌套多层容器应该始终放在crud以外的组件中，因为难于和数据库高效交互、高效缓存、同时降低了可维护性。如果你写出了这种方法，说明你做了个垃圾设计
      */
     boolean fromContainer() default false;
 }

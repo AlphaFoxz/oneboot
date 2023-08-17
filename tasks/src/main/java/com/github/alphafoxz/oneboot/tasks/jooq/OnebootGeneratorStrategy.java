@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.sdk.pattern.jooq.codegen;
+package com.github.alphafoxz.oneboot.tasks.jooq;
 
 import org.jooq.codegen.DefaultGeneratorStrategy;
 import org.jooq.meta.CatalogDefinition;

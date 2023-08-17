@@ -31,7 +31,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 /**
- * TODO 后续依照需求实现oauth2
+ * HACK 后续依照需求实现oauth2
  */
 //@Configuration
 public class Oauth2ServerConfiguration {
