@@ -42,6 +42,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation "cn.hutool:hutool-all:${hutoolVersion}"
         implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+        implementation "org.apache.thrift:libthrift:${thriftVersion}"
 
         compileOnly "org.projectlombok:lombok"
         annotationProcessor "org.projectlombok:lombok"
@@ -87,7 +88,6 @@ project(':sdk') {
     }
     dependencies {
         implementation project(':common')
-        implementation "org.apache.thrift:libthrift:${thriftVersion}"
     }
 }
 

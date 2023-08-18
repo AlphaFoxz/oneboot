@@ -1,8 +1,10 @@
 package com.github.alphafoxz.oneboot.sdk.config;
 
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ThreadUtil;
+import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.server.TThreadPoolServer;
@@ -24,19 +26,24 @@ public class ThriftServerConfig {
     @Autowired
     public void startServer(SdkProperties sdkProperties) {
         ThreadUtil.execAsync(() -> {
+            TMultiplexedProcessor processor = new TMultiplexedProcessor();
+            SdkConstants.getSdkThriftProcessors("com.github.alphafoxz.oneboot.sdk.service").forEach(processor::registerProcessor);
             switch (sdkProperties.getThrift().getTServer()) {
                 case T_THREADED_SELECTOR_SERVER -> {
                     TThreadedSelectorServer.Args args1 = new TThreadedSelectorServer.Args(nonblockingServerTransport());
+                    args1.processor(processor);
                     server = new TThreadedSelectorServer(args1);
                 }
                 case T_SIMPLE_SERVER -> {
                     TThreadPoolServer.Args args3 = new TThreadPoolServer.Args(serverTransport());
+                    args3.processor(processor);
                     args3.maxWorkerThreads(10);
                     args3.minWorkerThreads(2);
                     server = new TSimpleServer(args3);
                 }
                 default -> {
                     TThreadPoolServer.Args args4 = new TThreadPoolServer.Args(serverTransport());
+                    args4.processor(processor);
                     args4.maxWorkerThreads(10);
                     args4.minWorkerThreads(2);
                     server = new TThreadPoolServer(args4);
