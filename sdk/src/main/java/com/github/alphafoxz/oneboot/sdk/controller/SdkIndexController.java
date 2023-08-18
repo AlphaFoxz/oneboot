@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/_sdk")
 public class SdkIndexController {
-    @GetMapping(value = {"", "/index"})
+    @GetMapping(value = {"", "/", "/index"})
     public String index() {
-        final String HTML = """
+        return """
                 <html>
                 <head>
                     <meta charset="utf-8">
@@ -17,14 +17,13 @@ public class SdkIndexController {
                 </head>
                 <body>
                     <div>
-                        <a href="/_sdk/info/checkErr">检查sdk模块基本功能</a>
+                        <a href="/_sdk/info/checkErr" target="_blank">检查sdk模块基本功能</a>
                     </div>
                     <div>
-                        <a href="/_sdk/thrift/generateAll">生成所有thrift代码</a>
+                        <a href="/_sdk/thrift/generateAll" target="_blank">生成所有thrift代码</a>
                     </div>
                 </body>
                 </html>
                 """;
-        return HTML;
     }
 }

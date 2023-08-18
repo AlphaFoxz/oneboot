@@ -1,11 +1,10 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ReUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import cn.hutool.core.lang.Snowflake;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.thrift.iface.SdkThriftIface;
+import com.github.alphafoxz.oneboot.sdk.thrift.ifaces.SdkThriftIface;
+import com.github.alphafoxz.oneboot.sdk.thrift.structs.SdkListResponseStruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,18 @@ import java.util.StringJoiner;
 public class SdkThriftService implements SdkThriftIface.Iface {
     @Resource
     private SdkInfoService sdkInfoService;
+    @Resource
+    private Snowflake snowflake;
 
     @Override
-    public boolean generateAll() {
-        if (CollUtil.isNotEmpty(sdkInfoService.checkThriftErr())) {
-            return false;
+    public SdkListResponseStruct generateAll() {
+        SdkListResponseStruct result = new SdkListResponseStruct(snowflake.nextId(), snowflake.nextId(), false);
+        SdkListResponseStruct checkThrift = sdkInfoService.checkThriftErr();
+        if (!checkThrift.isSuccess()) {
+            log.error("检查thrift时发现错误 {}", checkThrift);
+            result.setMessage("检查thrift时发现错误");
+            result.setData(checkThrift.getData());
+            return result;
         }
         String rootPath = SdkConstants.PROJECT_ROOT_PATH;
         for (File file : FileUtil.loopFiles(rootPath + "/.sdk/thrift/data")) {
@@ -49,25 +55,25 @@ public class SdkThriftService implements SdkThriftIface.Iface {
             command.add("--gen").add("java");
             command.add(file.getAbsolutePath());
             Process exec;
+            int code;
             try {
                 exec = Runtime.getRuntime().exec(command.toString());
+                code = exec.waitFor();
             } catch (Exception e) {
                 log.error("执行thrift指令异常", e);
-                return false;
-            }
-            int code = 0;
-            try {
-                code = exec.waitFor();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                result.setMessage("执行thrift指令异常");
+                return result;
             }
             if (code != 0) {
                 log.error("{} 文件生成失败，错误代码{}", file.getAbsolutePath(), code);
-                return false;
+                result.setMessage(file.getAbsolutePath() + " 文件生成失败，错误代码" + code);
+                return result;
             }
+            outPath.add(File.separator).add(StrUtil.replace(namespace, ".", File.separator));
             fixFile(outPath.toString());
         }
-        return true;
+        result.setSuccess(true);
+        return result;
     }
 
     private String readJavaNamespace(File thriftFile) {
@@ -90,7 +96,7 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     private void fixFile(String path) {
         for (File file : FileUtil.loopFiles(path)) {
             String s = FileUtil.readUtf8String(file);
-            FileUtil.writeUtf8String(StrUtil.replace(s, "@javax.annotation.processing.Generated", "@javax.annotation.processing.Generated"), file);
+            FileUtil.writeUtf8String(StrUtil.replace(s, "@javax.annotation.Generated", "@javax.annotation.processing.Generated"), file);
         }
     }
 }

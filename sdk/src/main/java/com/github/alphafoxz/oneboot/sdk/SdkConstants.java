@@ -56,7 +56,7 @@ public final class SdkConstants {
                         try {
                             Class<?> pClass = Class.forName(StrUtil.replace(iface.getName(), "$Iface", "$Processor"));
                             Class<?> spClass = Class.forName(StrUtil.replace(iface.getName(), "$Iface", ""));
-                            sdkThriftProcessors.put(spClass.getSimpleName(), (TProcessor) ReflectUtil.newInstance(pClass, SpringUtil.getBean(aClass)));
+                            sdkThriftProcessors.put(StrUtil.lowerFirst(spClass.getSimpleName()), (TProcessor) ReflectUtil.newInstance(pClass, SpringUtil.getBean(aClass)));
                         } catch (Exception e) {
                             log.error("反射Processor异常", e);
                         }

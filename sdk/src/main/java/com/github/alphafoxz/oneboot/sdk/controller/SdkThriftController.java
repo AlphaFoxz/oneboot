@@ -1,6 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
+import com.github.alphafoxz.oneboot.sdk.thrift.structs.SdkListResponseStruct;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ public class SdkThriftController {
 
     @GetMapping("/generateAll")
     public ResponseEntity<?> generateAll() {
-        boolean b = sdkThriftService.generateAll();
-        return ResponseEntity.ok(b);
+        SdkListResponseStruct result = sdkThriftService.generateAll();
+        return ResponseEntity.ok(result);
     }
 }

@@ -2,4 +2,4 @@ oneboot:
   sdk:
     thrift:
       port: 8081
-      t-server: t_thread_pool_server
+      t-server: t_threaded_selector_server
