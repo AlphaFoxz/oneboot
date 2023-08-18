@@ -6,3 +6,9 @@ spring:
     active: dev
     include:
       - sdk
+
+oneboot:
+  common:
+    snowflake:
+      worker-id: 1
+      datacenter-id: 1

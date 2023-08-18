@@ -14,11 +14,13 @@ import org.apache.thrift.transport.TNonblockingServerTransport;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextClosedEvent;
 
 @Slf4j
 @Configuration
-public class ThriftServerConfig {
+public class ThriftServerConfig implements ApplicationListener<ContextClosedEvent> {
     private static TServer server;
     @Resource
     private SdkProperties sdkProperties;
@@ -48,6 +50,7 @@ public class ThriftServerConfig {
                     args4.minWorkerThreads(2);
                     server = new TThreadPoolServer(args4);
                 }
+
             }
             log.info("Starting the thrift server...");
             server.serve();
@@ -69,6 +72,13 @@ public class ThriftServerConfig {
         } catch (Exception e) {
             log.error("初始化异常", e);
             return null;
+        }
+    }
+
+    @Override
+    public void onApplicationEvent(ContextClosedEvent event) {
+        if (server != null) {
+            server.stop();
         }
     }
 }
