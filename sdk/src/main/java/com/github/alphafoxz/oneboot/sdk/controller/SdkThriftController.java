@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
-import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkListResponseStruct;
+import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +20,15 @@ public class SdkThriftController {
     public ResponseEntity<?> generateAll() {
         SdkListResponseStruct result = sdkThriftService.generateAll();
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getServerPort")
+    public ResponseEntity<?> getServerPort() {
+        return ResponseEntity.ok(sdkThriftService.getServerPort());
+    }
+
+    @GetMapping("/getExecutableFilePath")
+    public ResponseEntity<?> getExecutableFilePath() {
+        return ResponseEntity.ok(sdkThriftService.getExecutableFilePath());
     }
 }

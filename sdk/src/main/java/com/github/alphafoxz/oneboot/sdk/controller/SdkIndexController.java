@@ -18,11 +18,20 @@ public class SdkIndexController {
                     <title>SDK工具简易导航</title>
                 </head>
                 <body>
+                    <h1>SDK工具简易导航</h1>
+                    <h2>状态检查</h2>
                     <div>
                         <a href="/_sdk/info/checkErr" target="_blank">检查sdk模块基本功能</a>
                     </div>
                     <div>
-                        <a href="/_sdk/thrift/generateAll" target="_blank">生成所有thrift代码</a>
+                        <a href="/_sdk/thrift/getServerPort" target="_blank">获取当前服务的rpc端口</a>
+                    </div>
+                    <div>
+                        <a href="/_sdk/thrift/getExecutableFilePath" target="_blank">获取thrift可执行文件路径</a>
+                    </div>
+                    <h2>生成代码</h2>
+                    <div>
+                        <a href="/_sdk/thrift/generateAll" target="_blank">生成所有rpc代码</a>
                     </div>
                 </body>
                 </html>

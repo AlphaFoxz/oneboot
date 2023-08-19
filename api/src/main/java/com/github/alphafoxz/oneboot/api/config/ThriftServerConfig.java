@@ -1,7 +1,6 @@
-package com.github.alphafoxz.oneboot.sdk.config;
+package com.github.alphafoxz.oneboot.api.config;
 
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ThreadUtil;
-import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TMultiplexedProcessor;
@@ -14,23 +13,26 @@ import org.apache.thrift.transport.TNonblockingServerTransport;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextClosedEvent;
 
 @Slf4j
 @Configuration
+@ConditionalOnMissingBean(name = "sdkThriftServerConfig")
 public class ThriftServerConfig implements ApplicationListener<ContextClosedEvent> {
     private static TServer server;
     @Resource
-    private SdkProperties sdkProperties;
+    private ApiProperties apiProperties;
 
     @Autowired
-    public void startServer(SdkProperties sdkProperties) {
+    public void startServer(ApiProperties apiProperties) {
         ThreadUtil.execAsync(() -> {
             TMultiplexedProcessor processor = new TMultiplexedProcessor();
-            SdkConstants.getSdkThriftProcessors("com.github.alphafoxz.oneboot.sdk.service").forEach(processor::registerProcessor);
-            switch (sdkProperties.getThrift().getTServer()) {
+//            TODO 添加processor
+//            SdkConstants.getSdkThriftProcessors("com.github.alphafoxz.oneboot.sdk.service").forEach(processor::registerProcessor);
+            switch (apiProperties.getThrift().getTServer()) {
                 case T_THREADED_SELECTOR_SERVER -> {
                     TThreadedSelectorServer.Args args1 = new TThreadedSelectorServer.Args(nonblockingServerTransport());
                     args1.processor(processor);
@@ -59,7 +61,7 @@ public class ThriftServerConfig implements ApplicationListener<ContextClosedEven
 
     private TNonblockingServerTransport nonblockingServerTransport() {
         try {
-            return new TNonblockingServerSocket(sdkProperties.getThrift().getPort());
+            return new TNonblockingServerSocket(apiProperties.getThrift().getPort());
         } catch (Exception e) {
             log.error("初始化异常", e);
             return null;
@@ -68,7 +70,7 @@ public class ThriftServerConfig implements ApplicationListener<ContextClosedEven
 
     private TServerTransport serverTransport() {
         try {
-            return new TServerSocket(sdkProperties.getThrift().getPort());
+            return new TServerSocket(apiProperties.getThrift().getPort());
         } catch (Exception e) {
             log.error("初始化异常", e);
             return null;

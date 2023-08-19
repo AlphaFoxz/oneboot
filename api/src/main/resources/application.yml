@@ -5,10 +5,6 @@ spring:
   profiles:
     active: dev
     include:
-      - sdk
+      - dev-common
+      - dev-sdk
 
-oneboot:
-  common:
-    snowflake:
-      worker-id: 1
-      datacenter-id: 1

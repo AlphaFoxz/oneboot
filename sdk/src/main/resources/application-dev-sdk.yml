@@ -2,5 +2,5 @@ oneboot:
   sdk:
     module-name: 'sdk'
     thrift:
-      port: 8081
+      port: 0
       t-server: t_threaded_selector_server
