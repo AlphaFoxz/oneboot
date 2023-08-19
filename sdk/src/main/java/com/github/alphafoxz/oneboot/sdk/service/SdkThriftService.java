@@ -1,10 +1,16 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.ReUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
+import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkListResponseStruct;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkLongResponseStruct;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkStringResponseStruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,6 +79,26 @@ public class SdkThriftService implements SdkThriftIface.Iface {
             fixFile(outPath.toString());
         }
         result.setSuccess(true);
+        return result;
+    }
+
+    @Override
+    public SdkLongResponseStruct getServerPort() {
+        SdkLongResponseStruct result = new SdkLongResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
+        result.setData(SdkThriftServerConfig.serverPort);
+        return result;
+    }
+
+    @Override
+    public SdkStringResponseStruct getExecutableFilePath() {
+        SdkStringResponseStruct result = new SdkStringResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
+        SdkListResponseStruct checkResult = sdkInfoService.checkThriftErr();
+        if (!checkResult.isSuccess()) {
+            result.setMessage("前置检查失败");
+            result.setSuccess(false);
+            return result;
+        }
+        result.setData(sdkInfoService.getThriftExecutablePath());
         return result;
     }
 

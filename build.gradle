@@ -91,6 +91,7 @@ project(':sdk') {
     dependencies {
         implementation project(':common')
         implementation project(':api')
+        implementation project(':system')
     }
 }
 
@@ -100,6 +101,7 @@ project(':api') {
         mainClass = 'com.github.alphafoxz.oneboot.api.ApiApplication'
     }
     dependencies {
+        implementation project(':common')
         implementation project(':system')
     }
 }

@@ -19,6 +19,8 @@ import java.util.List;
 @Getter
 @Service
 public class SdkInfoService {
+    private static final String FILE_SEPARATOR = File.separator;
+
     @Resource
     private Snowflake snowflake;
 
@@ -31,36 +33,36 @@ public class SdkInfoService {
         SdkListResponseStruct result = new SdkListResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
         File executableFile = null;
-        String binDir = projectRootPath + "/.sdk/bin";
+        String binDir = projectRootPath + File.separator + ".sdk" + File.separator + "bin";
         //生成目录： /.sdk/thrift/data 和 /.sdk/thrift/restful
         try {
+            FileUtil.mkdir(binDir);
             //跨语言rpc
-            FileUtil.mkParentDirs(binDir);
-            FileUtil.mkParentDirs(dataPath + "/common/ifaces");
-            FileUtil.mkParentDirs(dataPath + "/common/structs");
-            FileUtil.mkParentDirs(dataPath + "/common/enums");
-            FileUtil.mkParentDirs(dataPath + "/sdk/ifaces");
-            FileUtil.mkParentDirs(dataPath + "/sdk/structs");
-            FileUtil.mkParentDirs(dataPath + "/sdk/enums");
-            FileUtil.mkParentDirs(dataPath + "/system/ifaces");
-            FileUtil.mkParentDirs(dataPath + "/system/structs");
-            FileUtil.mkParentDirs(dataPath + "/system/enums");
-            FileUtil.mkParentDirs(dataPath + "/api/ifaces");
-            FileUtil.mkParentDirs(dataPath + "/api/structs");
-            FileUtil.mkParentDirs(dataPath + "/api/enums");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "ifaces");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "structs");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "ifaces");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "structs");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "ifaces");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "structs");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "ifaces");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "structs");
+            FileUtil.mkdir(dataPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "enums");
             //restful接口
-            FileUtil.mkParentDirs(restfulPath + "/sdk/entities");
-            FileUtil.mkParentDirs(restfulPath + "/sdk/enums");
-            FileUtil.mkParentDirs(restfulPath + "/sdk/repos");
-            FileUtil.mkParentDirs(restfulPath + "/common/entities");
-            FileUtil.mkParentDirs(restfulPath + "/common/enums");
-            FileUtil.mkParentDirs(restfulPath + "/common/repos");
-            FileUtil.mkParentDirs(restfulPath + "/system/entities");
-            FileUtil.mkParentDirs(restfulPath + "/system/enums");
-            FileUtil.mkParentDirs(restfulPath + "/system/repos");
-            FileUtil.mkParentDirs(restfulPath + "/api/entities");
-            FileUtil.mkParentDirs(restfulPath + "/api/enums");
-            FileUtil.mkParentDirs(restfulPath + "/api/repos");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "entities");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "sdk" + FILE_SEPARATOR + "repos");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "entities");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "common" + FILE_SEPARATOR + "repos");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "entities");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "system" + FILE_SEPARATOR + "repos");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "entities");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "enums");
+            FileUtil.mkdir(restfulPath + FILE_SEPARATOR + "api" + FILE_SEPARATOR + "repos");
         } catch (Exception e) {
             log.error("sdk初始化thrift各目录异常", e);
             errors.add("sdk初始化thrift各目录异常：" + ExceptionUtil.getSimpleMessage(e));

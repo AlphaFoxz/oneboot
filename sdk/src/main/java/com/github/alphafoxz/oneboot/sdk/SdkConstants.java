@@ -13,12 +13,13 @@ import java.util.Set;
 
 @Slf4j
 public final class SdkConstants {
+    private static final String FILE_SEPARATOR = File.separator;
     public static final String SDK_MODULE_NAME = "sdk";
     public static final String PROJECT_ROOT_PATH;
     public static final String BASE_PACKAGE = "com.github.alphafoxz.oneboot";
     public static final OsTypeEnum OS_TYPE;
-    public static final String THRIFT_DATA_PATH = "/.sdk/thrift/data";
-    public static final String THRIFT_RESTFUL_PATH = "/.sdk/thrift/restful";
+    public static final String THRIFT_DATA_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "thrift" + FILE_SEPARATOR + "data";
+    public static final String THRIFT_RESTFUL_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "thrift" + FILE_SEPARATOR + "restful";
     private static Map<String, TProcessor> sdkThriftProcessors;
 
     static {
@@ -26,7 +27,7 @@ public final class SdkConstants {
         String path = System.getProperty("user.dir");
         boolean isChange = false;
         while (!FileUtil.file(path, ".sdk").exists()) {
-            path += File.separator + "..";
+            path += FILE_SEPARATOR + "..";
             isChange = true;
         }
         if (isChange) {
