@@ -1,4 +1,4 @@
-namespace java com.github.alphafoxz.oneboot.common.thrift.enums
+namespace java com.github.alphafoxz.oneboot.common.gen.thrift.enums
 
 // 性别
 enum GenderEnum {

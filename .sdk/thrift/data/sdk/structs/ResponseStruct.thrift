@@ -1,4 +1,4 @@
-namespace java com.github.alphafoxz.oneboot.sdk.thrift.structs
+namespace java com.github.alphafoxz.oneboot.sdk.gen.thrift.structs
 namespace rs thrift.structs
 
 struct SdkListResponseStruct {

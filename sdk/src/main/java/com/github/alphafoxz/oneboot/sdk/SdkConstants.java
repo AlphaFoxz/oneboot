@@ -17,6 +17,8 @@ public final class SdkConstants {
     public static final String PROJECT_ROOT_PATH;
     public static final String BASE_PACKAGE = "com.github.alphafoxz.oneboot";
     public static final OsTypeEnum OS_TYPE;
+    public static final String THRIFT_DATA_PATH = "/.sdk/thrift/data";
+    public static final String THRIFT_RESTFUL_PATH = "/.sdk/thrift/restful";
     private static Map<String, TProcessor> sdkThriftProcessors;
 
     static {

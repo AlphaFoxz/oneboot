@@ -3,6 +3,7 @@ buildscript {
         hutoolVersion = '5.8.16'
         mapstructVersion = '1.5.3.Final'
         thriftVersion = '0.18.1'
+        springdocVersion = '2.2.0'
     }
 }
 plugins {
@@ -40,6 +41,7 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}")
         implementation "cn.hutool:hutool-all:${hutoolVersion}"
         implementation "org.mapstruct:mapstruct:${mapstructVersion}"
         implementation "org.apache.thrift:libthrift:${thriftVersion}"

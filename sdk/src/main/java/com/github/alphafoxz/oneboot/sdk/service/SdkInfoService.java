@@ -6,7 +6,7 @@ import com.github.alphafoxz.oneboot.common.toolkit.coding.ExceptionUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.thrift.structs.SdkListResponseStruct;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkListResponseStruct;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,33 +25,42 @@ public class SdkInfoService {
     private String thriftExecutablePath;
 
     public SdkListResponseStruct checkThriftErr() {
+        String projectRootPath = SdkConstants.PROJECT_ROOT_PATH;
+        final String dataPath = projectRootPath + SdkConstants.THRIFT_DATA_PATH;
+        final String restfulPath = projectRootPath + SdkConstants.THRIFT_RESTFUL_PATH;
         SdkListResponseStruct result = new SdkListResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
         File executableFile = null;
-        String projectRootPath = SdkConstants.PROJECT_ROOT_PATH;
         String binDir = projectRootPath + "/.sdk/bin";
-        String sdkIfaceDir = projectRootPath + "/.sdk/thrift/data/sdk/ifaces";
-        String sdkStructDir = projectRootPath + "/.sdk/thrift/data/sdk/structs";
-        String sdkEnumsDir = projectRootPath + "/.sdk/thrift/data/sdk/enums";
-
-        String commonIfaceDir = projectRootPath + "/.sdk/thrift/data/common/ifaces";
-        String commonStructDir = projectRootPath + "/.sdk/thrift/data/common/structs";
-        String commonEnumsDir = projectRootPath + "/.sdk/thrift/data/common/enums";
-
-        String systemIfaceDir = projectRootPath + "/.sdk/thrift/data/system/ifaces";
-        String systemStructDir = projectRootPath + "/.sdk/thrift/data/system/structs";
-        String systemEnumsDir = projectRootPath + "/.sdk/thrift/data/system/enums";
+        //生成目录： /.sdk/thrift/data 和 /.sdk/thrift/restful
         try {
+            //跨语言rpc
             FileUtil.mkParentDirs(binDir);
-            FileUtil.mkParentDirs(sdkIfaceDir);
-            FileUtil.mkParentDirs(sdkStructDir);
-            FileUtil.mkParentDirs(sdkEnumsDir);
-            FileUtil.mkParentDirs(commonIfaceDir);
-            FileUtil.mkParentDirs(commonStructDir);
-            FileUtil.mkParentDirs(commonEnumsDir);
-            FileUtil.mkParentDirs(systemIfaceDir);
-            FileUtil.mkParentDirs(systemStructDir);
-            FileUtil.mkParentDirs(systemEnumsDir);
+            FileUtil.mkParentDirs(dataPath + "/common/ifaces");
+            FileUtil.mkParentDirs(dataPath + "/common/structs");
+            FileUtil.mkParentDirs(dataPath + "/common/enums");
+            FileUtil.mkParentDirs(dataPath + "/sdk/ifaces");
+            FileUtil.mkParentDirs(dataPath + "/sdk/structs");
+            FileUtil.mkParentDirs(dataPath + "/sdk/enums");
+            FileUtil.mkParentDirs(dataPath + "/system/ifaces");
+            FileUtil.mkParentDirs(dataPath + "/system/structs");
+            FileUtil.mkParentDirs(dataPath + "/system/enums");
+            FileUtil.mkParentDirs(dataPath + "/api/ifaces");
+            FileUtil.mkParentDirs(dataPath + "/api/structs");
+            FileUtil.mkParentDirs(dataPath + "/api/enums");
+            //restful接口
+            FileUtil.mkParentDirs(restfulPath + "/sdk/entities");
+            FileUtil.mkParentDirs(restfulPath + "/sdk/enums");
+            FileUtil.mkParentDirs(restfulPath + "/sdk/repos");
+            FileUtil.mkParentDirs(restfulPath + "/common/entities");
+            FileUtil.mkParentDirs(restfulPath + "/common/enums");
+            FileUtil.mkParentDirs(restfulPath + "/common/repos");
+            FileUtil.mkParentDirs(restfulPath + "/system/entities");
+            FileUtil.mkParentDirs(restfulPath + "/system/enums");
+            FileUtil.mkParentDirs(restfulPath + "/system/repos");
+            FileUtil.mkParentDirs(restfulPath + "/api/entities");
+            FileUtil.mkParentDirs(restfulPath + "/api/enums");
+            FileUtil.mkParentDirs(restfulPath + "/api/repos");
         } catch (Exception e) {
             log.error("sdk初始化thrift各目录异常", e);
             errors.add("sdk初始化thrift各目录异常：" + ExceptionUtil.getSimpleMessage(e));
