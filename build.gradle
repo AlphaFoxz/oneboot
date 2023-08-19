@@ -90,6 +90,7 @@ project(':sdk') {
     }
     dependencies {
         implementation project(':common')
+        implementation project(':api')
     }
 }
 
@@ -100,6 +101,5 @@ project(':api') {
     }
     dependencies {
         implementation project(':system')
-        implementation project(':sdk')
     }
 }
