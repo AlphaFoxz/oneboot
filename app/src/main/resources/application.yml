@@ -6,6 +6,6 @@ spring:
     active: dev
     include:
       - dev-common
-      - dev-sdk
       - dev-app
+      - dev-sdk
 

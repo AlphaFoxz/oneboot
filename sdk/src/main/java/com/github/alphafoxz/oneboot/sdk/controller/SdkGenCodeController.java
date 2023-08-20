@@ -18,6 +18,7 @@ public class SdkGenCodeController implements SdkGenCodeApi {
     @Resource
     private Snowflake snowflake;
 
+    @Override
     @GetMapping("/generateJavaRpc")
     public ResponseEntity<SdkListResponseDto> generateJavaRpc() {
         return ResponseEntity.ok(sdkGenCodeService.generateJavaRpc(snowflake.nextId()));

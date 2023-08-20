@@ -279,7 +279,6 @@ public final class ParseThriftAstUtil {
 
     @Getter
     public static class ThriftRootBean {
-        private final List<String> importClassList = CollUtil.newArrayList();
         private final Map<NamespaceBean.NamespaceLangEnum, String> namespaceMap = MapUtil.newHashMap();
         private final List<CommentBean> commentList = CollUtil.newArrayList();
         private final List<IncludeBean> includeList = CollUtil.newArrayList();

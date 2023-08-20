@@ -40,19 +40,6 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     }
 
     @Override
-    public SdkStringResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
-        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
-        try {
-            result.setData(FileUtil.readUtf8String(pathDto.getData()));
-            result.setSuccess(true);
-        } catch (Exception e) {
-            log.error("{}文件不存在", pathDto.getData());
-            result.setMessage(pathDto.getData() + "文件不存在");
-        }
-        return result;
-    }
-
-    @Override
     public SdkListResponseDto generateJavaApi(SdkStringRequestDto jsonDto, Map<String, SdkStringRequestDto> importJsonDto) {
         // FIXME
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), jsonDto.getTaskId(), false);
@@ -87,13 +74,14 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
-        for (String aclass : thriftRoot.getImportClassList()) {
-            pubCode.add("import " + aclass + ";");
-        }
-        pubCode.add("");
+
         for (ParseThriftAstUtil.ServiceBean serviceBean : thriftRoot.getServiceList()) {
             StringJoiner serviceCode = new StringJoiner("");
             serviceCode.add(pubCode.toString());
+            for (String str : serviceBean.getImportTypeName()) {
+                serviceCode.add("import " + str + ";\n");
+            }
+            serviceCode.add("\n");
             {
                 //解析普通注释
                 List<ParseThriftAstUtil.CommentBean> commentList = serviceBean.getCommentList();
@@ -108,12 +96,12 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 ParseThriftAstUtil.CommentBean serviceDoc = serviceBean.getDoc();
                 String tagAnno = "@Tag(name = \"{}\", description = \"{}\")\n";
                 if (serviceDoc == null) {
-                    serviceCode.add(StrUtil.format(tagAnno, "", serviceBean.getServiceName()));
+                    serviceCode.add(StrUtil.format(tagAnno, serviceBean.getServiceName(), ""));
                 } else {
                     String commentString = serviceDoc.getCommentValue();
                     commentString = StrUtil.replace(commentString, "\"", " ");
                     commentString = StrUtil.replace(commentString, "\\", "");
-                    serviceCode.add(StrUtil.format(tagAnno, commentString.trim(), serviceBean.getServiceName()));
+                    serviceCode.add(StrUtil.format(tagAnno, serviceBean.getServiceName(), commentString.trim()));
                 }
             }
             serviceCode.add("public interface " + serviceBean.getServiceName() + "{\n");

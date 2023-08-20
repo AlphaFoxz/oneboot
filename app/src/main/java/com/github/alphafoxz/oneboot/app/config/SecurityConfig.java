@@ -30,6 +30,11 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
+                .csrf(httpSecurityCsrfConfigurer -> {
+                    httpSecurityCsrfConfigurer.ignoringRequestMatchers(
+                            mvcMatcherBuilder.pattern("/_sdk/**")
+                    );
+                })
                 .formLogin(withDefaults());
         return http.build();
     }

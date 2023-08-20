@@ -1,5 +1,5 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos
-namespace rs thrift.dtos
+namespace rs thrift.gen.dtos
 
 struct SdkListResponseDto {
     1:required i64 id

@@ -6,6 +6,7 @@ import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkLongResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
 import jakarta.annotation.Resource;
@@ -50,6 +51,19 @@ public class SdkThriftService implements SdkThriftIface.Iface {
             return result;
         }
         result.setData(executableFile.getAbsolutePath());
+        return result;
+    }
+
+    @Override
+    public SdkStringResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
+        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
+        try {
+            result.setData(FileUtil.readUtf8String(pathDto.getData()));
+            result.setSuccess(true);
+        } catch (Exception e) {
+            log.error("{}文件不存在", pathDto.getData());
+            result.setMessage(pathDto.getData() + "文件不存在");
+        }
         return result;
     }
 }
