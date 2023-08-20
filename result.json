@@ -1,0 +1,788 @@
+{
+  "pairs": [
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "java",
+            "pos": [
+              11,
+              15
+            ],
+            "rule": "namespace_lang"
+          },
+          {
+            "inner": "com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces",
+            "pos": [
+              16,
+              66
+            ],
+            "rule": "namespace_value"
+          }
+        ],
+        "pos": [
+          11,
+          66
+        ]
+      },
+      "pos": [
+        1,
+        66
+      ],
+      "rule": "namespace"
+    },
+    {
+      "inner": "/*测试用。。。。格式不要太标准\n\n            */",
+      "pos": [
+        79,
+        139
+      ],
+      "rule": "COMMENT"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "rs",
+            "pos": [
+              162,
+              164
+            ],
+            "rule": "namespace_lang"
+          },
+          {
+            "inner": "thrift.ifaces",
+            "pos": [
+              165,
+              178
+            ],
+            "rule": "namespace_value"
+          }
+        ],
+        "pos": [
+          162,
+          178
+        ]
+      },
+      "pos": [
+        152,
+        178
+      ],
+      "rule": "namespace"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "../structs/SdkResponseStruct.thrift",
+            "pos": [
+              200,
+              235
+            ],
+            "rule": "include_value"
+          }
+        ],
+        "pos": [
+          200,
+          235
+        ]
+      },
+      "pos": [
+        191,
+        236
+      ],
+      "rule": "include"
+    },
+    {
+      "inner": "//Thrift类型\n",
+      "pos": [
+        250,
+        265
+      ],
+      "rule": "COMMENT"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "ThriftTypeEnum",
+            "pos": [
+              282,
+              296
+            ],
+            "rule": "enum_name"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "SERVER",
+                  "pos": [
+                    315,
+                    321
+                  ],
+                  "rule": "enum_instance_name"
+                }
+              ],
+              "pos": [
+                315,
+                321
+              ]
+            },
+            "pos": [
+              315,
+              321
+            ],
+            "rule": "enum_instance"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "CLIENT",
+                  "pos": [
+                    339,
+                    345
+                  ],
+                  "rule": "enum_instance_name"
+                },
+                {
+                  "inner": "2",
+                  "pos": [
+                    348,
+                    349
+                  ],
+                  "rule": "enum_instance_constant"
+                }
+              ],
+              "pos": [
+                339,
+                349
+              ]
+            },
+            "pos": [
+              339,
+              349
+            ],
+            "rule": "enum_instance"
+          }
+        ],
+        "pos": [
+          282,
+          349
+        ]
+      },
+      "pos": [
+        277,
+        363
+      ],
+      "rule": "enum"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "ThriftUpdateParam",
+            "pos": [
+              384,
+              401
+            ],
+            "rule": "struct_name"
+          },
+          {
+            "inner": "//主键\n",
+            "pos": [
+              420,
+              429
+            ],
+            "rule": "COMMENT"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "1",
+                  "pos": [
+                    445,
+                    446
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": "required",
+                  "pos": [
+                    447,
+                    455
+                  ],
+                  "rule": "modifier"
+                },
+                {
+                  "inner": "i64",
+                  "pos": [
+                    456,
+                    459
+                  ],
+                  "rule": "intype"
+                },
+                {
+                  "inner": "id",
+                  "pos": [
+                    460,
+                    462
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                445,
+                462
+              ]
+            },
+            "pos": [
+              445,
+              462
+            ],
+            "rule": "struct_attribute"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "2",
+                  "pos": [
+                    475,
+                    476
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": "string",
+                  "pos": [
+                    477,
+                    483
+                  ],
+                  "rule": "intype"
+                },
+                {
+                  "inner": "name",
+                  "pos": [
+                    484,
+                    488
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                475,
+                488
+              ]
+            },
+            "pos": [
+              475,
+              488
+            ],
+            "rule": "struct_attribute"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "3",
+                  "pos": [
+                    501,
+                    502
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": {
+                    "pairs": [
+                      {
+                        "inner": "ThriftTypeEnum",
+                        "pos": [
+                          503,
+                          517
+                        ],
+                        "rule": "utype_customname"
+                      }
+                    ],
+                    "pos": [
+                      503,
+                      517
+                    ]
+                  },
+                  "pos": [
+                    503,
+                    517
+                  ],
+                  "rule": "utype"
+                },
+                {
+                  "inner": "type",
+                  "pos": [
+                    518,
+                    522
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                501,
+                522
+              ]
+            },
+            "pos": [
+              501,
+              522
+            ],
+            "rule": "struct_attribute"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "4",
+                  "pos": [
+                    539,
+                    540
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": "optional",
+                  "pos": [
+                    541,
+                    549
+                  ],
+                  "rule": "modifier"
+                },
+                {
+                  "inner": {
+                    "pairs": [
+                      {
+                        "inner": {
+                          "pairs": [
+                            {
+                              "inner": {
+                                "pairs": [
+                                  {
+                                    "inner": "string",
+                                    "pos": [
+                                      554,
+                                      560
+                                    ],
+                                    "rule": "intype"
+                                  }
+                                ],
+                                "pos": [
+                                  554,
+                                  560
+                                ]
+                              },
+                              "pos": [
+                                554,
+                                560
+                              ],
+                              "rule": "type"
+                            }
+                          ],
+                          "pos": [
+                            554,
+                            560
+                          ]
+                        },
+                        "pos": [
+                          554,
+                          560
+                        ],
+                        "rule": "contain_map_keytype"
+                      },
+                      {
+                        "inner": {
+                          "pairs": [
+                            {
+                              "inner": {
+                                "pairs": [
+                                  {
+                                    "inner": "string",
+                                    "pos": [
+                                      562,
+                                      568
+                                    ],
+                                    "rule": "intype"
+                                  }
+                                ],
+                                "pos": [
+                                  562,
+                                  568
+                                ]
+                              },
+                              "pos": [
+                                562,
+                                568
+                              ],
+                              "rule": "type"
+                            }
+                          ],
+                          "pos": [
+                            562,
+                            568
+                          ]
+                        },
+                        "pos": [
+                          562,
+                          568
+                        ],
+                        "rule": "contain_map_valuetype"
+                      }
+                    ],
+                    "pos": [
+                      554,
+                      568
+                    ]
+                  },
+                  "pos": [
+                    550,
+                    569
+                  ],
+                  "rule": "contain_map"
+                },
+                {
+                  "inner": "info",
+                  "pos": [
+                    569,
+                    573
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                539,
+                573
+              ]
+            },
+            "pos": [
+              539,
+              573
+            ],
+            "rule": "struct_attribute"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "5",
+                  "pos": [
+                    590,
+                    591
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": "optional",
+                  "pos": [
+                    592,
+                    600
+                  ],
+                  "rule": "modifier"
+                },
+                {
+                  "inner": {
+                    "pairs": [
+                      {
+                        "inner": "SdkResponseStruct",
+                        "pos": [
+                          601,
+                          618
+                        ],
+                        "rule": "utype_namespace"
+                      },
+                      {
+                        "inner": "SdkStringResponseStruct",
+                        "pos": [
+                          619,
+                          642
+                        ],
+                        "rule": "utype_customname"
+                      }
+                    ],
+                    "pos": [
+                      601,
+                      642
+                    ]
+                  },
+                  "pos": [
+                    601,
+                    642
+                  ],
+                  "rule": "utype"
+                },
+                {
+                  "inner": "ext",
+                  "pos": [
+                    643,
+                    646
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                590,
+                646
+              ]
+            },
+            "pos": [
+              590,
+              646
+            ],
+            "rule": "struct_attribute"
+          }
+        ],
+        "pos": [
+          384,
+          646
+        ]
+      },
+      "pos": [
+        377,
+        660
+      ],
+      "rule": "struct"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "ThriftUpdateResponse",
+            "pos": [
+              681,
+              701
+            ],
+            "rule": "struct_name"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": "1",
+                  "pos": [
+                    732,
+                    733
+                  ],
+                  "rule": "struct_attribute_constant"
+                },
+                {
+                  "inner": "required",
+                  "pos": [
+                    734,
+                    742
+                  ],
+                  "rule": "modifier"
+                },
+                {
+                  "inner": "bool",
+                  "pos": [
+                    743,
+                    747
+                  ],
+                  "rule": "intype"
+                },
+                {
+                  "inner": "success",
+                  "pos": [
+                    748,
+                    755
+                  ],
+                  "rule": "struct_attribute_name"
+                }
+              ],
+              "pos": [
+                732,
+                755
+              ]
+            },
+            "pos": [
+              732,
+              755
+            ],
+            "rule": "struct_attribute"
+          }
+        ],
+        "pos": [
+          681,
+          755
+        ]
+      },
+      "pos": [
+        674,
+        769
+      ],
+      "rule": "struct"
+    },
+    {
+      "inner": {
+        "pairs": [
+          {
+            "inner": "SdkThriftIface",
+            "pos": [
+              791,
+              805
+            ],
+            "rule": "service_name"
+          },
+          {
+            "inner": {
+              "pairs": [
+                {
+                  "inner": {
+                    "pairs": [
+                      {
+                        "inner": {
+                          "pairs": [
+                            {
+                              "inner": "ThriftUpdateResponse",
+                              "pos": [
+                                824,
+                                844
+                              ],
+                              "rule": "utype_customname"
+                            }
+                          ],
+                          "pos": [
+                            824,
+                            844
+                          ]
+                        },
+                        "pos": [
+                          824,
+                          844
+                        ],
+                        "rule": "utype"
+                      }
+                    ],
+                    "pos": [
+                      824,
+                      844
+                    ]
+                  },
+                  "pos": [
+                    824,
+                    844
+                  ],
+                  "rule": "type"
+                },
+                {
+                  "inner": "testFunction",
+                  "pos": [
+                    845,
+                    857
+                  ],
+                  "rule": "service_function_name"
+                },
+                {
+                  "inner": {
+                    "pairs": [
+                      {
+                        "inner": "1",
+                        "pos": [
+                          859,
+                          860
+                        ],
+                        "rule": "param_number"
+                      },
+                      {
+                        "inner": {
+                          "pairs": [
+                            {
+                              "inner": {
+                                "pairs": [
+                                  {
+                                    "inner": "ThriftUpdateParam",
+                                    "pos": [
+                                      863,
+                                      880
+                                    ],
+                                    "rule": "utype_customname"
+                                  }
+                                ],
+                                "pos": [
+                                  863,
+                                  880
+                                ]
+                              },
+                              "pos": [
+                                863,
+                                880
+                              ],
+                              "rule": "utype"
+                            }
+                          ],
+                          "pos": [
+                            863,
+                            880
+                          ]
+                        },
+                        "pos": [
+                          863,
+                          880
+                        ],
+                        "rule": "type"
+                      },
+                      {
+                        "inner": "param",
+                        "pos": [
+                          882,
+                          887
+                        ],
+                        "rule": "param_name"
+                      }
+                    ],
+                    "pos": [
+                      859,
+                      887
+                    ]
+                  },
+                  "pos": [
+                    859,
+                    887
+                  ],
+                  "rule": "param"
+                }
+              ],
+              "pos": [
+                824,
+                887
+              ]
+            },
+            "pos": [
+              824,
+              889
+            ],
+            "rule": "service_function"
+          }
+        ],
+        "pos": [
+          791,
+          889
+        ]
+      },
+      "pos": [
+        783,
+        903
+      ],
+      "rule": "service"
+    },
+    {
+      "inner": "",
+      "pos": [
+        904,
+        904
+      ],
+      "rule": "EOI"
+    }
+  ],
+  "pos": [
+    1,
+    904
+  ]
+}

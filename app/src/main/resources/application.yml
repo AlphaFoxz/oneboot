@@ -1,0 +1,11 @@
+spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
+  profiles:
+    active: dev
+    include:
+      - dev-common
+      - dev-sdk
+      - dev-app
+

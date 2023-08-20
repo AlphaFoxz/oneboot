@@ -1,6 +1,6 @@
 rootProject.name = 'oneboot'
 
 include ':common'
-include ':system'
+include ':preset_sys'
 include ':sdk'
-include ':api'
+include ':app'
