@@ -1,128 +1,55 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ReUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkLongResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkListResponseStruct;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkLongResponseStruct;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.structs.SdkStringResponseStruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.StringJoiner;
 
-// 注意 @javax.annotation.processing.Generated 和 @javax.annotation.processing.Generated的转换
-// 执行命令为 thrift-0.18.1.exe -out F:\idea_projects\oneboot\sdk\src\main\java --gen java .\CommandIface.thrift
 @Slf4j
 @Service
 public class SdkThriftService implements SdkThriftIface.Iface {
     @Resource
-    private SdkInfoService sdkInfoService;
-    @Resource
     private Snowflake snowflake;
+    private File executableFile;
 
     @Override
-    public SdkListResponseStruct generateAll() {
-        SdkListResponseStruct result = new SdkListResponseStruct(snowflake.nextId(), snowflake.nextId(), false);
-        SdkListResponseStruct checkThrift = sdkInfoService.checkThriftErr();
-        if (!checkThrift.isSuccess()) {
-            log.error("检查thrift时发现错误 {}", checkThrift);
-            result.setMessage("检查thrift时发现错误");
-            result.setData(checkThrift.getData());
-            return result;
-        }
-        String rootPath = SdkConstants.PROJECT_ROOT_PATH;
-        for (File file : FileUtil.loopFiles(rootPath + "/.sdk/thrift/data")) {
-            String namespace = readJavaNamespace(file);
-            if (namespace == null) {
-                log.warn("{} 文件未检测到namespace，跳过", file.getAbsolutePath());
-                continue;
-            }
-            StringJoiner outPath = new StringJoiner(File.separator);
-            outPath.add(rootPath);
-            if (namespace.startsWith(SdkConstants.BASE_PACKAGE + "." + SdkConstants.SDK_MODULE_NAME + ".")) {
-                outPath.add(SdkConstants.SDK_MODULE_NAME).add("src").add("main").add("java");
-            } else {
-                //TODO 其他包是否强制路径？考虑提供check方法检查
-                continue;
-            }
-            StringJoiner command = new StringJoiner(" ");
-            command.add(sdkInfoService.getThriftExecutablePath());
-            command.add("--out").add(outPath.toString());
-            command.add("--gen").add("java");
-            command.add(file.getAbsolutePath());
-            Process exec;
-            int code;
-            try {
-                exec = Runtime.getRuntime().exec(command.toString());
-                code = exec.waitFor();
-            } catch (Exception e) {
-                log.error("执行thrift指令异常", e);
-                result.setMessage("执行thrift指令异常");
-                return result;
-            }
-            if (code != 0) {
-                log.error("{} 文件生成失败，错误代码{}", file.getAbsolutePath(), code);
-                result.setMessage(file.getAbsolutePath() + " 文件生成失败，错误代码" + code);
-                return result;
-            }
-            outPath.add(File.separator).add(StrUtil.replace(namespace, ".", File.separator));
-            fixFile(outPath.toString());
-        }
-        result.setSuccess(true);
-        return result;
-    }
-
-    @Override
-    public SdkLongResponseStruct getServerPort() {
-        SdkLongResponseStruct result = new SdkLongResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
+    public SdkLongResponseDto getServerPort() {
+        SdkLongResponseDto result = new SdkLongResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         result.setData(SdkThriftServerConfig.serverPort);
         return result;
     }
 
     @Override
-    public SdkStringResponseStruct getExecutableFilePath() {
-        SdkStringResponseStruct result = new SdkStringResponseStruct(snowflake.nextId(), snowflake.nextId(), true);
-        SdkListResponseStruct checkResult = sdkInfoService.checkThriftErr();
-        if (!checkResult.isSuccess()) {
-            result.setMessage("前置检查失败");
+    public SdkStringResponseDto getExecutableFilePath() {
+        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
+        String binDir = SdkConstants.PROJECT_ROOT_PATH + File.separator + ".sdk" + File.separator + "bin";
+        try {
+            FileUtil.mkdir(binDir);
+        } catch (Exception e) {
+            result.setMessage("获取可执行文件目录异常，请检查：" + binDir);
             result.setSuccess(false);
             return result;
         }
-        result.setData(sdkInfoService.getThriftExecutablePath());
-        return result;
-    }
-
-    private String readJavaNamespace(File thriftFile) {
-        if (!StrUtil.endWithIgnoreCase(thriftFile.getName(), "thrift")) {
-            log.error("{} 拓展名错误！不是一个有效的thrift文件", thriftFile.getAbsolutePath());
-            return null;
-        }
-        List<String> content = CollUtil.newArrayList();
-        FileUtil.readLines(thriftFile, StandardCharsets.UTF_8, content);
-        for (String lineStr : content) {
-            lineStr = lineStr.trim();
-            if (lineStr.startsWith("namespace") && ReUtil.isMatch("^namespace[\\s]+java[\\s]+[^\\s]+$", lineStr)) {
-                return lineStr.split("\\s")[2];
+        for (File file : FileUtil.loopFiles(binDir)) {
+            if (StrUtil.containsIgnoreCase(file.getName(), "thrift")) {
+                executableFile = file;
             }
         }
-        log.error("thrift文件缺少namespace");
-        return null;
-    }
-
-    private void fixFile(String path) {
-        for (File file : FileUtil.loopFiles(path)) {
-            String s = FileUtil.readUtf8String(file);
-            FileUtil.writeUtf8String(StrUtil.replace(s, "@javax.annotation.Generated", "@javax.annotation.processing.Generated"), file);
+        if (executableFile == null) {
+            result.setMessage(binDir + "目录中缺少thrift可执行文件");
+            result.setSuccess(false);
+            return result;
         }
+        result.setData(executableFile.getAbsolutePath());
+        return result;
     }
 }
