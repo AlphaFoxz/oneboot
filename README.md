@@ -20,6 +20,21 @@
   - SdkApplication.java //SDK启动类，只在本地开发的时候使用
 ```
 
+## 关于代码生成
+
+### java rpc代码
+
+1. 依赖了[Apache Thrift](https://thrift.apache.org/)框架
+2. 由java通过命令行对thrift可执行文件的调用实现代码生成
+
+### java restful接口部分
+
+1. java端存储了thrift模板，和rpc部分一致，方便管理
+2. 在[oneboot_rust](https://github.com/AlphaFoxz/oneboot_rust)项目中，由[pest](https://crates.io/crates/pest)这个crate实现了一个针对thrift语法的解析器，输出[语法树](https://baike.baidu.com/item/%E8%AF%AD%E6%B3%95%E6%95%B0?fromtitle=%E8%AF%AD%E6%B3%95%E6%A0%91)
+3. 然后通过rpc代码进行通信，将语法树（JSON）发送给java
+4. java通过对语法树进行遍历，构建出对应的java bean。
+5. 通过java service对bean进行分析，生成指定代码
+
 ## TODO list
 
 ### 组件整合
@@ -27,6 +42,7 @@
 - [X]  SpringSecurity - 安全模块
 - [X]  SpringDoc - API文档
 - [X]  Thrift - Rpc服务
+- [ ]  Meilisearch - 搜索引擎（场景：面向中小型项目，索引上限2TiB）
 
 ### 代码生成
 

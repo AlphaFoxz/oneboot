@@ -9,5 +9,7 @@ service SdkThriftIface {
     /*获取thrift可执行文件路径*/
     SdkResponseDto.SdkStringResponseDto getExecutableFilePath()
     /*根据路径获取模板内容*/
-    SdkResponseDto.SdkStringResponseDto getTemplateContentByPath(1:required SdkRequestDto.SdkStringRequestDto pathDto)
+    SdkResponseDto.SdkThriftTemplateResponseDto getTemplateContentByPath(1:required SdkRequestDto.SdkStringRequestDto pathDto)
+    /*根据相对引用路径获取模板内容*/
+    SdkResponseDto.SdkThriftTemplateResponseDto getTemplateContentByIncludePath(1:required SdkRequestDto.SdkStringRequestDto templatePathDto, 2:required string includePath)
 }

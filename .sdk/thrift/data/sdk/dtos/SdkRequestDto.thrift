@@ -1,5 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos
 namespace rs thrift.gen.dtos
+include "./SdkThriftTemplateDto.thrift"
 
 struct SdkListRequestDto {
     1:required i64 id
@@ -23,4 +24,10 @@ struct SdkLongRequestDto {
     1:required i64 id
     2:required i64 taskId
     3:required i64 data
+}
+
+struct SdkThriftTemplateRequestDto {
+    1:required i64 id
+    2:required i64 taskId
+    3:required SdkThriftTemplateDto.SdkThriftTemplateDto data
 }

@@ -2,18 +2,19 @@ package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkLongResponseDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
@@ -55,14 +56,46 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     }
 
     @Override
-    public SdkStringResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
-        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
+    public SdkThriftTemplateResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
+        SdkThriftTemplateResponseDto result = new SdkThriftTemplateResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
         try {
-            result.setData(FileUtil.readUtf8String(pathDto.getData()));
+            File file = FileUtil.file(pathDto.getData());
+            String content = FileUtil.readUtf8String(file);
+            SdkThriftTemplateDto template = new SdkThriftTemplateDto();
+            template.setContent(content);
+            template.setFilePath(file.getAbsolutePath());
+            template.setFileSeparator(File.separator);
+            template.setNamespace(MapUtil.newHashMap());
+            template.setIncludes(MapUtil.newHashMap());
+            result.setData(template);
             result.setSuccess(true);
         } catch (Exception e) {
-            log.error("{}文件不存在", pathDto.getData());
-            result.setMessage(pathDto.getData() + "文件不存在");
+            log.error("{} 读取文件异常", pathDto.getData());
+            result.setMessage(pathDto.getData() + "读取文件异常");
+        }
+        return result;
+    }
+
+    @Override
+    public SdkThriftTemplateResponseDto getTemplateContentByIncludePath(SdkStringRequestDto templatePathDto, String includePath) throws TException {
+        SdkThriftTemplateResponseDto result = new SdkThriftTemplateResponseDto(snowflake.nextId(), snowflake.nextId(), false);
+        try {
+            File templateFile = FileUtil.file(templatePathDto.getData());
+            String targetPath = templateFile.getPath();
+            targetPath = targetPath.substring(0, targetPath.lastIndexOf(File.separator) + 1);
+            targetPath += includePath;
+            File targetFile = FileUtil.file(targetPath);
+            SdkThriftTemplateDto dto = new SdkThriftTemplateDto();
+            dto.setContent(FileUtil.readString(targetFile, StandardCharsets.UTF_8));
+            dto.setFilePath(targetFile.getAbsolutePath());
+            dto.setFileSeparator(File.separator);
+            dto.setNamespace(MapUtil.newHashMap());
+            dto.setIncludes(MapUtil.newHashMap());
+            result.setData(dto);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            log.error("{} 读取文件异常", includePath);
+            result.setMessage(includePath + " 读取文件异常");
         }
         return result;
     }

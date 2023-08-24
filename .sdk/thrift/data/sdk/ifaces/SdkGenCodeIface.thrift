@@ -7,7 +7,5 @@ service SdkGenCodeIface {
     /*创建全部Rpc代码*/
     SdkResponseDto.SdkListResponseDto generateJavaRpc(1:required i64 taskId)
     /*创建java的Api代码*/
-    SdkResponseDto.SdkListResponseDto generateJavaApi(1:required SdkRequestDto.SdkStringRequestDto jsonDto, 2:required map<string, SdkRequestDto.SdkStringRequestDto> importJsonDto)
-    /*创建java的dto代码*/
-    SdkResponseDto.SdkListResponseDto generateJavaDto(1:required SdkRequestDto.SdkStringRequestDto jsonDto)
+    SdkResponseDto.SdkListResponseDto generateJavaApi(1:required SdkRequestDto.SdkThriftTemplateRequestDto templateDto)
 }
