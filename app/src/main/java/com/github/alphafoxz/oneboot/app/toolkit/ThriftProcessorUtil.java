@@ -21,7 +21,7 @@ public class ThriftProcessorUtil {
             if (aClass.isAnnotationPresent(Service.class)) {
                 Class<?>[] interfaces = aClass.getInterfaces();
                 for (Class<?> iface : interfaces) {
-                    if (iface.getPackageName().contains("thrift")) {
+                    if (iface.getPackageName().contains("gen.thrift")) {
                         try {
                             Class<?> pClass = Class.forName(StrUtil.replace(iface.getName(), "$Iface", "$Processor"));
                             Class<?> spClass = Class.forName(StrUtil.replace(iface.getName(), "$Iface", ""));

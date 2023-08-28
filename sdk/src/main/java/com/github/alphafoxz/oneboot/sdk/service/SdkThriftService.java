@@ -1,12 +1,14 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.enums.SdkFileTypeEnum;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -98,5 +100,47 @@ public class SdkThriftService implements SdkThriftIface.Iface {
             result.setMessage(includePath + " 读取文件异常");
         }
         return result;
+    }
+
+    @Override
+    public SdkFileTreeResponseDto getRestfulTemplateFileTree() throws TException {
+        SdkFileTreeResponseDto result = new SdkFileTreeResponseDto(snowflake.nextId(), snowflake.nextId(), true);
+        try {
+            result.setData(readFileTree(FileUtil.file(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.THRIFT_RESTFUL_PATH), 0));
+            return result;
+        } catch (Exception e) {
+            log.error("{} 读取文件异常", SdkConstants.THRIFT_RESTFUL_PATH);
+            result.setMessage(SdkConstants.THRIFT_RESTFUL_PATH + " 读取文件异常");
+            result.setSuccess(false);
+            return result;
+        }
+    }
+
+    private SdkFileInfoDto readFileTree(File fileOrDir, int level) {
+        SdkFileInfoDto dto = new SdkFileInfoDto();
+        dto.setIsReadOnly(level <= 2);
+        dto.setFilePath(fileOrDir.getAbsolutePath());
+        dto.setFileName(fileOrDir.getName());
+        dto.setParentDir(fileOrDir.getParentFile().getAbsolutePath());
+        if (FileUtil.isFile(fileOrDir)) {
+            // 文件类型
+            dto.setExt(FileUtil.getSuffix(fileOrDir));
+            dto.setFileType(SdkFileTypeEnum.LOCAL_FILE);
+            dto.setIsEmpty(FileUtil.size(fileOrDir) == 0);
+            return dto;
+        }
+        // 目录类型
+        dto.setFileType(SdkFileTypeEnum.LOCAL_DIR);
+        dto.setChildren(CollUtil.newArrayList());
+        File[] innerFiles = FileUtil.ls(fileOrDir.getAbsolutePath());
+        boolean isEmpty = innerFiles == null || innerFiles.length == 0;
+        dto.setIsEmpty(isEmpty);
+        if (isEmpty) {
+            return dto;
+        }
+        for (File innerFile : innerFiles) {
+            dto.getChildren().add(readFileTree(innerFile, level + 1));
+        }
+        return dto;
     }
 }

@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 "com.github.alphafoxz.oneboot.*.config",
                 "com.github.alphafoxz.oneboot.*.service",
                 "com.github.alphafoxz.oneboot.*.controller",
+                "com.github.alphafoxz.oneboot.*.convert",
+                "com.github.alphafoxz.oneboot.*.gen.convert",
         }
 )
-public class ApiApplication {
+public class AppApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+        SpringApplication.run(AppApplication.class, args);
     }
 
 }

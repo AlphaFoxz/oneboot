@@ -12,4 +12,6 @@ service SdkThriftIface {
     SdkResponseDto.SdkThriftTemplateResponseDto getTemplateContentByPath(1:required SdkRequestDto.SdkStringRequestDto pathDto)
     /*根据相对引用路径获取模板内容*/
     SdkResponseDto.SdkThriftTemplateResponseDto getTemplateContentByIncludePath(1:required SdkRequestDto.SdkStringRequestDto templatePathDto, 2:required string includePath)
+    /*获取restfulApi模板文件树*/
+    SdkResponseDto.SdkFileTreeResponseDto getRestfulTemplateFileTree()
 }

@@ -46,11 +46,12 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-undertow'
         implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
         implementation "cn.hutool:hutool-all:${hutoolVersion}"
-        implementation "org.mapstruct:mapstruct:${mapstructVersion}"
         implementation "org.apache.thrift:libthrift:${thriftVersion}"
 
         compileOnly "org.projectlombok:lombok"
         annotationProcessor "org.projectlombok:lombok"
+        compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         testImplementation "org.springframework.boot:spring-boot-starter-test"
 
@@ -101,7 +102,7 @@ project(':sdk') {
 project(':app') {
     bootJar {
         enabled = true
-        mainClass = 'com.github.alphafoxz.oneboot.app.ApiApplication'
+        mainClass = 'com.github.alphafoxz.oneboot.app.AppApplication'
     }
     dependencies {
         implementation project(':common')

@@ -6,5 +6,9 @@ service SdkInfoApi {
     /*获取当前项目的硬盘根目录*/
     SdkResponseDto.SdkStringResponseDto rootPath()
     /*检查项目错误*/
-    SdkResponseDto.SdkListResponseDto checkErr()
+    SdkResponseDto.SdkListResponseDto checkThriftErr()
+    /*检查RestApi实现情况*/
+    SdkResponseDto.SdkListResponseDto checkRestApiImplements()
+    /*检查Rpc实现情况*/
+    SdkResponseDto.SdkListResponseDto checkRpcImplements()
 }

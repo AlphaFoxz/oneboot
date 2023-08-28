@@ -1,7 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.CommonConstants;
+import com.github.alphafoxz.oneboot.common.Iface.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.config.CommonConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
@@ -24,12 +25,16 @@ import java.util.StringJoiner;
 @Slf4j
 @Service
 public class SdkGenCodeService implements SdkGenCodeIface.Iface {
+    private static final String TAB = "    ";
+
     @Resource
     private Snowflake snowflake;
     @Resource
     private SdkInfoService sdkInfoService;
     @Resource
     private SdkThriftService sdkThriftService;
+    @Resource
+    private CommonConfig commonConfig;
 
     @Override
     public SdkListResponseDto generateJavaApi(SdkThriftTemplateRequestDto templateDto) throws TException {
@@ -107,15 +112,17 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     List<ParseThriftSyntaxTreeUtil.CommentBean> commentList = serviceFunction.getCommentList();
                     if (CollUtil.isNotEmpty(commentList)) {
                         for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : commentList) {
-                            serviceCode.add("    // " + commentBean.getCommentValue().trim());
+                            serviceCode.add(TAB + "// " + commentBean.getCommentValue().trim());
                         }
                     }
                     ParseThriftSyntaxTreeUtil.CommentBean functionDoc = serviceFunction.getDoc();
-                    serviceCode.add(StrUtil.format("    @Operation(summary = \"{}\")", commentToStringParam(functionDoc)));
-                    StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n    ");
-                    serviceFunction.getParamList().forEach(param -> paramCode.add("            @Parameter(description = \"" + commentToStringParam(param.getDoc()) + "\") "+param.getParamType().javaString() + " " + param.getParamName()));
-                    String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "void" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
-                    serviceCode.add("    public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (paramCode.length() > 0 ? paramCode.toString() : "") + ");\n");
+                    serviceCode.add(StrUtil.format(TAB + "@Operation(summary = \"{}\")", commentToStringParam(functionDoc)));
+                    StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
+                    for (ParseThriftSyntaxTreeUtil.Param param : serviceFunction.getParamList()) {
+                        paramCode.add(TAB + TAB + TAB + "@Parameter(description = \"" + commentToStringParam(param.getDoc()) + "\") " + param.getParamType().javaString() + " " + param.getParamName());
+                    }
+                    String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "ResponseEntity<?>" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
+                    serviceCode.add(TAB + "public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (serviceFunction.getParamList().size() > 0 ? paramCode.toString() : "") + ");\n");
                 }
             }
             serviceCode.add("}");
@@ -145,19 +152,19 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             enumCode.add(StrUtil.format("@Schema(description = \"{}\")", commentToStringParam(enumBean.getDoc())));
             if (enumBean.getCommentList() != null) {
                 for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumBean.getCommentList()) {
-                    enumCode.add("    // " + commentBean.getCommentValue());
+                    enumCode.add(TAB + "// " + commentBean.getCommentValue());
                 }
             }
             enumCode.add("public enum " + enumBean.getEnumName() + " {");
             for (ParseThriftSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
                 //生成枚举的注释
                 for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumInstance.getCommentList()) {
-                    enumCode.add("    // " + commentBean.getCommentValue());
+                    enumCode.add(TAB + "// " + commentBean.getCommentValue());
                 }
                 if (enumInstance.getDoc() != null) {
-                    enumCode.add("    /**" + enumInstance.getDoc().getCommentValue() + "*/");
+                    enumCode.add(TAB + "/**" + enumInstance.getDoc().getCommentValue() + "*/");
                 }
-                enumCode.add("    " + enumInstance.getInstanceName() + ",");
+                enumCode.add(TAB + enumInstance.getInstanceName() + ",");
             }
             enumCode.add("}");
             // 写文件
@@ -207,11 +214,11 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             for (ParseThriftSyntaxTreeUtil.StructBean.StructAttributeBean attributeBean : structBean.getStructAttribute()) {
                 if (CollUtil.isNotEmpty(attributeBean.getCommentList())) {
                     for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : attributeBean.getCommentList()) {
-                        structCode.add("    //" + commentBean.getCommentValue().trim());
+                        structCode.add(TAB + "//" + commentBean.getCommentValue().trim());
                     }
                 }
-                structCode.add(StrUtil.format("    @Schema(description = \"{}\")", commentToStringParam(attributeBean.getDoc())));
-                structCode.add("    private " + attributeBean.getType().javaString() + " " + attributeBean.getAttributeName() + ";");
+                structCode.add(StrUtil.format(TAB + "@Schema(description = \"{}\")", commentToStringParam(attributeBean.getDoc())));
+                structCode.add(TAB + "private " + attributeBean.getType().javaString() + " " + attributeBean.getAttributeName() + ";");
             }
             structCode.add("}");
             // 写文件
@@ -243,14 +250,12 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private String getRestGeneratePath(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot, String fileName) {
         String namespace = thriftRoot.getRootBean().getJavaNameSpace();
         String moduleName = null;
-        if (namespace.startsWith(CommonConstants.BASE_PACKAGE + "." + SdkConstants.SDK_MODULE_NAME + ".")) {
-            moduleName = SdkConstants.SDK_MODULE_NAME;
-        } else if (namespace.startsWith(CommonConstants.BASE_PACKAGE + "." + "app" + ".")) {
-            moduleName = "app";
-        } else if (namespace.startsWith(CommonConstants.BASE_PACKAGE + "." + "preset_sys" + ".")) {
-            moduleName = "preset_sys";
-        } else if (namespace.startsWith(CommonConstants.BASE_PACKAGE + "." + "common" + ".")) {
-            moduleName = "common";
+        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+            Object bean = SpringUtil.getBean(aClass);
+            if (bean instanceof OnebootModuleConfig config && namespace.startsWith(config.getPackage() + ".")) {
+                moduleName = config.getModuleName();
+                break;
+            }
         }
         StringJoiner javaFilePath = new StringJoiner(File.separator);
         javaFilePath.add(SdkConstants.PROJECT_ROOT_PATH).add(moduleName).add("src").add("main").add("java").add(StrUtil.replace(namespace, ".", File.separator)).add(fileName + ".java");
@@ -283,11 +288,13 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             }
             StringJoiner outPath = new StringJoiner(File.separator);
             outPath.add(rootPath);
-            if (namespace.startsWith(CommonConstants.BASE_PACKAGE + "." + SdkConstants.SDK_MODULE_NAME + ".")) {
-                outPath.add(SdkConstants.SDK_MODULE_NAME).add("src").add("main").add("java");
-            } else {
-                //TODO 其他包是否强制路径？考虑提供check方法检查
-                continue;
+
+            for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+                Object bean = SpringUtil.getBean(aClass);
+                if (bean instanceof OnebootModuleConfig config && namespace.startsWith(config.getPackage() + ".")) {
+                    outPath.add(config.getModuleName()).add("src").add("main").add("java");
+                    break;
+                }
             }
             StringJoiner command = new StringJoiner(" ");
             command.add(executableFilePath);

@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 "com.github.alphafoxz.oneboot.*.config",
                 "com.github.alphafoxz.oneboot.*.service",
                 "com.github.alphafoxz.oneboot.*.controller",
+                "com.github.alphafoxz.oneboot.*.convert",
+                "com.github.alphafoxz.oneboot.*.gen.convert",
         }
 )
 public class SdkApplication {

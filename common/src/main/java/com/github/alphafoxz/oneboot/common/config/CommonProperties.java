@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "oneboot.common")
 public class CommonProperties {
+    private String basePackage = "com.github.alphafoxz.oneboot";
+    private String moduleName = "common";
     private SnowflakePropertiesBean snowflake;
 
     @Data

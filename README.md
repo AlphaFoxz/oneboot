@@ -49,6 +49,7 @@
 - [X]  rpc跨语言代码
 - [X]  SpringDoc接口
 - [ ]  typescript前端代码
+- [ ]  MapStruct实体转换
 
 ### 特色功能
 

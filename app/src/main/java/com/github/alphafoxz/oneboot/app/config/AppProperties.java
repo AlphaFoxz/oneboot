@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "oneboot.app")
-public class ApiProperties {
+public class AppProperties {
+    private String moduleName = "app";
     private ThriftProperties thrift;
 
     @Data

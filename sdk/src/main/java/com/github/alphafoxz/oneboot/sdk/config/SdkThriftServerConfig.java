@@ -1,7 +1,10 @@
 package com.github.alphafoxz.oneboot.sdk.config;
 
 import com.github.alphafoxz.oneboot.app.toolkit.ThriftProcessorUtil;
-import com.github.alphafoxz.oneboot.common.CommonConstants;
+import com.github.alphafoxz.oneboot.common.Iface.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.config.CommonConfig;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.ClassUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.SpringUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ThreadUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,8 @@ public class SdkThriftServerConfig implements ApplicationListener<ContextClosedE
     private static TServer server;
     @Resource
     private SdkProperties sdkProperties;
+    @Resource
+    private CommonConfig commonConfig;
 
     public static Integer serverPort = 0;
 
@@ -34,9 +39,12 @@ public class SdkThriftServerConfig implements ApplicationListener<ContextClosedE
     public void startServer(SdkProperties sdkProperties) {
         ThreadUtil.execAsync(() -> {
             TMultiplexedProcessor processor = new TMultiplexedProcessor();
-            ThriftProcessorUtil.getProcessorByPackage(CommonConstants.BASE_PACKAGE + ".preset_sys.service").forEach(processor::registerProcessor);
-            ThriftProcessorUtil.getProcessorByPackage(CommonConstants.BASE_PACKAGE + ".app.service").forEach(processor::registerProcessor);
-            ThriftProcessorUtil.getProcessorByPackage(CommonConstants.BASE_PACKAGE + ".sdk.service").forEach(processor::registerProcessor);
+            for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+                Object bean = SpringUtil.getBean(aClass);
+                if (bean instanceof OnebootModuleConfig config) {
+                    ThriftProcessorUtil.getProcessorByPackage(config.getPackage() + ".service").forEach(processor::registerProcessor);
+                }
+            }
             switch (sdkProperties.getThrift().getTServer()) {
                 case T_THREADED_SELECTOR_SERVER -> {
                     TThreadedSelectorServer.Args args1 = new TThreadedSelectorServer.Args(nonblockingServerTransport());
