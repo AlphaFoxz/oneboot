@@ -99,7 +99,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 ParseThriftSyntaxTreeUtil.CommentBean serviceDoc = serviceBean.getDoc();
                 serviceCode.add(StrUtil.format("@Tag(name = \"{}\", description = \"{}\")", serviceBean.getServiceName(), commentToStringParam(serviceDoc)));
             }
-            serviceCode.add("public interface " + serviceBean.getServiceName() + "{");
+            serviceCode.add("public interface " + serviceBean.getServiceName() + " {");
             {
                 //解析接口方法
                 for (ParseThriftSyntaxTreeUtil.ServiceBean.ServiceFunctionBean serviceFunction : serviceBean.getServiceFunctionList()) {
@@ -112,10 +112,10 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     }
                     ParseThriftSyntaxTreeUtil.CommentBean functionDoc = serviceFunction.getDoc();
                     serviceCode.add(StrUtil.format("    @Operation(summary = \"{}\")", commentToStringParam(functionDoc)));
-                    StringJoiner paramCode = new StringJoiner(", ");
-                    serviceFunction.getParamList().forEach(param -> paramCode.add(param.getParamType().javaString() + " " + param.getParamName()));
+                    StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n    ");
+                    serviceFunction.getParamList().forEach(param -> paramCode.add("            @Parameter(description = \"" + commentToStringParam(param.getDoc()) + "\") "+param.getParamType().javaString() + " " + param.getParamName()));
                     String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "void" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
-                    serviceCode.add("    public " + returnType + " " + serviceFunction.getFunctionName() + "(" + paramCode + ");\n");
+                    serviceCode.add("    public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (paramCode.length() > 0 ? paramCode.toString() : "") + ");\n");
                 }
             }
             serviceCode.add("}");
@@ -148,7 +148,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     enumCode.add("    // " + commentBean.getCommentValue());
                 }
             }
-            enumCode.add("public enum " + enumBean.getEnumName() + "{");
+            enumCode.add("public enum " + enumBean.getEnumName() + " {");
             for (ParseThriftSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
                 //生成枚举的注释
                 for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumInstance.getCommentList()) {

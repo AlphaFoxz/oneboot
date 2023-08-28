@@ -47,7 +47,7 @@
 ### 代码生成
 
 - [X]  rpc跨语言代码
-- [ ]  SpringDoc接口
+- [X]  SpringDoc接口
 - [ ]  typescript前端代码
 
 ### 特色功能

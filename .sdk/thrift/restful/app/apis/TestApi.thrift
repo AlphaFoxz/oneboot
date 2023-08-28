@@ -9,5 +9,5 @@ service TestApi {
     //此处应该进行测试
     //看看能否实现对文件的下载
     /*下载*/
-    void download(1:required string url)
+    void download(/*文件路径*/1:required string url)
 }

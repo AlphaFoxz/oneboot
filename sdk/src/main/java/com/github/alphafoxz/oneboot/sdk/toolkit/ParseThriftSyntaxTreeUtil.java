@@ -314,6 +314,7 @@ public final class ParseThriftSyntaxTreeUtil {
 
     @Data
     public static class Param {
+        private CommentBean doc;
         private Integer paramNumber;
         private Type paramType;
         private String paramName;
@@ -642,6 +643,7 @@ public final class ParseThriftSyntaxTreeUtil {
 
         public ServiceBean.ServiceFunctionBean parseServiceFunction(Map serviceFunctionAst) throws TException {
             ServiceBean.ServiceFunctionBean result = new ServiceBean.ServiceFunctionBean();
+            CommentBean doc = null;
             for (Map pairMap : (List<Map>) serviceFunctionAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
@@ -652,7 +654,21 @@ public final class ParseThriftSyntaxTreeUtil {
                         result.setReturnType(returnType);
                     }
                     case "service_function_name" -> result.setFunctionName((String) pairMap.get(INNER));
-                    case "param" -> result.addParam(parseParam((Map) pairMap.get(INNER)));
+                    case "COMMENT" -> {
+                        CommentBean comment = parseComment((Map) pairMap.get(INNER));
+                        if (CommentBean.CommentTypeEnum.BLOCK.equals(comment.getCommentType())) {
+                            doc = comment;
+                        }
+                    }
+                    case "param" -> {
+                        result.getImportTypeName().add("io.swagger.v3.oas.annotations.Parameter");
+                        Param param = parseParam((Map) pairMap.get(INNER));
+                        if (doc != null) {
+                            param.setDoc(doc);
+                        }
+                        doc = null;
+                        result.addParam(param);
+                    }
                 }
             }
             return result;
