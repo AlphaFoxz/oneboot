@@ -19,7 +19,7 @@ public interface TestApi {
     // 此处应该进行测试
     // 看看能否实现对文件的下载
     @Operation(summary = "下载")
-    public void download(
+    public ResponseEntity<?> download(
             @Parameter(description = "文件路径") String url
     );
 

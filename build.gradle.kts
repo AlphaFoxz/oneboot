@@ -1,10 +1,15 @@
+import nu.studer.gradle.jooq.JooqEdition
+import org.jooq.meta.jaxb.ForcedType
+import org.jooq.meta.jaxb.Logging
+import org.jooq.meta.jaxb.Property
+
 plugins {
     id("java")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
 }
-apply(plugin = "io.spring.dependency-management")
+apply(plugin = "nu.studer.jooq")
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -24,9 +29,6 @@ allprojects {
     repositories {
         mavenCentral()
     }
-//    tasks.withType<Test> {
-//        useJUnitPlatform()
-//    }
     dependencyManagement {
         imports {
             org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
@@ -37,6 +39,7 @@ allprojects {
             dependency("org.apache.thrift:libthrift:0.18.1")
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
             dependency("cn.hutool:hutool-all:5.8.16")
+            dependency("org.jooq:jooq-postgres-extensions:3.18.6")
         }
     }
 }
@@ -62,7 +65,10 @@ subprojects {
         implementation("org.jooq:jooq-codegen")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
         runtimeOnly("com.h2database:h2")
-        runtimeOnly("org.postgresql:postgresql")
+
+        compileOnly("org.postgresql:postgresql")
+//        implementation("org.jooq:jooq-postgres-extensions")
+
     }
 }
 
@@ -92,7 +98,6 @@ project(":preset_sys") {
 project(":app") {
     tasks.bootJar {
         enabled = true
-        mainClass = "com.github.alphafoxz.oneboot.app.AppApplication"
     }
     dependencies {
         implementation(project(":common"))
@@ -114,3 +119,65 @@ project(":sdk") {
         implementation(project(":preset_sys"))
     }
 }
+dependencies {
+    jooqGenerator("org.postgresql:postgresql")
+}
+
+jooq {
+    version.set("3.18.6")
+    edition.set(JooqEdition.OSS)
+
+    configurations {
+        create("main") {
+            generateSchemaSourceOnCompilation.set(true)
+
+            jooqConfiguration.apply {
+                logging = Logging.WARN
+                jdbc.apply {
+                    driver = "org.postgresql.Driver"
+                    url = "jdbc:postgresql://localhost:5432/postgres"
+                    user = "postgres"
+                    password = "123456"
+                    properties.add(Property().apply {
+                        key = "ssl"
+                        value = "false"
+                    })
+                }
+                generator.apply {
+                    name = "org.jooq.codegen.JavaGenerator"
+                    database.apply {
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        inputSchema = "preset_sys"
+                        forcedTypes.addAll(listOf(
+//                                ForcedType().apply {
+//                                    name = "varchar"
+//                                    includeExpression = ".*"
+//                                    includeTypes = "JSONB?"
+//                                },
+                                ForcedType().apply {
+                                    name = "varchar"
+                                    includeExpression = ".*"
+                                    includeTypes = "INET"
+                                }
+                        ))
+                    }
+                    generate.apply {
+                        isDeprecated = false
+                        isRecords = true
+                        isImmutablePojos = true
+                        isFluentSetters = true
+                        isCommentsOnPackages = true
+                    }
+                    target.apply {
+                        packageName = "com.github.alphafoxz.oneboot.preset_sys.gen.jooq"
+                        directory = "preset_sys/src/gen"
+                        isClean = true
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
+    }
+}
+
+apply(from = "tasks.gradle.kts")

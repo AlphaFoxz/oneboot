@@ -1,4 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.app.gen.restful.apis
+namespace js gen.app.apis
+
 include "../dtos/TestDto.thrift"
 
 //本api为自动生成代码，请勿修改

@@ -6,6 +6,7 @@ import com.github.alphafoxz.oneboot.common.config.CommonConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkMapResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateRequestDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkGenCodeIface;
@@ -37,6 +38,145 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private CommonConfig commonConfig;
 
     @Override
+    public SdkMapResponseDto previewGenerateTsApi(SdkThriftTemplateRequestDto templateDto, String genDir) throws TException {
+        SdkMapResponseDto result = new SdkMapResponseDto(snowflake.nextId(), templateDto.getTaskId(), false);
+        result.setData(MapUtil.newHashMap());
+        // 检查基本SDK环境
+        SdkListResponseDto checkInfo = sdkInfoService.checkThriftErr();
+        if (!checkInfo.isSuccess()) {
+            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查thrift时发现错误");
+            return result;
+        }
+        ParseThriftSyntaxTreeUtil.ThriftRootBean thriftRoot;
+        ParseThriftSyntaxTreeUtil.RootBean rootBean;
+        try {
+            thriftRoot = ParseThriftSyntaxTreeUtil.parseThriftRoot(templateDto.getData());
+            rootBean = thriftRoot.getRootBean();
+        } catch (Exception e) {
+            log.error("解析json异常，请检查传参", e);
+            result.setMessage("解析json异常，请检查传参\n" + e.getMessage());
+            return result;
+        }
+        if (!rootBean.getNamespaceMap().containsKey(ParseThriftSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JS)) {
+            log.error("语法树中缺少namespace");
+            result.setMessage("语法树中缺少namespace");
+            return result;
+        }
+        genDir = StrUtil.replace(genDir, "\\", "/");
+        result.getData().put(previewGenerateRestTsPath(thriftRoot, genDir), previewGenerateRestTsCode(thriftRoot));
+        for (ParseThriftSyntaxTreeUtil.ThriftIncludeBean includeBean : thriftRoot.getIncludeBeanSet()) {
+            result.getData().put(previewGenerateRestTsPath(includeBean, genDir), previewGenerateRestTsCode(includeBean));
+        }
+        result.setSuccess(true);
+        return result;
+    }
+
+    private String previewGenerateRestTsPath(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot, String genDir) {
+        String prefix = genDir + "/" + StrUtil.replace(thriftRoot.getRootBean().getJsNameSpace(), ".", "/");
+        return prefix + "/" + thriftRoot.getFileName() + ".ts";
+    }
+
+    private String previewGenerateRestTsCode(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) {
+        final String docFormat = """
+                /**
+                 * {}
+                 */
+                """;
+        final String innerDocFormat = """
+                    /**
+                     * {}
+                     */
+                """;
+        ParseThriftSyntaxTreeUtil.RootBean rootBean = thriftRoot.getRootBean();
+        String namespace = rootBean.getJsNameSpace();
+        StringJoiner code = new StringJoiner("");
+        for (ParseThriftSyntaxTreeUtil.IncludeBean includeBean : rootBean.getIncludeList()) {
+            String includeValue = includeBean.getIncludeValue();
+            String includeName = includeValue.substring(includeValue.lastIndexOf("/") + 1, includeValue.lastIndexOf("."));
+            includeValue = includeValue.substring(0, includeValue.lastIndexOf("."));
+            code.add("import * as " + includeName + " from '" + includeValue + "'\n");
+        }
+        if (namespace.contains("apis")) {
+            code.add("import { requireAxios } from '");
+            int layer = StrUtil.count(namespace, ".") + 1;
+            for (int i = 0; i < layer; i++) {
+                code.add("../");
+            }
+            code.add("axios'\n");
+            code.add("const axios = requireAxios()\n\n");
+            for (ParseThriftSyntaxTreeUtil.ServiceBean serviceBean : rootBean.getServiceList()) {
+                for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : serviceBean.getCommentList()) {
+                    code.add("// " + commentBean.getCommentValue() + "\n");
+                }
+                if (serviceBean.getDoc() != null) {
+                    code.add(StrUtil.format(docFormat, serviceBean.getDoc().getCommentValue()));
+                }
+                code.add("export const " + serviceBean.getServiceName() + " = {\n");
+                for (ParseThriftSyntaxTreeUtil.ServiceBean.ServiceFunctionBean functionBean : serviceBean.getServiceFunctionList()) {
+                    for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : functionBean.getCommentList()) {
+                        code.add(TAB + "// " + commentBean.getCommentValue() + "\n");
+                    }
+                    if (functionBean.getDoc() != null) {
+                        code.add(StrUtil.format(innerDocFormat, functionBean.getDoc().getCommentValue()));
+                    }
+                    code.add(TAB + functionBean.getFunctionName() + ": async ");
+                    StringJoiner paramStringJoiner = new StringJoiner(", ", "(", ")");
+                    for (ParseThriftSyntaxTreeUtil.Param param : functionBean.getParamList()) {
+                        paramStringJoiner.add(param.getParamName() + ": " + param.getParamType().tsString());
+                    }
+                    code.add(paramStringJoiner + ": Promise<" + functionBean.getReturnType().tsString() + "> => {\n");
+                    //FIXME 确定请求方式
+                    code.add(TAB + TAB + "return axios.post('')\n");
+                    code.add(TAB + "},\n");
+                }
+                code.add("}\n");
+            }
+            return code.toString();
+        }
+        code.add("\n");
+        for (ParseThriftSyntaxTreeUtil.StructBean structBean : rootBean.getStructList()) {
+            for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : structBean.getCommentList()) {
+                code.add("// " + commentBean.getCommentValue() + "\n");
+            }
+            if (structBean.getDoc() != null) {
+                code.add(StrUtil.format(docFormat, structBean.getDoc().getCommentValue()));
+            }
+            code.add("export type " + structBean.getStructName() + " = {\n");
+            for (ParseThriftSyntaxTreeUtil.StructBean.StructAttributeBean attributeBean : structBean.getStructAttribute()) {
+                for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : attributeBean.getCommentList()) {
+                    code.add(TAB + "// " + commentBean.getCommentValue() + "\n");
+                }
+                if (attributeBean.getDoc() != null) {
+                    code.add(StrUtil.format(innerDocFormat, attributeBean.getDoc().getCommentValue()));
+                }
+                code.add(TAB + attributeBean.getAttributeName() + ": " + attributeBean.getType().tsString() + "\n");
+            }
+            code.add("}\n");
+        }
+        for (ParseThriftSyntaxTreeUtil.EnumBean enumBean : rootBean.getEnumList()) {
+            for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumBean.getCommentList()) {
+                code.add("// " + commentBean.getCommentValue() + "\n");
+            }
+            if (enumBean.getDoc() != null) {
+                code.add(StrUtil.format(docFormat, enumBean.getDoc().getCommentValue()));
+            }
+            code.add("export enum " + enumBean.getEnumName() + " {\n");
+            for (ParseThriftSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
+                for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumInstance.getCommentList()) {
+                    code.add(TAB + "// " + commentBean.getCommentValue() + "\n");
+                }
+                if (enumInstance.getDoc() != null) {
+                    code.add(StrUtil.format(innerDocFormat, enumInstance.getDoc().getCommentValue()));
+                }
+                code.add(TAB + enumInstance.getInstanceName() + " = " + enumInstance.getInstanceConstant() + ",\n");
+            }
+            code.add("}\n");
+        }
+        return code.toString();
+    }
+
+    @Override
     public SdkListResponseDto generateJavaApi(SdkThriftTemplateRequestDto templateDto) throws TException {
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), templateDto.getTaskId(), false);
         // 检查基本SDK环境
@@ -62,19 +202,19 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             result.setMessage("语法树中缺少namespace");
             return result;
         }
-        createRestIfaces(thriftRoot);
-        createRestEnums(thriftRoot);
-        createRestDtos(thriftRoot);
+        generateRestJavaIfaces(thriftRoot);
+        generateRestJavaEnums(thriftRoot);
+        generateRestJavaDtos(thriftRoot);
         for (ParseThriftSyntaxTreeUtil.ThriftIncludeBean includeBean : thriftRoot.getIncludeBeanSet()) {
-            createRestIfaces(includeBean);
-            createRestDtos(includeBean);
-            createRestEnums(includeBean);
+            generateRestJavaIfaces(includeBean);
+            generateRestJavaDtos(includeBean);
+            generateRestJavaEnums(includeBean);
         }
         result.setSuccess(true);
         return result;
     }
 
-    private void createRestIfaces(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
+    private void generateRestJavaIfaces(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
         ParseThriftSyntaxTreeUtil.RootBean rootBean = thriftRoot.getRootBean();
         StringJoiner pubCode = new StringJoiner("\n");
         pubCode.add("package " + rootBean.getNamespaceMap().get(ParseThriftSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
@@ -122,7 +262,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                         paramCode.add(TAB + TAB + TAB + "@Parameter(description = \"" + commentToStringParam(param.getDoc()) + "\") " + param.getParamType().javaString() + " " + param.getParamName());
                     }
                     String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "ResponseEntity<?>" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
-                    serviceCode.add(TAB + "public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (serviceFunction.getParamList().size() > 0 ? paramCode.toString() : "") + ");\n");
+                    serviceCode.add(TAB + "public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (!serviceFunction.getParamList().isEmpty() ? paramCode.toString() : "") + ");\n");
                 }
             }
             serviceCode.add("}");
@@ -141,7 +281,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
     }
 
-    private void createRestEnums(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
+    private void generateRestJavaEnums(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
         ParseThriftSyntaxTreeUtil.RootBean rootBean = thriftRoot.getRootBean();
         String pubCode = "package " + rootBean.getNamespaceMap().get(ParseThriftSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n\n";
         pubCode += "import io.swagger.v3.oas.annotations.media.Schema;\n\n";
@@ -152,7 +292,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             enumCode.add(StrUtil.format("@Schema(description = \"{}\")", commentToStringParam(enumBean.getDoc())));
             if (enumBean.getCommentList() != null) {
                 for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : enumBean.getCommentList()) {
-                    enumCode.add(TAB + "// " + commentBean.getCommentValue());
+                    enumCode.add("// " + commentBean.getCommentValue());
                 }
             }
             enumCode.add("public enum " + enumBean.getEnumName() + " {");
@@ -182,7 +322,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
     }
 
-    private void createRestDtos(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
+    private void generateRestJavaDtos(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot) throws TException {
         ParseThriftSyntaxTreeUtil.RootBean rootBean = thriftRoot.getRootBean();
         StringJoiner pubCode = new StringJoiner("\n");
         pubCode.add("package " + rootBean.getNamespaceMap().get(ParseThriftSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");

@@ -1,4 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.app.gen.restful.dtos
+namespace js gen.app.dtos
+
 include "../enums/TestEnum.thrift"
 
 //测试请求参数体

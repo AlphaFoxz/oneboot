@@ -127,6 +127,10 @@ public final class ParseThriftSyntaxTreeUtil {
         public String getJavaNameSpace() {
             return namespaceMap.get(NamespaceBean.NamespaceLangEnum.JAVA);
         }
+
+        public String getJsNameSpace() {
+            return namespaceMap.get(NamespaceBean.NamespaceLangEnum.JS);
+        }
     }
 
     @Data
@@ -202,7 +206,7 @@ public final class ParseThriftSyntaxTreeUtil {
             private final Set<String> importTypeName = new HashSet<>();
 
             public void setType(Type type) {
-                importTypeName.addAll(type.getImportTypeName());
+                importTypeName.addAll(type.getImportJavaTypeName());
                 this.type = type;
             }
         }
@@ -231,7 +235,7 @@ public final class ParseThriftSyntaxTreeUtil {
             private final Set<String> importTypeName = new HashSet<>();
 
             public void setReturnType(Type returnType) {
-                importTypeName.addAll(returnType.getImportTypeName());
+                importTypeName.addAll(returnType.getImportJavaTypeName());
                 this.returnType = returnType;
             }
 
@@ -271,36 +275,48 @@ public final class ParseThriftSyntaxTreeUtil {
 
     @Data
     public static class Type {
-        public static final Map<String, String> INTYPE_MAP = MapUtil.newHashMap();
+        public static final Map<String, String> JAVA_INTYPE_MAP = MapUtil.newHashMap();
+        public static final Map<String, String> TS_INTYPE_MAP = MapUtil.newHashMap();
 
         static {
-            INTYPE_MAP.put("bool", "Boolean");
-            INTYPE_MAP.put("byte", "Byte");
-            INTYPE_MAP.put("i16", "Short");
-            INTYPE_MAP.put("i32", "Integer");
-            INTYPE_MAP.put("i64", "Long");
-            INTYPE_MAP.put("double", "Double");
-            INTYPE_MAP.put("binary", "String");
-            INTYPE_MAP.put("string", "String");
+            JAVA_INTYPE_MAP.put("bool", "Boolean");
+            JAVA_INTYPE_MAP.put("byte", "Byte");
+            JAVA_INTYPE_MAP.put("i16", "Short");
+            JAVA_INTYPE_MAP.put("i32", "Integer");
+            JAVA_INTYPE_MAP.put("i64", "Long");
+            JAVA_INTYPE_MAP.put("double", "Double");
+            JAVA_INTYPE_MAP.put("binary", "String");
+            JAVA_INTYPE_MAP.put("string", "String");
+
+            TS_INTYPE_MAP.put("bool", "boolean");
+            TS_INTYPE_MAP.put("byte", "Blob");
+            TS_INTYPE_MAP.put("i16", "number");
+            TS_INTYPE_MAP.put("i32", "number");
+            TS_INTYPE_MAP.put("i64", "bigint");
+            TS_INTYPE_MAP.put("double", "number");
+            TS_INTYPE_MAP.put("binary", "Blob");
+            TS_INTYPE_MAP.put("string", "string");
         }
 
         @Deprecated
         private String namespace;
         private String javaSimpleName;
+        private String tsSimpleName;
         private Type t1;
         private Type t2;
         private boolean isIntype = false;
         private boolean isMap = false;
         private boolean isCollection = false;
-        private final Set<String> importTypeName = new HashSet<>();
+        private boolean isNullable = false;
+        private final Set<String> importJavaTypeName = new HashSet<>();
 
         public void setT1(Type t1) {
-            importTypeName.addAll(t1.getImportTypeName());
+            importJavaTypeName.addAll(t1.getImportJavaTypeName());
             this.t1 = t1;
         }
 
         public void setT2(Type t2) {
-            importTypeName.addAll(t2.getImportTypeName());
+            importJavaTypeName.addAll(t2.getImportJavaTypeName());
             this.t2 = t2;
         }
 
@@ -312,6 +328,21 @@ public final class ParseThriftSyntaxTreeUtil {
             } else {
                 return javaSimpleName;
             }
+        }
+
+        public String tsString() {
+            String str;
+            if (this.isMap) {
+                str = "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
+            } else if (this.isCollection) {
+                str = tsSimpleName + "[ " + t1.tsString() + " ]";
+            } else {
+                str = tsSimpleName;
+            }
+            if (this.isNullable) {
+                str += " | undefined";
+            }
+            return str;
         }
     }
 
@@ -325,7 +356,7 @@ public final class ParseThriftSyntaxTreeUtil {
         private final Set<String> importTypeName = new HashSet<>();
 
         public void setParamType(Type paramType) {
-            importTypeName.addAll(paramType.getImportTypeName());
+            importTypeName.addAll(paramType.getImportJavaTypeName());
             this.paramType = paramType;
         }
     }
@@ -603,7 +634,7 @@ public final class ParseThriftSyntaxTreeUtil {
                     case "contain_list" -> result.setType(parseContainList((Map) pairMap.get(INNER)));
                     case "contain_map" -> result.setType(parseContainMap((Map) pairMap.get(INNER)));
                     case "contain_set" -> result.setType(parseContainSet((Map) pairMap.get(INNER)));
-                    case "intype" -> result.setType(parseInType((String) pairMap.get(INNER)));
+                    case "intype" -> result.setType(parseIntype((String) pairMap.get(INNER)));
                     case "utype" -> result.setType(parseUtType((Map) pairMap.get(INNER)));
                     case "struct_attribute_name" -> result.setAttributeName((String) pairMap.get(INNER));
                 }
@@ -654,6 +685,7 @@ public final class ParseThriftSyntaxTreeUtil {
                     case "void" -> {
                         Type returnType = new Type();
                         returnType.setJavaSimpleName("void");
+                        returnType.setTsSimpleName("undefined");
                         result.setReturnType(returnType);
                     }
                     case "service_function_name" -> result.setFunctionName((String) pairMap.get(INNER));
@@ -696,7 +728,7 @@ public final class ParseThriftSyntaxTreeUtil {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
                     case "intype" -> {
-                        return parseInType((String) pairMap.get(INNER));
+                        return parseIntype((String) pairMap.get(INNER));
                     }
                     case "contain_map" -> {
                         return parseContainMap((Map) pairMap.get(INNER));
@@ -715,18 +747,20 @@ public final class ParseThriftSyntaxTreeUtil {
             return null;
         }
 
-        public Type parseInType(String inner) {
+        public Type parseIntype(String intypeString) {
             Type result = new Type();
             result.setIntype(true);
-            result.setJavaSimpleName(Type.INTYPE_MAP.get(inner));
+            result.setJavaSimpleName(Type.JAVA_INTYPE_MAP.get(intypeString));
+            result.setTsSimpleName(Type.TS_INTYPE_MAP.get(intypeString));
             return result;
         }
 
         public Type parseContainMap(Map ast) throws TException {
             Type result = new Type();
             result.setJavaSimpleName("Map");
+            result.setTsSimpleName("Record");
             result.setMap(true);
-            result.getImportTypeName().add(Map.class.getName());
+            result.getImportJavaTypeName().add(Map.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if ("contain_map_keytype".equals(innerRuleName)) {
@@ -743,8 +777,9 @@ public final class ParseThriftSyntaxTreeUtil {
         public Type parseContainList(Map ast) throws TException {
             Type result = new Type();
             result.setJavaSimpleName("List");
+            result.setTsSimpleName("");
             result.setCollection(true);
-            result.getImportTypeName().add(List.class.getName());
+            result.getImportJavaTypeName().add(List.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if ("contain_list_type".equals(innerRuleName)) {
@@ -758,8 +793,9 @@ public final class ParseThriftSyntaxTreeUtil {
         public Type parseContainSet(Map ast) throws TException {
             Type result = new Type();
             result.setJavaSimpleName("Set");
+            result.setTsSimpleName("");
             result.setCollection(true);
-            result.getImportTypeName().add(Set.class.getName());
+            result.getImportJavaTypeName().add(Set.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if ("contain_list_type".equals(innerRuleName)) {
@@ -772,40 +808,46 @@ public final class ParseThriftSyntaxTreeUtil {
 
         public Type parseUtType(Map ast) throws TException {
             Type result = new Type();
-            String importPackage = null;
-            String importClass = null;
+            String importJavaPackage = null;
+            String importTsTypeName = "";
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if ("utype_namespace".equals(innerRuleName)) {
                     String namespace = (String) innerMap.get(INNER);
+                    importTsTypeName += namespace + ".";
                     ThriftIncludeBean thriftIncludeBean = thriftRootBean.getThriftIncludeBeanByFileName(namespace);
                     if (thriftIncludeBean == null) {
                         SdkThriftTemplateDto includeDto = thriftRootBean.getIncludeDtoMap().get(namespace);
                         thriftIncludeBean = new ThriftIncludeBean(thriftRootBean, includeDto);
                         thriftRootBean.getIncludeBeanSet().add(thriftIncludeBean);
                     }
-                    String packageName = thriftIncludeBean.getRootBean().getJavaNameSpace();
-                    if (packageName == null) {
+                    String javaPackageName = thriftIncludeBean.getRootBean().getJavaNameSpace();
+                    if (javaPackageName == null) {
                         throw new TException("import数据类型有误，请检查");
                     }
-                    importPackage = packageName;
+                    importJavaPackage = javaPackageName;
                 } else if ("utype_customname".equals(innerRuleName)) {
                     String includeValue = (String) innerMap.get(INNER);
+                    importTsTypeName += includeValue;
+                    if (importJavaPackage != null) {
+                        result.getImportJavaTypeName().add(importJavaPackage + "." + includeValue);
+                    }
                     result.setJavaSimpleName(includeValue);
 //                    注释，在java中同一个包的不同类之间不需要import
-//                    if (importPackage != null) {
-//                        importPackage = rootBean.getJavaNameSpace();
+//                    if (importJavaPackage != null) {
+//                        importJavaPackage = rootBean.getJavaNameSpace();
 //                    }
-                    if (importPackage != null) {
-                        result.getImportTypeName().add(importPackage + "." + includeValue);
-                    }
+
                 }
             }
+            result.setTsSimpleName(importTsTypeName);
             return result;
         }
     }
 
     public interface ThriftRootIface {
         RootBean getRootBean();
+
+        String getFileName();
     }
 }
