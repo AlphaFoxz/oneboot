@@ -3,13 +3,26 @@ server:
 debug: true
 spring:
   datasource:
-    url: jdbc:h2:mem:test_db
-    driver-class-name: org.h2.Driver
-  jpa:
-    database: h2
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+    #    url: jdbc:h2:mem:test_db
+    url: jdbc:postgresql://localhost:5432/postgres
+    #    driver-class-name: org.h2.Driver
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: postgres
+    password: 123456
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 30
+      auto-commit: true
+      pool-name: "MainHikariCP"
+      connection-test-query: 'select 1'
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+  #  jpa:
+  #    database: h2
+  #    show-sql: true
+  #    hibernate:
+  #      ddl-auto: update
   h2:
     console:
       enabled: true

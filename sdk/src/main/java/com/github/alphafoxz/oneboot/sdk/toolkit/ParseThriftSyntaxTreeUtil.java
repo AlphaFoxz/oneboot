@@ -6,6 +6,8 @@ import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateDto;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.boot.json.JacksonJsonParser;
@@ -30,7 +32,8 @@ public final class ParseThriftSyntaxTreeUtil {
         return thriftRootBean;
     }
 
-    @Data
+    @Getter
+    @Setter
     public static class ThriftIncludeBean implements ThriftRootIface {
         private String filePath;
         private String fileName;

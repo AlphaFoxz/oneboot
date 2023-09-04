@@ -43,6 +43,7 @@
 - [X]  SpringDoc - API文档
 - [X]  Thrift - Rpc服务
 - [ ]  Meilisearch - 搜索引擎（场景：面向中小型项目，索引上限2TiB）
+- [ ]  工作流
 
 ### 代码生成
 
@@ -51,10 +52,11 @@
 - [ ]  typescript前端代码
 - [ ]  MapStruct实体转换
 
-### 特色功能
+### 其他特色功能
 
-- [ ]  项目功能检查（进行中）
-- [ ]  接口一览
-- [ ]  独立的SDK客户端（Windows、Linux、Android）
-- [ ]  全平台统一枚举标准
+- [X]  项目功能检查（未实现的后端restful接口）
+- [X]  接口一览
+- [X]  独立的SDK客户端（Windows、Linux、Android）
+- [X]  全平台统一枚举标准
+- [ ]  名词定义机制？
 - [ ]  用户可拓展的命令行终端
