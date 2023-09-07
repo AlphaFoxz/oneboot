@@ -186,6 +186,7 @@ public final class ParseThriftSyntaxTreeUtil {
     public static class StructBean {
         private CommentBean doc;
         private final List<CommentBean> commentList = CollUtil.newArrayList();
+        private final Map<String, List<String>> commentAnnoMap = MapUtil.newHashMap();
         private String structName;
         private List<StructAttributeBean> structAttribute = CollUtil.newArrayList();
         private final Set<String> importTypeName = new HashSet<>();
@@ -216,6 +217,7 @@ public final class ParseThriftSyntaxTreeUtil {
     public static class ServiceBean {
         private CommentBean doc;
         private final List<CommentBean> commentList = CollUtil.newArrayList();
+        private final Map<String, List<String>> commentAnnoMap = MapUtil.newHashMap();
         private String serviceName;
         private final List<ServiceFunctionBean> serviceFunctionList = CollUtil.newArrayList();
         private final Set<String> importTypeName = new HashSet<>();
@@ -229,6 +231,7 @@ public final class ParseThriftSyntaxTreeUtil {
         public static class ServiceFunctionBean {
             private CommentBean doc;
             private final List<CommentBean> commentList = CollUtil.newArrayList();
+            private final Map<String, List<String>> commentAnnoMap = MapUtil.newHashMap();
             private Type returnType;
             private String functionName;
             private final List<Param> paramList = CollUtil.newArrayList();
@@ -264,12 +267,16 @@ public final class ParseThriftSyntaxTreeUtil {
 
     @Data
     public static class CommentBean {
-        private String commentValue;
         private CommentTypeEnum commentType;
+        private String commentValue;
+        private Set<String> annoImportPackage = CollUtil.newHashSet();
+        private String annoName;
+        private final List<String> annoValues = CollUtil.newArrayList();
 
         public static enum CommentTypeEnum {
             LINE,
-            BLOCK
+            BLOCK,
+            ANNOTATION,
         }
     }
 
@@ -416,6 +423,8 @@ public final class ParseThriftSyntaxTreeUtil {
             }
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
+            final Set<String> importPackage = CollUtil.newHashSet();
+            final Map<String, List<String>> annoMap = MapUtil.newHashMap();
             for (Map pairMap : (List<Map>) rootAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 if (pairMap.get(INNER) instanceof Map innerMap) {
@@ -424,6 +433,9 @@ public final class ParseThriftSyntaxTreeUtil {
                             CommentBean comment = parseComment(innerMap);
                             if (CommentBean.CommentTypeEnum.BLOCK.equals(comment.getCommentType())) {
                                 targetDoc = comment;
+                            } else if (CommentBean.CommentTypeEnum.ANNOTATION.equals(comment.getCommentType())) {
+                                importPackage.addAll(comment.getAnnoImportPackage());
+                                annoMap.put(comment.getAnnoName(), comment.getAnnoValues());
                             } else {
                                 targetCommentList.add(comment);
                             }
@@ -431,11 +443,15 @@ public final class ParseThriftSyntaxTreeUtil {
                         case "include" -> {
                             targetDoc = null;
                             targetCommentList.clear();
+                            importPackage.clear();
+                            annoMap.clear();
                             rootBean.addInclude(parseInclude(innerMap));
                         }
                         case "namespace" -> {
                             targetDoc = null;
                             targetCommentList.clear();
+                            importPackage.clear();
+                            annoMap.clear();
                             rootBean.addNamespace(parseNamespace(innerMap));
                         }
                         case "enum" -> {
@@ -444,10 +460,10 @@ public final class ParseThriftSyntaxTreeUtil {
                                 enumBean.setDoc(targetDoc);
                                 targetDoc = null;
                             }
-                            if (CollUtil.isNotEmpty(targetCommentList)) {
-                                enumBean.getCommentList().addAll(targetCommentList);
-                                targetCommentList.clear();
-                            }
+                            enumBean.getCommentList().addAll(targetCommentList);
+                            targetCommentList.clear();
+                            importPackage.clear();
+                            annoMap.clear();
                             rootBean.addEnum(enumBean);
                         }
                         case "struct" -> {
@@ -456,10 +472,12 @@ public final class ParseThriftSyntaxTreeUtil {
                                 structBean.setDoc(targetDoc);
                                 targetDoc = null;
                             }
-                            if (CollUtil.isNotEmpty(targetCommentList)) {
-                                structBean.getCommentList().addAll(targetCommentList);
-                                targetCommentList.clear();
-                            }
+                            structBean.getCommentList().addAll(targetCommentList);
+                            targetCommentList.clear();
+                            structBean.getImportTypeName().addAll(importPackage);
+                            importPackage.clear();
+                            structBean.getCommentAnnoMap().putAll(annoMap);
+                            annoMap.clear();
                             rootBean.addStruct(structBean);
                         }
                         case "service" -> {
@@ -468,10 +486,12 @@ public final class ParseThriftSyntaxTreeUtil {
                                 serviceBean.setDoc(targetDoc);
                                 targetDoc = null;
                             }
-                            if (CollUtil.isNotEmpty(targetCommentList)) {
-                                serviceBean.getCommentList().addAll(targetCommentList);
-                                targetCommentList.clear();
-                            }
+                            serviceBean.getCommentList().addAll(targetCommentList);
+                            targetCommentList.clear();
+                            serviceBean.getImportTypeName().addAll(importPackage);
+                            importPackage.clear();
+                            serviceBean.getCommentAnnoMap().putAll(annoMap);
+                            annoMap.clear();
                             rootBean.addService(serviceBean);
                         }
                         default -> log.error("未定义的类型{}，请检查Java代码", ruleName, new RuntimeException());
@@ -515,10 +535,54 @@ public final class ParseThriftSyntaxTreeUtil {
                 CommentBean result = new CommentBean();
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case "comment_line" -> result.setCommentType(CommentBean.CommentTypeEnum.LINE);
-                    case "comment_block" -> result.setCommentType(CommentBean.CommentTypeEnum.BLOCK);
+                    case "comment_line" -> {
+                        result.setCommentType(CommentBean.CommentTypeEnum.LINE);
+                        result.setCommentValue((String) pairMap.get(INNER));
+                    }
+                    case "comment_block" -> {
+                        result.setCommentType(CommentBean.CommentTypeEnum.BLOCK);
+                        result.setCommentValue((String) pairMap.get(INNER));
+                    }
+                    case "comment_annotation" -> {
+                        result.setCommentType(CommentBean.CommentTypeEnum.ANNOTATION);
+                        Map annoAst = (Map) pairMap.get(INNER);
+                        for (Map annoPair : (List<Map>) annoAst.get(PAIRS)) {
+                            String annoRule = (String) annoPair.get(RULE);
+                            String currentAnnoName = "";
+                            switch (annoRule) {
+                                case "comment_annotation_name" -> {
+                                    String annoName = (String) annoPair.get(INNER);
+                                    if (StrUtil.equalsIgnoreCase(annoName, "uri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.RequestMapping");
+                                        result.setAnnoName("RequestMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "postUri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PostMapping");
+                                        result.setAnnoName("PostMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "getUri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.GetMapping");
+                                        result.setAnnoName("GetMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "putUri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PutMapping");
+                                        result.setAnnoName("PutMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "patchUri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PatchMapping");
+                                        result.setAnnoName("PatchMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "deleteUri")) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.DeleteMapping");
+                                        result.setAnnoName("DeleteMapping");
+                                    } else {
+                                        result.setCommentType(CommentBean.CommentTypeEnum.LINE);
+                                        result.setAnnoName(annoName);
+                                        log.error("未预料的注解");
+                                    }
+                                    result.setCommentValue(annoName);
+                                }
+                                case "comment_annotation_value" ->
+                                        result.getAnnoValues().add((String) annoPair.get(INNER));
+                            }
+                        }
+                    }
                 }
-                result.setCommentValue((String) pairMap.get(INNER));
                 return result;
             }
             throw new TException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst));
@@ -646,6 +710,8 @@ public final class ParseThriftSyntaxTreeUtil {
             ServiceBean result = new ServiceBean();
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
+            final Set<String> functionImportPackage = CollUtil.newHashSet();
+            final Map<String, List<String>> annoMap = MapUtil.newHashMap();
             for (Map pairMap : (List<Map>) serviceAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
@@ -653,6 +719,9 @@ public final class ParseThriftSyntaxTreeUtil {
                         CommentBean comment = parseComment((Map) pairMap.get(INNER));
                         if (CommentBean.CommentTypeEnum.BLOCK.equals(comment.getCommentType())) {
                             targetDoc = comment;
+                        } else if (CommentBean.CommentTypeEnum.ANNOTATION.equals(comment.getCommentType())) {
+                            functionImportPackage.addAll(comment.getAnnoImportPackage());
+                            annoMap.put(comment.getAnnoName(), comment.getAnnoValues());
                         } else {
                             targetCommentList.add(comment);
                         }
@@ -664,10 +733,12 @@ public final class ParseThriftSyntaxTreeUtil {
                             serviceFunction.setDoc(targetDoc);
                             targetDoc = null;
                         }
-                        if (!targetCommentList.isEmpty()) {
-                            serviceFunction.getCommentList().addAll(targetCommentList);
-                            targetCommentList.clear();
-                        }
+                        serviceFunction.getCommentList().addAll(targetCommentList);
+                        targetCommentList.clear();
+                        serviceFunction.getImportTypeName().addAll(functionImportPackage);
+                        functionImportPackage.clear();
+                        serviceFunction.getCommentAnnoMap().putAll(annoMap);
+                        annoMap.clear();
                         result.addServiceFunction(serviceFunction);
                     }
                 }

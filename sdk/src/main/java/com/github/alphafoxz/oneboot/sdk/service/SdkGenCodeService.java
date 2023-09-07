@@ -15,10 +15,12 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 // 注意 @javax.annotation.processing.Generated 和 @javax.annotation.processing.Generated的转换
@@ -106,6 +108,11 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             code.add("axios'\n");
             code.add("const axios = requireAxios()\n\n");
             for (ParseThriftSyntaxTreeUtil.ServiceBean serviceBean : rootBean.getServiceList()) {
+                String serviceUri = "";
+                List<String> requestMappingValues = serviceBean.getCommentAnnoMap().get(RequestMapping.class.getSimpleName());
+                if (CollUtil.isNotEmpty(requestMappingValues)) {
+                    serviceUri = requestMappingValues.get(0);
+                }
                 for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : serviceBean.getCommentList()) {
                     code.add("// " + commentBean.getCommentValue() + "\n");
                 }
@@ -126,8 +133,39 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                         paramStringJoiner.add(param.getParamName() + ": " + param.getParamType().tsString());
                     }
                     code.add(paramStringJoiner + ": Promise<" + functionBean.getReturnType().tsString() + "> => {\n");
-                    //FIXME 确定请求方式
-                    code.add(TAB + TAB + "return axios.post('')\n");
+
+                    for (Map.Entry<String, List<String>> functionAnno : functionBean.getCommentAnnoMap().entrySet()) {
+                        //统计传参
+                        StringJoiner getJoiner = new StringJoiner("&", "?", "");
+                        StringJoiner postJoiner = new StringJoiner(", ");
+                        for (ParseThriftSyntaxTreeUtil.Param param : functionBean.getParamList()) {
+                            if(param.getParamType().isIntype()) {
+                                getJoiner.add(param.getParamName() + "=" + "${encodeURI(" + param.getParamName() + ")}");
+                            } else {
+                                getJoiner.add(param.getParamName() + "=" + "${encodeURI(JSON.stringify(" + param.getParamName() + "))}");
+                            }
+                            postJoiner.add(param.getParamName());
+                        }
+                        if (GetMapping.class.getSimpleName().equals(functionAnno.getKey())) {
+                            String format = TAB + TAB + "return axios.get(`{}`)\n";
+                            code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0) + getJoiner));
+                        } else if (DeleteMapping.class.getSimpleName().equals(functionAnno.getKey())) {
+                            String format = TAB + TAB + "return axios.delete(`{}`)\n";
+                            code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0) + getJoiner));
+                        } else {
+                            if (RequestMapping.class.getSimpleName().equals(functionAnno.getKey())
+                                    || PostMapping.class.getSimpleName().equals(functionAnno.getKey())) {
+                                String format = TAB + TAB + "return axios.post(`{}`, { {} })\n";
+                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                            } else if (PutMapping.class.getSimpleName().equals(functionAnno.getKey())) {
+                                String format = TAB + TAB + "return axios.put(`{}`, { {} })\n";
+                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                            } else if (PatchMapping.class.getSimpleName().equals(functionAnno.getKey())) {
+                                String format = TAB + TAB + "return axios.patch(`{}`, { {} })\n";
+                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                            }
+                        }
+                    }
                     code.add(TAB + "},\n");
                 }
                 code.add("}\n");
@@ -232,14 +270,21 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             serviceCode.add("");
             {
                 //解析普通注释
-                List<ParseThriftSyntaxTreeUtil.CommentBean> commentList = serviceBean.getCommentList();
-                if (CollUtil.isNotEmpty(commentList)) {
-                    for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : commentList) {
-                        serviceCode.add("// " + commentBean.getCommentValue().trim());
-                    }
+                for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : serviceBean.getCommentList()) {
+                    serviceCode.add("// " + commentBean.getCommentValue().trim());
                 }
-            }
-            {
+                //解析@interface注解
+                for (Map.Entry<String, List<String>> stringListEntry : serviceBean.getCommentAnnoMap().entrySet()) {
+                    String annoCode = "@" + stringListEntry.getKey();
+                    if (CollUtil.isNotEmpty(stringListEntry.getValue())) {
+                        StringJoiner valueJoiner = new StringJoiner("\", \"", "{\"", "\"}");
+                        for (String s : stringListEntry.getValue()) {
+                            valueJoiner.add(s);
+                        }
+                        annoCode += "(" + valueJoiner + ")";
+                    }
+                    serviceCode.add(annoCode);
+                }
                 //解析API注释
                 ParseThriftSyntaxTreeUtil.CommentBean serviceDoc = serviceBean.getDoc();
                 serviceCode.add(StrUtil.format("@Tag(name = \"{}\", description = \"{}\")", serviceBean.getServiceName(), commentToStringParam(serviceDoc)));
@@ -248,15 +293,30 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             {
                 //解析接口方法
                 for (ParseThriftSyntaxTreeUtil.ServiceBean.ServiceFunctionBean serviceFunction : serviceBean.getServiceFunctionList()) {
-                    //解析普通注释
-                    List<ParseThriftSyntaxTreeUtil.CommentBean> commentList = serviceFunction.getCommentList();
-                    if (CollUtil.isNotEmpty(commentList)) {
-                        for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : commentList) {
-                            serviceCode.add(TAB + "// " + commentBean.getCommentValue().trim());
+                    {
+                        //解析普通注释
+                        List<ParseThriftSyntaxTreeUtil.CommentBean> commentList = serviceFunction.getCommentList();
+                        if (CollUtil.isNotEmpty(commentList)) {
+                            for (ParseThriftSyntaxTreeUtil.CommentBean commentBean : commentList) {
+                                serviceCode.add(TAB + "// " + commentBean.getCommentValue().trim());
+                            }
                         }
+                        //解析@interface注解
+                        for (Map.Entry<String, List<String>> stringListEntry : serviceFunction.getCommentAnnoMap().entrySet()) {
+                            String annoCode = TAB + "@" + stringListEntry.getKey();
+                            if (CollUtil.isNotEmpty(stringListEntry.getValue())) {
+                                StringJoiner valueJoiner = new StringJoiner("\", \"", "{\"", "\"}");
+                                for (String s : stringListEntry.getValue()) {
+                                    valueJoiner.add(s);
+                                }
+                                annoCode += "(" + valueJoiner + ")";
+                            }
+                            serviceCode.add(annoCode);
+                        }
+                        //解析API注释
+                        ParseThriftSyntaxTreeUtil.CommentBean functionDoc = serviceFunction.getDoc();
+                        serviceCode.add(StrUtil.format(TAB + "@Operation(summary = \"{}\")", commentToStringParam(functionDoc)));
                     }
-                    ParseThriftSyntaxTreeUtil.CommentBean functionDoc = serviceFunction.getDoc();
-                    serviceCode.add(StrUtil.format(TAB + "@Operation(summary = \"{}\")", commentToStringParam(functionDoc)));
                     StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
                     for (ParseThriftSyntaxTreeUtil.Param param : serviceFunction.getParamList()) {
                         paramCode.add(TAB + TAB + TAB + "@Parameter(description = \"" + commentToStringParam(param.getDoc()) + "\") " + param.getParamType().javaString() + " " + param.getParamName());

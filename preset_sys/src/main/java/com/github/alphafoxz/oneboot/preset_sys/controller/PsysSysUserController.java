@@ -22,7 +22,10 @@ public class PsysSysUserController {
 
     @GetMapping("/query")
     public ResponseEntity<?> query() {
-        Result<Record> fetch = dslContext.select(PSYS_USER.fields()).from(PSYS_USER).fetch();
+        Result<Record> fetch = dslContext
+                .select(PSYS_USER.fields())
+                .from(PSYS_USER)
+                .fetch();
         return ResponseEntity.ok(fetch.intoMaps());
     }
 

@@ -3,7 +3,7 @@ namespace js gen.app.enums
 
 //测试枚举
 /*测试枚举响应体*/
-enum TestStateEnum {
+enum AppTestStateEnum {
     /*状态1*/
     STATE1 = 0,
     //状态2

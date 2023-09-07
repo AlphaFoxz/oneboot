@@ -3,9 +3,9 @@ package com.github.alphafoxz.oneboot.app.gen.restful.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "TestOtherInfoParamDto")
+@Schema(description = "AppTestEntityDto")
 @Data
-public class TestOtherInfoParamDto {
+public class AppTestEntityDto {
     @Schema(description = "")
     private Long id;
     @Schema(description = "")

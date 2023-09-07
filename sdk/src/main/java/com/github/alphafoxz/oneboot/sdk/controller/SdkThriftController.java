@@ -16,25 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/_sdk/thrift")
 public class SdkThriftController implements SdkThriftApi {
     @Resource
     private SdkThriftService sdkThriftService;
     @Resource
     private Snowflake snowflake;
 
-    @GetMapping("/getServerPort")
+    @Override
     public ResponseEntity<SdkLongResponseDto> getServerPort() {
         return ResponseEntity.ok(sdkThriftService.getServerPort());
     }
 
-    @GetMapping("/getExecutableFilePath")
+    @Override
     public ResponseEntity<SdkStringResponseDto> getExecutableFilePath() {
         return ResponseEntity.ok(sdkThriftService.getExecutableFilePath());
     }
 
     @Override
-    @GetMapping
     public ResponseEntity<SdkThriftTemplateResponseDto> getTemplateContentByPath(@RequestParam String filePath) {
         SdkStringRequestDto param = new SdkStringRequestDto(snowflake.nextId(), snowflake.nextId(), filePath);
         return ResponseEntity.ok(sdkThriftService.getTemplateContentByPath(param));
