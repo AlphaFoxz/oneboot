@@ -3,11 +3,11 @@ package com.github.alphafoxz.oneboot.app.gen.restful.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "AppTestOtherInfoParamDto")
+@Schema(name = "AppTestOtherInfoParamDto", description = "")
 @Data
 public class AppTestOtherInfoParamDto {
-    @Schema(description = "")
+    @Schema(name = "id", description = "")
     private Long id;
-    @Schema(description = "")
+    @Schema(name = "name", description = "")
     private String name;
 }

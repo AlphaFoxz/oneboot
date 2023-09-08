@@ -49,6 +49,7 @@ subprojects {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
         }
         implementation("org.springframework.boot:spring-boot-starter-undertow")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
         implementation("cn.hutool:hutool-all")
         implementation("org.apache.thrift:libthrift")

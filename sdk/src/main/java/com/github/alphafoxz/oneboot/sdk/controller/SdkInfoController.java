@@ -2,9 +2,10 @@ package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
+import com.github.alphafoxz.oneboot.sdk.convert.SdkRestfulConvertor;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -57,20 +58,23 @@ public class SdkInfoController implements SdkInfoApi {
 
     @Override
     public ResponseEntity<SdkStringResponseDto> rootPath() {
-        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
+        SdkStringResponseDto result = new SdkStringResponseDto();
+        result.setId(snowflake.nextId());
+        result.setTaskId(snowflake.nextId());
+        result.setSuccess(true);
         result.setData(SdkConstants.PROJECT_ROOT_PATH);
         return ResponseEntity.ok(result);
     }
 
     @Override
     public ResponseEntity<SdkListResponseDto> checkThriftErr() {
-        return ResponseEntity.ok(sdkInfoService.checkThriftErr());
+        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkThriftErr()));
     }
 
     @Override
     public ResponseEntity<SdkListResponseDto> checkRestApiImplements() {
         try {
-            return ResponseEntity.ok(sdkInfoService.checkRestApiImplements());
+            return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRestApiImplements()));
         } catch (Exception e) {
             log.error("接口异常", e);
             return ResponseEntity.status(500).build();
@@ -80,7 +84,7 @@ public class SdkInfoController implements SdkInfoApi {
     @Override
     public ResponseEntity<SdkListResponseDto> checkRpcImplements() {
         try {
-            return ResponseEntity.ok(sdkInfoService.checkRpcImplements());
+            return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRpcImplements()));
         } catch (Exception e) {
             log.error("接口异常", e);
             return ResponseEntity.status(500).build();

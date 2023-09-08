@@ -28,7 +28,7 @@
 
 ### java rpc代码
 
-1. 依赖了[Apache Thrift](https://thrift.apache.org/)框架，应用场景为内网环境，服务端到服务端的通信（虽然性能明显优于http通信，但因为没有web权限那一套功能会造成很多麻烦，而且client线程安全性还有待验证）
+1. 依赖了[Apache Thrift](https://thrift.apache.org/)框架。应用场景仅限于内网环境，服务端到服务端的通信（虽然性能明显优于http通信，但因为没有web权限那一套功能会造成很多麻烦，而且client线程安全性还有待验证。因此只应用于可信的服务端之间无高并发场景，可以认为是稳定可靠的。***此处期待benchmark***）
 2. 由java通过命令行对thrift可执行文件的调用实现代码生成
 
 ### java restful接口部分
@@ -41,7 +41,8 @@
 
 ### ORM持久层部分
 
-1. 整合了jOOQ，
+1. 整合了jOOQ和gradle-jooq-plugin
+2. 通过执行gradle中的generateJooq任务，从数据库中反向建模到java
 
 ## Q&A
 
@@ -54,7 +55,6 @@
 - 模块化是jdk9的新特性，其好处是显而易见的。然而受国情影响，在整合过程中或日后拓展时，一些jdk8的模块在集成时可能会遇到相当多的麻烦。故在设计时我会秉着谨慎的态度去依赖第三方库，并在未来时机成熟时改为模块化。（图为jdk8和jdk9内部依赖的对比）![jdk8内部依赖关系](.doc/jdk8_deps.jpeg)![jdk9内部依赖关系](.doc/jdk9_deps.jpeg)
 
 ### 为什么采用jOOQ作为
-
 
 ## TODO list
 
@@ -72,7 +72,10 @@
 - [X]  rpc跨语言代码
 - [X]  SpringDoc接口
 - [X]  po、dao实体类
-- [ ]  typescript前端代码
+- [X]  typescript前端代码
+- [X]  支持注解的生成
+  - [ ]  支持注入HttpServletRequest
+- [ ]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
 - [ ]  MapStruct实体转换
 
 ### 其他特色功能
@@ -83,3 +86,7 @@
 - [X]  全平台统一枚举标准
 - [ ]  名词定义机制？
 - [ ]  用户可拓展的命令行终端
+- [ ]  创建/恢复快照功能（备忘录设计模式？）
+- [ ]  SQL分析
+
+## [Apache2.0 LICESE](./LICENSE)

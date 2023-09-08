@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestEditParamDto;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestResponseDto;
@@ -14,7 +15,7 @@ import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestResponseDto;
 @RequestMapping({"/app/test"})
 @Tag(name = "AppTestApi", description = "测试API")
 public interface AppTestApi {
-    @PostMapping({"/query"})
+    @GetMapping({"/query"})
     @Operation(summary = "查询请求")
     public ResponseEntity<AppTestResponseDto> query(
             @Parameter(description = "") AppTestEditParamDto editParam

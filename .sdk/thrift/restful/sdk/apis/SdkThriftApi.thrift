@@ -1,5 +1,7 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
-include "../../../data/sdk/dtos/SdkResponseDto.thrift"
+namespace js gen.sdk.apis
+
+include "../dtos/SdkResponseDto.thrift"
 
 //@uri(/_sdk/thrift)
 /*thrift功能接口（rpc跨语言通信）*/

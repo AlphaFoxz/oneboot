@@ -557,15 +557,18 @@ public final class ParseThriftSyntaxTreeUtil {
                                         result.setAnnoName("RequestMapping");
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "postUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PostMapping");
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.RequestBody");
                                         result.setAnnoName("PostMapping");
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "getUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.GetMapping");
                                         result.setAnnoName("GetMapping");
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "putUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PutMapping");
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.RequestBody");
                                         result.setAnnoName("PutMapping");
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "patchUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PatchMapping");
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.RequestBody");
                                         result.setAnnoName("PatchMapping");
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "deleteUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.DeleteMapping");
