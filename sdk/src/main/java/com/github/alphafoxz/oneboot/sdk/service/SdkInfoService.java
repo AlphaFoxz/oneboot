@@ -1,11 +1,10 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.Iface.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.ifaces.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.config.CommonConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkFileTreeResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;

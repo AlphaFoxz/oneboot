@@ -39,14 +39,13 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // @formatter:off
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("admin")
-                .roles("ADMIN")
+        UserDetails securityAdmin = User.builder()
+                .username("security_admin")
+                .password("security_admin")
+                .roles("SECURITY_ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(securityAdmin);
     }
 }

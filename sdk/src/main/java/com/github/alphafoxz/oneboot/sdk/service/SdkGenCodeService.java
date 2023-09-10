@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.Iface.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.config.CommonConfig;
+import com.github.alphafoxz.oneboot.common.ifaces.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
@@ -305,7 +305,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 }
                 //解析API注释
                 ParseThriftSyntaxTreeUtil.CommentBean serviceDoc = serviceBean.getDoc();
-                serviceCode.add(StrUtil.format("@Tag(name = {}, description = {})", StrUtil.wrap(serviceBean.getServiceName(), "\""), commentDocToStringWrapParam(serviceDoc)));
+                serviceCode.add(StrUtil.format("@Tag(name = {}, description = {})", JSONUtil.quote(serviceBean.getServiceName(), true), commentDocToStringWrapParam(serviceDoc)));
             }
             serviceCode.add("public interface " + serviceBean.getServiceName() + " {");
             {
@@ -431,7 +431,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             {
                 //解析注解注释
                 ParseThriftSyntaxTreeUtil.CommentBean structDoc = structBean.getDoc();
-                structCode.add(StrUtil.format("@Schema(name = {}, description = {})", StrUtil.wrap(structBean.getStructName(), "\""), commentDocToStringWrapParam(structDoc)));
+                structCode.add(StrUtil.format("@Schema(name = {}, description = {})", JSONUtil.quote(structBean.getStructName(), true), commentDocToStringWrapParam(structDoc)));
             }
             structCode.add("@Data");
             structCode.add("public class " + structBean.getStructName() + " {");
@@ -441,7 +441,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                         structCode.add(TAB + "//" + commentBean.getCommentValue().trim());
                     }
                 }
-                structCode.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", StrUtil.wrap(attributeBean.getAttributeName(), "\""), commentDocToStringWrapParam(attributeBean.getDoc())));
+                structCode.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(attributeBean.getAttributeName(), true), commentDocToStringWrapParam(attributeBean.getDoc())));
                 structCode.add(TAB + "private " + attributeBean.getType().javaString() + " " + attributeBean.getAttributeName() + ";");
             }
             structCode.add("}");
@@ -467,7 +467,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         } else {
             value = comment.getCommentValue().trim();
         }
-        return StrUtil.wrap(value, "\"");
+        return JSONUtil.quote(value, true);
     }
 
     private String getRestGeneratePath(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot, String fileName) {

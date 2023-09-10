@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.common.Iface;
+package com.github.alphafoxz.oneboot.common.ifaces;
 
 public interface OnebootModuleConfig {
     public String getModuleName();

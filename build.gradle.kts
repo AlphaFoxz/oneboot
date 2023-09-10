@@ -1,15 +1,10 @@
-import nu.studer.gradle.jooq.JooqEdition
-import org.jooq.meta.jaxb.ForcedType
-import org.jooq.meta.jaxb.Logging
-import org.jooq.meta.jaxb.Property
-
 plugins {
     id("java")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
+    `kotlin-dsl`
 }
-apply(plugin = "nu.studer.jooq")
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -44,6 +39,7 @@ allprojects {
     }
 }
 subprojects {
+    apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
@@ -63,13 +59,11 @@ subprojects {
 
         //implementation "org.springframework.boot:spring-boot-starter-data-jpa"
         implementation("org.springframework.boot:spring-boot-starter-jooq")
-        implementation("org.jooq:jooq-codegen")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
         runtimeOnly("com.h2database:h2")
 
         compileOnly("org.postgresql:postgresql")
-//        implementation("org.jooq:jooq-postgres-extensions")
-
+        jooqGenerator("org.postgresql:postgresql")
     }
 }
 
@@ -124,61 +118,11 @@ dependencies {
     jooqGenerator("org.postgresql:postgresql")
 }
 
-jooq {
-    version.set("3.18.6")
-    edition.set(JooqEdition.OSS)
-
-    configurations {
-        create("main") {
-            generateSchemaSourceOnCompilation.set(true)
-
-            jooqConfiguration.apply {
-                logging = Logging.WARN
-                jdbc.apply {
-                    driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://localhost:5432/postgres"
-                    user = "postgres"
-                    password = "123456"
-                    properties.add(Property().apply {
-                        key = "ssl"
-                        value = "false"
-                    })
-                }
-                generator.apply {
-                    name = "org.jooq.codegen.JavaGenerator"
-                    database.apply {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
-                        inputSchema = "preset_sys"
-                        forcedTypes.addAll(listOf(
-//                                ForcedType().apply {
-//                                    name = "varchar"
-//                                    includeExpression = ".*"
-//                                    includeTypes = "JSONB?"
-//                                },
-                                ForcedType().apply {
-                                    name = "varchar"
-                                    includeExpression = ".*"
-                                    includeTypes = "INET"
-                                }
-                        ))
-                    }
-                    generate.apply {
-                        isDeprecated = false
-                        isRecords = true
-                        isImmutablePojos = true
-                        isFluentSetters = true
-                        isCommentsOnPackages = true
-                    }
-                    target.apply {
-                        packageName = "com.github.alphafoxz.oneboot.preset_sys.gen.jooq"
-                        directory = "preset_sys/src/gen"
-                        isClean = true
-                    }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-                }
-            }
-        }
+tasks.withType<Test> {
+    useJUnitPlatform()
+    onlyIf {
+        //在执行build任务时跳过test
+        !gradle.taskGraph.hasTask(":build")
     }
 }
 
-apply(from = "tasks.gradle.kts")

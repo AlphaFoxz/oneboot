@@ -2,7 +2,6 @@ package com.github.alphafoxz.oneboot.sdk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication(
         scanBasePackages = {
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
                 "com.github.alphafoxz.oneboot.*.gen.convert",
         }
 )
-@EnableAspectJAutoProxy
 public class SdkApplication {
     public static void main(String[] args) {
         SpringApplication.run(SdkApplication.class, args);
