@@ -1,4 +1,5 @@
 import nu.studer.gradle.jooq.JooqEdition
+import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Logging
 import org.jooq.meta.jaxb.Property
 import java.io.FileInputStream
@@ -39,12 +40,24 @@ jooq {
                         inputSchema = "sdk"
                         recordVersionFields = "record_version"
                         recordTimestampFields = "record_timestamp"
+                        forcedTypes.addAll(listOf(
+                                ForcedType().apply {
+                                    name = "varchar"
+                                    includeExpression = ".*"
+                                    includeTypes = "JSONB?"
+                                }
+                        ))
                     }
                     generate.apply {
                         isDeprecated = false
                         isRecords = true
                         isImmutablePojos = true
                         isFluentSetters = true
+                        isNonnullAnnotation = true
+                        nonnullAnnotationType = "org.springframework.lang.NonNull"
+                        isNullableAnnotation = true
+                        nullableAnnotationType = "org.springframework.lang.Nullable"
+                        isValidationAnnotations = true
                     }
                     target.apply {
                         packageName = "com.github.alphafoxz.oneboot.common.gen.jooq"

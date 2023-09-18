@@ -35,17 +35,20 @@ allprojects {
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
             dependency("cn.hutool:hutool-all:5.8.16")
             dependency("org.jooq:jooq-postgres-extensions:3.18.6")
+            dependency("org.jooq:jooq-codegen:3.18.6")
         }
     }
 }
 subprojects {
-    apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
         }
         implementation("org.springframework.boot:spring-boot-starter-undertow")
         implementation("org.springframework.boot:spring-boot-starter-aop")
+        implementation("org.springframework.boot:spring-boot-starter-cache")
+        implementation("org.springframework.boot:spring-boot-starter-data-rest")
+        implementation("com.github.ben-manes.caffeine:caffeine")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
         implementation("cn.hutool:hutool-all")
         implementation("org.apache.thrift:libthrift")
@@ -57,13 +60,12 @@ subprojects {
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-        //implementation "org.springframework.boot:spring-boot-starter-data-jpa"
         implementation("org.springframework.boot:spring-boot-starter-jooq")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
         runtimeOnly("com.h2database:h2")
 
+        compileOnly("org.jooq:jooq-codegen")
         compileOnly("org.postgresql:postgresql")
-        jooqGenerator("org.postgresql:postgresql")
     }
 }
 
@@ -85,8 +87,11 @@ project(":preset_sys") {
     tasks.jar {
         enabled = true
     }
+    apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
+
+        jooqGenerator("org.postgresql:postgresql")
     }
 }
 
@@ -94,10 +99,13 @@ project(":app") {
     tasks.bootJar {
         enabled = true
     }
+    apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
         implementation(project(":preset_sys"))
         implementation("org.springframework.boot:spring-boot-starter-security")
+
+        jooqGenerator("org.postgresql:postgresql")
     }
 }
 
@@ -108,10 +116,13 @@ project(":sdk") {
     tasks.jar {
         enabled = true
     }
+    apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
+
+        jooqGenerator("org.postgresql:postgresql")
     }
 }
 dependencies {

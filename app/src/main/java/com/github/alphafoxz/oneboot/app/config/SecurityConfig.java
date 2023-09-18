@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
@@ -41,7 +42,9 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
+        //TODO 用户认证实现
         UserDetails securityAdmin = User.builder()
+                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
                 .username("security_admin")
                 .password("security_admin")
                 .roles("SECURITY_ADMIN")
