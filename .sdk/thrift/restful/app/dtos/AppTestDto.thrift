@@ -5,28 +5,18 @@ include "../enums/AppTestEnum.thrift"
 
 //测试请求参数体
 /*请求参数体说明*/
-struct AppTestEditParamDto {
+struct AppTestInfoDto {
     /*主键*/
     1:required i64 id
-    //状态枚举
-    /*测试状态*/
-    2:required AppTestEnum.AppTestStateEnum testState
-    3:required map<string, string> optionMap
-    4:required list<AppTestOtherInfoParamDto> otherInfoList
-}
-
-struct AppTestOtherInfoParamDto {
-    1:required i64 id;
-    2:required string name
-}
-
-struct AppTestResponseDto {
-    1:required bool success
-    2:required string msg
-    3:optional AppTestEntityDto entity
-}
-
-struct AppTestEntityDto {
-    1:required i64 id
-    2:required string name
+    2:required string testJson
+    3:required string testDate
+    4:required string testTimestamp
+    5:required bool testBool
+    6:required double testDouble
+    7:required double testFloat
+    8:required string testTimestamptz
+    9:required string testTime
+    10:required string testTimetz
+    11:required string testDaterange
+    12:required string testVarchar50
 }

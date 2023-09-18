@@ -8,12 +8,13 @@ include "../dtos/AppTestDto.thrift"
 //@uri(/app/test)
 /*测试API*/
 service AppTestApi {
-    //@getUri(/query)
-    /*查询请求*/
-    AppTestDto.AppTestResponseDto query(1:required AppTestDto.AppTestEditParamDto editParam)
-    //此处应该进行测试
-    //看看能否实现对文件的下载
-    //@postUri(/download)
-    /*下载*/
-    void download(/*文件路径*/1:required string url)
+    /*查询单条*/
+    //@getUri(/query/{id})
+    AppTestDto.AppTestInfoDto queryOne(/*主键*/1:required i64 id)
+    /*查询单条*/
+    //@getUri(/queryPage/{pageNum}/{pageSize})
+    AppTestDto.AppTestInfoDto queryPage(/*页码*/1:required i32 pageNum, /*每页数据量*/2:required i32 pageSize)
+    /*更新*/
+    //@postUri(/update)
+    bool update(/*更新参数*/1:required AppTestDto.AppTestInfoDto param)
 }

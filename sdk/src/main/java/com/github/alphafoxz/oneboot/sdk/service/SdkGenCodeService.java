@@ -21,6 +21,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
 
 // 注意 @javax.annotation.processing.Generated 和 @javax.annotation.processing.Generated的转换
@@ -136,11 +137,21 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     code.add(paramStringJoiner + ": Promise<" + functionBean.getReturnType().tsString() + "> => {\n");
 
                     for (Map.Entry<String, List<String>> functionAnno : functionBean.getCommentAnnoMap().entrySet()) {
+                        String annoValue = functionAnno.getValue().get(0);
+                        Set<String> pathVarSet = CollUtil.newHashSet();
+                        for (String match : ReUtil.findAllGroup0("\\{\\s*\\w+\\s*}", annoValue)) {
+                            String pathVar = match.substring(1, match.length() - 1).trim();
+                            annoValue = StrUtil.replaceFirst(annoValue, match, "${encodeURI(" + pathVar + ".toString())}");
+                            pathVarSet.add(pathVar);
+                        }
                         //统计传参
                         StringJoiner getJoiner = new StringJoiner("&", "?", "");
                         StringJoiner postJoiner = new StringJoiner(", ");
                         int paramsCounter = 0;
                         for (ParseThriftSyntaxTreeUtil.Param param : functionBean.getParamList()) {
+                            if (pathVarSet.contains(param.getParamName())) {
+                                continue;
+                            }
                             if (param.getParamType().isIntype()) {
                                 getJoiner.add(param.getParamName() + "=" + "${encodeURI(" + param.getParamName() + ")}");
                             } else {
@@ -153,10 +164,10 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                         }
                         if (GetMapping.class.getSimpleName().equals(functionAnno.getKey())) {
                             String format = TAB + TAB + "return (await axios.get(`{}`)).data\n";
-                            code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0) + getJoiner));
+                            code.add(StrUtil.format(format, serviceUri + annoValue + getJoiner));
                         } else if (DeleteMapping.class.getSimpleName().equals(functionAnno.getKey())) {
                             String format = TAB + TAB + "return (await axios.delete(`{}`)).data\n";
-                            code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0) + getJoiner));
+                            code.add(StrUtil.format(format, serviceUri + annoValue + getJoiner));
                         } else {
                             if (RequestMapping.class.getSimpleName().equals(functionAnno.getKey())
                                     || PostMapping.class.getSimpleName().equals(functionAnno.getKey())) {
@@ -165,21 +176,21 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                                     throw new TException("post请求参数个数不能大于1 " + serviceBean.getServiceName() + "::" + functionBean.getFunctionName());
                                 }
                                 String format = TAB + TAB + "return (await axios.post(`{}`, {})).data\n";
-                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                                code.add(StrUtil.format(format, serviceUri + annoValue, postJoiner.toString()));
                             } else if (PutMapping.class.getSimpleName().equals(functionAnno.getKey())) {
                                 if (paramsCounter > 1) {
                                     log.error("put请求参数个数不能大于1 " + serviceBean.getServiceName() + "::" + functionBean.getFunctionName());
                                     throw new TException("put请求参数个数不能大于1 " + serviceBean.getServiceName() + "::" + functionBean.getFunctionName());
                                 }
                                 String format = TAB + TAB + "return (await axios.put(`{}`, {})).data\n";
-                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                                code.add(StrUtil.format(format, serviceUri + annoValue, postJoiner.toString()));
                             } else if (PatchMapping.class.getSimpleName().equals(functionAnno.getKey())) {
                                 if (paramsCounter > 1) {
                                     log.error("patch请求参数个数不能大于1 " + serviceBean.getServiceName() + "::" + functionBean.getFunctionName());
                                     throw new TException("patch请求参数个数不能大于1 " + serviceBean.getServiceName() + "::" + functionBean.getFunctionName());
                                 }
                                 String format = TAB + TAB + "return (await axios.patch(`{}`, {})).data\n";
-                                code.add(StrUtil.format(format, serviceUri + functionAnno.getValue().get(0), postJoiner.toString()));
+                                code.add(StrUtil.format(format, serviceUri + annoValue, postJoiner.toString()));
                             }
                         }
                     }
@@ -312,7 +323,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 //解析接口方法
                 for (ParseThriftSyntaxTreeUtil.ServiceBean.ServiceFunctionBean serviceFunction : serviceBean.getServiceFunctionList()) {
                     boolean isPost = false;
-
+                    Set<String> pathVarSet = CollUtil.newHashSet();
                     {
                         //解析普通注释
                         List<ParseThriftSyntaxTreeUtil.CommentBean> commentList = serviceFunction.getCommentList();
@@ -327,6 +338,10 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                             if (CollUtil.isNotEmpty(stringListEntry.getValue())) {
                                 StringJoiner valueJoiner = new StringJoiner("\", \"", "{\"", "\"}");
                                 for (String s : stringListEntry.getValue()) {
+                                    List<String> all = ReUtil.findAll("\\{\\s*\\w+\\s*}", s, 0);
+                                    for (String pathVar : all) {
+                                        pathVarSet.add(pathVar.substring(1, pathVar.length() - 1).trim());
+                                    }
                                     valueJoiner.add(s);
                                 }
                                 annoCode += "(" + valueJoiner + ")";
@@ -342,8 +357,8 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     }
                     StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
                     for (ParseThriftSyntaxTreeUtil.Param param : serviceFunction.getParamList()) {
-                        String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {} {}";
-                        paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), param.getParamType().javaString(), param.getParamName()));
+                        String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {} {} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
+                        paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), pathVarSet.contains(param.getParamName()) ? "@PathVariable " : "", param.getParamType().javaString(), param.getParamName()));
                     }
                     String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "ResponseEntity<?>" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
                     serviceCode.add(TAB + "public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (!serviceFunction.getParamList().isEmpty() ? paramCode.toString() : "") + ");\n");
