@@ -5,28 +5,34 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestEditParamDto;
-import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestResponseDto;
 
 // 本api为自动生成代码，请勿修改
 @RequestMapping({"/app/test"})
 @Tag(name = "AppTestApi", description = "测试API")
 public interface AppTestApi {
-    @GetMapping({"/query"})
-    @Operation(summary = "查询请求")
-    public ResponseEntity<AppTestResponseDto> query(
-            @Parameter(description = "") AppTestEditParamDto editParam
+    @GetMapping({"/query/{id}"})
+    @Operation(summary = "查询单条")
+    public ResponseEntity<AppTestInfoDto> queryOne(
+            @Parameter(description = "主键") @PathVariable Long id
     );
 
-    // 此处应该进行测试
-    // 看看能否实现对文件的下载
-    @PostMapping({"/download"})
-    @Operation(summary = "下载")
-    public ResponseEntity<?> download(
-            @Parameter(description = "文件路径") String url
+    @GetMapping({"/queryPage/{pageNum}/{pageSize}"})
+    @Operation(summary = "查询单条")
+    public ResponseEntity<AppTestInfoDto> queryPage(
+            @Parameter(description = "页码") @PathVariable Integer pageNum,
+            @Parameter(description = "每页数据量") @PathVariable Integer pageSize
+    );
+
+    @PostMapping({"/update"})
+    @Operation(summary = "更新")
+    public ResponseEntity<Boolean> update(
+            @Parameter(description = "更新参数") @RequestBody  AppTestInfoDto param
     );
 
 }

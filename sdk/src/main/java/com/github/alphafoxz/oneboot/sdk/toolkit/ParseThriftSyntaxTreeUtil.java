@@ -1,9 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.toolkit;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateDto;
 import lombok.Data;
 import lombok.Getter;
@@ -580,8 +577,18 @@ public final class ParseThriftSyntaxTreeUtil {
                                     }
                                     result.setCommentValue(annoName);
                                 }
-                                case "comment_annotation_value" ->
-                                        result.getAnnoValues().add((String) annoPair.get(INNER));
+                                case "comment_annotation_value" -> {
+                                    String value = (String) annoPair.get(INNER);
+                                    if (StrUtil.isBlank(value)) {
+                                        continue;
+                                    }
+                                    if (ReUtil.contains("\\{\\s*\\w+\\s*}", value)) {
+                                        result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.PathVariable");
+                                    }
+                                    for (String v : StrUtil.split(value, ",")) {
+                                        result.getAnnoValues().add(v);
+                                    }
+                                }
                             }
                         }
                     }
