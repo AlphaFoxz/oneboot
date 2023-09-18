@@ -1,8 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.app.gen.restful.dtos
 namespace js gen.app.dtos
 
-include "../enums/AppTestEnum.thrift"
-
 //测试请求参数体
 /*请求参数体说明*/
 struct AppTestInfoDto {
