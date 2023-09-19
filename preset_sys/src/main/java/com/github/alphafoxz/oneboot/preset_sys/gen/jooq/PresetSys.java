@@ -4,11 +4,12 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacTable;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,11 @@ public class PresetSys extends SchemaImpl {
     public static final PresetSys PRESET_SYS = new PresetSys();
 
     /**
+     * The table <code>preset_sys.psys_abac_group</code>.
+     */
+    public final PsysAbacGroup PSYS_ABAC_GROUP = PsysAbacGroup.PSYS_ABAC_GROUP;
+
+    /**
      * 属性访问控制_资源表
      */
     public final PsysAbacResource PSYS_ABAC_RESOURCE = PsysAbacResource.PSYS_ABAC_RESOURCE;
@@ -48,14 +54,14 @@ public class PresetSys extends SchemaImpl {
     public final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * 受保护的表
-     */
-    public final PsysAbacTable PSYS_ABAC_TABLE = PsysAbacTable.PSYS_ABAC_TABLE;
-
-    /**
      * 动态访问控制_授权表
      */
     public final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
+
+    /**
+     * 用户表
+     */
+    public final PsysHrUser PSYS_HR_USER = PsysHrUser.PSYS_HR_USER;
 
     /**
      * No further instances allowed
@@ -75,11 +81,12 @@ public class PresetSys extends SchemaImpl {
     @NonNull
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            PsysAbacGroup.PSYS_ABAC_GROUP,
             PsysAbacResource.PSYS_ABAC_RESOURCE,
             PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION,
             PsysAbacSubject.PSYS_ABAC_SUBJECT,
-            PsysAbacTable.PSYS_ABAC_TABLE,
-            PsysDacAuthorization.PSYS_DAC_AUTHORIZATION
+            PsysDacAuthorization.PSYS_DAC_AUTHORIZATION,
+            PsysHrUser.PSYS_HR_USER
         );
     }
 }

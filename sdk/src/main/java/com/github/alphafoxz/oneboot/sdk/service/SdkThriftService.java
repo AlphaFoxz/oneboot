@@ -6,7 +6,7 @@ import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.config.SdkThriftServerConfig;
+import com.github.alphafoxz.oneboot.sdk.configuration.SdkThriftServerConfiguration;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.enums.SdkFileTypeEnum;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkThriftIface;
@@ -28,7 +28,7 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     @Override
     public SdkLongResponseDto getServerPort() {
         SdkLongResponseDto result = new SdkLongResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        result.setData(SdkThriftServerConfig.serverPort);
+        result.setData(SdkThriftServerConfiguration.serverPort);
         return result;
     }
 

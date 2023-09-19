@@ -11,17 +11,18 @@ import jakarta.validation.constraints.NotNull;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record4;
-import org.jooq.Row4;
+import org.jooq.Record6;
+import org.jooq.Row6;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
  * 属性访问控制_资源表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResourceRecord> implements Record4<Long, Long, String, String> {
+public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResourceRecord> implements Record6<Long, Long, String, String, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -99,6 +100,41 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
         return (String) get(3);
     }
 
+    /**
+     * Setter for <code>preset_sys.psys_abac_resource.protection_id</code>.
+     * 资源保护列表id
+     */
+    public PsysAbacResourceRecord setProtectionId(@NonNull Long value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_abac_resource.protection_id</code>.
+     * 资源保护列表id
+     */
+    @NotNull
+    @NonNull
+    public Long getProtectionId() {
+        return (Long) get(4);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_abac_resource.business_id</code>. 业务id
+     */
+    public PsysAbacResourceRecord setBusinessId(@Nullable Long value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_abac_resource.business_id</code>. 业务id
+     */
+    @Nullable
+    public Long getBusinessId() {
+        return (Long) get(5);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -110,19 +146,19 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Record6 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row4<Long, Long, String, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row6<Long, Long, String, String, Long, Long> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row4<Long, Long, String, String> valuesRow() {
-        return (Row4) super.valuesRow();
+    public Row6<Long, Long, String, String, Long, Long> valuesRow() {
+        return (Row6) super.valuesRow();
     }
 
     @Override
@@ -151,6 +187,18 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
 
     @Override
     @NonNull
+    public Field<Long> field5() {
+        return PsysAbacResource.PSYS_ABAC_RESOURCE.PROTECTION_ID;
+    }
+
+    @Override
+    @NonNull
+    public Field<Long> field6() {
+        return PsysAbacResource.PSYS_ABAC_RESOURCE.BUSINESS_ID;
+    }
+
+    @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
@@ -175,6 +223,18 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
 
     @Override
     @NonNull
+    public Long component5() {
+        return getProtectionId();
+    }
+
+    @Override
+    @Nullable
+    public Long component6() {
+        return getBusinessId();
+    }
+
+    @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
@@ -195,6 +255,18 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     @NonNull
     public String value4() {
         return getActionTypeSet();
+    }
+
+    @Override
+    @NonNull
+    public Long value5() {
+        return getProtectionId();
+    }
+
+    @Override
+    @Nullable
+    public Long value6() {
+        return getBusinessId();
     }
 
     @Override
@@ -227,11 +299,27 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
 
     @Override
     @NonNull
-    public PsysAbacResourceRecord values(@NonNull Long value1, @NonNull Long value2, @NonNull String value3, @NonNull String value4) {
+    public PsysAbacResourceRecord value5(@NonNull Long value) {
+        setProtectionId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAbacResourceRecord value6(@Nullable Long value) {
+        setBusinessId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAbacResourceRecord values(@NonNull Long value1, @NonNull Long value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @Nullable Long value6) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
+        value5(value5);
+        value6(value6);
         return this;
     }
 
@@ -249,13 +337,15 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     /**
      * Create a detached, initialised PsysAbacResourceRecord
      */
-    public PsysAbacResourceRecord(@NonNull Long id, @NonNull Long ownerSubjectId, @NonNull String resourceAttrSet, @NonNull String actionTypeSet) {
+    public PsysAbacResourceRecord(@NonNull Long id, @NonNull Long ownerSubjectId, @NonNull String resourceAttrSet, @NonNull String actionTypeSet, @NonNull Long protectionId, @Nullable Long businessId) {
         super(PsysAbacResource.PSYS_ABAC_RESOURCE);
 
         setId(id);
         setOwnerSubjectId(ownerSubjectId);
         setResourceAttrSet(resourceAttrSet);
         setActionTypeSet(actionTypeSet);
+        setProtectionId(protectionId);
+        setBusinessId(businessId);
         resetChangedOnNotNull();
     }
 
@@ -270,6 +360,8 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
             setOwnerSubjectId(value.ownerSubjectId());
             setResourceAttrSet(value.resourceAttrSet());
             setActionTypeSet(value.actionTypeSet());
+            setProtectionId(value.protectionId());
+            setBusinessId(value.businessId());
             resetChangedOnNotNull();
         }
     }

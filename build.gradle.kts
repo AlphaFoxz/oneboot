@@ -62,10 +62,9 @@ subprojects {
 
         implementation("org.springframework.boot:spring-boot-starter-jooq")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
-        runtimeOnly("com.h2database:h2")
 
         compileOnly("org.jooq:jooq-codegen")
-        compileOnly("org.postgresql:postgresql")
+        implementation("org.postgresql:postgresql")
     }
 }
 
@@ -77,6 +76,8 @@ project(":common") {
         enabled = true
     }
     dependencies {
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+        implementation("org.springframework.boot:spring-boot-starter-data-redis")
     }
 }
 
@@ -91,8 +92,9 @@ project(":preset_sys") {
     dependencies {
         implementation(project(":common"))
 
+        implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":common"))
+        jooqGenerator(project(":sdk"))
     }
 }
 
@@ -100,23 +102,33 @@ project(":app") {
     tasks.bootJar {
         enabled = true
     }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        onlyIf {
+            //在执行build任务时跳过test
+            !gradle.taskGraph.hasTask(":build")
+        }
+    }
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
         implementation(project(":preset_sys"))
-        implementation("org.springframework.boot:spring-boot-starter-security")
 
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":common"))
+        jooqGenerator(project(":sdk"))
     }
 }
 
 project(":sdk") {
     tasks.bootJar {
-        enabled = false
-    }
-    tasks.jar {
         enabled = true
+    }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        onlyIf {
+            //在执行build任务时跳过test
+            !gradle.taskGraph.hasTask(":build")
+        }
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
@@ -125,7 +137,7 @@ project(":sdk") {
         implementation(project(":preset_sys"))
 
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":common"))
+        jooqGenerator(project(":sdk"))
     }
 }
 dependencies {

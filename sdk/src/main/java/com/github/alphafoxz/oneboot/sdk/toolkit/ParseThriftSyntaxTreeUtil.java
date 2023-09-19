@@ -1,5 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.toolkit;
 
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateDto;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.http.HttpStatus;
 
 import java.io.File;
 import java.util.*;
@@ -491,12 +493,18 @@ public final class ParseThriftSyntaxTreeUtil {
                             annoMap.clear();
                             rootBean.addService(serviceBean);
                         }
-                        default -> log.error("未定义的类型{}，请检查Java代码", ruleName, new RuntimeException());
+                        default -> {
+                            String msg = StrUtil.format("未定义的类型{}，请检查Java代码", ruleName);
+                            log.error(msg);
+                            throw new OnebootApiDesignException(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
                     }
                 } else if ("EOI".equals(ruleName)) {
                     return;
                 } else {
-                    log.error("解析{}时发现未定义的inner类型，请检查Java代码", ruleName, new RuntimeException());
+                    String msg = StrUtil.format("解析{}时发现未定义的inner类型，请检查Java代码", ruleName);
+                    log.error(msg);
+                    throw new OnebootApiDesignException(msg, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         }

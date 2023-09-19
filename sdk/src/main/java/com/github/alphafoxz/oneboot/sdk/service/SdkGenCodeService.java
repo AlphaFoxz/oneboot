@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.config.CommonConfig;
-import com.github.alphafoxz.oneboot.common.ifaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
+import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
@@ -38,7 +38,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     @Resource
     private SdkThriftService sdkThriftService;
     @Resource
-    private CommonConfig commonConfig;
+    private CommonConfiguration commonConfiguration;
 
     @Override
     public SdkMapResponseDto previewGenerateTsApi(SdkThriftTemplateRequestDto templateDto, String genDir) throws TException {
@@ -488,7 +488,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private String getRestGeneratePath(ParseThriftSyntaxTreeUtil.ThriftRootIface thriftRoot, String fileName) {
         String namespace = thriftRoot.getRootBean().getJavaNameSpace();
         String moduleName = null;
-        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfiguration.getBasePackage(), OnebootModuleConfig.class)) {
             Object bean = SpringUtil.getBean(aClass);
             if (bean instanceof OnebootModuleConfig config && namespace.startsWith(config.getPackage() + ".")) {
                 moduleName = config.getModuleName();
@@ -527,7 +527,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             StringJoiner outPath = new StringJoiner(File.separator);
             outPath.add(rootPath);
 
-            for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+            for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfiguration.getBasePackage(), OnebootModuleConfig.class)) {
                 Object bean = SpringUtil.getBean(aClass);
                 if (bean instanceof OnebootModuleConfig config && namespace.startsWith(config.getPackage() + ".")) {
                     outPath.add(config.getModuleName()).add("src").add("main").add("java");

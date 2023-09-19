@@ -7,6 +7,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 import java.io.Serializable;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -17,7 +18,9 @@ public record PsysAbacResourcePo(
     @NonNull Long id,
     @NonNull Long ownerSubjectId,
     @NonNull String resourceAttrSet,
-    @NonNull String actionTypeSet
+    @NonNull String actionTypeSet,
+    @NonNull Long protectionId,
+    @Nullable Long businessId
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +59,18 @@ public record PsysAbacResourcePo(
         }
         else if (!this.actionTypeSet.equals(other.actionTypeSet))
             return false;
+        if (this.protectionId == null) {
+            if (other.protectionId != null)
+                return false;
+        }
+        else if (!this.protectionId.equals(other.protectionId))
+            return false;
+        if (this.businessId == null) {
+            if (other.businessId != null)
+                return false;
+        }
+        else if (!this.businessId.equals(other.businessId))
+            return false;
         return true;
     }
 
@@ -67,6 +82,8 @@ public record PsysAbacResourcePo(
         result = prime * result + ((this.ownerSubjectId == null) ? 0 : this.ownerSubjectId.hashCode());
         result = prime * result + ((this.resourceAttrSet == null) ? 0 : this.resourceAttrSet.hashCode());
         result = prime * result + ((this.actionTypeSet == null) ? 0 : this.actionTypeSet.hashCode());
+        result = prime * result + ((this.protectionId == null) ? 0 : this.protectionId.hashCode());
+        result = prime * result + ((this.businessId == null) ? 0 : this.businessId.hashCode());
         return result;
     }
 
@@ -78,6 +95,8 @@ public record PsysAbacResourcePo(
         sb.append(", ").append(ownerSubjectId);
         sb.append(", ").append(resourceAttrSet);
         sb.append(", ").append(actionTypeSet);
+        sb.append(", ").append(protectionId);
+        sb.append(", ").append(businessId);
 
         sb.append(")");
         return sb.toString();

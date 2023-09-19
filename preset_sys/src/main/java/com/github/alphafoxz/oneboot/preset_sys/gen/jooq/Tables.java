@@ -4,11 +4,12 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacTable;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
 
 
 /**
@@ -16,6 +17,11 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorizat
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>preset_sys.psys_abac_group</code>.
+     */
+    public static final PsysAbacGroup PSYS_ABAC_GROUP = PsysAbacGroup.PSYS_ABAC_GROUP;
 
     /**
      * 属性访问控制_资源表
@@ -33,12 +39,12 @@ public class Tables {
     public static final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * 受保护的表
-     */
-    public static final PsysAbacTable PSYS_ABAC_TABLE = PsysAbacTable.PSYS_ABAC_TABLE;
-
-    /**
      * 动态访问控制_授权表
      */
     public static final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
+
+    /**
+     * 用户表
+     */
+    public static final PsysHrUser PSYS_HR_USER = PsysHrUser.PSYS_HR_USER;
 }

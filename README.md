@@ -61,6 +61,8 @@
 ### 组件整合
 
 - [X]  SpringSecurity - 安全模块
+  - [ ]  基于jwt认证的前后端交互
+  - [ ]  oauth2-server实现
 - [X]  SpringDoc - API文档
 - [X]  Thrift - Rpc服务
 - [X]  jOOQ - 持久层框架
@@ -78,6 +80,7 @@
   - [X]  支持get、post、put、patch、delete请求
   - [ ]  支持Page分页封装
 - [X]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
+- [ ]  SomeBusinessController.http接口测试文件
 - [ ]  MapStruct实体转换
 
 ### 其他特色功能
@@ -86,6 +89,7 @@
 - [X]  接口一览
 - [X]  独立的SDK客户端（Windows、Linux、Android）
 - [X]  全平台统一枚举标准
+- [ ]  权限模块脏数据自检
 - [ ]  名词定义管理？连接到知识库？
 - [ ]  管理员用户命令行终端
 - [ ]  创建/恢复快照功能（备忘录模式）

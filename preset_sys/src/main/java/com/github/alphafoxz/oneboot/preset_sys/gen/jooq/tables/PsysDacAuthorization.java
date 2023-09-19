@@ -8,6 +8,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysDacAuthorizationRecord;
 
+import java.time.OffsetDateTime;
 import java.util.function.Function;
 
 import org.jooq.Field;
@@ -71,10 +72,10 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
     public final TableField<PsysDacAuthorizationRecord, String> SUBJECT_ATTR_SET = createField(DSL.name("subject_attr_set"), SQLDataType.VARCHAR.nullable(false), this, "授权主体属性集合");
 
     /**
-     * The column <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
-     * 授权过期时间（毫秒）
+     * The column <code>preset_sys.psys_dac_authorization.timeout_until</code>.
+     * 授权过期时间
      */
-    public final TableField<PsysDacAuthorizationRecord, Long> TIMEOUT_MS = createField(DSL.name("timeout_ms"), SQLDataType.BIGINT, this, "授权过期时间（毫秒）");
+    public final TableField<PsysDacAuthorizationRecord, OffsetDateTime> TIMEOUT_UNTIL = createField(DSL.name("timeout_until"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "授权过期时间");
 
     /**
      * The column <code>preset_sys.psys_dac_authorization.resource_id</code>.
@@ -194,14 +195,14 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
 
     @Override
     @NonNull
-    public Row7<Long, String, String, Long, Long, Long, Long> fieldsRow() {
+    public Row7<Long, String, String, OffsetDateTime, Long, Long, Long> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super OffsetDateTime, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -209,7 +210,7 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super OffsetDateTime, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

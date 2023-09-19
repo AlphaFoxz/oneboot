@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.ifaces.OnebootModuleConfig;
-import com.github.alphafoxz.oneboot.common.config.CommonConfig;
+import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
+import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
@@ -31,7 +31,7 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     @Resource
     private Snowflake snowflake;
     @Resource
-    private CommonConfig commonConfig;
+    private CommonConfiguration commonConfiguration;
     @Resource
     private SdkThriftService sdkThriftService;
 
@@ -42,7 +42,7 @@ public class SdkInfoService implements SdkInfoIface.Iface {
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
         //生成目录： /.sdk/thrift/data 和 /.sdk/thrift/restful
-        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfiguration.getBasePackage(), OnebootModuleConfig.class)) {
             try {
                 Object bean = SpringUtil.getBean(aClass);
                 if (bean instanceof OnebootModuleConfig config) {
@@ -76,7 +76,7 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     public SdkListResponseDto checkRestApiImplements() throws TException {
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
-        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfiguration.getBasePackage(), OnebootModuleConfig.class)) {
             Object bean = SpringUtil.getBean(aClass);
             if (bean instanceof OnebootModuleConfig config) {
                 for (Class<?> apiClass : ClassUtil.scanPackage(config.getPackage() + ".gen.restful.apis")) {
@@ -104,7 +104,7 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     public SdkListResponseDto checkRpcImplements() throws TException {
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
-        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfig.getBasePackage(), OnebootModuleConfig.class)) {
+        for (Class<?> aClass : ClassUtil.scanPackageBySuper(commonConfiguration.getBasePackage(), OnebootModuleConfig.class)) {
             Object bean = SpringUtil.getBean(aClass);
             if (bean instanceof OnebootModuleConfig config) {
                 for (Class<?> ifaceClass : ClassUtil.scanPackage(config.getPackage() + ".gen.thrift.ifaces")) {
@@ -142,7 +142,7 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     @Override
     public SdkStringResponseDto getJavaNamespace() throws TException {
         SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        result.setData(commonConfig.getBasePackage());
+        result.setData(commonConfiguration.getBasePackage());
         return result;
     }
 

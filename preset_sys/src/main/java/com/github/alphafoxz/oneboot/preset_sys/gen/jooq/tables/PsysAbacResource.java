@@ -8,15 +8,17 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceRecord;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function4;
+import org.jooq.Function6;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row4;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -75,6 +77,17 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      */
     public final TableField<PsysAbacResourceRecord, String> ACTION_TYPE_SET = createField(DSL.name("action_type_set"), SQLDataType.VARCHAR.nullable(false), this, "操作类型集合");
 
+    /**
+     * The column <code>preset_sys.psys_abac_resource.protection_id</code>.
+     * 资源保护列表id
+     */
+    public final TableField<PsysAbacResourceRecord, Long> PROTECTION_ID = createField(DSL.name("protection_id"), SQLDataType.BIGINT.nullable(false), this, "资源保护列表id");
+
+    /**
+     * The column <code>preset_sys.psys_abac_resource.business_id</code>. 业务id
+     */
+    public final TableField<PsysAbacResourceRecord, Long> BUSINESS_ID = createField(DSL.name("business_id"), SQLDataType.BIGINT, this, "业务id");
+
     private PsysAbacResource(Name alias, Table<PsysAbacResourceRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -124,6 +137,12 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
 
     @Override
     @NonNull
+    public List<UniqueKey<PsysAbacResourceRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.PSYS_ABAC_RESOURCE_PK2);
+    }
+
+    @Override
+    @NonNull
     public PsysAbacResource as(String alias) {
         return new PsysAbacResource(DSL.name(alias), this);
     }
@@ -168,19 +187,19 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row4<Long, Long, String, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row6<Long, Long, String, String, Long, Long> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function4<? super Long, ? super Long, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function6<? super Long, ? super Long, ? super String, ? super String, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -188,7 +207,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super Long, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super Long, ? super String, ? super String, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

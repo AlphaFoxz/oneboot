@@ -10,6 +10,8 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysDacAuth
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.OffsetDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
@@ -23,7 +25,7 @@ import org.springframework.lang.Nullable;
  * 动态访问控制_授权表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAuthorizationRecord> implements Record7<Long, String, String, Long, Long, Long, Long> {
+public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAuthorizationRecord> implements Record7<Long, String, String, OffsetDateTime, Long, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -86,21 +88,21 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     }
 
     /**
-     * Setter for <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
-     * 授权过期时间（毫秒）
+     * Setter for <code>preset_sys.psys_dac_authorization.timeout_until</code>.
+     * 授权过期时间
      */
-    public PsysDacAuthorizationRecord setTimeoutMs(@Nullable Long value) {
+    public PsysDacAuthorizationRecord setTimeoutUntil(@Nullable OffsetDateTime value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
-     * 授权过期时间（毫秒）
+     * Getter for <code>preset_sys.psys_dac_authorization.timeout_until</code>.
+     * 授权过期时间
      */
     @Nullable
-    public Long getTimeoutMs() {
-        return (Long) get(3);
+    public OffsetDateTime getTimeoutUntil() {
+        return (OffsetDateTime) get(3);
     }
 
     /**
@@ -179,13 +181,13 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @NonNull
-    public Row7<Long, String, String, Long, Long, Long, Long> fieldsRow() {
+    public Row7<Long, String, String, OffsetDateTime, Long, Long, Long> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row7<Long, String, String, Long, Long, Long, Long> valuesRow() {
+    public Row7<Long, String, String, OffsetDateTime, Long, Long, Long> valuesRow() {
         return (Row7) super.valuesRow();
     }
 
@@ -209,8 +211,8 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @NonNull
-    public Field<Long> field4() {
-        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.TIMEOUT_MS;
+    public Field<OffsetDateTime> field4() {
+        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.TIMEOUT_UNTIL;
     }
 
     @Override
@@ -251,8 +253,8 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @Nullable
-    public Long component4() {
-        return getTimeoutMs();
+    public OffsetDateTime component4() {
+        return getTimeoutUntil();
     }
 
     @Override
@@ -293,8 +295,8 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @Nullable
-    public Long value4() {
-        return getTimeoutMs();
+    public OffsetDateTime value4() {
+        return getTimeoutUntil();
     }
 
     @Override
@@ -338,8 +340,8 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @NonNull
-    public PsysDacAuthorizationRecord value4(@Nullable Long value) {
-        setTimeoutMs(value);
+    public PsysDacAuthorizationRecord value4(@Nullable OffsetDateTime value) {
+        setTimeoutUntil(value);
         return this;
     }
 
@@ -366,7 +368,7 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
 
     @Override
     @NonNull
-    public PsysDacAuthorizationRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @Nullable Long value4, @NonNull Long value5, @NonNull Long value6, @Nullable Long value7) {
+    public PsysDacAuthorizationRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @Nullable OffsetDateTime value4, @NonNull Long value5, @NonNull Long value6, @Nullable Long value7) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -391,13 +393,13 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     /**
      * Create a detached, initialised PsysDacAuthorizationRecord
      */
-    public PsysDacAuthorizationRecord(@NonNull Long id, @NonNull String authorizationType, @NonNull String subjectAttrSet, @Nullable Long timeoutMs, @NonNull Long resourceId, @NonNull Long ownerSubjectId, @Nullable Long targetSubjectId) {
+    public PsysDacAuthorizationRecord(@NonNull Long id, @NonNull String authorizationType, @NonNull String subjectAttrSet, @Nullable OffsetDateTime timeoutUntil, @NonNull Long resourceId, @NonNull Long ownerSubjectId, @Nullable Long targetSubjectId) {
         super(PsysDacAuthorization.PSYS_DAC_AUTHORIZATION);
 
         setId(id);
         setAuthorizationType(authorizationType);
         setSubjectAttrSet(subjectAttrSet);
-        setTimeoutMs(timeoutMs);
+        setTimeoutUntil(timeoutUntil);
         setResourceId(resourceId);
         setOwnerSubjectId(ownerSubjectId);
         setTargetSubjectId(targetSubjectId);
@@ -414,7 +416,7 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
             setId(value.id());
             setAuthorizationType(value.authorizationType());
             setSubjectAttrSet(value.subjectAttrSet());
-            setTimeoutMs(value.timeoutMs());
+            setTimeoutUntil(value.timeoutUntil());
             setResourceId(value.resourceId());
             setOwnerSubjectId(value.ownerSubjectId());
             setTargetSubjectId(value.targetSubjectId());

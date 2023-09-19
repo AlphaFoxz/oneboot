@@ -1,0 +1,10 @@
+###
+POST http://127.0.0.1:8080/preset_sys/login/token
+Content-Type: application/json
+
+{
+  "username": "security_admin",
+  "password": ""
+}
+
+###

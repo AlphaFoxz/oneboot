@@ -4,14 +4,18 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacGroupRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceProtectionRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacSubjectRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysDacAuthorizationRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysHrUserRecord;
 
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -30,8 +34,11 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<PsysAbacGroupRecord> PSYS_ABAC_GROUP_PK = Internal.createUniqueKey(PsysAbacGroup.PSYS_ABAC_GROUP, DSL.name("psys_abac_group_pk"), new TableField[] { PsysAbacGroup.PSYS_ABAC_GROUP.ID }, true);
     public static final UniqueKey<PsysAbacResourceRecord> PSYS_ABAC_RESOURCE_PK = Internal.createUniqueKey(PsysAbacResource.PSYS_ABAC_RESOURCE, DSL.name("psys_abac_resource_pk"), new TableField[] { PsysAbacResource.PSYS_ABAC_RESOURCE.ID }, true);
+    public static final UniqueKey<PsysAbacResourceRecord> PSYS_ABAC_RESOURCE_PK2 = Internal.createUniqueKey(PsysAbacResource.PSYS_ABAC_RESOURCE, DSL.name("psys_abac_resource_pk2"), new TableField[] { PsysAbacResource.PSYS_ABAC_RESOURCE.BUSINESS_ID }, true);
     public static final UniqueKey<PsysAbacResourceProtectionRecord> PSYS_ABAC_RESOURCE_PROTECTION_PK = Internal.createUniqueKey(PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION, DSL.name("psys_abac_resource_protection_pk"), new TableField[] { PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION.ID }, true);
     public static final UniqueKey<PsysAbacSubjectRecord> PSYS_ABAC_SUBJECT_PK = Internal.createUniqueKey(PsysAbacSubject.PSYS_ABAC_SUBJECT, DSL.name("psys_abac_subject_pk"), new TableField[] { PsysAbacSubject.PSYS_ABAC_SUBJECT.ID }, true);
     public static final UniqueKey<PsysDacAuthorizationRecord> PSYS_DAC_AUTHORIZATION_PK = Internal.createUniqueKey(PsysDacAuthorization.PSYS_DAC_AUTHORIZATION, DSL.name("psys_dac_authorization_pk"), new TableField[] { PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.ID }, true);
+    public static final UniqueKey<PsysHrUserRecord> PSYS_HR_USER_PK = Internal.createUniqueKey(PsysHrUser.PSYS_HR_USER, DSL.name("psys_hr_user_pk"), new TableField[] { PsysHrUser.PSYS_HR_USER.ID }, true);
 }

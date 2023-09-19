@@ -66,7 +66,7 @@ jooq {
                         isClean = true
                     }
                     strategy.apply {
-                        name = "com.github.alphafoxz.oneboot.common.jooq.codegen.OnebootGeneratorStrategy"
+                        name = "com.github.alphafoxz.oneboot.sdk.pattern.jooq.codegen.OnebootGeneratorStrategy"
                     }
                 }
             }

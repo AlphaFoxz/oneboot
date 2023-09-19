@@ -5,6 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -18,7 +19,7 @@ public record PsysDacAuthorizationPo(
     @NonNull Long id,
     @NonNull String authorizationType,
     @NonNull String subjectAttrSet,
-    @Nullable Long timeoutMs,
+    @Nullable OffsetDateTime timeoutUntil,
     @NonNull Long resourceId,
     @NonNull Long ownerSubjectId,
     @Nullable Long targetSubjectId
@@ -54,11 +55,11 @@ public record PsysDacAuthorizationPo(
         }
         else if (!this.subjectAttrSet.equals(other.subjectAttrSet))
             return false;
-        if (this.timeoutMs == null) {
-            if (other.timeoutMs != null)
+        if (this.timeoutUntil == null) {
+            if (other.timeoutUntil != null)
                 return false;
         }
-        else if (!this.timeoutMs.equals(other.timeoutMs))
+        else if (!this.timeoutUntil.equals(other.timeoutUntil))
             return false;
         if (this.resourceId == null) {
             if (other.resourceId != null)
@@ -88,7 +89,7 @@ public record PsysDacAuthorizationPo(
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.authorizationType == null) ? 0 : this.authorizationType.hashCode());
         result = prime * result + ((this.subjectAttrSet == null) ? 0 : this.subjectAttrSet.hashCode());
-        result = prime * result + ((this.timeoutMs == null) ? 0 : this.timeoutMs.hashCode());
+        result = prime * result + ((this.timeoutUntil == null) ? 0 : this.timeoutUntil.hashCode());
         result = prime * result + ((this.resourceId == null) ? 0 : this.resourceId.hashCode());
         result = prime * result + ((this.ownerSubjectId == null) ? 0 : this.ownerSubjectId.hashCode());
         result = prime * result + ((this.targetSubjectId == null) ? 0 : this.targetSubjectId.hashCode());
@@ -102,7 +103,7 @@ public record PsysDacAuthorizationPo(
         sb.append(id);
         sb.append(", ").append(authorizationType);
         sb.append(", ").append(subjectAttrSet);
-        sb.append(", ").append(timeoutMs);
+        sb.append(", ").append(timeoutUntil);
         sb.append(", ").append(resourceId);
         sb.append(", ").append(ownerSubjectId);
         sb.append(", ").append(targetSubjectId);
