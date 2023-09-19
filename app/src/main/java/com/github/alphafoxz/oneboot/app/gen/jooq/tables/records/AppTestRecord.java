@@ -5,6 +5,7 @@ package com.github.alphafoxz.oneboot.app.gen.jooq.tables.records;
 
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.AppTest;
+import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -653,22 +654,22 @@ public class AppTestRecord extends UpdatableRecordImpl<AppTestRecord> implements
     /**
      * Create a detached, initialised AppTestRecord
      */
-    public AppTestRecord(com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTest value) {
+    public AppTestRecord(AppTestPo value) {
         super(AppTest.APP_TEST);
 
         if (value != null) {
-            setId(value.getId());
-            setTestJson(value.getTestJson());
-            setTestDate(value.getTestDate());
-            setTestTimestamp(value.getTestTimestamp());
-            setTestBool(value.getTestBool());
-            setTestDouble(value.getTestDouble());
-            setTestFloat(value.getTestFloat());
-            setTestTimestamptz(value.getTestTimestamptz());
-            setTestTime(value.getTestTime());
-            setTestTimetz(value.getTestTimetz());
-            setTestDaterange(value.getTestDaterange());
-            setTestVarchar50(value.getTestVarchar50());
+            setId(value.id());
+            setTestJson(value.testJson());
+            setTestDate(value.testDate());
+            setTestTimestamp(value.testTimestamp());
+            setTestBool(value.testBool());
+            setTestDouble(value.testDouble());
+            setTestFloat(value.testFloat());
+            setTestTimestamptz(value.testTimestamptz());
+            setTestTime(value.testTime());
+            setTestTimetz(value.testTimetz());
+            setTestDaterange(value.testDaterange());
+            setTestVarchar50(value.testVarchar50());
             resetChangedOnNotNull();
         }
     }

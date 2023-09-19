@@ -12,12 +12,11 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function5;
-import org.jooq.JSONB;
+import org.jooq.Function7;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row5;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -27,6 +26,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -46,6 +47,7 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * The class holding records for this type
      */
     @Override
+    @NonNull
     public Class<PsysDacAuthorizationRecord> getRecordType() {
         return PsysDacAuthorizationRecord.class;
     }
@@ -58,15 +60,15 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
     /**
      * The column
      * <code>preset_sys.psys_dac_authorization.authorization_type</code>. 授权类型
-     * I主动 P被动
+     * 0主动 1被动
      */
-    public final TableField<PsysDacAuthorizationRecord, String> AUTHORIZATION_TYPE = createField(DSL.name("authorization_type"), SQLDataType.CHAR(1).nullable(false), this, "授权类型 I主动 P被动");
+    public final TableField<PsysDacAuthorizationRecord, String> AUTHORIZATION_TYPE = createField(DSL.name("authorization_type"), SQLDataType.CHAR(1).nullable(false), this, "授权类型 0主动 1被动");
 
     /**
      * The column
      * <code>preset_sys.psys_dac_authorization.subject_attr_set</code>. 授权主体属性集合
      */
-    public final TableField<PsysDacAuthorizationRecord, JSONB> SUBJECT_ATTR_SET = createField(DSL.name("subject_attr_set"), SQLDataType.JSONB.nullable(false).defaultValue(DSL.field(DSL.raw("'[]'::jsonb"), SQLDataType.JSONB)), this, "授权主体属性集合");
+    public final TableField<PsysDacAuthorizationRecord, String> SUBJECT_ATTR_SET = createField(DSL.name("subject_attr_set"), SQLDataType.VARCHAR.nullable(false), this, "授权主体属性集合");
 
     /**
      * The column <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
@@ -75,10 +77,24 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
     public final TableField<PsysDacAuthorizationRecord, Long> TIMEOUT_MS = createField(DSL.name("timeout_ms"), SQLDataType.BIGINT, this, "授权过期时间（毫秒）");
 
     /**
-     * The column
-     * <code>preset_sys.psys_dac_authorization.resource_attr_id</code>. 资源属性id
+     * The column <code>preset_sys.psys_dac_authorization.resource_id</code>.
+     * 资源属性id
      */
-    public final TableField<PsysDacAuthorizationRecord, Long> RESOURCE_ATTR_ID = createField(DSL.name("resource_attr_id"), SQLDataType.BIGINT.nullable(false), this, "资源属性id");
+    public final TableField<PsysDacAuthorizationRecord, Long> RESOURCE_ID = createField(DSL.name("resource_id"), SQLDataType.BIGINT.nullable(false), this, "资源属性id");
+
+    /**
+     * The column
+     * <code>preset_sys.psys_dac_authorization.owner_subject_id</code>.
+     * 资源所有者主体Id
+     */
+    public final TableField<PsysDacAuthorizationRecord, Long> OWNER_SUBJECT_ID = createField(DSL.name("owner_subject_id"), SQLDataType.BIGINT.nullable(false), this, "资源所有者主体Id");
+
+    /**
+     * The column
+     * <code>preset_sys.psys_dac_authorization.target_subject_id</code>.
+     * 授权目标主体Id
+     */
+    public final TableField<PsysDacAuthorizationRecord, Long> TARGET_SUBJECT_ID = createField(DSL.name("target_subject_id"), SQLDataType.BIGINT, this, "授权目标主体Id");
 
     private PsysDacAuthorization(Name alias, Table<PsysDacAuthorizationRecord> aliased) {
         this(alias, aliased, null);
@@ -116,26 +132,31 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
     }
 
     @Override
+    @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
     }
 
     @Override
+    @NonNull
     public UniqueKey<PsysDacAuthorizationRecord> getPrimaryKey() {
         return Keys.PSYS_DAC_AUTHORIZATION_PK;
     }
 
     @Override
+    @NonNull
     public PsysDacAuthorization as(String alias) {
         return new PsysDacAuthorization(DSL.name(alias), this);
     }
 
     @Override
+    @NonNull
     public PsysDacAuthorization as(Name alias) {
         return new PsysDacAuthorization(alias, this);
     }
 
     @Override
+    @NonNull
     public PsysDacAuthorization as(Table<?> alias) {
         return new PsysDacAuthorization(alias.getQualifiedName(), this);
     }
@@ -144,6 +165,7 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysDacAuthorization rename(String name) {
         return new PsysDacAuthorization(DSL.name(name), null);
     }
@@ -152,6 +174,7 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysDacAuthorization rename(Name name) {
         return new PsysDacAuthorization(name, null);
     }
@@ -160,23 +183,25 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysDacAuthorization rename(Table<?> name) {
         return new PsysDacAuthorization(name.getQualifiedName(), null);
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, String, JSONB, Long, Long> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    @NonNull
+    public Row7<Long, String, String, Long, Long, Long, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function5<? super Long, ? super String, ? super JSONB, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -184,7 +209,7 @@ public class PsysDacAuthorization extends TableImpl<PsysDacAuthorizationRecord> 
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super Long, ? super String, ? super JSONB, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

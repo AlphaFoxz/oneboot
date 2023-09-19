@@ -17,11 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public interface CachedCrudService<TABLE extends TableImpl<RECORD>, PO extends Serializable, RECORD extends UpdatableRecordImpl<RECORD>> {
+public interface CachedCrudService<TABLE extends TableImpl<RECORD>, PO extends java.lang.Record, RECORD extends UpdatableRecordImpl<RECORD>> {
     @NonNull
     public TABLE getTable();
 
@@ -88,6 +87,18 @@ public interface CachedCrudService<TABLE extends TableImpl<RECORD>, PO extends S
     public default int insertMany(@NonNull RECORD... records) {
         int[] i = getDslContext().batchInsert(records).execute();
         return ArrayUtil.isEmpty(i) ? 0 : records.length;
+    }
+
+    @Nullable
+    public default PO queryOne(@Nullable Record idRecord) {
+        if (idRecord == null) {
+            return null;
+        }
+        Long id = (Long) idRecord.getValue(0);
+        if (id == null) {
+            return null;
+        }
+        return queryOne(id);
     }
 
     @Nullable

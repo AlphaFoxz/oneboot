@@ -4,9 +4,6 @@
 package com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos;
 
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,169 +19,23 @@ import org.springframework.lang.Nullable;
  * 测试表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class AppTest implements Serializable {
+public record AppTestPo(
+    @NonNull Long id,
+    @Nullable String testJson,
+    @Nullable LocalDate testDate,
+    @Nullable LocalDateTime testTimestamp,
+    @Nullable Boolean testBool,
+    @Nullable Double testDouble,
+    @Nullable Float testFloat,
+    @Nullable OffsetDateTime testTimestamptz,
+    @Nullable LocalTime testTime,
+    @Nullable OffsetTime testTimetz,
+    @Nullable Object testDaterange,
+    @Nullable String testVarchar50
+) implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long id;
-    private final String testJson;
-    private final LocalDate testDate;
-    private final LocalDateTime testTimestamp;
-    private final Boolean testBool;
-    private final Double testDouble;
-    private final Float testFloat;
-    private final OffsetDateTime testTimestamptz;
-    private final LocalTime testTime;
-    private final OffsetTime testTimetz;
-    private final Object testDaterange;
-    private final String testVarchar50;
-
-    public AppTest(AppTest value) {
-        this.id = value.id;
-        this.testJson = value.testJson;
-        this.testDate = value.testDate;
-        this.testTimestamp = value.testTimestamp;
-        this.testBool = value.testBool;
-        this.testDouble = value.testDouble;
-        this.testFloat = value.testFloat;
-        this.testTimestamptz = value.testTimestamptz;
-        this.testTime = value.testTime;
-        this.testTimetz = value.testTimetz;
-        this.testDaterange = value.testDaterange;
-        this.testVarchar50 = value.testVarchar50;
-    }
-
-    public AppTest(
-        @NonNull Long id,
-        @Nullable String testJson,
-        @Nullable LocalDate testDate,
-        @Nullable LocalDateTime testTimestamp,
-        @Nullable Boolean testBool,
-        @Nullable Double testDouble,
-        @Nullable Float testFloat,
-        @Nullable OffsetDateTime testTimestamptz,
-        @Nullable LocalTime testTime,
-        @Nullable OffsetTime testTimetz,
-        @Nullable Object testDaterange,
-        @Nullable String testVarchar50
-    ) {
-        this.id = id;
-        this.testJson = testJson;
-        this.testDate = testDate;
-        this.testTimestamp = testTimestamp;
-        this.testBool = testBool;
-        this.testDouble = testDouble;
-        this.testFloat = testFloat;
-        this.testTimestamptz = testTimestamptz;
-        this.testTime = testTime;
-        this.testTimetz = testTimetz;
-        this.testDaterange = testDaterange;
-        this.testVarchar50 = testVarchar50;
-    }
-
-    /**
-     * Getter for <code>app.app_test.id</code>. 主键
-     */
-    @NotNull
-    @NonNull
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_json</code>. JSON数据
-     */
-    @Nullable
-    public String getTestJson() {
-        return this.testJson;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_date</code>. 测试日期
-     */
-    @Nullable
-    public LocalDate getTestDate() {
-        return this.testDate;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_timestamp</code>. 测试日期时间戳
-     */
-    @Nullable
-    public LocalDateTime getTestTimestamp() {
-        return this.testTimestamp;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_bool</code>. 测试布尔
-     */
-    @Nullable
-    public Boolean getTestBool() {
-        return this.testBool;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_double</code>. 测试双精度浮点数
-     */
-    @Nullable
-    public Double getTestDouble() {
-        return this.testDouble;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_float</code>. 测试单精度浮点数
-     */
-    @Nullable
-    public Float getTestFloat() {
-        return this.testFloat;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_timestamptz</code>. 测试日期时间戳时区
-     */
-    @Nullable
-    public OffsetDateTime getTestTimestamptz() {
-        return this.testTimestamptz;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_time</code>. 测试时间
-     */
-    @Nullable
-    public LocalTime getTestTime() {
-        return this.testTime;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_timetz</code>. 测试时间时区
-     */
-    @Nullable
-    public OffsetTime getTestTimetz() {
-        return this.testTimetz;
-    }
-
-    /**
-     * @deprecated Unknown data type. If this is a qualified, user-defined type,
-     * it may have been excluded from code generation. If this is a built-in
-     * type, you can define an explicit {@link org.jooq.Binding} to specify how
-     * this type should be handled. Deprecation can be turned off using
-     * {@literal <deprecationOnUnknownTypes/>} in your code generator
-     * configuration.
-     */
-    @Deprecated
-    @Nullable
-    public Object getTestDaterange() {
-        return this.testDaterange;
-    }
-
-    /**
-     * Getter for <code>app.app_test.test_varchar50</code>. 测试zi
-     */
-    @Size(max = 50)
-    @Nullable
-    public String getTestVarchar50() {
-        return this.testVarchar50;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -194,7 +45,7 @@ public class AppTest implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final AppTest other = (AppTest) obj;
+        final AppTestPo other = (AppTestPo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -291,7 +142,7 @@ public class AppTest implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("AppTest (");
+        StringBuilder sb = new StringBuilder("AppTestPo (");
 
         sb.append(id);
         sb.append(", ").append(testJson);

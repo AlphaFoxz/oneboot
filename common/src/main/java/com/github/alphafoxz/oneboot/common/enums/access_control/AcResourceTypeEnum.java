@@ -11,11 +11,11 @@ public enum AcResourceTypeEnum implements AcResourceTypeIface {
     /**
      * 表
      */
-    TABLE("T"),
+    TABLE("0"),
     /**
      * 记录
      */
-    RECORD("R");
+    RECORD("1");
 
     private final String name;
 

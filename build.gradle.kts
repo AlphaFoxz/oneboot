@@ -92,6 +92,7 @@ project(":preset_sys") {
         implementation(project(":common"))
 
         jooqGenerator("org.postgresql:postgresql")
+        jooqGenerator(project(":common"))
     }
 }
 
@@ -106,6 +107,7 @@ project(":app") {
         implementation("org.springframework.boot:spring-boot-starter-security")
 
         jooqGenerator("org.postgresql:postgresql")
+        jooqGenerator(project(":common"))
     }
 }
 
@@ -123,6 +125,7 @@ project(":sdk") {
         implementation(project(":preset_sys"))
 
         jooqGenerator("org.postgresql:postgresql")
+        jooqGenerator(project(":common"))
     }
 }
 dependencies {

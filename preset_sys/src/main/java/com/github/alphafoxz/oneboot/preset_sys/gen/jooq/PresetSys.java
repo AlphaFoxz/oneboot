@@ -7,7 +7,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAcTable;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacTable;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
 
 import java.util.Arrays;
@@ -16,6 +16,7 @@ import java.util.List;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
@@ -49,7 +50,7 @@ public class PresetSys extends SchemaImpl {
     /**
      * 受保护的表
      */
-    public final PsysAcTable PSYS_AC_TABLE = PsysAcTable.PSYS_AC_TABLE;
+    public final PsysAbacTable PSYS_ABAC_TABLE = PsysAbacTable.PSYS_ABAC_TABLE;
 
     /**
      * 动态访问控制_授权表
@@ -65,17 +66,19 @@ public class PresetSys extends SchemaImpl {
 
 
     @Override
+    @NonNull
     public Catalog getCatalog() {
         return DefaultCatalog.DEFAULT_CATALOG;
     }
 
     @Override
+    @NonNull
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             PsysAbacResource.PSYS_ABAC_RESOURCE,
             PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION,
             PsysAbacSubject.PSYS_ABAC_SUBJECT,
-            PsysAcTable.PSYS_AC_TABLE,
+            PsysAbacTable.PSYS_ABAC_TABLE,
             PsysDacAuthorization.PSYS_DAC_AUTHORIZATION
         );
     }

@@ -5,27 +5,30 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubjectPo;
+
+import jakarta.validation.constraints.NotNull;
 
 import org.jooq.Field;
-import org.jooq.JSONB;
 import org.jooq.Record1;
 import org.jooq.Record2;
 import org.jooq.Row2;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
  * 属性访问控制_主体属性表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRecord> implements Record2<Long, JSONB> {
+public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRecord> implements Record2<Long, String> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>preset_sys.psys_abac_subject.id</code>. 主键
      */
-    public PsysAbacSubjectRecord setId(Long value) {
+    public PsysAbacSubjectRecord setId(@NonNull Long value) {
         set(0, value);
         return this;
     }
@@ -33,6 +36,8 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     /**
      * Getter for <code>preset_sys.psys_abac_subject.id</code>. 主键
      */
+    @NotNull
+    @NonNull
     public Long getId() {
         return (Long) get(0);
     }
@@ -40,7 +45,7 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     /**
      * Setter for <code>preset_sys.psys_abac_subject.attr_set</code>. 主体属性集合
      */
-    public PsysAbacSubjectRecord setAttrSet(JSONB value) {
+    public PsysAbacSubjectRecord setAttrSet(@NonNull String value) {
         set(1, value);
         return this;
     }
@@ -48,8 +53,10 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     /**
      * Getter for <code>preset_sys.psys_abac_subject.attr_set</code>. 主体属性集合
      */
-    public JSONB getAttrSet() {
-        return (JSONB) get(1);
+    @NotNull
+    @NonNull
+    public String getAttrSet() {
+        return (String) get(1);
     }
 
     // -------------------------------------------------------------------------
@@ -57,6 +64,7 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Record1<Long> key() {
         return (Record1) super.key();
     }
@@ -66,59 +74,70 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<Long, JSONB> fieldsRow() {
+    @NonNull
+    public Row2<Long, String> fieldsRow() {
         return (Row2) super.fieldsRow();
     }
 
     @Override
-    public Row2<Long, JSONB> valuesRow() {
+    @NonNull
+    public Row2<Long, String> valuesRow() {
         return (Row2) super.valuesRow();
     }
 
     @Override
+    @NonNull
     public Field<Long> field1() {
         return PsysAbacSubject.PSYS_ABAC_SUBJECT.ID;
     }
 
     @Override
-    public Field<JSONB> field2() {
+    @NonNull
+    public Field<String> field2() {
         return PsysAbacSubject.PSYS_ABAC_SUBJECT.ATTR_SET;
     }
 
     @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
 
     @Override
-    public JSONB component2() {
+    @NonNull
+    public String component2() {
         return getAttrSet();
     }
 
     @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
 
     @Override
-    public JSONB value2() {
+    @NonNull
+    public String value2() {
         return getAttrSet();
     }
 
     @Override
-    public PsysAbacSubjectRecord value1(Long value) {
+    @NonNull
+    public PsysAbacSubjectRecord value1(@NonNull Long value) {
         setId(value);
         return this;
     }
 
     @Override
-    public PsysAbacSubjectRecord value2(JSONB value) {
+    @NonNull
+    public PsysAbacSubjectRecord value2(@NonNull String value) {
         setAttrSet(value);
         return this;
     }
 
     @Override
-    public PsysAbacSubjectRecord values(Long value1, JSONB value2) {
+    @NonNull
+    public PsysAbacSubjectRecord values(@NonNull Long value1, @NonNull String value2) {
         value1(value1);
         value2(value2);
         return this;
@@ -138,7 +157,7 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     /**
      * Create a detached, initialised PsysAbacSubjectRecord
      */
-    public PsysAbacSubjectRecord(Long id, JSONB attrSet) {
+    public PsysAbacSubjectRecord(@NonNull Long id, @NonNull String attrSet) {
         super(PsysAbacSubject.PSYS_ABAC_SUBJECT);
 
         setId(id);
@@ -149,12 +168,12 @@ public class PsysAbacSubjectRecord extends UpdatableRecordImpl<PsysAbacSubjectRe
     /**
      * Create a detached, initialised PsysAbacSubjectRecord
      */
-    public PsysAbacSubjectRecord(com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubject value) {
+    public PsysAbacSubjectRecord(PsysAbacSubjectPo value) {
         super(PsysAbacSubject.PSYS_ABAC_SUBJECT);
 
         if (value != null) {
-            setId(value.getId());
-            setAttrSet(value.getAttrSet());
+            setId(value.id());
+            setAttrSet(value.attrSet());
             resetChangedOnNotNull();
         }
     }

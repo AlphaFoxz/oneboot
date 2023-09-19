@@ -10,6 +10,7 @@ import java.util.List;
 import org.jooq.Constants;
 import org.jooq.Schema;
 import org.jooq.impl.CatalogImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
@@ -38,6 +39,7 @@ public class DefaultCatalog extends CatalogImpl {
     }
 
     @Override
+    @NonNull
     public final List<Schema> getSchemas() {
         return Arrays.asList(
             PresetSys.PRESET_SYS

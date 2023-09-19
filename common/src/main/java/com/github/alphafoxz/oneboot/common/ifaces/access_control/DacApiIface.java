@@ -8,5 +8,5 @@ import java.util.Set;
  * 动态访问控制API
  */
 public interface DacApiIface {
-    public <T extends AbacAttrIface> Pair<Long, Set<T>> getSubjectIdAndAttrs(Long subjectId, Long resourceId, AcActionTypeIface actionType);
+    public Pair<Long, Set<AbacAttrIface>> getSubjectIdAndAttrs(Long subjectId, Long resourceId, AcActionTypeIface actionType);
 }

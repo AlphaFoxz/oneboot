@@ -1,17 +1,17 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.access_control;
 
 import cn.hutool.json.JSONArray;
-import com.github.alphafoxz.oneboot.common.annos.access_control.AcSubjectId;
+import com.github.alphafoxz.oneboot.common.annos.access_control.AbacSubjectId;
 import com.github.alphafoxz.oneboot.common.ifaces.access_control.AbacAttrIface;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.preset_sys.annos.access_control.PsysAcTable;
+import com.github.alphafoxz.oneboot.preset_sys.annos.access_control.PsysAbacTable;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubjectPo;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
-import org.jooq.JSONB;
 import org.jooq.Record;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -25,13 +25,13 @@ import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_
  */
 @Slf4j
 @Service
-public class PsysAcSubjectService {
+public class PsysAbacSubjectService {
     @Resource
     private DSLContext dslContext;
 
     @NonNull
-    @PsysAcTable(PsysAbacSubject.class)
-    public Set<AbacAttrIface> querySubjectAttrsById(@AcSubjectId @NonNull long subjectId) {
+    @PsysAbacTable(PsysAbacSubject.class)
+    public Set<AbacAttrIface> querySubjectAttrsById(@AbacSubjectId @NonNull long subjectId) {
         //XXX 此处应该采用数据缓存
         Record record = dslContext.select(PSYS_ABAC_SUBJECT.fields())
                 .from(PSYS_ABAC_SUBJECT)
@@ -42,9 +42,8 @@ public class PsysAcSubjectService {
             log.error(msg);
             throw new RuntimeException(msg);
         }
-        com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubject psysAbacSubject = record.into(com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubject.class);
-        JSONB attrJsonb = psysAbacSubject.getAttrSet();
-        JSONArray jsonArray = JSONUtil.parseArray(attrJsonb.toString());
+        PsysAbacSubjectPo psysAbacSubject = record.into(PsysAbacSubjectPo.class);
+        JSONArray jsonArray = JSONUtil.parseArray(psysAbacSubject.attrSet());
         Set<AbacAttrIface> attrSet = CollUtil.newHashSet();
         jsonArray.forEach(s -> {
             attrSet.add(AbacAttrIface.of(s.toString()));

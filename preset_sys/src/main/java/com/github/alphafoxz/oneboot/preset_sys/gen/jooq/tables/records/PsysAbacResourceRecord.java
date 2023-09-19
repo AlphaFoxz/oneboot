@@ -5,27 +5,30 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourcePo;
+
+import jakarta.validation.constraints.NotNull;
 
 import org.jooq.Field;
-import org.jooq.JSONB;
 import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
  * 属性访问控制_资源表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResourceRecord> implements Record4<Long, Long, JSONB, JSONB> {
+public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResourceRecord> implements Record4<Long, Long, String, String> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>preset_sys.psys_abac_resource.id</code>. 主键
      */
-    public PsysAbacResourceRecord setId(Long value) {
+    public PsysAbacResourceRecord setId(@NonNull Long value) {
         set(0, value);
         return this;
     }
@@ -33,6 +36,8 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     /**
      * Getter for <code>preset_sys.psys_abac_resource.id</code>. 主键
      */
+    @NotNull
+    @NonNull
     public Long getId() {
         return (Long) get(0);
     }
@@ -41,7 +46,7 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
      * Setter for <code>preset_sys.psys_abac_resource.owner_subject_id</code>.
      * 拥有该资源的主体id
      */
-    public PsysAbacResourceRecord setOwnerSubjectId(Long value) {
+    public PsysAbacResourceRecord setOwnerSubjectId(@NonNull Long value) {
         set(1, value);
         return this;
     }
@@ -50,6 +55,8 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
      * Getter for <code>preset_sys.psys_abac_resource.owner_subject_id</code>.
      * 拥有该资源的主体id
      */
+    @NotNull
+    @NonNull
     public Long getOwnerSubjectId() {
         return (Long) get(1);
     }
@@ -58,7 +65,7 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
      * Setter for <code>preset_sys.psys_abac_resource.resource_attr_set</code>.
      * 资源属性集合
      */
-    public PsysAbacResourceRecord setResourceAttrSet(JSONB value) {
+    public PsysAbacResourceRecord setResourceAttrSet(@NonNull String value) {
         set(2, value);
         return this;
     }
@@ -67,23 +74,29 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
      * Getter for <code>preset_sys.psys_abac_resource.resource_attr_set</code>.
      * 资源属性集合
      */
-    public JSONB getResourceAttrSet() {
-        return (JSONB) get(2);
+    @NotNull
+    @NonNull
+    public String getResourceAttrSet() {
+        return (String) get(2);
     }
 
     /**
-     * Setter for <code>preset_sys.psys_abac_resource.action_type</code>. 操作类型
+     * Setter for <code>preset_sys.psys_abac_resource.action_type_set</code>.
+     * 操作类型集合
      */
-    public PsysAbacResourceRecord setActionType(JSONB value) {
+    public PsysAbacResourceRecord setActionTypeSet(@NonNull String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_abac_resource.action_type</code>. 操作类型
+     * Getter for <code>preset_sys.psys_abac_resource.action_type_set</code>.
+     * 操作类型集合
      */
-    public JSONB getActionType() {
-        return (JSONB) get(3);
+    @NotNull
+    @NonNull
+    public String getActionTypeSet() {
+        return (String) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -91,6 +104,7 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Record1<Long> key() {
         return (Record1) super.key();
     }
@@ -100,101 +114,120 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Long, JSONB, JSONB> fieldsRow() {
+    @NonNull
+    public Row4<Long, Long, String, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 
     @Override
-    public Row4<Long, Long, JSONB, JSONB> valuesRow() {
+    @NonNull
+    public Row4<Long, Long, String, String> valuesRow() {
         return (Row4) super.valuesRow();
     }
 
     @Override
+    @NonNull
     public Field<Long> field1() {
         return PsysAbacResource.PSYS_ABAC_RESOURCE.ID;
     }
 
     @Override
+    @NonNull
     public Field<Long> field2() {
         return PsysAbacResource.PSYS_ABAC_RESOURCE.OWNER_SUBJECT_ID;
     }
 
     @Override
-    public Field<JSONB> field3() {
+    @NonNull
+    public Field<String> field3() {
         return PsysAbacResource.PSYS_ABAC_RESOURCE.RESOURCE_ATTR_SET;
     }
 
     @Override
-    public Field<JSONB> field4() {
-        return PsysAbacResource.PSYS_ABAC_RESOURCE.ACTION_TYPE;
+    @NonNull
+    public Field<String> field4() {
+        return PsysAbacResource.PSYS_ABAC_RESOURCE.ACTION_TYPE_SET;
     }
 
     @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
 
     @Override
+    @NonNull
     public Long component2() {
         return getOwnerSubjectId();
     }
 
     @Override
-    public JSONB component3() {
+    @NonNull
+    public String component3() {
         return getResourceAttrSet();
     }
 
     @Override
-    public JSONB component4() {
-        return getActionType();
+    @NonNull
+    public String component4() {
+        return getActionTypeSet();
     }
 
     @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
 
     @Override
+    @NonNull
     public Long value2() {
         return getOwnerSubjectId();
     }
 
     @Override
-    public JSONB value3() {
+    @NonNull
+    public String value3() {
         return getResourceAttrSet();
     }
 
     @Override
-    public JSONB value4() {
-        return getActionType();
+    @NonNull
+    public String value4() {
+        return getActionTypeSet();
     }
 
     @Override
-    public PsysAbacResourceRecord value1(Long value) {
+    @NonNull
+    public PsysAbacResourceRecord value1(@NonNull Long value) {
         setId(value);
         return this;
     }
 
     @Override
-    public PsysAbacResourceRecord value2(Long value) {
+    @NonNull
+    public PsysAbacResourceRecord value2(@NonNull Long value) {
         setOwnerSubjectId(value);
         return this;
     }
 
     @Override
-    public PsysAbacResourceRecord value3(JSONB value) {
+    @NonNull
+    public PsysAbacResourceRecord value3(@NonNull String value) {
         setResourceAttrSet(value);
         return this;
     }
 
     @Override
-    public PsysAbacResourceRecord value4(JSONB value) {
-        setActionType(value);
+    @NonNull
+    public PsysAbacResourceRecord value4(@NonNull String value) {
+        setActionTypeSet(value);
         return this;
     }
 
     @Override
-    public PsysAbacResourceRecord values(Long value1, Long value2, JSONB value3, JSONB value4) {
+    @NonNull
+    public PsysAbacResourceRecord values(@NonNull Long value1, @NonNull Long value2, @NonNull String value3, @NonNull String value4) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -216,27 +249,27 @@ public class PsysAbacResourceRecord extends UpdatableRecordImpl<PsysAbacResource
     /**
      * Create a detached, initialised PsysAbacResourceRecord
      */
-    public PsysAbacResourceRecord(Long id, Long ownerSubjectId, JSONB resourceAttrSet, JSONB actionType) {
+    public PsysAbacResourceRecord(@NonNull Long id, @NonNull Long ownerSubjectId, @NonNull String resourceAttrSet, @NonNull String actionTypeSet) {
         super(PsysAbacResource.PSYS_ABAC_RESOURCE);
 
         setId(id);
         setOwnerSubjectId(ownerSubjectId);
         setResourceAttrSet(resourceAttrSet);
-        setActionType(actionType);
+        setActionTypeSet(actionTypeSet);
         resetChangedOnNotNull();
     }
 
     /**
      * Create a detached, initialised PsysAbacResourceRecord
      */
-    public PsysAbacResourceRecord(com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResource value) {
+    public PsysAbacResourceRecord(PsysAbacResourcePo value) {
         super(PsysAbacResource.PSYS_ABAC_RESOURCE);
 
         if (value != null) {
-            setId(value.getId());
-            setOwnerSubjectId(value.getOwnerSubjectId());
-            setResourceAttrSet(value.getResourceAttrSet());
-            setActionType(value.getActionType());
+            setId(value.id());
+            setOwnerSubjectId(value.ownerSubjectId());
+            setResourceAttrSet(value.resourceAttrSet());
+            setActionTypeSet(value.actionTypeSet());
             resetChangedOnNotNull();
         }
     }

@@ -6,70 +6,22 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 import java.io.Serializable;
 
+import org.springframework.lang.NonNull;
+
 
 /**
  * 访问控制_资源保护表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAbacResourceProtection implements Serializable {
+public record PsysAbacResourceProtectionPo(
+    @NonNull Long id,
+    @NonNull String resourceType,
+    @NonNull String tableName,
+    @NonNull String schemaName
+) implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long id;
-    private final String resourceType;
-    private final String tableName;
-    private final String schemaName;
-
-    public PsysAbacResourceProtection(PsysAbacResourceProtection value) {
-        this.id = value.id;
-        this.resourceType = value.resourceType;
-        this.tableName = value.tableName;
-        this.schemaName = value.schemaName;
-    }
-
-    public PsysAbacResourceProtection(
-        Long id,
-        String resourceType,
-        String tableName,
-        String schemaName
-    ) {
-        this.id = id;
-        this.resourceType = resourceType;
-        this.tableName = tableName;
-        this.schemaName = schemaName;
-    }
-
-    /**
-     * Getter for <code>preset_sys.psys_abac_resource_protection.id</code>. 主键
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Getter for
-     * <code>preset_sys.psys_abac_resource_protection.resource_type</code>. 资源类型
-     * T表 R记录
-     */
-    public String getResourceType() {
-        return this.resourceType;
-    }
-
-    /**
-     * Getter for
-     * <code>preset_sys.psys_abac_resource_protection.table_name</code>. 表名
-     */
-    public String getTableName() {
-        return this.tableName;
-    }
-
-    /**
-     * Getter for
-     * <code>preset_sys.psys_abac_resource_protection.schema_name</code>. 结构名
-     */
-    public String getSchemaName() {
-        return this.schemaName;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -79,7 +31,7 @@ public class PsysAbacResourceProtection implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAbacResourceProtection other = (PsysAbacResourceProtection) obj;
+        final PsysAbacResourceProtectionPo other = (PsysAbacResourceProtectionPo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -120,7 +72,7 @@ public class PsysAbacResourceProtection implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAbacResourceProtection (");
+        StringBuilder sb = new StringBuilder("PsysAbacResourceProtectionPo (");
 
         sb.append(id);
         sb.append(", ").append(resourceType);

@@ -6,33 +6,19 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 import java.io.Serializable;
 
+import org.springframework.lang.Nullable;
+
 
 /**
  * 受保护的表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAcTable implements Serializable {
+public record PsysAbacTablePo(
+    @Nullable Long id
+) implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long id;
-
-    public PsysAcTable(PsysAcTable value) {
-        this.id = value.id;
-    }
-
-    public PsysAcTable(
-        Long id
-    ) {
-        this.id = id;
-    }
-
-    /**
-     * Getter for <code>preset_sys.psys_ac_table.id</code>. 主键
-     */
-    public Long getId() {
-        return this.id;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -42,7 +28,7 @@ public class PsysAcTable implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAcTable other = (PsysAcTable) obj;
+        final PsysAbacTablePo other = (PsysAbacTablePo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -62,7 +48,7 @@ public class PsysAcTable implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAcTable (");
+        StringBuilder sb = new StringBuilder("PsysAbacTablePo (");
 
         sb.append(id);
 

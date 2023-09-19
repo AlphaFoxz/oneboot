@@ -4,33 +4,37 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAcTable;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacTable;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacTablePo;
 
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Row1;
 import org.jooq.impl.TableRecordImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
  * 受保护的表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAcTableRecord extends TableRecordImpl<PsysAcTableRecord> implements Record1<Long> {
+public class PsysAbacTableRecord extends TableRecordImpl<PsysAbacTableRecord> implements Record1<Long> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>preset_sys.psys_ac_table.id</code>. 主键
+     * Setter for <code>preset_sys.psys_abac_table.id</code>. 主键
      */
-    public PsysAcTableRecord setId(Long value) {
+    public PsysAbacTableRecord setId(@Nullable Long value) {
         set(0, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_ac_table.id</code>. 主键
+     * Getter for <code>preset_sys.psys_abac_table.id</code>. 主键
      */
+    @Nullable
     public Long getId() {
         return (Long) get(0);
     }
@@ -40,38 +44,45 @@ public class PsysAcTableRecord extends TableRecordImpl<PsysAcTableRecord> implem
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Row1<Long> fieldsRow() {
         return (Row1) super.fieldsRow();
     }
 
     @Override
+    @NonNull
     public Row1<Long> valuesRow() {
         return (Row1) super.valuesRow();
     }
 
     @Override
+    @NonNull
     public Field<Long> field1() {
-        return PsysAcTable.PSYS_AC_TABLE.ID;
+        return PsysAbacTable.PSYS_ABAC_TABLE.ID;
     }
 
     @Override
+    @Nullable
     public Long component1() {
         return getId();
     }
 
     @Override
+    @Nullable
     public Long value1() {
         return getId();
     }
 
     @Override
-    public PsysAcTableRecord value1(Long value) {
+    @NonNull
+    public PsysAbacTableRecord value1(@Nullable Long value) {
         setId(value);
         return this;
     }
 
     @Override
-    public PsysAcTableRecord values(Long value1) {
+    @NonNull
+    public PsysAbacTableRecord values(@Nullable Long value1) {
         value1(value1);
         return this;
     }
@@ -81,30 +92,30 @@ public class PsysAcTableRecord extends TableRecordImpl<PsysAcTableRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached PsysAcTableRecord
+     * Create a detached PsysAbacTableRecord
      */
-    public PsysAcTableRecord() {
-        super(PsysAcTable.PSYS_AC_TABLE);
+    public PsysAbacTableRecord() {
+        super(PsysAbacTable.PSYS_ABAC_TABLE);
     }
 
     /**
-     * Create a detached, initialised PsysAcTableRecord
+     * Create a detached, initialised PsysAbacTableRecord
      */
-    public PsysAcTableRecord(Long id) {
-        super(PsysAcTable.PSYS_AC_TABLE);
+    public PsysAbacTableRecord(@Nullable Long id) {
+        super(PsysAbacTable.PSYS_ABAC_TABLE);
 
         setId(id);
         resetChangedOnNotNull();
     }
 
     /**
-     * Create a detached, initialised PsysAcTableRecord
+     * Create a detached, initialised PsysAbacTableRecord
      */
-    public PsysAcTableRecord(com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAcTable value) {
-        super(PsysAcTable.PSYS_AC_TABLE);
+    public PsysAbacTableRecord(PsysAbacTablePo value) {
+        super(PsysAbacTable.PSYS_ABAC_TABLE);
 
         if (value != null) {
-            setId(value.getId());
+            setId(value.id());
             resetChangedOnNotNull();
         }
     }

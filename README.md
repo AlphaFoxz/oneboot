@@ -75,7 +75,9 @@
 - [X]  typescript前端代码
 - [X]  支持注解的生成
   - [ ]  支持注入HttpServletRequest
-- [ ]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
+  - [X]  支持get、post、put、patch、delete请求
+  - [ ]  支持Page分页封装
+- [X]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
 - [ ]  MapStruct实体转换
 
 ### 其他特色功能
@@ -84,9 +86,9 @@
 - [X]  接口一览
 - [X]  独立的SDK客户端（Windows、Linux、Android）
 - [X]  全平台统一枚举标准
-- [ ]  名词定义机制？
-- [ ]  用户可拓展的命令行终端
-- [ ]  创建/恢复快照功能（备忘录设计模式？）
+- [ ]  名词定义管理？连接到知识库？
+- [ ]  管理员用户命令行终端
+- [ ]  创建/恢复快照功能（备忘录模式）
 - [ ]  SQL分析
 
 ## [Apache2.0 LICESE](./LICENSE)

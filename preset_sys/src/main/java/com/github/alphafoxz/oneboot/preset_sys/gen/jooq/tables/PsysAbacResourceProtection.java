@@ -26,6 +26,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -46,6 +48,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * The class holding records for this type
      */
     @Override
+    @NonNull
     public Class<PsysAbacResourceProtectionRecord> getRecordType() {
         return PsysAbacResourceProtectionRecord.class;
     }
@@ -58,9 +61,9 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
     /**
      * The column
      * <code>preset_sys.psys_abac_resource_protection.resource_type</code>. 资源类型
-     * T表 R记录
+     * 0表 1记录
      */
-    public final TableField<PsysAbacResourceProtectionRecord, String> RESOURCE_TYPE = createField(DSL.name("resource_type"), SQLDataType.CHAR(1), this, "资源类型 T表 R记录");
+    public final TableField<PsysAbacResourceProtectionRecord, String> RESOURCE_TYPE = createField(DSL.name("resource_type"), SQLDataType.CHAR(1).nullable(false), this, "资源类型 0表 1记录");
 
     /**
      * The column
@@ -111,26 +114,31 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
     }
 
     @Override
+    @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
     }
 
     @Override
+    @NonNull
     public UniqueKey<PsysAbacResourceProtectionRecord> getPrimaryKey() {
         return Keys.PSYS_ABAC_RESOURCE_PROTECTION_PK;
     }
 
     @Override
+    @NonNull
     public PsysAbacResourceProtection as(String alias) {
         return new PsysAbacResourceProtection(DSL.name(alias), this);
     }
 
     @Override
+    @NonNull
     public PsysAbacResourceProtection as(Name alias) {
         return new PsysAbacResourceProtection(alias, this);
     }
 
     @Override
+    @NonNull
     public PsysAbacResourceProtection as(Table<?> alias) {
         return new PsysAbacResourceProtection(alias.getQualifiedName(), this);
     }
@@ -139,6 +147,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResourceProtection rename(String name) {
         return new PsysAbacResourceProtection(DSL.name(name), null);
     }
@@ -147,6 +156,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResourceProtection rename(Name name) {
         return new PsysAbacResourceProtection(name, null);
     }
@@ -155,6 +165,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResourceProtection rename(Table<?> name) {
         return new PsysAbacResourceProtection(name.getQualifiedName(), null);
     }
@@ -164,6 +175,7 @@ public class PsysAbacResourceProtection extends TableImpl<PsysAbacResourceProtec
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Row4<Long, String, String, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }

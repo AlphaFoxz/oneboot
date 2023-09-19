@@ -5,7 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAcTableRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacTableRecord;
 
 import java.util.function.Function;
 
@@ -24,109 +24,119 @@ import org.jooq.TableOptions;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
  * 受保护的表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAcTable extends TableImpl<PsysAcTableRecord> {
+public class PsysAbacTable extends TableImpl<PsysAbacTableRecord> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>preset_sys.psys_ac_table</code>
+     * The reference instance of <code>preset_sys.psys_abac_table</code>
      */
-    public static final PsysAcTable PSYS_AC_TABLE = new PsysAcTable();
+    public static final PsysAbacTable PSYS_ABAC_TABLE = new PsysAbacTable();
 
     /**
      * The class holding records for this type
      */
     @Override
-    public Class<PsysAcTableRecord> getRecordType() {
-        return PsysAcTableRecord.class;
+    @NonNull
+    public Class<PsysAbacTableRecord> getRecordType() {
+        return PsysAbacTableRecord.class;
     }
 
     /**
-     * The column <code>preset_sys.psys_ac_table.id</code>. 主键
+     * The column <code>preset_sys.psys_abac_table.id</code>. 主键
      */
-    public final TableField<PsysAcTableRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT, this, "主键");
+    public final TableField<PsysAbacTableRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT, this, "主键");
 
-    private PsysAcTable(Name alias, Table<PsysAcTableRecord> aliased) {
+    private PsysAbacTable(Name alias, Table<PsysAbacTableRecord> aliased) {
         this(alias, aliased, null);
     }
 
-    private PsysAcTable(Name alias, Table<PsysAcTableRecord> aliased, Field<?>[] parameters) {
+    private PsysAbacTable(Name alias, Table<PsysAbacTableRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("受保护的表"), TableOptions.table());
     }
 
     /**
-     * Create an aliased <code>preset_sys.psys_ac_table</code> table reference
+     * Create an aliased <code>preset_sys.psys_abac_table</code> table reference
      */
-    public PsysAcTable(String alias) {
-        this(DSL.name(alias), PSYS_AC_TABLE);
+    public PsysAbacTable(String alias) {
+        this(DSL.name(alias), PSYS_ABAC_TABLE);
     }
 
     /**
-     * Create an aliased <code>preset_sys.psys_ac_table</code> table reference
+     * Create an aliased <code>preset_sys.psys_abac_table</code> table reference
      */
-    public PsysAcTable(Name alias) {
-        this(alias, PSYS_AC_TABLE);
+    public PsysAbacTable(Name alias) {
+        this(alias, PSYS_ABAC_TABLE);
     }
 
     /**
-     * Create a <code>preset_sys.psys_ac_table</code> table reference
+     * Create a <code>preset_sys.psys_abac_table</code> table reference
      */
-    public PsysAcTable() {
-        this(DSL.name("psys_ac_table"), null);
+    public PsysAbacTable() {
+        this(DSL.name("psys_abac_table"), null);
     }
 
-    public <O extends Record> PsysAcTable(Table<O> child, ForeignKey<O, PsysAcTableRecord> key) {
-        super(child, key, PSYS_AC_TABLE);
+    public <O extends Record> PsysAbacTable(Table<O> child, ForeignKey<O, PsysAbacTableRecord> key) {
+        super(child, key, PSYS_ABAC_TABLE);
     }
 
     @Override
+    @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
     }
 
     @Override
-    public PsysAcTable as(String alias) {
-        return new PsysAcTable(DSL.name(alias), this);
+    @NonNull
+    public PsysAbacTable as(String alias) {
+        return new PsysAbacTable(DSL.name(alias), this);
     }
 
     @Override
-    public PsysAcTable as(Name alias) {
-        return new PsysAcTable(alias, this);
+    @NonNull
+    public PsysAbacTable as(Name alias) {
+        return new PsysAbacTable(alias, this);
     }
 
     @Override
-    public PsysAcTable as(Table<?> alias) {
-        return new PsysAcTable(alias.getQualifiedName(), this);
-    }
-
-    /**
-     * Rename this table
-     */
-    @Override
-    public PsysAcTable rename(String name) {
-        return new PsysAcTable(DSL.name(name), null);
+    @NonNull
+    public PsysAbacTable as(Table<?> alias) {
+        return new PsysAbacTable(alias.getQualifiedName(), this);
     }
 
     /**
      * Rename this table
      */
     @Override
-    public PsysAcTable rename(Name name) {
-        return new PsysAcTable(name, null);
+    @NonNull
+    public PsysAbacTable rename(String name) {
+        return new PsysAbacTable(DSL.name(name), null);
     }
 
     /**
      * Rename this table
      */
     @Override
-    public PsysAcTable rename(Table<?> name) {
-        return new PsysAcTable(name.getQualifiedName(), null);
+    @NonNull
+    public PsysAbacTable rename(Name name) {
+        return new PsysAbacTable(name, null);
+    }
+
+    /**
+     * Rename this table
+     */
+    @Override
+    @NonNull
+    public PsysAbacTable rename(Table<?> name) {
+        return new PsysAbacTable(name.getQualifiedName(), null);
     }
 
     // -------------------------------------------------------------------------
@@ -134,6 +144,7 @@ public class PsysAcTable extends TableImpl<PsysAcTableRecord> {
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Row1<Long> fieldsRow() {
         return (Row1) super.fieldsRow();
     }

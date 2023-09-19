@@ -7,7 +7,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAcTable;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacTable;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
 
 
@@ -35,7 +35,7 @@ public class Tables {
     /**
      * 受保护的表
      */
-    public static final PsysAcTable PSYS_AC_TABLE = PsysAcTable.PSYS_AC_TABLE;
+    public static final PsysAbacTable PSYS_ABAC_TABLE = PsysAbacTable.PSYS_ABAC_TABLE;
 
     /**
      * 动态访问控制_授权表

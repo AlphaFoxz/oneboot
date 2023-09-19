@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.app.controller;
 
-import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTest;
+import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
 import com.github.alphafoxz.oneboot.app.service.AppTestService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
@@ -42,8 +42,8 @@ public class AppTestController {
     }
 
     @GetMapping("/cache/query/{id}")
-    public ResponseEntity<AppTest> query(@PathVariable Long id) {
-        AppTest appTest = appTestService.queryOne(id);
+    public ResponseEntity<AppTestPo> query(@PathVariable Long id) {
+        AppTestPo appTest = appTestService.queryOne(id);
         if (appTest == null) {
             return ResponseEntity.noContent().build();
         }
@@ -51,14 +51,14 @@ public class AppTestController {
     }
 
     @GetMapping("/cache/queryPage")
-    public ResponseEntity<Page<AppTest>> queryPage() {
-        Page<AppTest> appTests = appTestService.queryPage(1, 10, DSL.trueCondition());
+    public ResponseEntity<Page<AppTestPo>> queryPage() {
+        Page<AppTestPo> appTests = appTestService.queryPage(1, 10, DSL.trueCondition());
         return ResponseEntity.ok(appTests);
     }
 
     @GetMapping("/cache/queryList")
-    public ResponseEntity<List<AppTest>> queryList() {
-        List<AppTest> appTest = appTestService.queryList(10, DSL.trueCondition());
+    public ResponseEntity<List<AppTestPo>> queryList() {
+        List<AppTestPo> appTest = appTestService.queryList(10, DSL.trueCondition());
         return ResponseEntity.ok(appTest);
     }
 

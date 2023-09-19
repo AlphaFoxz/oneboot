@@ -13,7 +13,6 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
-import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -27,6 +26,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -46,6 +47,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * The class holding records for this type
      */
     @Override
+    @NonNull
     public Class<PsysAbacResourceRecord> getRecordType() {
         return PsysAbacResourceRecord.class;
     }
@@ -59,18 +61,19 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * The column <code>preset_sys.psys_abac_resource.owner_subject_id</code>.
      * 拥有该资源的主体id
      */
-    public final TableField<PsysAbacResourceRecord, Long> OWNER_SUBJECT_ID = createField(DSL.name("owner_subject_id"), SQLDataType.BIGINT, this, "拥有该资源的主体id");
+    public final TableField<PsysAbacResourceRecord, Long> OWNER_SUBJECT_ID = createField(DSL.name("owner_subject_id"), SQLDataType.BIGINT.nullable(false), this, "拥有该资源的主体id");
 
     /**
      * The column <code>preset_sys.psys_abac_resource.resource_attr_set</code>.
      * 资源属性集合
      */
-    public final TableField<PsysAbacResourceRecord, JSONB> RESOURCE_ATTR_SET = createField(DSL.name("resource_attr_set"), SQLDataType.JSONB.nullable(false).defaultValue(DSL.field(DSL.raw("'[]'::jsonb"), SQLDataType.JSONB)), this, "资源属性集合");
+    public final TableField<PsysAbacResourceRecord, String> RESOURCE_ATTR_SET = createField(DSL.name("resource_attr_set"), SQLDataType.VARCHAR.nullable(false), this, "资源属性集合");
 
     /**
-     * The column <code>preset_sys.psys_abac_resource.action_type</code>. 操作类型
+     * The column <code>preset_sys.psys_abac_resource.action_type_set</code>.
+     * 操作类型集合
      */
-    public final TableField<PsysAbacResourceRecord, JSONB> ACTION_TYPE = createField(DSL.name("action_type"), SQLDataType.JSONB.nullable(false), this, "操作类型");
+    public final TableField<PsysAbacResourceRecord, String> ACTION_TYPE_SET = createField(DSL.name("action_type_set"), SQLDataType.VARCHAR.nullable(false), this, "操作类型集合");
 
     private PsysAbacResource(Name alias, Table<PsysAbacResourceRecord> aliased) {
         this(alias, aliased, null);
@@ -108,26 +111,31 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
     }
 
     @Override
+    @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
     }
 
     @Override
+    @NonNull
     public UniqueKey<PsysAbacResourceRecord> getPrimaryKey() {
         return Keys.PSYS_ABAC_RESOURCE_PK;
     }
 
     @Override
+    @NonNull
     public PsysAbacResource as(String alias) {
         return new PsysAbacResource(DSL.name(alias), this);
     }
 
     @Override
+    @NonNull
     public PsysAbacResource as(Name alias) {
         return new PsysAbacResource(alias, this);
     }
 
     @Override
+    @NonNull
     public PsysAbacResource as(Table<?> alias) {
         return new PsysAbacResource(alias.getQualifiedName(), this);
     }
@@ -136,6 +144,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResource rename(String name) {
         return new PsysAbacResource(DSL.name(name), null);
     }
@@ -144,6 +153,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResource rename(Name name) {
         return new PsysAbacResource(name, null);
     }
@@ -152,6 +162,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * Rename this table
      */
     @Override
+    @NonNull
     public PsysAbacResource rename(Table<?> name) {
         return new PsysAbacResource(name.getQualifiedName(), null);
     }
@@ -161,14 +172,15 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, Long, JSONB, JSONB> fieldsRow() {
+    @NonNull
+    public Row4<Long, Long, String, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function4<? super Long, ? super Long, ? super JSONB, ? super JSONB, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function4<? super Long, ? super Long, ? super String, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -176,7 +188,7 @@ public class PsysAbacResource extends TableImpl<PsysAbacResourceRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super Long, ? super JSONB, ? super JSONB, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super Long, ? super String, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

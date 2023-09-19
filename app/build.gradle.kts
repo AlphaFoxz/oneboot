@@ -52,6 +52,7 @@ jooq {
                         isDeprecated = false
                         isRecords = true
                         isImmutablePojos = true
+                        isPojosAsJavaRecordClasses = true
                         isFluentSetters = true
                         isNonnullAnnotation = true
                         nonnullAnnotationType = "org.springframework.lang.NonNull"
@@ -64,7 +65,9 @@ jooq {
                         directory = "$rootDir/app/src/gen"
                         isClean = true
                     }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                    strategy.apply {
+                        name = "com.github.alphafoxz.oneboot.common.jooq.codegen.OnebootGeneratorStrategy"
+                    }
                 }
             }
         }

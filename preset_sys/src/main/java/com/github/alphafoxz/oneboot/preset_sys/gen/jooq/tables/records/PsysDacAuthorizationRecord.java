@@ -5,27 +5,32 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysDacAuthorizationPo;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import org.jooq.Field;
-import org.jooq.JSONB;
 import org.jooq.Record1;
-import org.jooq.Record5;
-import org.jooq.Row5;
+import org.jooq.Record7;
+import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
  * 动态访问控制_授权表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAuthorizationRecord> implements Record5<Long, String, JSONB, Long, Long> {
+public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAuthorizationRecord> implements Record7<Long, String, String, Long, Long, Long, Long> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>preset_sys.psys_dac_authorization.id</code>. 主键
      */
-    public PsysDacAuthorizationRecord setId(Long value) {
+    public PsysDacAuthorizationRecord setId(@NonNull Long value) {
         set(0, value);
         return this;
     }
@@ -33,6 +38,8 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     /**
      * Getter for <code>preset_sys.psys_dac_authorization.id</code>. 主键
      */
+    @NotNull
+    @NonNull
     public Long getId() {
         return (Long) get(0);
     }
@@ -40,9 +47,9 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     /**
      * Setter for
      * <code>preset_sys.psys_dac_authorization.authorization_type</code>. 授权类型
-     * I主动 P被动
+     * 0主动 1被动
      */
-    public PsysDacAuthorizationRecord setAuthorizationType(String value) {
+    public PsysDacAuthorizationRecord setAuthorizationType(@NonNull String value) {
         set(1, value);
         return this;
     }
@@ -50,8 +57,11 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     /**
      * Getter for
      * <code>preset_sys.psys_dac_authorization.authorization_type</code>. 授权类型
-     * I主动 P被动
+     * 0主动 1被动
      */
+    @NotNull
+    @Size(max = 1)
+    @NonNull
     public String getAuthorizationType() {
         return (String) get(1);
     }
@@ -60,7 +70,7 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
      * Setter for
      * <code>preset_sys.psys_dac_authorization.subject_attr_set</code>. 授权主体属性集合
      */
-    public PsysDacAuthorizationRecord setSubjectAttrSet(JSONB value) {
+    public PsysDacAuthorizationRecord setSubjectAttrSet(@NonNull String value) {
         set(2, value);
         return this;
     }
@@ -69,15 +79,17 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
      * Getter for
      * <code>preset_sys.psys_dac_authorization.subject_attr_set</code>. 授权主体属性集合
      */
-    public JSONB getSubjectAttrSet() {
-        return (JSONB) get(2);
+    @NotNull
+    @NonNull
+    public String getSubjectAttrSet() {
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
      * 授权过期时间（毫秒）
      */
-    public PsysDacAuthorizationRecord setTimeoutMs(Long value) {
+    public PsysDacAuthorizationRecord setTimeoutMs(@Nullable Long value) {
         set(3, value);
         return this;
     }
@@ -86,25 +98,69 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
      * Getter for <code>preset_sys.psys_dac_authorization.timeout_ms</code>.
      * 授权过期时间（毫秒）
      */
+    @Nullable
     public Long getTimeoutMs() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for
-     * <code>preset_sys.psys_dac_authorization.resource_attr_id</code>. 资源属性id
+     * Setter for <code>preset_sys.psys_dac_authorization.resource_id</code>.
+     * 资源属性id
      */
-    public PsysDacAuthorizationRecord setResourceAttrId(Long value) {
+    public PsysDacAuthorizationRecord setResourceId(@NonNull Long value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for
-     * <code>preset_sys.psys_dac_authorization.resource_attr_id</code>. 资源属性id
+     * Getter for <code>preset_sys.psys_dac_authorization.resource_id</code>.
+     * 资源属性id
      */
-    public Long getResourceAttrId() {
+    @NotNull
+    @NonNull
+    public Long getResourceId() {
         return (Long) get(4);
+    }
+
+    /**
+     * Setter for
+     * <code>preset_sys.psys_dac_authorization.owner_subject_id</code>.
+     * 资源所有者主体Id
+     */
+    public PsysDacAuthorizationRecord setOwnerSubjectId(@NonNull Long value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for
+     * <code>preset_sys.psys_dac_authorization.owner_subject_id</code>.
+     * 资源所有者主体Id
+     */
+    @NotNull
+    @NonNull
+    public Long getOwnerSubjectId() {
+        return (Long) get(5);
+    }
+
+    /**
+     * Setter for
+     * <code>preset_sys.psys_dac_authorization.target_subject_id</code>.
+     * 授权目标主体Id
+     */
+    public PsysDacAuthorizationRecord setTargetSubjectId(@Nullable Long value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for
+     * <code>preset_sys.psys_dac_authorization.target_subject_id</code>.
+     * 授权目标主体Id
+     */
+    @Nullable
+    public Long getTargetSubjectId() {
+        return (Long) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -112,136 +168,212 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     // -------------------------------------------------------------------------
 
     @Override
+    @NonNull
     public Record1<Long> key() {
         return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------
-    // Record5 type implementation
+    // Record7 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, String, JSONB, Long, Long> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    @NonNull
+    public Row7<Long, String, String, Long, Long, Long, Long> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     @Override
-    public Row5<Long, String, JSONB, Long, Long> valuesRow() {
-        return (Row5) super.valuesRow();
+    @NonNull
+    public Row7<Long, String, String, Long, Long, Long, Long> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     @Override
+    @NonNull
     public Field<Long> field1() {
         return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.ID;
     }
 
     @Override
+    @NonNull
     public Field<String> field2() {
         return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.AUTHORIZATION_TYPE;
     }
 
     @Override
-    public Field<JSONB> field3() {
+    @NonNull
+    public Field<String> field3() {
         return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.SUBJECT_ATTR_SET;
     }
 
     @Override
+    @NonNull
     public Field<Long> field4() {
         return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.TIMEOUT_MS;
     }
 
     @Override
+    @NonNull
     public Field<Long> field5() {
-        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.RESOURCE_ATTR_ID;
+        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.RESOURCE_ID;
     }
 
     @Override
+    @NonNull
+    public Field<Long> field6() {
+        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.OWNER_SUBJECT_ID;
+    }
+
+    @Override
+    @NonNull
+    public Field<Long> field7() {
+        return PsysDacAuthorization.PSYS_DAC_AUTHORIZATION.TARGET_SUBJECT_ID;
+    }
+
+    @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
 
     @Override
+    @NonNull
     public String component2() {
         return getAuthorizationType();
     }
 
     @Override
-    public JSONB component3() {
+    @NonNull
+    public String component3() {
         return getSubjectAttrSet();
     }
 
     @Override
+    @Nullable
     public Long component4() {
         return getTimeoutMs();
     }
 
     @Override
+    @NonNull
     public Long component5() {
-        return getResourceAttrId();
+        return getResourceId();
     }
 
     @Override
+    @NonNull
+    public Long component6() {
+        return getOwnerSubjectId();
+    }
+
+    @Override
+    @Nullable
+    public Long component7() {
+        return getTargetSubjectId();
+    }
+
+    @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
 
     @Override
+    @NonNull
     public String value2() {
         return getAuthorizationType();
     }
 
     @Override
-    public JSONB value3() {
+    @NonNull
+    public String value3() {
         return getSubjectAttrSet();
     }
 
     @Override
+    @Nullable
     public Long value4() {
         return getTimeoutMs();
     }
 
     @Override
+    @NonNull
     public Long value5() {
-        return getResourceAttrId();
+        return getResourceId();
     }
 
     @Override
-    public PsysDacAuthorizationRecord value1(Long value) {
+    @NonNull
+    public Long value6() {
+        return getOwnerSubjectId();
+    }
+
+    @Override
+    @Nullable
+    public Long value7() {
+        return getTargetSubjectId();
+    }
+
+    @Override
+    @NonNull
+    public PsysDacAuthorizationRecord value1(@NonNull Long value) {
         setId(value);
         return this;
     }
 
     @Override
-    public PsysDacAuthorizationRecord value2(String value) {
+    @NonNull
+    public PsysDacAuthorizationRecord value2(@NonNull String value) {
         setAuthorizationType(value);
         return this;
     }
 
     @Override
-    public PsysDacAuthorizationRecord value3(JSONB value) {
+    @NonNull
+    public PsysDacAuthorizationRecord value3(@NonNull String value) {
         setSubjectAttrSet(value);
         return this;
     }
 
     @Override
-    public PsysDacAuthorizationRecord value4(Long value) {
+    @NonNull
+    public PsysDacAuthorizationRecord value4(@Nullable Long value) {
         setTimeoutMs(value);
         return this;
     }
 
     @Override
-    public PsysDacAuthorizationRecord value5(Long value) {
-        setResourceAttrId(value);
+    @NonNull
+    public PsysDacAuthorizationRecord value5(@NonNull Long value) {
+        setResourceId(value);
         return this;
     }
 
     @Override
-    public PsysDacAuthorizationRecord values(Long value1, String value2, JSONB value3, Long value4, Long value5) {
+    @NonNull
+    public PsysDacAuthorizationRecord value6(@NonNull Long value) {
+        setOwnerSubjectId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysDacAuthorizationRecord value7(@Nullable Long value) {
+        setTargetSubjectId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysDacAuthorizationRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @Nullable Long value4, @NonNull Long value5, @NonNull Long value6, @Nullable Long value7) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
+        value6(value6);
+        value7(value7);
         return this;
     }
 
@@ -259,29 +391,33 @@ public class PsysDacAuthorizationRecord extends UpdatableRecordImpl<PsysDacAutho
     /**
      * Create a detached, initialised PsysDacAuthorizationRecord
      */
-    public PsysDacAuthorizationRecord(Long id, String authorizationType, JSONB subjectAttrSet, Long timeoutMs, Long resourceAttrId) {
+    public PsysDacAuthorizationRecord(@NonNull Long id, @NonNull String authorizationType, @NonNull String subjectAttrSet, @Nullable Long timeoutMs, @NonNull Long resourceId, @NonNull Long ownerSubjectId, @Nullable Long targetSubjectId) {
         super(PsysDacAuthorization.PSYS_DAC_AUTHORIZATION);
 
         setId(id);
         setAuthorizationType(authorizationType);
         setSubjectAttrSet(subjectAttrSet);
         setTimeoutMs(timeoutMs);
-        setResourceAttrId(resourceAttrId);
+        setResourceId(resourceId);
+        setOwnerSubjectId(ownerSubjectId);
+        setTargetSubjectId(targetSubjectId);
         resetChangedOnNotNull();
     }
 
     /**
      * Create a detached, initialised PsysDacAuthorizationRecord
      */
-    public PsysDacAuthorizationRecord(com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysDacAuthorization value) {
+    public PsysDacAuthorizationRecord(PsysDacAuthorizationPo value) {
         super(PsysDacAuthorization.PSYS_DAC_AUTHORIZATION);
 
         if (value != null) {
-            setId(value.getId());
-            setAuthorizationType(value.getAuthorizationType());
-            setSubjectAttrSet(value.getSubjectAttrSet());
-            setTimeoutMs(value.getTimeoutMs());
-            setResourceAttrId(value.getResourceAttrId());
+            setId(value.id());
+            setAuthorizationType(value.authorizationType());
+            setSubjectAttrSet(value.subjectAttrSet());
+            setTimeoutMs(value.timeoutMs());
+            setResourceId(value.resourceId());
+            setOwnerSubjectId(value.ownerSubjectId());
+            setTargetSubjectId(value.targetSubjectId());
             resetChangedOnNotNull();
         }
     }

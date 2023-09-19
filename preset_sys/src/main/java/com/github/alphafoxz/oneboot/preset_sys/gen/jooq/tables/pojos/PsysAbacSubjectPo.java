@@ -6,46 +6,20 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 import java.io.Serializable;
 
-import org.jooq.JSONB;
+import org.springframework.lang.NonNull;
 
 
 /**
  * 属性访问控制_主体属性表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAbacSubject implements Serializable {
+public record PsysAbacSubjectPo(
+    @NonNull Long id,
+    @NonNull String attrSet
+) implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Long id;
-    private final JSONB attrSet;
-
-    public PsysAbacSubject(PsysAbacSubject value) {
-        this.id = value.id;
-        this.attrSet = value.attrSet;
-    }
-
-    public PsysAbacSubject(
-        Long id,
-        JSONB attrSet
-    ) {
-        this.id = id;
-        this.attrSet = attrSet;
-    }
-
-    /**
-     * Getter for <code>preset_sys.psys_abac_subject.id</code>. 主键
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Getter for <code>preset_sys.psys_abac_subject.attr_set</code>. 主体属性集合
-     */
-    public JSONB getAttrSet() {
-        return this.attrSet;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -55,7 +29,7 @@ public class PsysAbacSubject implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAbacSubject other = (PsysAbacSubject) obj;
+        final PsysAbacSubjectPo other = (PsysAbacSubjectPo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -82,7 +56,7 @@ public class PsysAbacSubject implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAbacSubject (");
+        StringBuilder sb = new StringBuilder("PsysAbacSubjectPo (");
 
         sb.append(id);
         sb.append(", ").append(attrSet);
