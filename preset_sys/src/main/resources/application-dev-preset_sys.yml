@@ -1,3 +1,8 @@
 oneboot:
   preset-sys:
     module-name: preset_sys
+    jwt:
+      access-token-expire-time: 30
+      access-token-expire-time-unit: minutes
+      refresh-token-expire-time: 8
+      refresh-token-expire-time-unit: hours

@@ -290,6 +290,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
+        pubCode.add("import " + commonConfiguration.getPackage() + ".interfaces.framework.HttpController;");
         for (ParseThriftSyntaxTreeUtil.ServiceBean serviceBean : rootBean.getServiceList()) {
             StringJoiner serviceCode = new StringJoiner("\n");
             serviceCode.add(pubCode.toString());
@@ -318,7 +319,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 ParseThriftSyntaxTreeUtil.CommentBean serviceDoc = serviceBean.getDoc();
                 serviceCode.add(StrUtil.format("@Tag(name = {}, description = {})", JSONUtil.quote(serviceBean.getServiceName(), true), commentDocToStringWrapParam(serviceDoc)));
             }
-            serviceCode.add("public interface " + serviceBean.getServiceName() + " {");
+            serviceCode.add("public interface " + serviceBean.getServiceName() + " extends HttpController {");
             {
                 //解析接口方法
                 for (ParseThriftSyntaxTreeUtil.ServiceBean.ServiceFunctionBean serviceFunction : serviceBean.getServiceFunctionList()) {
@@ -357,11 +358,16 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     }
                     StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
                     for (ParseThriftSyntaxTreeUtil.Param param : serviceFunction.getParamList()) {
-                        String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {} {} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
+                        String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
                         paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), pathVarSet.contains(param.getParamName()) ? "@PathVariable " : "", param.getParamType().javaString(), param.getParamName()));
                     }
                     String returnType = "void".equals(serviceFunction.getReturnType().javaString()) ? "ResponseEntity<?>" : "ResponseEntity<" + serviceFunction.getReturnType().javaString() + ">";
-                    serviceCode.add(TAB + "public " + returnType + " " + serviceFunction.getFunctionName() + "(" + (!serviceFunction.getParamList().isEmpty() ? paramCode.toString() : "") + ");\n");
+                    String format = TAB + "public {} {}({});\n";
+                    serviceCode.add(StrUtil.format(format,
+                            returnType,
+                            serviceFunction.getFunctionName(),
+                            (!serviceFunction.getParamList().isEmpty() ? paramCode.toString() : "")
+                    ));
                 }
             }
             serviceCode.add("}");
@@ -426,7 +432,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         StringJoiner pubCode = new StringJoiner("\n");
         pubCode.add("package " + rootBean.getNamespaceMap().get(ParseThriftSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
         pubCode.add("import io.swagger.v3.oas.annotations.media.Schema;");
-        pubCode.add("import lombok.Data;");
+        pubCode.add("import lombok.Getter;");
         for (ParseThriftSyntaxTreeUtil.StructBean structBean : rootBean.getStructList()) {
             StringJoiner structCode = new StringJoiner("\n");
             structCode.add(pubCode.toString());
@@ -448,7 +454,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 ParseThriftSyntaxTreeUtil.CommentBean structDoc = structBean.getDoc();
                 structCode.add(StrUtil.format("@Schema(name = {}, description = {})", JSONUtil.quote(structBean.getStructName(), true), commentDocToStringWrapParam(structDoc)));
             }
-            structCode.add("@Data");
+            structCode.add("@Getter");
             structCode.add("public class " + structBean.getStructName() + " {");
             for (ParseThriftSyntaxTreeUtil.StructBean.StructAttributeBean attributeBean : structBean.getStructAttribute()) {
                 if (CollUtil.isNotEmpty(attributeBean.getCommentList())) {
@@ -458,6 +464,20 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                 }
                 structCode.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(attributeBean.getAttributeName(), true), commentDocToStringWrapParam(attributeBean.getDoc())));
                 structCode.add(TAB + "private " + attributeBean.getType().javaString() + " " + attributeBean.getAttributeName() + ";");
+            }
+            structCode.add("");
+            for (ParseThriftSyntaxTreeUtil.StructBean.StructAttributeBean attributeBean : structBean.getStructAttribute()) {
+                String format = TAB + "public {} {}({} {}) {";
+                structCode.add(StrUtil.format(format,
+                        structBean.getStructName(),
+                        StrUtil.upperFirstAndAddPre(attributeBean.getAttributeName(), "set"),
+                        attributeBean.getType().javaString(),
+                        attributeBean.getAttributeName()
+                ));
+                format = TAB + TAB + "this.{} = {};";
+                structCode.add(StrUtil.format(format, attributeBean.getAttributeName(), attributeBean.getAttributeName()));
+                structCode.add(TAB + TAB + "return this;");
+                structCode.add(TAB + "}");
             }
             structCode.add("}");
             // 写文件

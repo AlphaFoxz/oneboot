@@ -7,8 +7,8 @@ import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootException;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AcApi;
-import com.github.alphafoxz.oneboot.common.interfaces.common.ReliableService;
+import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacApi;
+import com.github.alphafoxz.oneboot.common.interfaces.framework.ReliableService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
@@ -40,7 +40,7 @@ import java.util.Set;
 @Component
 public class AccessControlAspect {
     @Resource
-    private AcApi acApi;
+    private AbacApi abacApi;
 
     @Pointcut("@annotation(com.github.alphafoxz.oneboot.common.annotations.access_control.AccessControl)")
     public void accessControlPointcut() {
@@ -88,7 +88,7 @@ public class AccessControlAspect {
             String schemaName = table.getSchema().getName();
             for (Long bizId : paramBizIdSet) {
                 // FIXME 实现JWT认证之后修复此处subjectId功能
-                if (!acApi.access(1704372248082780160L, schemaName, table.getName(), bizId, acAnno.action(), acAnno.policies())) {
+                if (!abacApi.access(1704372248082780160L, schemaName, table.getName(), bizId, acAnno.action(), acAnno.policies())) {
                     String msg = StrUtil.format("对指定资源的操作异常，没有权限，schemaName：{}, tableName：{}，bizId：{}", schemaName, table.getName(), bizId);
                     throw new OnebootAuthException(msg, HttpStatus.FORBIDDEN);
                 }
@@ -98,7 +98,7 @@ public class AccessControlAspect {
             // 检验资源
             if (resultResourceBizIdAnno != null) {
                 for (Long resultBizId : putBizIdsFromArg(null, resultResourceBizIdAnno, result)) {
-                    if (!paramBizIdSet.contains(resultBizId) && !acApi.access(1704372248082780160L, schemaName, table.getName(), resultBizId, acAnno.action(), acAnno.policies())) {
+                    if (!paramBizIdSet.contains(resultBizId) && !abacApi.access(1704372248082780160L, schemaName, table.getName(), resultBizId, acAnno.action(), acAnno.policies())) {
                         String msg = StrUtil.format("对指定资源的操作异常，没有权限，schemaName：{}, tableName：{}，bizId：{}", schemaName, table.getName(), resultBizId);
                         throw new OnebootAuthException(msg, HttpStatus.FORBIDDEN);
                     }

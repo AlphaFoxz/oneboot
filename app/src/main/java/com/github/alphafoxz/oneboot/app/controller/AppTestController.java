@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.app.controller;
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
-import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestAbacCrudService;
+import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestCrud;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
 import jakarta.annotation.Resource;
@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/app/test")
 public class AppTestController {
     @Resource
-    private AppTestAbacCrudService appTestAbacCrudService;
+    private AppTestCrud appTestCrud;
     @Resource
     private CacheManager cacheManager;
 
@@ -43,7 +43,7 @@ public class AppTestController {
 
     @GetMapping("/query/{id}")
     public ResponseEntity<AppTestPo> query(@PathVariable Long id) {
-        AppTestPo appTest = appTestAbacCrudService.selectOne(id);
+        AppTestPo appTest = appTestCrud.selectOne(id);
         if (appTest == null) {
             return ResponseEntity.noContent().build();
         }
@@ -52,13 +52,13 @@ public class AppTestController {
 
     @GetMapping("/queryPage")
     public ResponseEntity<Page<AppTestPo>> queryPage() {
-        Page<AppTestPo> appTests = appTestAbacCrudService.selectPage(1, 10, DSL.trueCondition());
+        Page<AppTestPo> appTests = appTestCrud.selectPage(1, 10, DSL.trueCondition());
         return ResponseEntity.ok(appTests);
     }
 
     @GetMapping("/queryList")
     public ResponseEntity<List<AppTestPo>> queryList() {
-        List<AppTestPo> appTest = appTestAbacCrudService.selectList(10, DSL.trueCondition());
+        List<AppTestPo> appTest = appTestCrud.selectList(10, DSL.trueCondition());
         return ResponseEntity.ok(appTest);
     }
 
@@ -68,7 +68,7 @@ public class AppTestController {
         record.setId(id);
         record.setTestTimestamptz(OffsetDateTime.now(ZoneId.systemDefault()));
         record.setTestVarchar50("test");
-        int i = appTestAbacCrudService.insertMany(record);
+        int i = appTestCrud.insertMany(record);
         return ResponseEntity.ok(i);
     }
 
@@ -79,13 +79,13 @@ public class AppTestController {
         updateMap.put("test_timestamptz", OffsetDateTime.now(ZoneId.systemDefault()));
         AppTestRecord appTestRecord = new AppTestRecord();
         appTestRecord.fromMap(updateMap);
-        int i = appTestAbacCrudService.update(appTestRecord);
+        int i = appTestCrud.update(appTestRecord);
         return ResponseEntity.ok(i);
     }
 
     @GetMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        int i = appTestAbacCrudService.deleteById(id);
+        int i = appTestCrud.deleteById(id);
         return ResponseEntity.ok(i);
     }
 

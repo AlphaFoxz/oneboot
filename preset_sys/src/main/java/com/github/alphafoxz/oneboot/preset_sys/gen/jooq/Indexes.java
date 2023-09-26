@@ -5,7 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -24,5 +24,5 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index PSYS_ABAC_RESOURCE_BUSINESS_ID_INDEX = Internal.createIndex(DSL.name("psys_abac_resource_business_id_index"), PsysAbacResource.PSYS_ABAC_RESOURCE, new OrderField[] { PsysAbacResource.PSYS_ABAC_RESOURCE.BUSINESS_ID }, false);
-    public static final Index PSYS_HR_USER_ACCOUNT_ID_INDEX = Internal.createIndex(DSL.name("psys_hr_user_account_id_index"), PsysHrUser.PSYS_HR_USER, new OrderField[] { PsysHrUser.PSYS_HR_USER.ACCOUNT_ID }, false);
+    public static final Index PSYS_AUTH_USER_ACCOUNT_ID_INDEX = Internal.createIndex(DSL.name("psys_auth_user_account_id_index"), PsysAuthUser.PSYS_AUTH_USER, new OrderField[] { PsysAuthUser.PSYS_AUTH_USER.ACCOUNT_ID }, false);
 }

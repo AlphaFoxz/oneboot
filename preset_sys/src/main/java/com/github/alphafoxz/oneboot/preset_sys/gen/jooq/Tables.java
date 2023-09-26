@@ -4,13 +4,14 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrAccount;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthToken;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
 
 
 /**
@@ -18,6 +19,11 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * 动态访问控制_授权表
+     */
+    public static final PsysAbacDynamicAuthorization PSYS_ABAC_DYNAMIC_AUTHORIZATION = PsysAbacDynamicAuthorization.PSYS_ABAC_DYNAMIC_AUTHORIZATION;
 
     /**
      * The table <code>preset_sys.psys_abac_group</code>.
@@ -40,17 +46,17 @@ public class Tables {
     public static final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * 动态访问控制_授权表
+     * The table <code>preset_sys.psys_auth_account</code>.
      */
-    public static final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
+    public static final PsysAuthAccount PSYS_AUTH_ACCOUNT = PsysAuthAccount.PSYS_AUTH_ACCOUNT;
 
     /**
-     * The table <code>preset_sys.psys_hr_account</code>.
+     * The table <code>preset_sys.psys_auth_token</code>.
      */
-    public static final PsysHrAccount PSYS_HR_ACCOUNT = PsysHrAccount.PSYS_HR_ACCOUNT;
+    public static final PsysAuthToken PSYS_AUTH_TOKEN = PsysAuthToken.PSYS_AUTH_TOKEN;
 
     /**
      * 用户表
      */
-    public static final PsysHrUser PSYS_HR_USER = PsysHrUser.PSYS_HR_USER;
+    public static final PsysAuthUser PSYS_AUTH_USER = PsysAuthUser.PSYS_AUTH_USER;
 }

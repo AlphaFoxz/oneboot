@@ -2,8 +2,8 @@ package com.github.alphafoxz.oneboot.common.interfaces.access_control.impl;
 
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacAttr;
 import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacAttrName;
-import com.github.alphafoxz.oneboot.common.toolkit.Pair;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple2;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -44,8 +44,8 @@ public class AbacAttrImpl implements AbacAttr {
     }
 
     @NonNull
-    public static AbacAttrImpl of(@NonNull Pair<String, String> attr) {
-        return new AbacAttrImpl(attr.getKey(), attr.getValue());
+    public static AbacAttrImpl of(@NonNull Tuple2<String, String> attr) {
+        return new AbacAttrImpl(attr.getIndex0(), attr.getIndex1());
     }
 
     public boolean isSameName(@NonNull String dbString) {

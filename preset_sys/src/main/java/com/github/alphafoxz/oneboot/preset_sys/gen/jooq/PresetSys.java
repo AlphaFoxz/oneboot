@@ -4,13 +4,14 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysDacAuthorization;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrAccount;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysHrUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthToken;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,11 @@ public class PresetSys extends SchemaImpl {
     public static final PresetSys PRESET_SYS = new PresetSys();
 
     /**
+     * 动态访问控制_授权表
+     */
+    public final PsysAbacDynamicAuthorization PSYS_ABAC_DYNAMIC_AUTHORIZATION = PsysAbacDynamicAuthorization.PSYS_ABAC_DYNAMIC_AUTHORIZATION;
+
+    /**
      * The table <code>preset_sys.psys_abac_group</code>.
      */
     public final PsysAbacGroup PSYS_ABAC_GROUP = PsysAbacGroup.PSYS_ABAC_GROUP;
@@ -55,19 +61,19 @@ public class PresetSys extends SchemaImpl {
     public final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * 动态访问控制_授权表
+     * The table <code>preset_sys.psys_auth_account</code>.
      */
-    public final PsysDacAuthorization PSYS_DAC_AUTHORIZATION = PsysDacAuthorization.PSYS_DAC_AUTHORIZATION;
+    public final PsysAuthAccount PSYS_AUTH_ACCOUNT = PsysAuthAccount.PSYS_AUTH_ACCOUNT;
 
     /**
-     * The table <code>preset_sys.psys_hr_account</code>.
+     * The table <code>preset_sys.psys_auth_token</code>.
      */
-    public final PsysHrAccount PSYS_HR_ACCOUNT = PsysHrAccount.PSYS_HR_ACCOUNT;
+    public final PsysAuthToken PSYS_AUTH_TOKEN = PsysAuthToken.PSYS_AUTH_TOKEN;
 
     /**
      * 用户表
      */
-    public final PsysHrUser PSYS_HR_USER = PsysHrUser.PSYS_HR_USER;
+    public final PsysAuthUser PSYS_AUTH_USER = PsysAuthUser.PSYS_AUTH_USER;
 
     /**
      * No further instances allowed
@@ -87,13 +93,14 @@ public class PresetSys extends SchemaImpl {
     @NonNull
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            PsysAbacDynamicAuthorization.PSYS_ABAC_DYNAMIC_AUTHORIZATION,
             PsysAbacGroup.PSYS_ABAC_GROUP,
             PsysAbacResource.PSYS_ABAC_RESOURCE,
             PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION,
             PsysAbacSubject.PSYS_ABAC_SUBJECT,
-            PsysDacAuthorization.PSYS_DAC_AUTHORIZATION,
-            PsysHrAccount.PSYS_HR_ACCOUNT,
-            PsysHrUser.PSYS_HR_USER
+            PsysAuthAccount.PSYS_AUTH_ACCOUNT,
+            PsysAuthToken.PSYS_AUTH_TOKEN,
+            PsysAuthUser.PSYS_AUTH_USER
         );
     }
 }
