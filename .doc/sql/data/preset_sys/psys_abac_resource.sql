@@ -1,0 +1,1 @@
+INSERT INTO preset_sys.psys_abac_resource (id, owner_subject_id, resource_attr_set, action_type_set, protection_id, business_id) VALUES (1704389955196948480, 1704372248082780160, '[]', '["c", "r", "u", "d"]', 1704389766184833024, null);

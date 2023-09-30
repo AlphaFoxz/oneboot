@@ -1,0 +1,1 @@
+INSERT INTO app.app_test (id, test_json, test_date, test_timestamp, test_bool, test_double, test_float, test_timestamptz, test_time, test_timetz, test_daterange, test_varchar50) VALUES (1, null, null, null, null, null, null, '2023-09-21 03:08:10.422117 +00:00', null, null, null, 'test');
