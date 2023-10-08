@@ -578,6 +578,9 @@ public final class ParseThriftSyntaxTreeUtil {
                                     } else if (StrUtil.equalsIgnoreCase(annoName, "deleteUri")) {
                                         result.getAnnoImportPackage().add("org.springframework.web.bind.annotation.DeleteMapping");
                                         result.setAnnoName("DeleteMapping");
+                                    } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
+                                        result.getAnnoImportPackage().add("org.springframework.data.domain.Page");
+                                        result.setAnnoName("Page");
                                     } else {
                                         result.setCommentType(CommentBean.CommentTypeEnum.LINE);
                                         result.setAnnoName(annoName);

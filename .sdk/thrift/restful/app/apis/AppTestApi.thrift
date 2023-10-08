@@ -11,7 +11,8 @@ service AppTestApi {
     /*查询单条*/
     //@getUri(/query/{id})
     AppTestDto.AppTestInfoDto queryOne(/*主键*/1:required i64 id)
-    /*查询单条*/
+    /*分页*/
+    //@page()
     //@getUri(/queryPage/{pageNum}/{pageSize})
     AppTestDto.AppTestInfoDto queryPage(/*页码*/1:required i32 pageNum, /*每页数据量*/2:required i32 pageSize)
     /*更新*/

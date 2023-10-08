@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+import com.github.alphafoxz.oneboot.common.interfaces.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkThriftTemplateResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
 
 @RequestMapping({"/_sdk/thrift"})
 @Tag(name = "SdkThriftApi", description = "thrift功能接口（rpc跨语言通信）")
-public interface SdkThriftApi {
+public interface SdkThriftApi extends HttpController {
     @GetMapping({"/getServerPort"})
     @Operation(summary = "获取当前thrift服务端口")
     public ResponseEntity<SdkLongResponseDto> getServerPort();

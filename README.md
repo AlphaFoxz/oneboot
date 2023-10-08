@@ -61,7 +61,7 @@
 ### 组件整合
 
 - [X]  SpringSecurity - 安全模块
-  - [ ]  基于jwt认证的前后端交互
+  - [X]  基于jwt认证的前后端交互
   - [ ]  oauth2-server实现
 - [X]  SpringDoc - API文档
 - [X]  Thrift - Rpc服务
@@ -76,9 +76,9 @@
 - [X]  po、dao实体类
 - [X]  typescript前端代码
 - [X]  支持注解的生成
-  - [ ]  支持注入HttpServletRequest
+  - [ ]  支持注入HttpServletRequest、HttpServletResponse
   - [X]  支持get、post、put、patch、delete请求
-  - [ ]  支持Page分页封装
+  - [X]  支持Page分页封装
 - [X]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
 - [ ]  SomeBusinessController.http接口测试文件
 - [ ]  MapStruct实体转换

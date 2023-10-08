@@ -2,6 +2,8 @@ package com.github.alphafoxz.oneboot.app.controller;
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
+import com.github.alphafoxz.oneboot.app.gen.restful.apis.AppTestApi;
+import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestCrud;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
@@ -24,7 +26,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/app/test")
-public class AppTestController {
+public class AppTestController implements AppTestApi {
     @Resource
     private AppTestCrud appTestCrud;
     @Resource
@@ -42,18 +44,21 @@ public class AppTestController {
     }
 
     @GetMapping("/query/{id}")
-    public ResponseEntity<AppTestPo> query(@PathVariable Long id) {
+    public ResponseEntity<AppTestInfoDto> queryOne(@PathVariable Long id) {
         AppTestPo appTest = appTestCrud.selectOne(id);
         if (appTest == null) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(appTest);
+        return ResponseEntity.ok(new AppTestInfoDto());
     }
 
     @GetMapping("/queryPage")
-    public ResponseEntity<Page<AppTestPo>> queryPage() {
-        Page<AppTestPo> appTests = appTestCrud.selectPage(1, 10, DSL.trueCondition());
-        return ResponseEntity.ok(appTests);
+    public ResponseEntity<Page<AppTestInfoDto>> queryPage(Integer pageNum, Integer pageSize) {
+        Page<AppTestPo> appTestPage = appTestCrud.selectPage(pageNum, pageSize, DSL.trueCondition());
+        Page<AppTestInfoDto> map = appTestPage.map((testPo) -> {
+            return new AppTestInfoDto();
+        });
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/queryList")
@@ -81,6 +86,19 @@ public class AppTestController {
         appTestRecord.fromMap(updateMap);
         int i = appTestCrud.update(appTestRecord);
         return ResponseEntity.ok(i);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> update(AppTestInfoDto param) {
+        AppTestRecord appTestRecord = new AppTestRecord();
+        return ResponseEntity.ok(true);
+    }
+
+    public ResponseEntity<?> logicDelete(Long id, Integer status) {
+        AppTestRecord appTestRecord = new AppTestRecord();
+        appTestRecord.setId(id);
+        appTestCrud.update(appTestRecord);
+        return null;
     }
 
     @GetMapping("/delete/{id}")

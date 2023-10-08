@@ -1,11 +1,11 @@
 package com.github.alphafoxz.oneboot.sdk.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
 import java.util.Map;
 
 @Schema(name = "SdkThriftTemplateDto", description = "")
-@Data
+@Getter
 public class SdkThriftTemplateDto {
     @Schema(name = "filePath", description = "")
     private String filePath;
@@ -19,4 +19,29 @@ public class SdkThriftTemplateDto {
     private String content;
     @Schema(name = "includes", description = "")
     private Map<String, SdkThriftTemplateDto> includes;
+
+    public SdkThriftTemplateDto setFilePath(String filePath) {
+        this.filePath = filePath;
+        return this;
+    }
+    public SdkThriftTemplateDto setFileSeparator(String fileSeparator) {
+        this.fileSeparator = fileSeparator;
+        return this;
+    }
+    public SdkThriftTemplateDto setNamespace(Map<String, String> namespace) {
+        this.namespace = namespace;
+        return this;
+    }
+    public SdkThriftTemplateDto setAst(String ast) {
+        this.ast = ast;
+        return this;
+    }
+    public SdkThriftTemplateDto setContent(String content) {
+        this.content = content;
+        return this;
+    }
+    public SdkThriftTemplateDto setIncludes(Map<String, SdkThriftTemplateDto> includes) {
+        this.includes = includes;
+        return this;
+    }
 }
