@@ -58,17 +58,17 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     }
 
     @Override
-    public SdkThriftTemplateResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
-        SdkThriftTemplateResponseDto result = new SdkThriftTemplateResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
+    public SdkCodeTemplateResponseDto getTemplateContentByPath(SdkStringRequestDto pathDto) {
+        SdkCodeTemplateResponseDto result = new SdkCodeTemplateResponseDto(snowflake.nextId(), pathDto.getTaskId(), false);
         try {
             File file = FileUtil.file(pathDto.getData());
             String content = FileUtil.readUtf8String(file);
-            SdkThriftTemplateDto template = new SdkThriftTemplateDto();
+            SdkCodeTemplateDto template = new SdkCodeTemplateDto();
             template.setContent(content);
             template.setFilePath(file.getAbsolutePath());
             template.setFileSeparator(File.separator);
             template.setNamespace(MapUtil.newHashMap());
-            template.setIncludes(MapUtil.newHashMap());
+            template.setImports(MapUtil.newHashMap());
             result.setData(template);
             result.setSuccess(true);
         } catch (Exception e) {
@@ -79,20 +79,20 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     }
 
     @Override
-    public SdkThriftTemplateResponseDto getTemplateContentByIncludePath(SdkStringRequestDto templatePathDto, String includePath) throws TException {
-        SdkThriftTemplateResponseDto result = new SdkThriftTemplateResponseDto(snowflake.nextId(), snowflake.nextId(), false);
+    public SdkCodeTemplateResponseDto getTemplateContentByIncludePath(SdkStringRequestDto templatePathDto, String includePath) throws TException {
+        SdkCodeTemplateResponseDto result = new SdkCodeTemplateResponseDto(snowflake.nextId(), snowflake.nextId(), false);
         try {
             File templateFile = FileUtil.file(templatePathDto.getData());
             String targetPath = templateFile.getPath();
             targetPath = targetPath.substring(0, targetPath.lastIndexOf(File.separator) + 1);
             targetPath += includePath;
             File targetFile = FileUtil.file(targetPath);
-            SdkThriftTemplateDto dto = new SdkThriftTemplateDto();
+            SdkCodeTemplateDto dto = new SdkCodeTemplateDto();
             dto.setContent(FileUtil.readString(targetFile, StandardCharsets.UTF_8));
             dto.setFilePath(targetFile.getAbsolutePath());
             dto.setFileSeparator(File.separator);
             dto.setNamespace(MapUtil.newHashMap());
-            dto.setIncludes(MapUtil.newHashMap());
+            dto.setImports(MapUtil.newHashMap());
             result.setData(dto);
             result.setSuccess(true);
         } catch (Exception e) {
@@ -106,11 +106,11 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     public SdkFileTreeResponseDto getRestfulTemplateFileTree() throws TException {
         SdkFileTreeResponseDto result = new SdkFileTreeResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         try {
-            result.setData(readFileTree(FileUtil.file(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.THRIFT_RESTFUL_PATH), 0));
+            result.setData(readFileTree(FileUtil.file(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.RESTFUL_TEMPLATE_PATH), 0));
             return result;
         } catch (Exception e) {
-            log.error("{} 读取文件异常", SdkConstants.THRIFT_RESTFUL_PATH);
-            result.setMessage(SdkConstants.THRIFT_RESTFUL_PATH + " 读取文件异常");
+            log.error("{} 读取文件异常", SdkConstants.RESTFUL_TEMPLATE_PATH);
+            result.setMessage(SdkConstants.RESTFUL_TEMPLATE_PATH + " 读取文件异常");
             result.setSuccess(false);
             return result;
         }

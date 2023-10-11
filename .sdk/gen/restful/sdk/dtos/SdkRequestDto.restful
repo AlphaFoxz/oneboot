@@ -1,0 +1,35 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
+namespace ts gen.sdk.dtos
+namespace rs thrift.gen.dtos
+
+import "./SdkCodeTemplateDto.restful"
+
+class SdkListRequestDto {
+    required long id
+    required long taskId
+    required list<string> data
+}
+
+class SdkMapRequestDto {
+    required long id
+    required long taskId
+    required map<string, string> data
+}
+
+class SdkStringRequestDto {
+    required long id
+    required long taskId
+    required string data
+}
+
+class SdkLongRequestDto {
+    required long id
+    required long taskId
+    required long data
+}
+
+class SdkCodeTemplateRequestDto {
+    required long id
+    required long taskId
+    required SdkCodeTemplateDto.SdkCodeTemplateDto data
+}

@@ -34,15 +34,24 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
+        if (tokenStr.startsWith("Bearer ")) {
+            tokenStr = tokenStr.replaceFirst("Bearer ", "");
+        }
         SignedJWT verifiedJwt = JwtUtil.toVerifiedJwt(tokenStr);
         if (verifiedJwt == null) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "token无效，请重新登录");
+            response.flushBuffer();
             throw new OnebootAuthException("token无效，请重新登录", HttpStatus.UNAUTHORIZED);
         }
         if (JwtUtil.isTokenExpired(verifiedJwt)) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "token已过期，请重新登录");
+            response.flushBuffer();
             throw new OnebootAuthException("token已过期，请重新登录", HttpStatus.UNAUTHORIZED);
         }
         UserDetailsImpl userDetails = JwtUtil.parseUserDetails(verifiedJwt);
         if (userDetails == null) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "token信息异常，请重新登录");
+            response.flushBuffer();
             throw new OnebootAuthException("token信息异常，请重新登录", HttpStatus.UNAUTHORIZED);
         }
         Long subjectId = userDetails.getSubjectId();

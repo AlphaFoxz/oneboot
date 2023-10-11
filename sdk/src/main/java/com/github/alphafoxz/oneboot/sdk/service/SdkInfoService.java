@@ -37,8 +37,8 @@ public class SdkInfoService implements SdkInfoIface.Iface {
 
     public SdkListResponseDto checkThriftErr() {
         String projectRootPath = SdkConstants.PROJECT_ROOT_PATH;
-        final String dataPath = projectRootPath + SdkConstants.THRIFT_DATA_PATH;
-        final String restfulPath = projectRootPath + SdkConstants.THRIFT_RESTFUL_PATH;
+        final String dataPath = projectRootPath + SdkConstants.THRIFT_TEMPLATE_PATH;
+        final String restfulPath = projectRootPath + SdkConstants.RESTFUL_TEMPLATE_PATH;
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
         //生成目录： /.sdk/thrift/data 和 /.sdk/thrift/restful
@@ -52,9 +52,9 @@ public class SdkInfoService implements SdkInfoIface.Iface {
                     FileUtil.mkdir(dataPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "dtos");
                     FileUtil.mkdir(dataPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "enums");
                     //restful接口
+                    FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "apis");
                     FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "dtos");
                     FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "enums");
-                    FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "apis");
                 }
             } catch (Exception e) {
                 log.error("sdk初始化thrift各目录异常", e);

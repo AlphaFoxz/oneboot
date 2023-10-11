@@ -1,0 +1,12 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
+namespace ts gen.sdk.apis
+
+import "../dtos/SdkResponseDto.restful"
+
+/*Sdk模块代码生成接口*/
+@uri(/_sdk/genCode)
+interface SdkGenCodeApi {
+    /*创建所有Java rpc代码*/
+    @getUri(/generateJavaRpc)
+    SdkResponseDto.SdkListResponseDto generateJavaRpc()
+}
