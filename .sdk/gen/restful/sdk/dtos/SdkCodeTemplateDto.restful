@@ -1,0 +1,12 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
+namespace ts gen.sdk.dtos
+namespace rs thrift.gen.dtos
+
+class SdkCodeTemplateDto {
+    required string filePath
+    required string fileSeparator
+    required map<string, string> namespace
+    optional string ast
+    required string content
+    required map<string, SdkCodeTemplateDto> includes;
+}

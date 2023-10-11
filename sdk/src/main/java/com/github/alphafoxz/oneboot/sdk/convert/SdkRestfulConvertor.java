@@ -23,5 +23,5 @@ public interface SdkRestfulConvertor {
 
     SdkFileInfoDto fromThriftSdkFileInfoDto(com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkFileInfoDto source);
 
-    SdkThriftTemplateResponseDto fromThriftSdkThriftTemplateResponseDto(com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateResponseDto source);
+    SdkCodeTemplateResponseDto fromThriftSdkCodeTemplateResponseDto(com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateResponseDto source);
 }

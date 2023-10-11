@@ -12,8 +12,8 @@ public final class SdkConstants {
     private static final String FILE_SEPARATOR = File.separator;
     public static final String PROJECT_ROOT_PATH;
     public static final OsTypeEnum OS_TYPE;
-    public static final String THRIFT_DATA_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "thrift" + FILE_SEPARATOR + "data";
-    public static final String THRIFT_RESTFUL_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "thrift" + FILE_SEPARATOR + "restful";
+    public static final String THRIFT_TEMPLATE_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "gen" + FILE_SEPARATOR + "thrift";
+    public static final String RESTFUL_TEMPLATE_PATH = FILE_SEPARATOR + ".sdk" + FILE_SEPARATOR + "gen" + FILE_SEPARATOR + "restful";
 
     static {
         // 解决Eclipse中user.dir不是根目录的问题

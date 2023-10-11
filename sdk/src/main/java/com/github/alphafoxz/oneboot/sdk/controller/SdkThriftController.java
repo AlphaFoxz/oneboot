@@ -3,9 +3,9 @@ package com.github.alphafoxz.oneboot.sdk.controller;
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.sdk.convert.SdkRestfulConvertor;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkThriftApi;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkThriftTemplateResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
 import jakarta.annotation.Resource;
@@ -30,8 +30,8 @@ public class SdkThriftController implements SdkThriftApi {
     }
 
     @Override
-    public ResponseEntity<SdkThriftTemplateResponseDto> getTemplateContentByPath(String filePath) {
+    public ResponseEntity<SdkCodeTemplateResponseDto> getTemplateContentByPath(String filePath) {
         SdkStringRequestDto param = new SdkStringRequestDto(snowflake.nextId(), snowflake.nextId(), filePath);
-        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkThriftTemplateResponseDto(sdkThriftService.getTemplateContentByPath(param)));
+        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkCodeTemplateResponseDto(sdkThriftService.getTemplateContentByPath(param)));
     }
 }

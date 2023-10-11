@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.toolkit;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkThriftTemplateDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +17,11 @@ import java.util.*;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Slf4j
 public final class ParseThriftSyntaxTreeUtil {
-    public static ThriftRootBean parseThriftRoot(SdkThriftTemplateDto dto) throws TException {
+    public static ThriftRootBean parseThriftRoot(SdkCodeTemplateDto dto) throws TException {
         String filePath = dto.getFilePath();
         String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
 
-        ThriftRootBean thriftRootBean = new ThriftRootBean(dto.getIncludes());
+        ThriftRootBean thriftRootBean = new ThriftRootBean(dto.getImports());
         thriftRootBean.setFilePath(filePath);
         thriftRootBean.setContent(dto.getContent());
         thriftRootBean.setFileName(fileName);
@@ -40,7 +40,7 @@ public final class ParseThriftSyntaxTreeUtil {
         private final RootBean rootBean;
         private final ThriftRootBean parentRootBean;
 
-        public ThriftIncludeBean(ThriftRootBean parentRootBean, SdkThriftTemplateDto dto) throws TException {
+        public ThriftIncludeBean(ThriftRootBean parentRootBean, SdkCodeTemplateDto dto) throws TException {
             filePath = dto.getFilePath();
             fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
             content = dto.getContent();
@@ -63,10 +63,10 @@ public final class ParseThriftSyntaxTreeUtil {
         private String fileName;
         private String content;
         private final Set<ThriftIncludeBean> includeBeanSet = CollUtil.newHashSet();
-        private final Map<String, SdkThriftTemplateDto> includeDtoMap;
+        private final Map<String, SdkCodeTemplateDto> includeDtoMap;
         private RootBean rootBean;
 
-        public ThriftRootBean(Map<String, SdkThriftTemplateDto> includeDtoMap) {
+        public ThriftRootBean(Map<String, SdkCodeTemplateDto> includeDtoMap) {
             this.includeDtoMap = includeDtoMap;
         }
 
@@ -386,16 +386,16 @@ public final class ParseThriftSyntaxTreeUtil {
         private static final String RULE = "rule";
         private static final String INNER = "inner";
 
-        private final SdkThriftTemplateDto dto;
+        private final SdkCodeTemplateDto dto;
         private final ThriftRootBean thriftRootBean;
         private final ThriftIncludeBean thriftIncludeBean;
         private final RootBean rootBean;
 
-        public RootBeanBuilder(ThriftRootBean thriftRootBean, ThriftIncludeBean thriftIncludeBean, SdkThriftTemplateDto dto) {
+        public RootBeanBuilder(ThriftRootBean thriftRootBean, ThriftIncludeBean thriftIncludeBean, SdkCodeTemplateDto dto) {
             this.thriftRootBean = thriftRootBean;
             this.thriftIncludeBean = thriftIncludeBean;
-            Map<String, SdkThriftTemplateDto> namespaceMap = MapUtil.newHashMap();
-            for (Map.Entry<String, SdkThriftTemplateDto> entry : dto.getIncludes().entrySet()) {
+            Map<String, SdkCodeTemplateDto> namespaceMap = MapUtil.newHashMap();
+            for (Map.Entry<String, SdkCodeTemplateDto> entry : dto.getImports().entrySet()) {
                 String filePath = entry.getKey();
                 if (!filePath.contains(File.separator) || !filePath.contains(".")) {
                     continue;
@@ -403,7 +403,7 @@ public final class ParseThriftSyntaxTreeUtil {
                 String namespace = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
                 namespaceMap.put(namespace, entry.getValue());
             }
-            dto.getIncludes().putAll(namespaceMap);
+            dto.getImports().putAll(namespaceMap);
             this.dto = dto;
             rootBean = new RootBean();
         }
@@ -909,7 +909,7 @@ public final class ParseThriftSyntaxTreeUtil {
                     importTsTypeName += namespace + ".";
                     ThriftIncludeBean thriftIncludeBean = thriftRootBean.getThriftIncludeBeanByFileName(namespace);
                     if (thriftIncludeBean == null) {
-                        SdkThriftTemplateDto includeDto = thriftRootBean.getIncludeDtoMap().get(namespace);
+                        SdkCodeTemplateDto includeDto = thriftRootBean.getIncludeDtoMap().get(namespace);
                         thriftIncludeBean = new ThriftIncludeBean(thriftRootBean, includeDto);
                         thriftRootBean.getIncludeBeanSet().add(thriftIncludeBean);
                     }

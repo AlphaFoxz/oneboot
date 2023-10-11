@@ -1,0 +1,70 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
+namespace ts gen.sdk.dtos
+namespace rs thrift.gen.dtos
+
+import "./SdkCodeTemplateDto.restful"
+import "./SdkFileInfoDto.restful"
+
+class SdkListResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional list<string> data
+}
+
+class SdkMapResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional map<string, string> data
+}
+
+class SdkLongResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional long data
+}
+
+class SdkDoubleResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional double data
+}
+
+class SdkBinaryResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional binary data
+}
+
+class SdkStringResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional string data
+}
+
+class SdkCodeTemplateResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional SdkCodeTemplateDto.SdkCodeTemplateDto data
+}
+
+class SdkFileTreeResponseDto {
+    required long id
+    required long taskId
+    required boolean success
+    optional string message
+    optional SdkFileInfoDto.SdkFileInfoDto data
+}
