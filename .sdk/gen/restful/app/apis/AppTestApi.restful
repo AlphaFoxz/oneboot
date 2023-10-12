@@ -5,8 +5,8 @@ import "../dtos/AppTestDto.restful"
 
 //本api为自动生成代码，请勿修改
 
-@uri(/app/test)
 /*测试API*/
+@uri(/app/test)
 interface AppTestApi {
     /*查询单条*/
     @getUri(/query/{id})

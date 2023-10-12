@@ -66,14 +66,15 @@ comment on column preset_sys.psys_abac_subject.attr_set is '主体属性集合';
 
 create table if not exists preset_sys.psys_auth_user
 (
-    id         bigint      not null,
-    username   varchar(50) not null,
-    password   char(60)    not null,
-    nickname   varchar(50) not null,
-    subject_id bigint      not null,
-    account_id bigint      not null,
-    enabled    boolean     not null,
-    expired    boolean     not null,
+    id          bigint      not null,
+    username    varchar(50) not null,
+    password    char(60)    not null,
+    nickname    varchar(50) not null,
+    subject_id  bigint      not null,
+    account_id  bigint      not null,
+    enabled     boolean     not null,
+    expired     boolean     not null,
+    description varchar(300),
     constraint psys_auth_user_pk
     primary key (id)
     );
@@ -95,6 +96,8 @@ comment on column preset_sys.psys_auth_user.account_id is '账户id';
 comment on column preset_sys.psys_auth_user.enabled is '是否可用';
 
 comment on column preset_sys.psys_auth_user.expired is '是否过期';
+
+comment on column preset_sys.psys_auth_user.description is '描述';
 
 create index if not exists psys_auth_user_account_id_index
     on preset_sys.psys_auth_user (account_id);
@@ -164,4 +167,88 @@ comment on column preset_sys.psys_auth_account.enabled is '是否可用';
 create table if not exists preset_sys.psys_auth_token
 (
 );
+
+create table if not exists preset_sys.psys_menu
+(
+    id              bigint      not null,
+    menu_name       varchar(50) not null,
+    uri_route       varchar(200),
+    component_route varchar(250),
+    auth_values     jsonb       not null,
+    sort            integer     not null,
+    type            char        not null,
+    redirect_uri    varchar(250),
+    icon            varchar(50),
+    link_address    varchar(250),
+    hidden          boolean     not null,
+    cached          boolean     not null,
+    pinned          boolean     not null,
+    outer_link      boolean     not null,
+    embed           boolean     not null,
+    constraint psys_menu_pk
+    primary key (id)
+    );
+
+comment on column preset_sys.psys_menu.id is '主键';
+
+comment on column preset_sys.psys_menu.menu_name is '菜单名称';
+
+comment on column preset_sys.psys_menu.uri_route is '路径路由';
+
+comment on column preset_sys.psys_menu.component_route is '组件路由';
+
+comment on column preset_sys.psys_menu.auth_values is '权限标识';
+
+comment on column preset_sys.psys_menu.sort is '排序';
+
+comment on column preset_sys.psys_menu.type is '类型（1菜单 2按钮）';
+
+comment on column preset_sys.psys_menu.redirect_uri is '重定向地址';
+
+comment on column preset_sys.psys_menu.icon is '图标';
+
+comment on column preset_sys.psys_menu.link_address is '链接地址';
+
+comment on column preset_sys.psys_menu.hidden is '是否隐藏';
+
+comment on column preset_sys.psys_menu.cached is '是否缓存';
+
+comment on column preset_sys.psys_menu.pinned is '是否固定';
+
+comment on column preset_sys.psys_menu.outer_link is '是否外链';
+
+comment on column preset_sys.psys_menu.embed is '是否嵌入';
+
+create table if not exists preset_sys.psys_auth_role
+(
+    id          bigint      not null,
+    role_title  varchar(50) not null,
+    role_name   integer     not null,
+    sort        integer     not null,
+    description varchar(300),
+    enabled     boolean,
+    constraint psys_auth_role_pk
+    primary key (id)
+    );
+
+comment on table preset_sys.psys_auth_role is '角色表';
+
+comment on column preset_sys.psys_auth_role.id is '主键';
+
+comment on column preset_sys.psys_auth_role.role_title is '角色名称';
+
+comment on column preset_sys.psys_auth_role.sort is '排序';
+
+comment on column preset_sys.psys_auth_role.description is '描述';
+
+comment on column preset_sys.psys_auth_role.enabled is '是否启用';
+
+create table if not exists preset_sys.psys_auth_department
+(
+    id bigint
+);
+
+comment on table preset_sys.psys_auth_department is '部门机构';
+
+comment on column preset_sys.psys_auth_department.id is '主键';
 

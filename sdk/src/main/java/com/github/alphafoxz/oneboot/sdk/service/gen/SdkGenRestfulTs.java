@@ -61,15 +61,15 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             code.add("import * as " + includeName + " from '" + includeValue + "'");
         }
         if (namespace.contains("apis")) {
-            String importStr = "import { requireAxios, requireJSON, type _Page } from '";
+            String importStr = "import { requireAxios as _requireAxios, requireJSON as _requireJSON, type Page as _Page } from '";
             int layer = StrUtil.count(namespace, ".") + 1;
             for (int i = 0; i < layer; i++) {
                 importStr += "../";
             }
             importStr += "apisUtil'";
             code.add(importStr);
-            code.add("const axios = requireAxios()");
-            code.add("const jsonUtil = requireJSON()\n");
+            code.add("const _axios = _requireAxios()");
+            code.add("const _jsonUtil = _requireJSON()\n");
             for (var interfaceBean : rootBean.getInterfaceList()) {
                 code.add(genApiCode(interfaceBean));
             }
@@ -167,7 +167,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                     if (param.getDoc() != null) {
                         int i = 0;
                         for (String s : param.getDoc().getCommentValue().split("\n", -1)) {
-                            String prefix = i == 0 ? "@param " + param.getParamName() + " " : TAB + TAB;
+                            String prefix = i == 0 ? "@param p_" + param.getParamName() + " " : TAB + TAB;
                             innerDoc.add(prefix + s);
                             i++;
                         }
@@ -186,25 +186,25 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                     }
                     case GET_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await axios.get(`{}`)).data";
+                        executeFormat = TAB + TAB + "return (await _axios.get(`{}`)).data";
                     }
                     case DELETE_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await axios.delete(`{}`)).data";
+                        executeFormat = TAB + TAB + "return (await _axios.delete(`{}`)).data";
                     }
                     case POST_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await axios.post(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _axios.post(`{}`, {})).data";
                         isPost = true;
                     }
                     case PUT_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await axios.put(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _axios.put(`{}`, {})).data";
                         isPost = true;
                     }
                     case PATCH_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await axios.patch(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _axios.patch(`{}`, {})).data";
                         isPost = true;
                     }
                 }
@@ -212,27 +212,27 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             Set<String> pathVarSet = CollUtil.newHashSet();
             for (String match : ReUtil.findAllGroup0("\\{\\s*\\w+\\s*}", functionUri)) {
                 String pathVar = match.substring(1, match.length() - 1).trim();
-                functionUri = StrUtil.replaceFirst(functionUri, match, "${encodeURI(" + pathVar + ".toString())}");
+                functionUri = StrUtil.replaceFirst(functionUri, match, "${encodeURI(p_" + pathVar + ".toString())}");
                 pathVarSet.add(pathVar);
             }
             if (isPost && interfaceFunction.getParamList().size() == 1 && !interfaceFunction.getParamList().get(0).getParamType().isIntype()) {
                 // 只有单个参数
-                executeParam = interfaceFunction.getParamList().get(0).getParamName();
+                executeParam = "p_" + interfaceFunction.getParamList().get(0).getParamName();
             } else {
-                StringJoiner executeParamJoiner = isPost ? new StringJoiner(", ", "{", "}") : new StringJoiner("&", "?", "");
+                StringJoiner executeParamJoiner = isPost ? new StringJoiner(", ", "{ ", " }") : new StringJoiner("&", "?", "");
                 executeParamJoiner.setEmptyValue("");
                 for (var param : interfaceFunction.getParamList()) {
                     if (pathVarSet.contains(param.getParamName())) {
                         continue;
                     }
                     if (isPost) {
-                        executeParamJoiner.add(param.getParamName());
+                        executeParamJoiner.add(param.getParamName() + ": p_" + param.getParamName());
                         continue;
                     }
                     if (param.getParamType().isIntype()) {
-                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(" + param.getParamName() + ")}");
+                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(p_" + param.getParamName() + ")}");
                     } else {
-                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(jsonUtil.stringify(" + param.getParamName() + "))}");
+                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(_jsonUtil.stringify(p_" + param.getParamName() + "))}");
                     }
                 }
                 executeParam = executeParamJoiner.toString();
@@ -240,7 +240,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             String functionHeader = TAB + interfaceFunction.getFunctionName() + ": async ";
             StringJoiner paramStringJoiner = new StringJoiner(", ", "(", ")");
             for (var param : interfaceFunction.getParamList()) {
-                paramStringJoiner.add(param.getParamName() + ": " + param.getParamType().tsString());
+                paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString());
             }
             String returnTypeString = isPage ? "_Page<" + interfaceFunction.getReturnType().tsString() + ">" : interfaceFunction.getReturnType().tsString();
             code.add(functionHeader + paramStringJoiner + ": Promise<" + returnTypeString + "> => {");
