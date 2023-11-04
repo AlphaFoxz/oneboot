@@ -116,8 +116,16 @@ public class SdkThriftService implements SdkThriftIface.Iface {
         }
     }
 
+    /**
+     * Generates a SdkFileInfoDto object representing the file tree rooted at the specified file or directory.
+     *
+     * @param  fileOrDir  the root file or directory
+     * @param  level      the level of the current file or directory in the tree
+     * @return            the SdkFileInfoDto object representing the file tree
+     */
     private SdkFileInfoDto readFileTree(File fileOrDir, int level) {
         SdkFileInfoDto dto = new SdkFileInfoDto();
+        dto.setSeparator(File.separator);
         dto.setIsReadOnly(level <= 2);
         dto.setFilePath(fileOrDir.getAbsolutePath());
         dto.setFileName(fileOrDir.getName());
@@ -127,6 +135,7 @@ public class SdkThriftService implements SdkThriftIface.Iface {
             dto.setExt(FileUtil.getSuffix(fileOrDir));
             dto.setFileType(SdkFileTypeEnum.LOCAL_FILE);
             dto.setIsEmpty(FileUtil.size(fileOrDir) == 0);
+            dto.setContent(FileUtil.readUtf8String(fileOrDir));
             return dto;
         }
         // 目录类型

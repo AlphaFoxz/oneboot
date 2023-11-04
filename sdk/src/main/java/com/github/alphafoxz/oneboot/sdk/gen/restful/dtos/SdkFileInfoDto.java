@@ -14,6 +14,10 @@ public class SdkFileInfoDto {
     private String parentDir;
     @Schema(name = "fileName", description = "")
     private String fileName;
+    @Schema(name = "separator", description = "")
+    private String separator;
+    @Schema(name = "content", description = "")
+    private String content;
     @Schema(name = "ext", description = "")
     private String ext;
     @Schema(name = "fileType", description = "")
@@ -35,6 +39,14 @@ public class SdkFileInfoDto {
     }
     public SdkFileInfoDto setFileName(String fileName) {
         this.fileName = fileName;
+        return this;
+    }
+    public SdkFileInfoDto setSeparator(String separator) {
+        this.separator = separator;
+        return this;
+    }
+    public SdkFileInfoDto setContent(String content) {
+        this.content = content;
         return this;
     }
     public SdkFileInfoDto setExt(String ext) {
