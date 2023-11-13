@@ -17,4 +17,8 @@ service SdkInfoIface {
     SdkResponseDto.SdkListResponseDto deleteFile(1:required SdkRequestDto.SdkStringRequestDto filePath)
     /*保存指定文件*/
     SdkResponseDto.SdkStringResponseDto createOrUpdateFile(1:required SdkRequestDto.SdkStringRequestDto filePath, 2:required string fileContent)
+    /*创建文件夹*/
+    SdkResponseDto.SdkStringResponseDto createFolder(1:required SdkRequestDto.SdkStringRequestDto folderPath)
+    /*重命名文件*/
+    SdkResponseDto.SdkStringResponseDto renameFile(1:required SdkRequestDto.SdkStringRequestDto filePath, 2:required string newPath)
 }

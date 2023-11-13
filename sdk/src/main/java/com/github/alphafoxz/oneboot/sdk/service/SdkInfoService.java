@@ -162,8 +162,9 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     @Override
     public SdkStringResponseDto createOrUpdateFile(SdkStringRequestDto filePath, String fileContent) throws TException {
         SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        File file = FileUtil.file(filePath.getData());
-        if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), SdkConstants.PROJECT_ROOT_PATH)) {
+        String path = filePath.getData();
+        File file = FileUtil.file(path);
+        if (StrUtil.isBlank(path) || !path.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
             result.setMessage("【文件路径非法】" + file.getAbsolutePath());
             result.setSuccess(false);
             return result;
@@ -173,6 +174,44 @@ public class SdkInfoService implements SdkInfoIface.Iface {
             return result;
         }
         FileUtil.writeUtf8String(fileContent, file);
+        return result;
+    }
+
+    @Override
+    public SdkStringResponseDto createFolder(SdkStringRequestDto folderPath) throws TException {
+        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
+        String path = folderPath.data;
+        if (StrUtil.isBlank(path) || !path.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
+            result.setMessage("【文件路径非法】" + path);
+            result.setSuccess(false);
+            return result;
+        }
+        try {
+            FileUtil.mkdir(path);
+        } catch (Exception e) {
+            result.setMessage("【文件夹创建失败】" + e.getMessage());
+            result.setSuccess(false);
+            return result;
+        }
+        return result;
+    }
+
+    @Override
+    public SdkStringResponseDto renameFile(SdkStringRequestDto filePath, String newPath) throws TException {
+        SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
+        File file = FileUtil.file(filePath.getData());
+        if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), SdkConstants.PROJECT_ROOT_PATH) || !newPath.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
+            result.setMessage("【文件路径非法】" + file.getAbsolutePath());
+            result.setSuccess(false);
+            return result;
+        }
+        try {
+            file.renameTo(FileUtil.file(newPath));
+        } catch (Exception e) {
+            result.setMessage("【文件重命名失败】" + e.getMessage());
+            result.setSuccess(false);
+            return result;
+        }
         return result;
     }
 }

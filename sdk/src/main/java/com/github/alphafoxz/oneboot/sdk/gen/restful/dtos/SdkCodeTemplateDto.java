@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import java.util.Map;
 
-@Schema(name = "SdkThriftTemplateDto", description = "")
+@Schema(name = "SdkCodeTemplateDto", description = "")
 @Getter
 public class SdkCodeTemplateDto {
     @Schema(name = "filePath", description = "")
