@@ -3,7 +3,6 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
-    `kotlin-dsl`
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_17
