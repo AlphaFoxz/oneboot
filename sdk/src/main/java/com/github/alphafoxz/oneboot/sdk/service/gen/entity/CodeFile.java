@@ -22,6 +22,12 @@ public class CodeFile {
     public boolean writeToLocal() {
         File javaFile = FileUtil.file(path);
         try {
+            if(javaFile.exists()) {
+                String oriContent = FileUtil.readUtf8String(javaFile);
+                if (content.equals(oriContent)) {
+                    return true;
+                }
+            }
             FileUtil.mkParentDirs(javaFile);
             FileUtil.writeString(content, path, charset);
             log.debug("生成代码：\n路径 {}\n内容 {}", path, content);

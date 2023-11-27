@@ -24,7 +24,7 @@ public interface SdkThriftApi extends HttpController {
     public ResponseEntity<SdkStringResponseDto> getExecutableFilePath();
 
     @GetMapping({"/getTemplateContentByPath"})
-    @Operation(summary = "根据文件路径获取thrift模板内容")
+    @Operation(summary = "根据文件路径获取模板内容")
     public ResponseEntity<SdkCodeTemplateResponseDto> getTemplateContentByPath(
             @Parameter(description = "") String filePath
     );

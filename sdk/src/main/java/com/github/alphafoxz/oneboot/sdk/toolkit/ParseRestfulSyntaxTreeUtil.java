@@ -282,6 +282,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
     public static class TypeBean {
         public static final Map<String, String> JAVA_INTYPE_MAP = MapUtil.newHashMap();
         public static final Map<String, String> TS_INTYPE_MAP = MapUtil.newHashMap();
+        public static final Map<String, String> SQL_INTYPE_MAP = MapUtil.newHashMap();
 
         static {
             JAVA_INTYPE_MAP.put(Intypes.BOOLEAN, "Boolean");
@@ -307,10 +308,23 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TS_INTYPE_MAP.put(Intypes.DOUBLE, "number");
             TS_INTYPE_MAP.put(Intypes.BINARY, "string");
             TS_INTYPE_MAP.put(Intypes.STRING, "string");
+
+            SQL_INTYPE_MAP.put(Intypes.BOOLEAN, "bool");
+            SQL_INTYPE_MAP.put(Intypes.BYTE, "char");
+            SQL_INTYPE_MAP.put(Intypes.I16, "smallint");
+            SQL_INTYPE_MAP.put(Intypes.I32, "integer");
+            SQL_INTYPE_MAP.put(Intypes.I64, "bigint");
+            SQL_INTYPE_MAP.put(Intypes.SHORT, "smallint");
+            SQL_INTYPE_MAP.put(Intypes.INT, "integer");
+            SQL_INTYPE_MAP.put(Intypes.LONG, "bigint");
+            SQL_INTYPE_MAP.put(Intypes.DOUBLE, "double precision");
+            SQL_INTYPE_MAP.put(Intypes.BINARY, "bytea");
+            SQL_INTYPE_MAP.put(Intypes.STRING, "varchar(200)");
         }
 
         private String javaSimpleName;
         private String tsSimpleName;
+        private String sqlSimpleName;
         private TypeBean t1;
         private TypeBean t2;
         private boolean isIntype = false;
@@ -352,6 +366,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 str += " | undefined";
             }
             return str;
+        }
+
+        public String sqlString() {
+            return sqlSimpleName;
         }
     }
 
@@ -858,6 +876,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             result.setIntype(true);
             result.setJavaSimpleName(TypeBean.JAVA_INTYPE_MAP.get(intypeString));
             result.setTsSimpleName(TypeBean.TS_INTYPE_MAP.get(intypeString));
+            result.setSqlSimpleName(TypeBean.SQL_INTYPE_MAP.get(intypeString));
             return result;
         }
 
@@ -865,6 +884,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TypeBean result = new TypeBean();
             result.setJavaSimpleName("Map");
             result.setTsSimpleName("Record");
+            result.setSqlSimpleName("jsonb");
             result.setMap(true);
             result.getImportJavaTypeName().add(Map.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
@@ -884,6 +904,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TypeBean result = new TypeBean();
             result.setJavaSimpleName("List");
             result.setTsSimpleName("");
+            result.setSqlSimpleName("jsonb");
             result.setCollection(true);
             result.getImportJavaTypeName().add(List.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
@@ -900,6 +921,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TypeBean result = new TypeBean();
             result.setJavaSimpleName("Set");
             result.setTsSimpleName("");
+            result.setSqlSimpleName("jsonb");
             result.setCollection(true);
             result.getImportJavaTypeName().add(Set.class.getName());
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
@@ -947,6 +969,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 }
             }
             result.setTsSimpleName(importTsTypeName);
+            result.setSqlSimpleName("jsonb");
             return result;
         }
     }
