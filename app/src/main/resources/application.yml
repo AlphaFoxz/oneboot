@@ -1,4 +1,6 @@
 spring:
+  aop:
+    proxy-target-class: true
   web:
     resources:
       static-locations: classpath:/static/
@@ -9,4 +11,3 @@ spring:
       - dev-preset_sys
       - dev-app
       - dev-sdk
-
