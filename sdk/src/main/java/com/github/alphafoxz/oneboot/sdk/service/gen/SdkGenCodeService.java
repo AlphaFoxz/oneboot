@@ -5,10 +5,7 @@ import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateRequestDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkMapResponseDto;
-import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkGenCodeIface;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
@@ -44,6 +41,8 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private SdkGenRestfulJava sdkGenRestfulJava;
     @Resource
     private SdkGenRestfulTs sdkGenRestfulTs;
+    @Resource
+    private SdkGenRestfulSql sdkGenRestfulSql;
 
     @Override
     public SdkMapResponseDto previewGenerateTsApi(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
@@ -57,18 +56,11 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             return result;
         }
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
-        ParseRestfulSyntaxTreeUtil.RootBean rootBean;
         try {
-            restfulRoot = ParseRestfulSyntaxTreeUtil.parseRestfulRoot(templateDto.getData());
-            rootBean = restfulRoot.getRootBean();
+            restfulRoot = parseRestfulRoot(templateDto.getData());
         } catch (Exception e) {
-            log.error("解析json异常，请检查传参", e);
-            result.setMessage("解析json异常，请检查传参\n" + e.getMessage());
-            return result;
-        }
-        if (!rootBean.getNamespaceMap().containsKey(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.TS)) {
-            log.error("语法树中缺少namespace");
-            result.setMessage("语法树中缺少namespace");
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
             return result;
         }
         genDir = StrUtil.replace(genDir, "\\", "/");
@@ -92,18 +84,11 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
         // 映射语法树
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
-        ParseRestfulSyntaxTreeUtil.RootBean rootBean;
         try {
-            restfulRoot = ParseRestfulSyntaxTreeUtil.parseRestfulRoot(templateDto.getData());
-            rootBean = restfulRoot.getRootBean();
+            restfulRoot = parseRestfulRoot(templateDto.getData());
         } catch (Exception e) {
-            log.error("解析json异常，请检查传参", e);
-            result.setMessage("解析json异常，请检查传参\n" + e.getMessage());
-            return result;
-        }
-        if (!rootBean.getNamespaceMap().containsKey(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA)) {
-            log.error("语法树中缺少namespace");
-            result.setMessage("语法树中缺少namespace");
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
             return result;
         }
         boolean b = sdkGenRestfulJava.genAndWriteCodeFiles(restfulRoot, null);
@@ -172,6 +157,62 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
         result.setSuccess(true);
         return result;
+    }
+
+    @Override
+    public SdkMapResponseDto previewGenerateSql(SdkCodeTemplateRequestDto templateDto) throws TException {
+        SdkMapResponseDto result = new SdkMapResponseDto(snowflake.nextId(), templateDto.getTaskId(), false);
+        result.setData(MapUtil.newHashMap());
+        // 检查基本SDK环境
+        SdkListResponseDto checkInfo = sdkInfoService.checkThriftErr();
+        if (!checkInfo.isSuccess()) {
+            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查thrift时发现错误");
+            return result;
+        }
+        ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRootBean;
+        try {
+            restfulRootBean = parseRestfulRoot(templateDto.getData());
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            return result;
+        }
+        Set<CodeFile> fileSet = sdkGenRestfulSql.genCodeFileSet(restfulRootBean, "");
+        for (CodeFile codeFile : fileSet) {
+            result.getData().put(codeFile.getPath(), codeFile.getContent());
+        }
+        result.setSuccess(true);
+        return result;
+    }
+
+    @Override
+    public SdkListResponseDto checkTsApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public SdkListResponseDto checkJavaApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
+        // TODO
+        return null;
+    }
+
+    private ParseRestfulSyntaxTreeUtil.RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto templateDto) {
+        ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
+        ParseRestfulSyntaxTreeUtil.RootBean rootBean;
+        try {
+            restfulRoot = ParseRestfulSyntaxTreeUtil.parseRestfulRoot(templateDto);
+            rootBean = restfulRoot.getRootBean();
+        } catch (Exception e) {
+            log.error("解析json异常，请检查传参", e);
+            throw new RuntimeException("解析json异常，请检查传参\n" + e.getMessage());
+        }
+        if (!rootBean.getNamespaceMap().containsKey(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.TS)) {
+            log.error("语法树中缺少namespace");
+            throw new RuntimeException("语法树中缺少namespace");
+        }
+        return restfulRoot;
     }
 
     private String readJavaNamespace(File thriftFile) {

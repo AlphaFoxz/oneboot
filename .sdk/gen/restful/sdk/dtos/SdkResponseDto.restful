@@ -5,66 +5,122 @@ namespace rs thrift.gen.dtos
 import "./SdkCodeTemplateDto.restful"
 import "./SdkFileInfoDto.restful"
 
+//响应体的data字段是list
+/*字符串列表响应实体*/
 class SdkListResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional list<string> data
 }
 
+//响应体的data字段是map
+/*字符串map响应实体*/
 class SdkMapResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional map<string, string> data
 }
 
+//响应体的data字段是long
+/*长整型响应实体*/
 class SdkLongResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional long data
 }
 
+//响应体的data字段是double
+/*双精度小数响应实体*/
 class SdkDoubleResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional double data
 }
 
+//响应体的data字段是binary
+/*二进制响应实体*/
 class SdkBinaryResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional binary data
 }
 
+//响应体的data字段是string
+/*字符串响应实体*/
 class SdkStringResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional string data
 }
 
+//响应体的data字段是SdkCodeTemplateDto
+/*代码模板响应实体*/
 class SdkCodeTemplateResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional SdkCodeTemplateDto.SdkCodeTemplateDto data
 }
 
+//响应体的data字段是SdkFileInfoDto
+/*文件树响应实体*/
 class SdkFileTreeResponseDto {
+    /*主键*/
     required long id
+    /*任务id*/
     required long taskId
+    /*是否成功*/
     required boolean success
+    /*消息*/
     optional string message
+    /*数据内容*/
     optional SdkFileInfoDto.SdkFileInfoDto data
 }
