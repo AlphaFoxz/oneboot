@@ -186,25 +186,25 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                     }
                     case GET_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await _axios.get(`{}`)).data";
+                        executeFormat = TAB + TAB + "return _axios.get(`{}`)";
                     }
                     case DELETE_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await _axios.delete(`{}`)).data";
+                        executeFormat = TAB + TAB + "return _axios.delete(`{}`)";
                     }
                     case POST_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await _axios.post(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return _axios.post(`{}`, {})";
                         isPost = true;
                     }
                     case PUT_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await _axios.put(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return _axios.put(`{}`, {})";
                         isPost = true;
                     }
                     case PATCH_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await _axios.patch(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return _axios.patch(`{}`, {})";
                         isPost = true;
                     }
                 }
