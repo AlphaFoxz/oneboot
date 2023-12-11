@@ -23,7 +23,7 @@ import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_
  * 动态访问控制api
  */
 @Service
-public class PsysAbacDynamicAuthApiService implements AbacDynamicAuthApi {
+public class PsysAbacDynamicAuthService implements AbacDynamicAuthApi {
     @Resource
     private PsysAbacDynamicAuthorizationCrud psysAbacDynamicAuthorizationCrud;
 

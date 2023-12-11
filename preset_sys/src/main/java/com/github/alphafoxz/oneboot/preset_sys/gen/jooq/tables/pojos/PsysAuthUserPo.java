@@ -7,6 +7,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 import java.io.Serializable;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -21,7 +22,8 @@ public record PsysAuthUserPo(
     @NonNull Long subjectId,
     @NonNull Long accountId,
     @NonNull Boolean enabled,
-    @NonNull Boolean expired
+    @NonNull Boolean expired,
+    @Nullable String description
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -84,6 +86,12 @@ public record PsysAuthUserPo(
         }
         else if (!this.expired.equals(other.expired))
             return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
         return true;
     }
 
@@ -99,6 +107,7 @@ public record PsysAuthUserPo(
         result = prime * result + ((this.accountId == null) ? 0 : this.accountId.hashCode());
         result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
         result = prime * result + ((this.expired == null) ? 0 : this.expired.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         return result;
     }
 
@@ -114,6 +123,7 @@ public record PsysAuthUserPo(
         sb.append(", ").append(accountId);
         sb.append(", ").append(enabled);
         sb.append(", ").append(expired);
+        sb.append(", ").append(description);
 
         sb.append(")");
         return sb.toString();

@@ -5,6 +5,7 @@ import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthAccountPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthUserPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
 import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthAccountCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthUserCrud;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_AUTH_USER;
 
 @Service
-public class PsysLoginService {
+public class PsysAuthTokenService {
     @Resource
     private PsysAuthUserCrud psysAuthUserCrud;
     @Resource
@@ -33,7 +34,7 @@ public class PsysLoginService {
     private PasswordEncoder passwordEncoder;
 
     @NonNull
-    public Tuple2<String, String> getAccessTokenAndRefreshToken(@NonNull String username, @NonNull String password) {
+    public PsysAuthTokenInfoDto getAccessTokenAndRefreshToken(@NonNull String username, @NonNull String password) {
         PsysAuthUserPo psysAuthUserPo = psysAuthUserCrud.selectOne(
                 PSYS_AUTH_USER.USERNAME.eq(username)
         );
@@ -48,9 +49,9 @@ public class PsysLoginService {
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails instanceof UserDetailsImpl userDetailsImpl) {
-            return JwtUtil.genAccessTokenAndRefreshToken(userDetailsImpl);
+            return JwtUtil.genAuthUserInfo(userDetailsImpl);
         }
-        return JwtUtil.genAccessTokenAndRefreshToken(UserDetailsImpl.from(userDetails));
+        return JwtUtil.genAuthUserInfo(UserDetailsImpl.from(userDetails));
     }
 
     public void checkUserOrThrowsException(@Nullable PsysAuthUserPo psysAuthUserPo) throws RuntimeException {
@@ -66,16 +67,18 @@ public class PsysLoginService {
         }
     }
 
-    public Tuple2<String, String> refreshTokenByOld(Tuple2<String, String> token) {
-        SignedJWT refreshToken = JwtUtil.toVerifiedJwt(token.getIndex1());
-        if (!JwtUtil.verify(token.getIndex0()) || refreshToken == null || JwtUtil.isTokenExpired(refreshToken)) {
+    public PsysAuthTokenInfoDto refreshTokenByOld(PsysAuthTokenInfoDto userInfoDto) {
+        SignedJWT refreshToken = JwtUtil.toVerifiedJwt(userInfoDto.getRefreshToken());
+        if (!JwtUtil.verify(userInfoDto.getAccessToken()) || refreshToken == null || JwtUtil.isTokenExpired(refreshToken)) {
             throw new OnebootAuthException("验证失败，请重新登录", HttpStatus.UNAUTHORIZED);
         }
-        Tuple2<String, String> newToken = JwtUtil.genNewTokenByRefreshToken(token.getIndex1());
+        Tuple2<String, String> newToken = JwtUtil.genNewTokenByRefreshToken(userInfoDto.getAccessToken());
         if (newToken == null) {
             throw new OnebootAuthException("验证失败，请重新登录", HttpStatus.UNAUTHORIZED);
         }
-        return newToken;
+        userInfoDto.setAccessToken(newToken.getIndex0());
+        userInfoDto.setRefreshToken(newToken.getIndex1());
+        return userInfoDto;
     }
 
     public void logout() {

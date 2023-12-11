@@ -48,6 +48,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
         code.add("""
                 import io.swagger.v3.oas.annotations.Operation;
+                import io.swagger.v3.oas.annotations.media.Content;
+                import io.swagger.v3.oas.annotations.media.Schema;
+                import io.swagger.v3.oas.annotations.responses.ApiResponse;
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
@@ -255,7 +258,12 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             }
             //解析API注释
             ParseRestfulSyntaxTreeUtil.CommentBean functionDoc = interfaceFunction.getDoc();
-            code.add(StrUtil.format(TAB + "@Operation(summary = {})", commentDocToStringWrapParam(functionDoc)));
+            String formatStr = TAB + "@Operation(summary = {}, responses = {\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"请求成功\", responseCode = \"200\", content = @Content(mediaType = \"application/json\", schema = @Schema(implementation = String.class))),\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"无权限\", responseCode = \"403\", content = @Content(schema = @Schema(hidden = true))),\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"参数无效\", responseCode = \"400\", content = @Content(schema = @Schema(hidden = true))),\n"
+                    + TAB + "})";
+            code.add(StrUtil.format(formatStr, commentDocToStringWrapParam(functionDoc)));
         }
         String returnType = interfaceFunction.getReturnType().javaString();
         if ("void".equals(returnType)) {

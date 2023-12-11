@@ -40,7 +40,7 @@ import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_
  */
 @Slf4j
 @Service
-public class PsysAbacApiService implements AbacApi {
+public class PsysAbacService implements AbacApi {
     @Resource
     private PsysAbacResourceCrud psysAbacResourceCrud;
     @Resource
@@ -48,7 +48,7 @@ public class PsysAbacApiService implements AbacApi {
     @Resource
     private PsysAbacResourceProtectionCrud psysAbacResourceProtectionCrud;
     @Resource
-    private PsysAbacDynamicAuthApiService psysDacApiService;
+    private PsysAbacDynamicAuthService psysDacApiService;
 
     @Override
     public boolean access(@NonNull Long subjectId,

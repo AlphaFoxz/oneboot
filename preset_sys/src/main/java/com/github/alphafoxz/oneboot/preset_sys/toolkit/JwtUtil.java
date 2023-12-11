@@ -2,14 +2,12 @@ package com.github.alphafoxz.oneboot.preset_sys.toolkit;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ResourceUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SecureUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SpringUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuples;
 import com.github.alphafoxz.oneboot.preset_sys.PsysConstants;
 import com.github.alphafoxz.oneboot.preset_sys.configuration.PsysProperties;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -72,12 +70,67 @@ public final class JwtUtil {
         return jwtProperties;
     }
 
+    public static PsysAuthTokenInfoDto genAuthUserInfo(@NonNull UserDetailsImpl userDetails) {
+        PsysAuthTokenInfoDto dto = new PsysAuthTokenInfoDto();
+        Date now = Date.from(Instant.now());
+        Instant accessTokenInstant = Instant.now();
+        Instant refreshTokenInstant = Instant.now();
+        accessTokenInstant = accessTokenInstant.plus(getJwtProperties().getAccessTokenExpireTime(), getJwtProperties().getAccessTokenExpireTimeUnit().toChronoUnit());
+        refreshTokenInstant = refreshTokenInstant.plus(getJwtProperties().getRefreshTokenExpireTime(), getJwtProperties().getRefreshTokenExpireTimeUnit().toChronoUnit());
+        String subjectId = userDetails.getSubjectId().toString();
+        JWTClaimsSet accessClaimsSet = new JWTClaimsSet.Builder()
+                .jwtID(getSnowFlake().nextIdStr())
+                .issueTime(now)
+                .issuer("SYSTEM")
+                .expirationTime(Date.from(accessTokenInstant))
+                .claim("username", userDetails.getUsername())
+                .claim("password", userDetails.getPassword())
+                .claim("authorities", userDetails.getAuthorities())
+                .claim("enabled", userDetails.isEnabled())
+                .claim("accountNonExpired", userDetails.isAccountNonExpired())
+                .claim("accountNonLocked", userDetails.isAccountNonLocked())
+                .claim("credentialsNonExpired", userDetails.isCredentialsNonExpired())
+                .subject(subjectId)
+                .build();
+        JWTClaimsSet refreshClaimsSet = new JWTClaimsSet.Builder()
+                .jwtID(getSnowFlake().nextIdStr())
+                .issueTime(now)
+                .issuer("SYSTEM")
+                .expirationTime(Date.from(refreshTokenInstant))
+                .claim("username", userDetails.getUsername())
+                .claim("password", userDetails.getPassword())
+                .claim("authorities", userDetails.getAuthorities())
+                .claim("enabled", userDetails.isEnabled())
+                .claim("accountNonExpired", userDetails.isAccountNonExpired())
+                .claim("accountNonLocked", userDetails.isAccountNonLocked())
+                .claim("credentialsNonExpired", userDetails.isCredentialsNonExpired())
+                .subject(subjectId)
+                .build();
+        SignedJWT accessToken = new SignedJWT(JWS_HEADER, accessClaimsSet);
+        SignedJWT refreshToken = new SignedJWT(JWS_HEADER, refreshClaimsSet);
+        try {
+            accessToken.sign(getJwsSigner());
+            refreshToken.sign(getJwsSigner());
+        } catch (Throwable t) {
+            log.error("签名报错", t);
+            throw new OnebootApiDesignException("签名失败，请检查功能", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        dto.setUsername(userDetails.getUsername());
+//        dto.setRoles(CollUtil.newArrayList(userDetails.getAuthorities()).stream().map(s -> s.toString()).collect(Collectors.toList()));
+        //TODO 权限
+        dto.setRoles(CollUtil.newArrayList("admin"));
+        dto.setExpires(DateUtil.format(Date.from(accessTokenInstant), "yyyy/MM/dd HH:mm:ss"));
+        dto.setAccessToken(accessToken.serialize());
+        dto.setRefreshToken(refreshToken.serialize());
+        return dto;
+    }
+
     public static Tuple2<String, String> genAccessTokenAndRefreshToken(@NonNull UserDetailsImpl userDetails) {
         Date now = Date.from(Instant.now());
         Instant accessTokenInstant = Instant.now();
         Instant refreshTokenInstant = Instant.now();
-        accessTokenInstant.plus(getJwtProperties().getAccessTokenExpireTime(), getJwtProperties().getAccessTokenExpireTimeUnit().toChronoUnit());
-        refreshTokenInstant.plus(getJwtProperties().getRefreshTokenExpireTime(), getJwtProperties().getRefreshTokenExpireTimeUnit().toChronoUnit());
+        accessTokenInstant = accessTokenInstant.plus(getJwtProperties().getAccessTokenExpireTime(), getJwtProperties().getAccessTokenExpireTimeUnit().toChronoUnit());
+        refreshTokenInstant = refreshTokenInstant.plus(getJwtProperties().getRefreshTokenExpireTime(), getJwtProperties().getRefreshTokenExpireTimeUnit().toChronoUnit());
         String subjectId = userDetails.getSubjectId().toString();
         JWTClaimsSet accessClaimsSet = new JWTClaimsSet.Builder()
                 .jwtID(getSnowFlake().nextIdStr())
