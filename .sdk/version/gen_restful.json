@@ -1,0 +1,17 @@
+{
+    "\\app\\apis\\AppTestApi.restful": "5d2441fa30277caf994d72351cae20d0adcbe48b00b93db4aefc173cd39553cc",
+    "\\app\\dtos\\AppTestDto.restful": "3fc04fdf0838fb46541836c3246b5bc05a6b7d77f5936cdb4a1ac0de48210052",
+    "\\preset_sys\\apis\\PsysAuthApi.restful": "a385466eeb3e957722bb0e17163efd0065f6c55c2621014a24534ea3ffc7877b",
+    "\\preset_sys\\apis\\PsysMenuApi.restful": "65960a1f079d9604730fb5a6c712932cb60915d81cf1dd04f9388ff2ee7fb561",
+    "\\preset_sys\\dtos\\PsysAuthDto.restful": "26e5d27669048dab52e534c9661c1bfe2452b176e6ff5d8ff3debe58f350e2e8",
+    "\\preset_sys\\dtos\\PsysMenuDto.restful": "d784122cd0195c77df98f34d5ec0d56e94ea09e8d192c2e8990433098f4b6b1b",
+    "\\sdk\\apis\\SdkGenCodeApi.restful": "457f8f2035f9b301b6da927c89aff32d9424b786f9f40e3c8dfe4fbdfdce7342",
+    "\\sdk\\apis\\SdkInfoApi.restful": "45695745874f3ded50f75e1f158b215f9631a5ed97e71e902e7f0880beb60e76",
+    "\\sdk\\apis\\SdkThriftApi.restful": "c5821ad7419a63afd8e770d01b46b44bd1bc3509f74c8cd3ee4dfa25495756ce",
+    "\\sdk\\apis\\SdkVersionApi.restful": "db1804c2c70290250e324afaf8784f9fc267a21a1fef44a2485530c9a430ff47",
+    "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "f07502285957b93e0ef780e9c527fa99130e1ea178aeb4a7d00270e2505db434",
+    "\\sdk\\dtos\\SdkFileInfoDto.restful": "37672727c5b019509c7a78487d8151a853e1cfb12e4432f0964189f884d32675",
+    "\\sdk\\dtos\\SdkResponseDto.restful": "f7f34b2c2b3944f60f626f69b5c184219ee641cc1b8f2aaf7d58a230dd09d4f4",
+    "\\sdk\\dtos\\SdkVersionDto.restful": "f8b14b6b44d85d5682d846ca73ff8bab8e63a7f843078d50104a0f478197b3b9",
+    "\\sdk\\enums\\SdkFileTypeEnum.restful": "daa243d90d892bd51ce776209f8ace8cfbf0517cb70fd0dbf1b053e15db3380b"
+}

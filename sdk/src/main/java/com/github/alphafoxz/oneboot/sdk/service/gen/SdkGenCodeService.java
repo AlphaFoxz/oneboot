@@ -10,6 +10,7 @@ import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkGenCodeIface;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
 import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
+import com.github.alphafoxz.oneboot.sdk.service.version.SdkVersionStoreService;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,12 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.TreeMap;
 
 // 注意 @javax.annotation.processing.Generated 和 @javax.annotation.processing.Generated的转换
 // 执行命令为 thrift-0.18.1.exe -out F:\idea_projects\oneboot\sdk\src\main\java --gen java .\CommandIface.thrift
@@ -43,9 +46,15 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private SdkGenRestfulTs sdkGenRestfulTs;
     @Resource
     private SdkGenRestfulSql sdkGenRestfulSql;
+    @Resource
+    private SdkVersionStoreService sdkVersionStoreService;
 
     @Override
     public SdkMapResponseDto previewGenerateTsApi(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
+        // TODO rust插件导致的问题，已提交issue，待修复
+        if (StrUtil.isWrap(genDir, "\"")) {
+            genDir = JSONUtil.unquote(genDir);
+        }
         SdkMapResponseDto result = new SdkMapResponseDto(snowflake.nextId(), templateDto.getTaskId(), false);
         result.setData(MapUtil.newHashMap());
         // 检查基本SDK环境
@@ -91,8 +100,19 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             result.setMessage(e.getMessage());
             return result;
         }
-        boolean b = sdkGenRestfulJava.genAndWriteCodeFiles(restfulRoot, null);
-        result.setSuccess(b);
+        Set<CodeFile> codeFiles = sdkGenRestfulJava.genCodeFileSet(restfulRoot, null);
+        boolean genResult = true;
+        TreeMap<String, Serializable> restfulVersionMap = sdkVersionStoreService.genRestfulStore().readFile();
+        for (CodeFile codeFile : codeFiles) {
+            genResult = codeFile.writeToLocal();
+            if (!genResult) {
+                break;
+            }
+            String hash = SecureUtil.sha256(FileUtil.file(codeFile.getTemplatePath()));
+            restfulVersionMap.put(codeFile.getTemplatePath().replace(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, ""), hash);
+        }
+        sdkVersionStoreService.genRestfulStore().writeFile(restfulVersionMap);
+        result.setSuccess(genResult);
         return result;
     }
 
@@ -114,7 +134,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
         String executableFilePath = checkExecutable.getData();
         String rootPath = SdkConstants.PROJECT_ROOT_PATH;
-        for (File file : FileUtil.loopFiles(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.THRIFT_TEMPLATE_PATH)) {
+        for (File file : FileUtil.loopFiles(SdkConstants.SDK_GEN_THRIFT_TEMPLATE_PATH)) {
             String namespace = readJavaNamespace(file);
             if (namespace == null) {
                 log.warn("{} 文件未检测到namespace，跳过", file.getAbsolutePath());

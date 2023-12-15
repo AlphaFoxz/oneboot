@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class CodeFile {
     private String content;
     private String path;
+    private String templatePath;
     private String fileName;
     private Charset charset = StandardCharsets.UTF_8;
 

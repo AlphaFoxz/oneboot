@@ -1,0 +1,15 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
+namespace ts gen.sdk.apis
+
+import "../dtos/SdkVersionDto.restful"
+
+/*版本检查接口*/
+@uri(/_sdk/version)
+interface SdkVersionApi {
+    /*获取restful模板的hash值*/
+    @getUri(/getRestfulTemplateHash)
+    SdkVersionDto.SdkVersionCheckResponse getRestfulTemplateHash()
+    /*检查java已生成代码和模板的版本差别*/
+    @getUri(/checkRestfulJava)
+    SdkVersionDto.SdkVersionCheckResponse checkRestfulJava()
+}

@@ -94,6 +94,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("}");
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, interfaceBean.getInterfaceName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(interfaceBean.getInterfaceName() + ".java");
         return codeFile;
     }
@@ -132,6 +133,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("}");
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, enumBean.getEnumName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(enumBean.getEnumName() + ".java");
         return codeFile;
     }
@@ -197,6 +199,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
 
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, classBean.getClassName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(classBean.getClassName() + ".java");
         return codeFile;
     }

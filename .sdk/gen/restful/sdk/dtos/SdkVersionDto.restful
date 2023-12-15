@@ -1,0 +1,19 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
+namespace ts gen.sdk.dtos
+
+/*版本检查响应*/
+class SdkVersionCheckResponse {
+    optional i64 id
+    required i64 taskId
+    required boolean success
+    optional string message
+    required list<SdkVersionCheckDto> data
+}
+
+/*版本检查结果*/
+class SdkVersionCheckDto {
+    required string filePath
+    required string sha256
+    required boolean same
+    required string message
+}
