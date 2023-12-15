@@ -90,6 +90,7 @@ public class SdkVersionCheckService {
             dto.setSha256(hash);
             resultList.add(dto);
         }
+        response.setMessage("请求成功");
         response.setData(resultList);
         response.setSuccess(true);
         return response;

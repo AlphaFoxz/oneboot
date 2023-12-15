@@ -51,10 +51,6 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
 
     @Override
     public SdkMapResponseDto previewGenerateTsApi(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
-        // TODO rust插件导致的问题，已提交issue，待修复
-        if (StrUtil.isWrap(genDir, "\"")) {
-            genDir = JSONUtil.unquote(genDir);
-        }
         SdkMapResponseDto result = new SdkMapResponseDto(snowflake.nextId(), templateDto.getTaskId(), false);
         result.setData(MapUtil.newHashMap());
         // 检查基本SDK环境
