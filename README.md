@@ -46,7 +46,7 @@
 
 ## Q&A
 
-### 为什么是JDK17？
+### 为什么是JDK17+？
 
 - Springboot3指定为17+，同时jdk17也是一个LTS版本，如果最新版本的虚拟线程足以改变格局，会考虑更新
 
@@ -62,12 +62,14 @@
 
 - [X]  SpringSecurity - 安全模块
   - [X]  基于jwt认证的前后端交互
-  - [ ]  oauth2-server实现
+  - [ ]  oauth2 - server实现
 - [X]  SpringDoc - API文档
 - [X]  Thrift - Rpc服务
 - [X]  jOOQ - 持久层框架
+- [X]  MapStruct - 实体转换
 - [ ]  Meilisearch - 搜索引擎（场景：面向中小型项目，索引上限2TiB）
 - [ ]  工作流
+- [X]  原创的独立SDK模块客户端（Windows、Linux、Android） - 在任何平台远程检查开发中的项目
 
 ### 代码生成
 
@@ -76,23 +78,26 @@
 - [X]  po、dao实体类
 - [X]  typescript前端代码
 - [X]  支持注解的生成
-  - [ ]  支持注入HttpServletRequest、HttpServletResponse
-  - [X]  支持get、post、put、patch、delete请求
+  - [X]  支持注入HttpServletRequest、HttpServletResponse
+  - [X]  支持设定uri，包括get、post、put、patch、delete请求
   - [X]  支持Page分页封装
-- [X]  支持Restful Api中的路径传参。如：**GET** `/query/{type}/{id}`
-- [ ]  SomeBusinessController.http接口测试文件
-- [ ]  MapStruct实体转换
+- [X]  动态路径传参。如：**GET** `/query/{type}/{id}`
+- [ ]  Controller.http接口测试文件
+- [ ]  自动实体转换
 
-### 其他特色功能
+### 容错容灾
 
 - [X]  项目功能检查（未实现的后端restful接口）
 - [X]  接口一览
-- [X]  独立的SDK客户端（Windows、Linux、Android）
-- [X]  全平台统一枚举标准
-- [ ]  权限模块脏数据自检
-- [ ]  名词定义管理？连接到知识库？
 - [ ]  管理员用户命令行终端
 - [ ]  创建/恢复快照功能（备忘录模式）
 - [ ]  SQL分析
+- [ ]  权限模块脏数据自检
+
+### 文档工程化
+
+- [ ]  名词定义管理。连接到知识库
+- [ ]  excel、word版本文档生成
+- [X]  全平台统一枚举标准
 
 ## [Apache2.0 LICESE](./LICENSE)
