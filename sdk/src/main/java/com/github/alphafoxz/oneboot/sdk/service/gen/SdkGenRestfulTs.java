@@ -68,7 +68,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             }
             importStr += "apisUtil'";
             code.add(importStr);
-            code.add("const _axios = _requireAxios()");
+            code.add("const _axios = await _requireAxios()");
             code.add("const _jsonUtil = _requireJSON()\n");
             for (var interfaceBean : rootBean.getInterfaceList()) {
                 code.add(genApiCode(interfaceBean));
