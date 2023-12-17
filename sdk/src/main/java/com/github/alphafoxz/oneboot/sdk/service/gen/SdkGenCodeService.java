@@ -202,18 +202,6 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         return result;
     }
 
-    @Override
-    public SdkListResponseDto checkTsApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public SdkListResponseDto checkJavaApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
-        // TODO
-        return null;
-    }
-
     private ParseRestfulSyntaxTreeUtil.RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto templateDto) {
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
         ParseRestfulSyntaxTreeUtil.RootBean rootBean;

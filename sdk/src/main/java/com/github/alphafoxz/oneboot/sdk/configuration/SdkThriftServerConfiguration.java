@@ -33,7 +33,7 @@ public class SdkThriftServerConfiguration implements ApplicationListener<Context
     @Resource
     private CommonConfiguration commonConfiguration;
 
-    public static Integer serverPort = 0;
+    public static volatile Integer serverPort = 0;
 
     @Autowired
     public void startServer(SdkProperties sdkProperties) {

@@ -25,10 +25,12 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     private Snowflake snowflake;
     private File executableFile;
 
-    @Override
-    public SdkLongResponseDto getServerPort() {
-        SdkLongResponseDto result = new SdkLongResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        result.setData(SdkThriftServerConfiguration.serverPort);
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto getServerPort() {
+        var result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto();
+        result.setId(snowflake.nextId())
+                .setTaskId(snowflake.nextId())
+                .setData(SdkThriftServerConfiguration.serverPort.longValue())
+                .setSuccess(true);
         return result;
     }
 

@@ -11,6 +11,7 @@
     "\\sdk\\apis\\SdkVersionApi.restful": "db1804c2c70290250e324afaf8784f9fc267a21a1fef44a2485530c9a430ff47",
     "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "f07502285957b93e0ef780e9c527fa99130e1ea178aeb4a7d00270e2505db434",
     "\\sdk\\dtos\\SdkFileInfoDto.restful": "37672727c5b019509c7a78487d8151a853e1cfb12e4432f0964189f884d32675",
+    "\\sdk\\dtos\\SdkRequestDto.restful": "81cc6e0c1cd66dfb1f2ddd0147c7631dcd18ab2c8960aa382f130a5d720611f0",
     "\\sdk\\dtos\\SdkResponseDto.restful": "f7f34b2c2b3944f60f626f69b5c184219ee641cc1b8f2aaf7d58a230dd09d4f4",
     "\\sdk\\dtos\\SdkVersionDto.restful": "f8b14b6b44d85d5682d846ca73ff8bab8e63a7f843078d50104a0f478197b3b9",
     "\\sdk\\enums\\SdkFileTypeEnum.restful": "daa243d90d892bd51ce776209f8ace8cfbf0517cb70fd0dbf1b053e15db3380b"

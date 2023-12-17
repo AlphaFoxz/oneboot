@@ -12,8 +12,4 @@ service SdkGenCodeIface {
     SdkResponseDto.SdkListResponseDto generateJavaRpc(1:required i64 taskId)
     /*生成sql语句*/
     SdkResponseDto.SdkMapResponseDto previewGenerateSql(1:required SdkRequestDto.SdkCodeTemplateRequestDto templateDto)
-    /*检查代码版本*/
-    SdkResponseDto.SdkListResponseDto checkTsApiVersion(1:required SdkRequestDto.SdkCodeTemplateRequestDto templateDto, 2:required string genDir)
-    /*检查java的Api代码版本*/
-    SdkResponseDto.SdkListResponseDto checkJavaApiVersion(1:required SdkRequestDto.SdkCodeTemplateRequestDto templateDto, 2:required string genDir)
 }

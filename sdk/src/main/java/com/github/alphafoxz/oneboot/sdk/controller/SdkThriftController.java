@@ -21,7 +21,7 @@ public class SdkThriftController implements SdkThriftApi {
 
     @Override
     public ResponseEntity<SdkLongResponseDto> getServerPort() {
-        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkLongResponseDto(sdkThriftService.getServerPort()));
+        return ResponseEntity.ok(sdkThriftService.getServerPort());
     }
 
     @Override
