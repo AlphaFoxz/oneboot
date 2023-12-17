@@ -2,7 +2,23 @@
 
 ## 技术栈
 
-- java JDK17+
+### 服务端
+
+- java JDK 17+
+  - springboot3
+  - JOOQ 3.18+
+  - Thrift
+- PostgreSQL 12+
+- Gradle 包管理 8.4+
+
+### SDK客户端
+
+- Rust 1.71+
+- Node
+  - Typescript
+  - NPM 10.1.0+
+  - Vue 3.3.4+
+  - Vite 5.0+
 
 ## 项目结构说明
 
