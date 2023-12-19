@@ -66,7 +66,7 @@ jooq {
                         isClean = true
                     }
                     strategy.apply {
-                        name = "com.github.alphafoxz.oneboot.tasks.jooq.OnebootGeneratorStrategy"
+                        name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootGeneratorStrategy"
                     }
                 }
             }

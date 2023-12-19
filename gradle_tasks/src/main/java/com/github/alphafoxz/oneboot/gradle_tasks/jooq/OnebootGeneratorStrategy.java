@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.tasks.jooq;
+package com.github.alphafoxz.oneboot.gradle_tasks.jooq;
 
 import org.jooq.codegen.DefaultGeneratorStrategy;
 import org.jooq.meta.CatalogDefinition;

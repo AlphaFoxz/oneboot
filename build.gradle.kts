@@ -94,7 +94,7 @@ project(":preset_sys") {
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 
@@ -115,7 +115,7 @@ project(":app") {
         implementation(project(":preset_sys"))
 
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 
@@ -138,7 +138,7 @@ project(":sdk") {
 
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 dependencies {
