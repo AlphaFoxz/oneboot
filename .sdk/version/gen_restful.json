@@ -9,7 +9,7 @@
     "\\sdk\\apis\\SdkInfoApi.restful": "45695745874f3ded50f75e1f158b215f9631a5ed97e71e902e7f0880beb60e76",
     "\\sdk\\apis\\SdkThriftApi.restful": "c5821ad7419a63afd8e770d01b46b44bd1bc3509f74c8cd3ee4dfa25495756ce",
     "\\sdk\\apis\\SdkVersionApi.restful": "db1804c2c70290250e324afaf8784f9fc267a21a1fef44a2485530c9a430ff47",
-    "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "f07502285957b93e0ef780e9c527fa99130e1ea178aeb4a7d00270e2505db434",
+    "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "5c1064985d07c161c397c36583a2f519f03363033daaa0c2046cf779bd697c3e",
     "\\sdk\\dtos\\SdkFileInfoDto.restful": "37672727c5b019509c7a78487d8151a853e1cfb12e4432f0964189f884d32675",
     "\\sdk\\dtos\\SdkRequestDto.restful": "81cc6e0c1cd66dfb1f2ddd0147c7631dcd18ab2c8960aa382f130a5d720611f0",
     "\\sdk\\dtos\\SdkResponseDto.restful": "f7f34b2c2b3944f60f626f69b5c184219ee641cc1b8f2aaf7d58a230dd09d4f4",

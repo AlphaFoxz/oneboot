@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.sdk.convert;
+package com.github.alphafoxz.oneboot.sdk.service.common;
 
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.*;
 import org.mapstruct.Mapper;

@@ -8,7 +8,7 @@
   - springboot3
   - JOOQ 3.18+
   - Thrift
-- PostgreSQL 12+
+- PostgreSQL 14+
 - Gradle 包管理 8.4+
 
 ### SDK客户端
@@ -22,23 +22,17 @@
 
 ## 项目结构说明
 
-```log
 - .sdk //SDK工具私有目录
 - app //应用模块，包含启动类、业务代码
-  - config //应用模块配置类
-  - toolkit //应用模块工具类
 - common //公共依赖模块
-  - config //公共模块配置类，会被扫描
-  - toolkit //各种公共工具类
+
+  - **待定**
 - preset_sys //预置系统模块
+
   - **待定**
 - sdk //开发工具模块，包含代码生成和其他各种功能
-  - config
-  - controller
-  - gen
-  - service
-  - SdkApplication.java //SDK启动类，只在本地开发的时候使用
-```
+
+  - 待定
 
 ## 关于代码生成
 

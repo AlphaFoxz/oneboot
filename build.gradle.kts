@@ -35,6 +35,7 @@ allprojects {
             dependency("cn.hutool:hutool-all:5.8.23")
             dependency("org.jooq:jooq-postgres-extensions:3.18.7")
             dependency("org.jooq:jooq-codegen:3.18.7")
+            dependency("com.google.code.findbugs:annotations:3.0.1")
         }
     }
 }
@@ -52,6 +53,7 @@ subprojects {
         implementation("cn.hutool:hutool-all")
         implementation("org.apache.thrift:libthrift")
 
+        compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("org.mapstruct:mapstruct")
@@ -152,4 +154,3 @@ tasks.withType<Test> {
         !gradle.taskGraph.hasTask(":build")
     }
 }
-

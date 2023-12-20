@@ -30,8 +30,6 @@ import java.util.TreeMap;
 @Slf4j
 @Service
 public class SdkGenCodeService implements SdkGenCodeIface.Iface {
-    private static final String TAB = "    ";
-
     @Resource
     private Snowflake snowflake;
     @Resource
@@ -146,15 +144,14 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     break;
                 }
             }
-            StringJoiner command = new StringJoiner(" ");
-            command.add(executableFilePath);
-            command.add("--out").add(outPath.toString());
-            command.add("--gen").add("java");
-            command.add(file.getAbsolutePath());
             Process exec;
             int code;
             try {
-                exec = Runtime.getRuntime().exec(command.toString());
+                exec = Runtime.getRuntime().exec(new String[]{
+                        executableFilePath,
+                        "--out", outPath.toString(),
+                        "--gen", "java", file.getAbsolutePath()
+                });
                 code = exec.waitFor();
             } catch (Exception e) {
                 log.error("执行thrift指令异常", e);

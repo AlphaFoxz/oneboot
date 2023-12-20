@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.sdk.convert.SdkRestfulConvertor;
+import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvertor;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkGenCodeApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenCodeService;

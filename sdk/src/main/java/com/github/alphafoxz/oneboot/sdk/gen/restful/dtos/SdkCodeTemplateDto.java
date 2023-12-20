@@ -17,8 +17,8 @@ public class SdkCodeTemplateDto {
     private String ast;
     @Schema(name = "content", description = "文件内容")
     private String content;
-    @Schema(name = "includes", description = "包含其他模板")
-    private Map<String, SdkCodeTemplateDto> includes;
+    @Schema(name = "imports", description = "包含其他模板")
+    private Map<String, SdkCodeTemplateDto> imports;
 
     public SdkCodeTemplateDto setFilePath(String filePath) {
         this.filePath = filePath;
@@ -40,8 +40,8 @@ public class SdkCodeTemplateDto {
         this.content = content;
         return this;
     }
-    public SdkCodeTemplateDto setIncludes(Map<String, SdkCodeTemplateDto> includes) {
-        this.includes = includes;
+    public SdkCodeTemplateDto setImports(Map<String, SdkCodeTemplateDto> imports) {
+        this.imports = imports;
         return this;
     }
 }

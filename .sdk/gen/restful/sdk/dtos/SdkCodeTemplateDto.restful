@@ -15,5 +15,5 @@ class SdkCodeTemplateDto {
     /* 文件内容 */
     required string content
     /* 包含其他模板 */
-    required map<string, SdkCodeTemplateDto> includes;
+    required map<string, SdkCodeTemplateDto> imports;
 }
