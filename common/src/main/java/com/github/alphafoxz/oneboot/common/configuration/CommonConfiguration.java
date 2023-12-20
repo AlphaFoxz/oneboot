@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.common.configuration;
 
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 

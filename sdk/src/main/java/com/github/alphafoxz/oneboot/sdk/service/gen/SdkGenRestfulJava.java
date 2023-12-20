@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.service.gen;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;

@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.configuration;
 
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

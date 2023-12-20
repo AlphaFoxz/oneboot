@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.menu.crud;
 
-import com.github.alphafoxz.oneboot.common.interfaces.framework.impl.AbstractCachedCrudService;
+import com.github.alphafoxz.oneboot.common.standard.framework.impl.AbstractCachedCrudService;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysMenu;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysMenuPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysMenuRecord;

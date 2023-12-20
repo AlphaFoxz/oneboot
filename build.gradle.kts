@@ -135,6 +135,7 @@ project(":sdk") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
+        implementation(project(":starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
 

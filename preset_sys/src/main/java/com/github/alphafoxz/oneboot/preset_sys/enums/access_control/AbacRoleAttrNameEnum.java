@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.enums.access_control;
 
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacAttrName;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacAttrName;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 

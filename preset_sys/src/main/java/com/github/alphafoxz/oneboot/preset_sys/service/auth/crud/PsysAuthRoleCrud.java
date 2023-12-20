@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.auth.crud;
 
-import com.github.alphafoxz.oneboot.common.interfaces.framework.impl.AbstractCachedCrudService;
+import com.github.alphafoxz.oneboot.common.standard.framework.impl.AbstractCachedCrudService;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthRole;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthRolePo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthRoleRecord;

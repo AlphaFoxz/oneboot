@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.app.configuration;
 
 import com.github.alphafoxz.oneboot.app.toolkit.ThriftProcessorUtil;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ClassUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.SpringUtil;

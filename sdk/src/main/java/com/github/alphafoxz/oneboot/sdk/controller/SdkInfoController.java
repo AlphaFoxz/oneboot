@@ -1,12 +1,13 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
+import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.MeilisearchService;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvertor;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
+import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvertor;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class SdkInfoController implements SdkInfoApi {
     private SdkInfoService sdkInfoService;
     @Resource
     private Snowflake snowflake;
+    @Resource
+    private MeilisearchService meilisearchService;
 
     @GetMapping(value = {"", "/index"})
     public String index() {
@@ -32,6 +35,9 @@ public class SdkInfoController implements SdkInfoApi {
                 <body>
                     <h1>SDK工具简易导航</h1>
                     <h2>状态检查</h2>
+                    <div>
+                        <a href="/_sdk/info/rootPath" target="_blank">项目根路径</a>
+                    </div>
                     <div>
                         <a href="/_sdk/info/checkThriftErr" target="_blank">检查thrift基本功能</a>
                     </div>
@@ -58,6 +64,11 @@ public class SdkInfoController implements SdkInfoApi {
 
     @Override
     public ResponseEntity<SdkStringResponseDto> rootPath() {
+        try {
+            meilisearchService.deleteIndex("movie");
+        } catch (Exception e) {
+            log.error("meili异常", e);
+        }
         SdkStringResponseDto result = new SdkStringResponseDto();
         result.setId(snowflake.nextId());
         result.setTaskId(snowflake.nextId());

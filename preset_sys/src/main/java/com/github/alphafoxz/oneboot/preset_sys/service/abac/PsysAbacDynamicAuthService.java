@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacAttr;
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacDynamicAuthApi;
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.impl.AbacAttrImpl;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacAttr;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacDynamicAuthApi;
+import com.github.alphafoxz.oneboot.common.standard.access_control.impl.AbacAttrImpl;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple2;

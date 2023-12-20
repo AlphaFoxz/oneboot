@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.common.annotations.access_control;
 
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacPolicy;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacActionType;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacPolicy;
 import org.jooq.impl.TableImpl;
 
 import java.lang.annotation.*;
