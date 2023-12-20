@@ -1,7 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.MeilisearchService;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
@@ -21,8 +20,6 @@ public class SdkInfoController implements SdkInfoApi {
     private SdkInfoService sdkInfoService;
     @Resource
     private Snowflake snowflake;
-    @Resource
-    private MeilisearchService meilisearchService;
 
     @GetMapping(value = {"", "/index"})
     public String index() {
@@ -64,11 +61,6 @@ public class SdkInfoController implements SdkInfoApi {
 
     @Override
     public ResponseEntity<SdkStringResponseDto> rootPath() {
-        try {
-            meilisearchService.deleteIndex("movie");
-        } catch (Exception e) {
-            log.error("meili异常", e);
-        }
         SdkStringResponseDto result = new SdkStringResponseDto();
         result.setId(snowflake.nextId());
         result.setTaskId(snowflake.nextId());

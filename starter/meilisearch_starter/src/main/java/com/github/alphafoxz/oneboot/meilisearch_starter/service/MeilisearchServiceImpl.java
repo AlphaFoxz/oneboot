@@ -1,6 +1,7 @@
 package com.github.alphafoxz.oneboot.meilisearch_starter.service;
 
 import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.MeilisearchService;
+import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchRequestBean;
 import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchResultBean;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
 import com.meilisearch.sdk.Client;
@@ -79,6 +80,16 @@ public class MeilisearchServiceImpl implements MeilisearchService {
         try {
             //TODO 测试str是否支持空，如果是空就应该返回无条件查询列表？
             SearchResult search = client.index(index).search(str);
+            return meilisearchModuleConvertor.searchResult2Bean(search);
+        } catch (MeilisearchException e) {
+            log.error("search error: ", e);
+        }
+        return null;
+    }
+
+    public SearchResultBean search(@NonNull String index, @NonNull SearchRequestBean searchRequest) {
+        try {
+            SearchResult search = (SearchResult) client.index(index).search(meilisearchModuleConvertor.bean2SearchRequest(searchRequest));
             return meilisearchModuleConvertor.searchResult2Bean(search);
         } catch (MeilisearchException e) {
             log.error("search error: ", e);
