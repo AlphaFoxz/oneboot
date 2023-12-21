@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.framework;
 
-import com.github.alphafoxz.oneboot.common.interfaces.framework.CustomCacheService;
+import com.github.alphafoxz.oneboot.common.standard.framework.CustomCacheService;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Resource;
 import org.springframework.cache.Cache;

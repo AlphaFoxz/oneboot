@@ -1,13 +1,13 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.sdk.convert.SdkRestfulConvertor;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkThriftApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
+import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvertor;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +21,7 @@ public class SdkThriftController implements SdkThriftApi {
 
     @Override
     public ResponseEntity<SdkLongResponseDto> getServerPort() {
-        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkLongResponseDto(sdkThriftService.getServerPort()));
+        return ResponseEntity.ok(sdkThriftService.getServerPort());
     }
 
     @Override

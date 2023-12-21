@@ -30,13 +30,14 @@ allprojects {
             org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
         }
         dependencies {
-            dependency("org.mapstruct:mapstruct:1.5.3.Final")
-            dependency("org.mapstruct:mapstruct-processor:1.5.3.Final")
+            dependency("org.mapstruct:mapstruct:1.5.5.Final")
+            dependency("org.mapstruct:mapstruct-processor:1.5.5.Final")
             dependency("org.apache.thrift:libthrift:0.18.1")
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-            dependency("cn.hutool:hutool-all:5.8.16")
-            dependency("org.jooq:jooq-postgres-extensions:3.18.6")
-            dependency("org.jooq:jooq-codegen:3.18.6")
+            dependency("cn.hutool:hutool-all:5.8.23")
+            dependency("org.jooq:jooq-postgres-extensions:3.18.7")
+            dependency("org.jooq:jooq-codegen:3.18.7")
+            dependency("com.google.code.findbugs:annotations:3.0.1")
         }
     }
 }
@@ -54,6 +55,7 @@ subprojects {
         implementation("cn.hutool:hutool-all")
         implementation("org.apache.thrift:libthrift")
 
+        compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("org.mapstruct:mapstruct")
@@ -96,7 +98,7 @@ project(":preset_sys") {
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 
@@ -117,7 +119,7 @@ project(":app") {
         implementation(project(":preset_sys"))
 
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 
@@ -135,12 +137,13 @@ project(":sdk") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
+        implementation(project(":starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
 
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
-        jooqGenerator(project(":tasks"))
+        jooqGenerator(project(":gradle_tasks"))
     }
 }
 dependencies {
@@ -154,4 +157,3 @@ tasks.withType<Test> {
         !gradle.taskGraph.hasTask(":build")
     }
 }
-

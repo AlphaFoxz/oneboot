@@ -8,7 +8,7 @@ import "../dtos/PsysAuthDto.restful"
 interface PsysAuthApi {
     /*登录接口，返回token*/
     @postUri(/login)
-    PsysAuthDto.PsysUserTokenDto login(/*用户名*/ PsysAuthDto.PsysLoginParam loginParam)
+    PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthDto.PsysAuthLoginParam loginParam)
 
     /*退出登录*/
     @getUri(/logout)
@@ -16,5 +16,15 @@ interface PsysAuthApi {
 
     /*传入旧token，如果其中的refreshToken没有过期则返回一对新的token*/
     @postUri(/refresh)
-    PsysAuthDto.PsysUserTokenDto refresh(/*旧的token*/ PsysAuthDto.PsysUserTokenDto oldToken)
+    PsysAuthDto.PsysAuthTokenResponse refresh(/*旧的token*/ PsysAuthDto.PsysAuthTokenInfoDto oldToken)
+
+    /* 角色管理列表 */
+    @page
+    @getUri(/role/list/{pageNum}/{pageSize})
+    PsysAuthDto.PsysAuthRoleInfoDto roleList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
+
+    /* 用户管理列表 */
+    @page
+    @getUri(/user/list)
+    PsysAuthDto.PsysAuthRoleInfoDto userList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
 }

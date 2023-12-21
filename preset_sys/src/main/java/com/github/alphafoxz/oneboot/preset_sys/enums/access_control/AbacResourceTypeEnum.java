@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.enums.access_control;
 
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacResourceType;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacResourceType;
 import lombok.Getter;
 
 /**

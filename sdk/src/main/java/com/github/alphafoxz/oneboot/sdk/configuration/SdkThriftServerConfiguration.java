@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.configuration;
 
 import com.github.alphafoxz.oneboot.app.toolkit.ThriftProcessorUtil;
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ClassUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.SpringUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ThreadUtil;
@@ -33,7 +33,7 @@ public class SdkThriftServerConfiguration implements ApplicationListener<Context
     @Resource
     private CommonConfiguration commonConfiguration;
 
-    public static Integer serverPort = 0;
+    public static volatile Integer serverPort = 0;
 
     @Autowired
     public void startServer(SdkProperties sdkProperties) {

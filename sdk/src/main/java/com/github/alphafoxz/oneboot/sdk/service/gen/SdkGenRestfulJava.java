@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.service.gen;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
@@ -48,6 +48,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
         code.add("""
                 import io.swagger.v3.oas.annotations.Operation;
+                import io.swagger.v3.oas.annotations.media.Content;
+                import io.swagger.v3.oas.annotations.media.Schema;
+                import io.swagger.v3.oas.annotations.responses.ApiResponse;
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
@@ -91,6 +94,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("}");
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, interfaceBean.getInterfaceName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(interfaceBean.getInterfaceName() + ".java");
         return codeFile;
     }
@@ -129,6 +133,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("}");
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, enumBean.getEnumName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(enumBean.getEnumName() + ".java");
         return codeFile;
     }
@@ -194,6 +199,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
 
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, classBean.getClassName()));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(classBean.getClassName() + ".java");
         return codeFile;
     }
@@ -255,7 +261,12 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             }
             //解析API注释
             ParseRestfulSyntaxTreeUtil.CommentBean functionDoc = interfaceFunction.getDoc();
-            code.add(StrUtil.format(TAB + "@Operation(summary = {})", commentDocToStringWrapParam(functionDoc)));
+            String formatStr = TAB + "@Operation(summary = {}, responses = {\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"请求成功\", responseCode = \"200\", content = @Content(mediaType = \"application/json\", schema = @Schema(implementation = String.class))),\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"无权限\", responseCode = \"403\", content = @Content(schema = @Schema(hidden = true))),\n"
+                    + TAB + TAB + TAB + "@ApiResponse(description = \"参数无效\", responseCode = \"400\", content = @Content(schema = @Schema(hidden = true))),\n"
+                    + TAB + "})";
+            code.add(StrUtil.format(formatStr, commentDocToStringWrapParam(functionDoc)));
         }
         String returnType = interfaceFunction.getReturnType().javaString();
         if ("void".equals(returnType)) {

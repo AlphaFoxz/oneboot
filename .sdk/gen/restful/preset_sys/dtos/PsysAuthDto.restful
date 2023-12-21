@@ -1,20 +1,76 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
 namespace ts gen.preset_sys.dtos
 
-/*用户名密码登录参数*/
-class PsysLoginParam {
-    /*用户名*/
+/* 用户名密码登录参数 */
+class PsysAuthLoginParam {
+    /* 用户名 */
     required string username
-    /*密码*/
+    /* 密码 */
     required string password
-    /*验证码*/
+    /* 验证码 */
     optional string verifyCode
 }
 
-/*用户令牌结果*/
-class PsysUserTokenDto {
-    /*访问令牌*/
+/* 用户令牌结果 */
+class PsysAuthTokenInfoDto {
+    /* 用户名 */
+    required string username
+    /* 当前登录用户的角色 */
+    required list<string> roles
+    /* 访问令牌 */
     required string accessToken
-    /*刷新令牌*/
+    /* 刷新令牌 */
     required string refreshToken
+    /* accessToken的过期时间（格式'yyyy/MM/dd HH:mm:ss'） */
+    required string expires
+}
+
+/* 用户信息响应体 */
+class PsysAuthTokenResponse {
+    /* 是否成功 */
+    required boolean success
+    /* 响应数据 */
+    optional PsysAuthTokenInfoDto data
+}
+
+/* 角色信息 */
+class PsysAuthRoleInfoDto {
+    /* 主键 */
+    required i64 id
+    /* 创建时间 */
+    required i64 createTime
+    /* 更新时间 */
+    required i64 updateTime
+    /* 角色名称 */
+    required string name
+    /* 角色编码 */
+    required string code
+    /* 状态 */
+    required i16 status
+    /* 备注 */
+    required string remark
+}
+
+/* 用户信息 */
+class PsysAuthUserInfoDto {
+    /* 主键 */
+    required i64 id
+    /* 用户名称 */
+    required string username
+    /* 用户昵称 */
+    required string nickname
+    /* 用户头像 */
+    required string avatar
+    /* 性别 */
+    required i32 sex
+    /* 手机号码 */
+    required string phone
+    /* 电子邮箱 */
+    required string email
+    /* 备注 */
+    optional string remark
+    /* 状态 */
+    required i32 status
+    /* 创建时间 */
+    required i64 createTime
 }

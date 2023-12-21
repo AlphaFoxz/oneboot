@@ -14,6 +14,9 @@ public class JSONUtil extends cn.hutool.json.JSONUtil {
         if (string == null) {
             return null;
         }
+        if (StrUtil.isBlank(string)) {
+            return string;
+        }
         string = string.trim();
         if (string.length() < 2
                 || (isWrapped && string.charAt(0) != '"')

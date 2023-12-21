@@ -12,17 +12,18 @@ import jakarta.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record8;
-import org.jooq.Row8;
+import org.jooq.Record9;
+import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> implements Record8<Long, String, String, String, Long, Long, Boolean, Boolean> {
+public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> implements Record9<Long, String, String, String, Long, Long, Boolean, Boolean, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -165,6 +166,23 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         return (Boolean) get(7);
     }
 
+    /**
+     * Setter for <code>preset_sys.psys_auth_user.description</code>. 描述
+     */
+    public PsysAuthUserRecord setDescription(@Nullable String value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_auth_user.description</code>. 描述
+     */
+    @Size(max = 300)
+    @Nullable
+    public String getDescription() {
+        return (String) get(8);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -176,19 +194,19 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record9 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row8<Long, String, String, String, Long, Long, Boolean, Boolean> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, String, String, String, Long, Long, Boolean, Boolean, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row8<Long, String, String, String, Long, Long, Boolean, Boolean> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row9<Long, String, String, String, Long, Long, Boolean, Boolean, String> valuesRow() {
+        return (Row9) super.valuesRow();
     }
 
     @Override
@@ -241,6 +259,12 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
+    public Field<String> field9() {
+        return PsysAuthUser.PSYS_AUTH_USER.DESCRIPTION;
+    }
+
+    @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
@@ -285,6 +309,12 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     @NonNull
     public Boolean component8() {
         return getExpired();
+    }
+
+    @Override
+    @Nullable
+    public String component9() {
+        return getDescription();
     }
 
     @Override
@@ -333,6 +363,12 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     @NonNull
     public Boolean value8() {
         return getExpired();
+    }
+
+    @Override
+    @Nullable
+    public String value9() {
+        return getDescription();
     }
 
     @Override
@@ -393,7 +429,14 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
-    public PsysAuthUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8) {
+    public PsysAuthUserRecord value9(@Nullable String value) {
+        setDescription(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAuthUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -402,6 +445,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
         return this;
     }
 
@@ -419,7 +463,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     /**
      * Create a detached, initialised PsysAuthUserRecord
      */
-    public PsysAuthUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired) {
+    public PsysAuthUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description) {
         super(PsysAuthUser.PSYS_AUTH_USER);
 
         setId(id);
@@ -430,6 +474,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         setAccountId(accountId);
         setEnabled(enabled);
         setExpired(expired);
+        setDescription(description);
         resetChangedOnNotNull();
     }
 
@@ -448,6 +493,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
             setAccountId(value.accountId());
             setEnabled(value.enabled());
             setExpired(value.expired());
+            setDescription(value.description());
             resetChangedOnNotNull();
         }
     }

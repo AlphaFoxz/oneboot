@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.abac.crud;
 
-import com.github.alphafoxz.oneboot.common.interfaces.access_control.AbacPolicy;
-import com.github.alphafoxz.oneboot.common.interfaces.framework.impl.AbstractAbacCachedCrudService;
+import com.github.alphafoxz.oneboot.common.standard.access_control.AbacPolicy;
+import com.github.alphafoxz.oneboot.common.standard.framework.impl.AbstractAbacCachedCrudService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;

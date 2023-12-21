@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.service.gen;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
@@ -10,6 +10,7 @@ import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkGenCodeIface;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
 import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
+import com.github.alphafoxz.oneboot.sdk.service.version.SdkVersionStoreService;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +18,18 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.TreeMap;
 
 // 注意 @javax.annotation.processing.Generated 和 @javax.annotation.processing.Generated的转换
 // 执行命令为 thrift-0.18.1.exe -out F:\idea_projects\oneboot\sdk\src\main\java --gen java .\CommandIface.thrift
 @Slf4j
 @Service
 public class SdkGenCodeService implements SdkGenCodeIface.Iface {
-    private static final String TAB = "    ";
-
     @Resource
     private Snowflake snowflake;
     @Resource
@@ -43,6 +44,8 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
     private SdkGenRestfulTs sdkGenRestfulTs;
     @Resource
     private SdkGenRestfulSql sdkGenRestfulSql;
+    @Resource
+    private SdkVersionStoreService sdkVersionStoreService;
 
     @Override
     public SdkMapResponseDto previewGenerateTsApi(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
@@ -91,8 +94,19 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             result.setMessage(e.getMessage());
             return result;
         }
-        boolean b = sdkGenRestfulJava.genAndWriteCodeFiles(restfulRoot, null);
-        result.setSuccess(b);
+        Set<CodeFile> codeFiles = sdkGenRestfulJava.genCodeFileSet(restfulRoot, null);
+        boolean genResult = true;
+        TreeMap<String, Serializable> restfulVersionMap = sdkVersionStoreService.genRestfulStore().readFile();
+        for (CodeFile codeFile : codeFiles) {
+            genResult = codeFile.writeToLocal();
+            if (!genResult) {
+                break;
+            }
+            String hash = SecureUtil.sha256(FileUtil.file(codeFile.getTemplatePath()));
+            restfulVersionMap.put(codeFile.getTemplatePath().replace(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, ""), hash);
+        }
+        sdkVersionStoreService.genRestfulStore().writeFile(restfulVersionMap);
+        result.setSuccess(genResult);
         return result;
     }
 
@@ -114,7 +128,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
         String executableFilePath = checkExecutable.getData();
         String rootPath = SdkConstants.PROJECT_ROOT_PATH;
-        for (File file : FileUtil.loopFiles(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.THRIFT_TEMPLATE_PATH)) {
+        for (File file : FileUtil.loopFiles(SdkConstants.SDK_GEN_THRIFT_TEMPLATE_PATH)) {
             String namespace = readJavaNamespace(file);
             if (namespace == null) {
                 log.warn("{} 文件未检测到namespace，跳过", file.getAbsolutePath());
@@ -130,15 +144,14 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
                     break;
                 }
             }
-            StringJoiner command = new StringJoiner(" ");
-            command.add(executableFilePath);
-            command.add("--out").add(outPath.toString());
-            command.add("--gen").add("java");
-            command.add(file.getAbsolutePath());
             Process exec;
             int code;
             try {
-                exec = Runtime.getRuntime().exec(command.toString());
+                exec = Runtime.getRuntime().exec(new String[]{
+                        executableFilePath,
+                        "--out", outPath.toString(),
+                        "--gen", "java", file.getAbsolutePath()
+                });
                 code = exec.waitFor();
             } catch (Exception e) {
                 log.error("执行thrift指令异常", e);
@@ -184,18 +197,6 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
         }
         result.setSuccess(true);
         return result;
-    }
-
-    @Override
-    public SdkListResponseDto checkTsApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public SdkListResponseDto checkJavaApiVersion(SdkCodeTemplateRequestDto templateDto, String genDir) throws TException {
-        // TODO
-        return null;
     }
 
     private ParseRestfulSyntaxTreeUtil.RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto templateDto) {

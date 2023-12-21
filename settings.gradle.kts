@@ -4,16 +4,21 @@ pluginManagement {
     val jooqPluginVersion: String by settings
     val graalvmBuildtoolsVersion: String by settings
     plugins {
-        id("org.springframework.boot") version "${springbootPluginVersion}"
-        id("io.spring.dependency-management") version "${springDependencyManagementPluginVersion}"
-        id("nu.studer.jooq") version "${jooqPluginVersion}"
-        id("org.graalvm.buildtools.native") version "${graalvmBuildtoolsVersion}"
+        id("org.springframework.boot") version springbootPluginVersion
+        id("io.spring.dependency-management") version springDependencyManagementPluginVersion
+        id("nu.studer.jooq") version jooqPluginVersion
+        id("org.graalvm.buildtools.native") version graalvmBuildtoolsVersion
     }
 }
-//plugins {
-//    id("com.gradle.enterprise") version "3.11.4"
-//}
 rootProject.name = "oneboot"
 
-include(":common", ":preset_sys", ":app", ":sdk", ":tasks")
+include(
+    ":gradle_tasks",
+    ":common",
+    ":starter",
+    ":starter:meilisearch_starter",
+    ":preset_sys",
+    ":app",
+    ":sdk",
+)
 

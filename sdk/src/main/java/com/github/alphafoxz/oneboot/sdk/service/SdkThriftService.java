@@ -25,17 +25,19 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     private Snowflake snowflake;
     private File executableFile;
 
-    @Override
-    public SdkLongResponseDto getServerPort() {
-        SdkLongResponseDto result = new SdkLongResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        result.setData(SdkThriftServerConfiguration.serverPort);
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto getServerPort() {
+        var result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkLongResponseDto();
+        result.setId(snowflake.nextId())
+                .setTaskId(snowflake.nextId())
+                .setData(SdkThriftServerConfiguration.serverPort.longValue())
+                .setSuccess(true);
         return result;
     }
 
     @Override
     public SdkStringResponseDto getExecutableFilePath() {
         SdkStringResponseDto result = new SdkStringResponseDto(snowflake.nextId(), snowflake.nextId(), true);
-        String binDir = SdkConstants.PROJECT_ROOT_PATH + File.separator + ".sdk" + File.separator + "bin";
+        String binDir = SdkConstants.SDK_BIN_PATH;
         try {
             FileUtil.mkdir(binDir);
         } catch (Exception e) {
@@ -106,11 +108,11 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     public SdkFileTreeResponseDto getRestfulTemplateFileTree() throws TException {
         SdkFileTreeResponseDto result = new SdkFileTreeResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         try {
-            result.setData(readFileTree(FileUtil.file(SdkConstants.PROJECT_ROOT_PATH + SdkConstants.RESTFUL_TEMPLATE_PATH), 0));
+            result.setData(readFileTree(FileUtil.file(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH), 0));
             return result;
         } catch (Exception e) {
-            log.error("{} 读取文件异常", SdkConstants.RESTFUL_TEMPLATE_PATH);
-            result.setMessage(SdkConstants.RESTFUL_TEMPLATE_PATH + " 读取文件异常");
+            log.error("{} 读取文件异常", SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH);
+            result.setMessage(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH + " 读取文件异常");
             result.setSuccess(false);
             return result;
         }
@@ -119,9 +121,9 @@ public class SdkThriftService implements SdkThriftIface.Iface {
     /**
      * Generates a SdkFileInfoDto object representing the file tree rooted at the specified file or directory.
      *
-     * @param  fileOrDir  the root file or directory
-     * @param  level      the level of the current file or directory in the tree
-     * @return            the SdkFileInfoDto object representing the file tree
+     * @param fileOrDir the root file or directory
+     * @param level     the level of the current file or directory in the tree
+     * @return the SdkFileInfoDto object representing the file tree
      */
     private SdkFileInfoDto readFileTree(File fileOrDir, int level) {
         SdkFileInfoDto dto = new SdkFileInfoDto();

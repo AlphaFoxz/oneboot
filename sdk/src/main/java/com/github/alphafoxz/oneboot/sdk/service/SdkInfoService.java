@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.service;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
-import com.github.alphafoxz.oneboot.common.interfaces.OnebootModuleConfig;
+import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
@@ -36,9 +36,8 @@ public class SdkInfoService implements SdkInfoIface.Iface {
     private SdkThriftService sdkThriftService;
 
     public SdkListResponseDto checkThriftErr() {
-        String projectRootPath = SdkConstants.PROJECT_ROOT_PATH;
-        final String dataPath = projectRootPath + SdkConstants.THRIFT_TEMPLATE_PATH;
-        final String restfulPath = projectRootPath + SdkConstants.RESTFUL_TEMPLATE_PATH;
+        final String thriftPath = SdkConstants.SDK_GEN_THRIFT_TEMPLATE_PATH;
+        final String restfulPath = SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH;
         SdkListResponseDto result = new SdkListResponseDto(snowflake.nextId(), snowflake.nextId(), true);
         List<String> errors = CollUtil.newArrayList();
         //生成目录： /.sdk/thrift/data 和 /.sdk/thrift/restful
@@ -48,9 +47,9 @@ public class SdkInfoService implements SdkInfoIface.Iface {
                 if (bean instanceof OnebootModuleConfig config) {
                     String moduleName = config.getModuleName();
                     //跨语言rpc
-                    FileUtil.mkdir(dataPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "ifaces");
-                    FileUtil.mkdir(dataPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "dtos");
-                    FileUtil.mkdir(dataPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "enums");
+                    FileUtil.mkdir(thriftPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "ifaces");
+                    FileUtil.mkdir(thriftPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "dtos");
+                    FileUtil.mkdir(thriftPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "enums");
                     //restful接口
                     FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "apis");
                     FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "dtos");

@@ -358,7 +358,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             if (this.isMap) {
                 str = "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
             } else if (this.isCollection) {
-                str = tsSimpleName + "[ " + t1.tsString() + " ]";
+                str = /*tsSimpleName*/t1.tsString() + "[]";
             } else {
                 str = tsSimpleName;
             }
@@ -978,5 +978,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         RootBean getRootBean();
 
         String getFileName();
+
+        String getFilePath();
     }
 }

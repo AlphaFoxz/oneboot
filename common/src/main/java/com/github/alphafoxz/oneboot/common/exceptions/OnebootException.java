@@ -18,7 +18,7 @@ public abstract class OnebootException extends RuntimeException implements Restf
         Map<String, Object> body = MapUtil.newHashMap(4);
         body.put("message", msg);
         body.put("code", httpStatus.value());
-        this.responseEntity = new ResponseEntity(body, httpStatus);
+        this.responseEntity = new ResponseEntity<>(body, httpStatus);
     }
 
     public OnebootException(String msg, HttpStatusCode httpStatus, Throwable throwable) {
@@ -29,6 +29,6 @@ public abstract class OnebootException extends RuntimeException implements Restf
         Map<String, Object> body = MapUtil.newHashMap(4);
         body.put("message", msg);
         body.put("code", httpStatus.value());
-        this.responseEntity = new ResponseEntity(body, httpStatus);
+        this.responseEntity = new ResponseEntity<>(body, httpStatus);
     }
 }

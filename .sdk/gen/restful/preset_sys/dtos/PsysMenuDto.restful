@@ -1,0 +1,42 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
+namespace ts gen.preset_sys.dtos
+
+/* 系统菜单响应体 */
+class PsysMenuResponseDto {
+    /* 是否成功 */
+    boolean success
+    /* 响应数据 */
+    list<PsysMenuInfoDto> data
+}
+
+/* 系统菜单dto */
+class PsysMenuInfoDto {
+    /* 路径 */
+    required string path
+    /* 名称 */
+    optional string name
+    /* 元信息 */
+    required PsysMenuMetaDto meta
+    /* 子节点 */
+    optional list<PsysMenuInfoDto> children
+}
+
+/* 系统菜单元信息 */
+class PsysMenuMetaDto {
+    /* 类型 */
+    optional i32 rank
+    /* 标题 */
+    optional string icon
+    /* 权限 */
+    optional list<string> auths
+    /* iframe路径 */
+    optional string frameSrc
+    /* 标题 */
+    optional string title
+    /* 显示链接 */
+    optional boolean showLink
+    /* 启用路径 */
+    optional string activePath
+    /* 角色 */
+    optional list<string> roles
+}
