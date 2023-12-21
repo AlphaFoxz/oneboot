@@ -8,6 +8,7 @@ build/
 !**/src/test/**/build/
 
 **/src/main/generated/
+*.exe
 
 ### STS ###
 .apt_generated
