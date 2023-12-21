@@ -4,11 +4,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 public interface MeilisearchService {
-    boolean addDocuments(@NonNull String index, @NonNull Collection<Serializable> documents);
+    void createApiKey();
+
+    @Nullable
+    String getApiKey();
+
+    boolean addDocuments(@NonNull String index, @NonNull List<?> documents);
 
     boolean addDocuments(@NonNull String index, @NonNull String documentsJsonArr);
 
