@@ -2,8 +2,8 @@ package com.github.alphafoxz.oneboot.preset_sys.service.security;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
-import com.github.alphafoxz.oneboot.preset_sys.toolkit.JwtUtil;
+import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;
+import com.github.alphafoxz.oneboot.preset_sys.service.security.toolkit.JwtUtil;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

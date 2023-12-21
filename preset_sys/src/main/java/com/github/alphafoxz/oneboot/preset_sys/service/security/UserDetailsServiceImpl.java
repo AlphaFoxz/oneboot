@@ -4,7 +4,7 @@ import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthAccountPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthUserPo;
-import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
+import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;
 import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthAccountCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthUserCrud;
 import jakarta.annotation.Resource;

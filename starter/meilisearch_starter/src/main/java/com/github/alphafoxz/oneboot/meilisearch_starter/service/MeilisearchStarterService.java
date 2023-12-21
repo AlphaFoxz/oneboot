@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class MeilisearchServiceImpl implements MeilisearchService {
+public class MeilisearchStarterService implements MeilisearchService {
     @Resource
     private MeilisearchModuleConvertor meilisearchModuleConvertor;
 //    @Resource

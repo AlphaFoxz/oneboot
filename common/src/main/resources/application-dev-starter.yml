@@ -1,4 +1,5 @@
 oneboot:
-  meilisearch-starter:
-    url: "http://127.0.0.1:7700"
-    master-key: "123QWEasdzxcfffff"
+  starter:
+    meilisearch-starter:
+      url: "http://127.0.0.1:7700"
+      master-key: "123QWEasdzxcfffff"

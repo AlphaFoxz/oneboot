@@ -53,7 +53,6 @@ subprojects {
         implementation("com.github.ben-manes.caffeine:caffeine")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
         implementation("cn.hutool:hutool-all")
-        implementation("org.apache.thrift:libthrift")
 
         compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
         compileOnly("org.projectlombok:lombok")
@@ -116,8 +115,10 @@ project(":app") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
+        implementation(project(":starter"))
         implementation(project(":preset_sys"))
 
+        implementation("org.apache.thrift:libthrift")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
@@ -141,6 +142,7 @@ project(":sdk") {
         implementation(project(":app"))
         implementation(project(":preset_sys"))
 
+        implementation("org.apache.thrift:libthrift")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))

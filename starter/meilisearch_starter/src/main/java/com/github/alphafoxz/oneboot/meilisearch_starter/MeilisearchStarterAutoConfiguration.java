@@ -15,6 +15,10 @@ public class MeilisearchStarterAutoConfiguration {
     @Resource
     private MeilisearchStarterProperties meilisearchStarterProperties;
 
+    public MeilisearchStarterAutoConfiguration() {
+        log.info("加载Meilisearch自动配置");
+    }
+
     @Bean
     public Client client() {
         return new Client(new Config(meilisearchStarterProperties.getUrl(), meilisearchStarterProperties.getMasterKey()));

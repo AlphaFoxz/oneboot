@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.preset_sys.toolkit;
+package com.github.alphafoxz.oneboot.preset_sys.service.security.toolkit;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
@@ -8,7 +8,7 @@ import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuples;
 import com.github.alphafoxz.oneboot.preset_sys.PsysConstants;
 import com.github.alphafoxz.oneboot.preset_sys.configuration.PsysProperties;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
-import com.github.alphafoxz.oneboot.preset_sys.pojo.security.UserDetailsImpl;
+import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
