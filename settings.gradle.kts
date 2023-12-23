@@ -17,7 +17,7 @@ include(
     ":common",
     ":starter",
     ":starter:flowable_starter",
-    ":starter:meilisearch_starter",
+//    ":starter:meilisearch_starter",
     ":preset_sys",
     ":app",
     ":sdk",

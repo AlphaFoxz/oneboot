@@ -9,7 +9,4 @@ import org.springframework.stereotype.Service;
 public class FlowableStarterService implements FlowableService {
     @Resource
     private ProcessEngine processEngine;
-
-    public void test() {
-    }
 }
