@@ -10,6 +10,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthDepartment;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthRole;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysMenu;
@@ -19,6 +20,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacR
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacSubjectRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthAccountRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthDepartmentRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthRoleRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthUserRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysMenuRecord;
@@ -46,6 +48,7 @@ public class Keys {
     public static final UniqueKey<PsysAbacResourceProtectionRecord> PSYS_ABAC_RESOURCE_PROTECTION_PK = Internal.createUniqueKey(PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION, DSL.name("psys_abac_resource_protection_pk"), new TableField[] { PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION.ID }, true);
     public static final UniqueKey<PsysAbacSubjectRecord> PSYS_ABAC_SUBJECT_PK = Internal.createUniqueKey(PsysAbacSubject.PSYS_ABAC_SUBJECT, DSL.name("psys_abac_subject_pk"), new TableField[] { PsysAbacSubject.PSYS_ABAC_SUBJECT.ID }, true);
     public static final UniqueKey<PsysAuthAccountRecord> PSYS_AUTH_ACCOUNT_PK = Internal.createUniqueKey(PsysAuthAccount.PSYS_AUTH_ACCOUNT, DSL.name("psys_auth_account_pk"), new TableField[] { PsysAuthAccount.PSYS_AUTH_ACCOUNT.ID }, true);
+    public static final UniqueKey<PsysAuthDepartmentRecord> PSYS_AUTH_DEPARTMENT_PK = Internal.createUniqueKey(PsysAuthDepartment.PSYS_AUTH_DEPARTMENT, DSL.name("psys_auth_department_pk"), new TableField[] { PsysAuthDepartment.PSYS_AUTH_DEPARTMENT.ID }, true);
     public static final UniqueKey<PsysAuthRoleRecord> PSYS_AUTH_ROLE_PK = Internal.createUniqueKey(PsysAuthRole.PSYS_AUTH_ROLE, DSL.name("psys_auth_role_pk"), new TableField[] { PsysAuthRole.PSYS_AUTH_ROLE.ID }, true);
     public static final UniqueKey<PsysAuthUserRecord> PSYS_AUTH_USER_PK = Internal.createUniqueKey(PsysAuthUser.PSYS_AUTH_USER, DSL.name("psys_auth_user_pk"), new TableField[] { PsysAuthUser.PSYS_AUTH_USER.ID }, true);
     public static final UniqueKey<PsysMenuRecord> PSYS_MENU_PK = Internal.createUniqueKey(PsysMenu.PSYS_MENU, DSL.name("psys_menu_pk"), new TableField[] { PsysMenu.PSYS_MENU.ID }, true);

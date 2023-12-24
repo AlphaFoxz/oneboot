@@ -26,7 +26,7 @@ public interface CrudService<TABLE extends TableImpl<RECORD>, PO extends java.la
 
     public int insert(@NonNull RECORD record);
 
-    public int insertMany(@NonNull RECORD... records);
+    public int insertMany(@NonNull List<RECORD> records);
 
     @Nullable
     public PO selectOne(@Nullable SortField<?>[] orderBy, @NonNull Condition... conditions);
@@ -63,7 +63,7 @@ public interface CrudService<TABLE extends TableImpl<RECORD>, PO extends java.la
 
     public int deleteById(long id);
 
-    public int[] deleteByIds(@NonNull RECORD... records);
+    public int[] deleteByIds(@NonNull List<RECORD> records);
 
     public int deleteByIds(@NonNull long... ids);
 }

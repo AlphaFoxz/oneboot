@@ -6,6 +6,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 import java.io.Serializable;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 
@@ -14,7 +15,10 @@ import org.springframework.lang.Nullable;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysAuthDepartmentPo(
-    @Nullable Long id
+    @NonNull Long id,
+    @NonNull String deptName,
+    @Nullable Integer sort,
+    @Nullable Short status
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +39,24 @@ public record PsysAuthDepartmentPo(
         }
         else if (!this.id.equals(other.id))
             return false;
+        if (this.deptName == null) {
+            if (other.deptName != null)
+                return false;
+        }
+        else if (!this.deptName.equals(other.deptName))
+            return false;
+        if (this.sort == null) {
+            if (other.sort != null)
+                return false;
+        }
+        else if (!this.sort.equals(other.sort))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
         return true;
     }
 
@@ -43,6 +65,9 @@ public record PsysAuthDepartmentPo(
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.deptName == null) ? 0 : this.deptName.hashCode());
+        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         return result;
     }
 
@@ -51,6 +76,9 @@ public record PsysAuthDepartmentPo(
         StringBuilder sb = new StringBuilder("PsysAuthDepartmentPo (");
 
         sb.append(id);
+        sb.append(", ").append(deptName);
+        sb.append(", ").append(sort);
+        sb.append(", ").append(status);
 
         sb.append(")");
         return sb.toString();

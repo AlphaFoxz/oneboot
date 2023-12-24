@@ -5,7 +5,6 @@ import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchRe
 import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchResultBean;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
-import com.github.alphafoxz.oneboot.meilisearch_starter.MeilisearchStarterProperties;
 import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.exceptions.MeilisearchException;
 import com.meilisearch.sdk.model.Key;
@@ -25,7 +24,7 @@ import java.util.List;
 @Service
 public class MeilisearchStarterService implements MeilisearchService {
     @Resource
-    private MeilisearchModuleConvertor meilisearchModuleConvertor;
+    private MeilisearchModuleConvert meilisearchModuleConvert;
 //    @Resource
 //    private MeilisearchStarterProperties meilisearchStarterProperties;
     @Resource
@@ -116,7 +115,7 @@ public class MeilisearchStarterService implements MeilisearchService {
         try {
             //TODO 测试str是否支持空，如果是空就应该返回无条件查询列表？
             SearchResult search = getClient().index(index).search(str);
-            return meilisearchModuleConvertor.searchResult2Bean(search);
+            return meilisearchModuleConvert.searchResult2Bean(search);
         } catch (MeilisearchException e) {
             log.error("search error: ", e);
         }
@@ -125,8 +124,8 @@ public class MeilisearchStarterService implements MeilisearchService {
 
     public SearchResultBean search(@NonNull String index, @NonNull SearchRequestBean searchRequest) {
         try {
-            SearchResult search = (SearchResult) getClient().index(index).search(meilisearchModuleConvertor.bean2SearchRequest(searchRequest));
-            return meilisearchModuleConvertor.searchResult2Bean(search);
+            SearchResult search = (SearchResult) getClient().index(index).search(meilisearchModuleConvert.bean2SearchRequest(searchRequest));
+            return meilisearchModuleConvert.searchResult2Bean(search);
         } catch (MeilisearchException e) {
             log.error("search error: ", e);
         }

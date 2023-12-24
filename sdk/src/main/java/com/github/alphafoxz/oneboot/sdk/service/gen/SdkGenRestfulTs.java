@@ -61,7 +61,12 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             code.add("import * as " + includeName + " from '" + includeValue + "'");
         }
         if (namespace.contains("apis")) {
-            String importStr = "import { requireAxios as _requireAxios, requireJSON as _requireJSON, type Page as _Page } from '";
+            String importStr = "import {\n";
+            importStr += TAB + "requireHttpUtil as _http,\n";
+            importStr += TAB + "requireJSON as _JSON,\n";
+            importStr += TAB + "type Page as _Page,\n";
+            importStr += TAB + "type HttpResult as _HttpResult\n";
+            importStr += "} from '";
             int layer = StrUtil.count(namespace, ".") + 1;
             for (int i = 0; i < layer; i++) {
                 importStr += "../";
@@ -69,16 +74,6 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             importStr += "apisUtil'";
             code.add(importStr);
             code.add("");
-            code.add("""
-                    let _axiosInstance: any
-                    const _axios = async () => {
-                      if (_axiosInstance) {
-                        return _axiosInstance
-                      }
-                      _axiosInstance = await _requireAxios()
-                      return _axiosInstance
-                    }
-                    """);
             for (var interfaceBean : rootBean.getInterfaceList()) {
                 code.add(genApiCode(interfaceBean));
             }
@@ -195,25 +190,25 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                     }
                     case GET_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await (await _axios()).get(`{}`)).data";
+                        executeFormat = TAB + TAB + "return (await _http()).get(`{}`)";
                     }
                     case DELETE_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await (await _axios()).delete(`{}`)).data";
+                        executeFormat = TAB + TAB + "return (await _http()).delete(`{}`)";
                     }
                     case POST_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await (await _axios()).post(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _http()).post(`{}`, {})";
                         isPost = true;
                     }
                     case PUT_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await (await _axios()).put(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _http()).put(`{}`, {})";
                         isPost = true;
                     }
                     case PATCH_MAPPING -> {
                         functionUri = annoEntry.getValue().get(0);
-                        executeFormat = TAB + TAB + "return (await (await _axios()).patch(`{}`, {})).data";
+                        executeFormat = TAB + TAB + "return (await _http()).patch(`{}`, {})";
                         isPost = true;
                     }
                 }
@@ -239,9 +234,9 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                         continue;
                     }
                     if (param.getParamType().isIntype()) {
-                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(p_" + param.getParamName() + ")}");
+                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(p_" + param.getParamName() + ".toString())}");
                     } else {
-                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(_requireJSON().stringify(p_" + param.getParamName() + "))}");
+                        executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(_JSON().stringify(p_" + param.getParamName() + "))}");
                     }
                 }
                 executeParam = executeParamJoiner.toString();
@@ -252,7 +247,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                 paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString());
             }
             String returnTypeString = isPage ? "_Page<" + interfaceFunction.getReturnType().tsString() + ">" : interfaceFunction.getReturnType().tsString();
-            code.add(functionHeader + paramStringJoiner + ": Promise<" + returnTypeString + "> => {");
+            code.add(functionHeader + paramStringJoiner + ": _HttpResult<" + returnTypeString + "> => {");
             if (isPost) {
                 code.add(StrUtil.format(executeFormat, serviceUri + functionUri, executeParam));
             } else {

@@ -37,7 +37,7 @@ public class SdkVersionCheckService {
                 continue;
             }
             String key = file.getAbsolutePath().replace(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, "");
-            String hash = SecureUtil.sha256(file);
+            String hash = SecureUtil.sha256(FileUtil.readUtf8String(file).replace("\r\n", "\n"));
             String generatedHash = versionMap.containsKey(key) ? versionMap.get(key).toString() : null;
             dto.setFilePath(key);
             dto.setSame(StrUtil.equals(hash, generatedHash));

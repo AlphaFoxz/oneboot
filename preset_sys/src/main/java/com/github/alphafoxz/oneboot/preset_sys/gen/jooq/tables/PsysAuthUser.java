@@ -15,12 +15,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function9;
+import org.jooq.Function11;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row9;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -100,6 +100,16 @@ public class PsysAuthUser extends TableImpl<PsysAuthUserRecord> {
      * The column <code>preset_sys.psys_auth_user.description</code>. 描述
      */
     public final TableField<PsysAuthUserRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(300), this, "描述");
+
+    /**
+     * The column <code>preset_sys.psys_auth_user.department_id</code>. 部门id
+     */
+    public final TableField<PsysAuthUserRecord, Long> DEPARTMENT_ID = createField(DSL.name("department_id"), SQLDataType.BIGINT, this, "部门id");
+
+    /**
+     * The column <code>preset_sys.psys_auth_user.phone</code>. 手机号码
+     */
+    public final TableField<PsysAuthUserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(20), this, "手机号码");
 
     private PsysAuthUser(Name alias, Table<PsysAuthUserRecord> aliased) {
         this(alias, aliased, null);
@@ -198,19 +208,19 @@ public class PsysAuthUser extends TableImpl<PsysAuthUserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row9<Long, String, String, String, Long, Long, Boolean, Boolean, String> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function11<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -218,7 +228,7 @@ public class PsysAuthUser extends TableImpl<PsysAuthUserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

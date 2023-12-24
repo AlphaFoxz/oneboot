@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record6;
-import org.jooq.Row6;
+import org.jooq.Record7;
+import org.jooq.Row7;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
  * 角色表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> implements Record6<Long, String, Integer, Integer, String, Boolean> {
+public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> implements Record7<Long, String, String, String, Boolean, Short, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,62 +45,45 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_role.role_title</code>. 角色名称
+     * Setter for <code>preset_sys.psys_auth_role.role_num</code>. 角色编号
      */
-    public PsysAuthRoleRecord setRoleTitle(@NonNull String value) {
+    public PsysAuthRoleRecord setRoleNum(@Nullable String value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_role.role_title</code>. 角色名称
+     * Getter for <code>preset_sys.psys_auth_role.role_num</code>. 角色编号
      */
-    @NotNull
     @Size(max = 50)
-    @NonNull
-    public String getRoleTitle() {
+    @Nullable
+    public String getRoleNum() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_role.role_name</code>.
+     * Setter for <code>preset_sys.psys_auth_role.role_name</code>. 角色名称
      */
-    public PsysAuthRoleRecord setRoleName(@NonNull Integer value) {
+    public PsysAuthRoleRecord setRoleName(@NonNull String value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_role.role_name</code>.
+     * Getter for <code>preset_sys.psys_auth_role.role_name</code>. 角色名称
      */
     @NotNull
+    @Size(max = 50)
     @NonNull
-    public Integer getRoleName() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>preset_sys.psys_auth_role.sort</code>. 排序
-     */
-    public PsysAuthRoleRecord setSort(@NonNull Integer value) {
-        set(3, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>preset_sys.psys_auth_role.sort</code>. 排序
-     */
-    @NotNull
-    @NonNull
-    public Integer getSort() {
-        return (Integer) get(3);
+    public String getRoleName() {
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>preset_sys.psys_auth_role.description</code>. 描述
      */
     public PsysAuthRoleRecord setDescription(@Nullable String value) {
-        set(4, value);
+        set(3, value);
         return this;
     }
 
@@ -110,14 +93,14 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     @Size(max = 300)
     @Nullable
     public String getDescription() {
-        return (String) get(4);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>preset_sys.psys_auth_role.enabled</code>. 是否启用
      */
     public PsysAuthRoleRecord setEnabled(@Nullable Boolean value) {
-        set(5, value);
+        set(4, value);
         return this;
     }
 
@@ -126,7 +109,40 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
      */
     @Nullable
     public Boolean getEnabled() {
-        return (Boolean) get(5);
+        return (Boolean) get(4);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_auth_role.status</code>. 状态
+     */
+    public PsysAuthRoleRecord setStatus(@Nullable Short value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_auth_role.status</code>. 状态
+     */
+    @Nullable
+    public Short getStatus() {
+        return (Short) get(5);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_auth_role.role_code</code>. 角色bi
+     */
+    public PsysAuthRoleRecord setRoleCode(@Nullable String value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_auth_role.role_code</code>. 角色bi
+     */
+    @Size(max = 50)
+    @Nullable
+    public String getRoleCode() {
+        return (String) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -140,19 +156,19 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Record7 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row6<Long, String, Integer, Integer, String, Boolean> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, String, String, String, Boolean, Short, String> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row6<Long, String, Integer, Integer, String, Boolean> valuesRow() {
-        return (Row6) super.valuesRow();
+    public Row7<Long, String, String, String, Boolean, Short, String> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     @Override
@@ -164,31 +180,37 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     @Override
     @NonNull
     public Field<String> field2() {
-        return PsysAuthRole.PSYS_AUTH_ROLE.ROLE_TITLE;
+        return PsysAuthRole.PSYS_AUTH_ROLE.ROLE_NUM;
     }
 
     @Override
     @NonNull
-    public Field<Integer> field3() {
+    public Field<String> field3() {
         return PsysAuthRole.PSYS_AUTH_ROLE.ROLE_NAME;
     }
 
     @Override
     @NonNull
-    public Field<Integer> field4() {
-        return PsysAuthRole.PSYS_AUTH_ROLE.SORT;
-    }
-
-    @Override
-    @NonNull
-    public Field<String> field5() {
+    public Field<String> field4() {
         return PsysAuthRole.PSYS_AUTH_ROLE.DESCRIPTION;
     }
 
     @Override
     @NonNull
-    public Field<Boolean> field6() {
+    public Field<Boolean> field5() {
         return PsysAuthRole.PSYS_AUTH_ROLE.ENABLED;
+    }
+
+    @Override
+    @NonNull
+    public Field<Short> field6() {
+        return PsysAuthRole.PSYS_AUTH_ROLE.STATUS;
+    }
+
+    @Override
+    @NonNull
+    public Field<String> field7() {
+        return PsysAuthRole.PSYS_AUTH_ROLE.ROLE_CODE;
     }
 
     @Override
@@ -198,33 +220,39 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     }
 
     @Override
-    @NonNull
+    @Nullable
     public String component2() {
-        return getRoleTitle();
+        return getRoleNum();
     }
 
     @Override
     @NonNull
-    public Integer component3() {
+    public String component3() {
         return getRoleName();
     }
 
     @Override
-    @NonNull
-    public Integer component4() {
-        return getSort();
-    }
-
-    @Override
     @Nullable
-    public String component5() {
+    public String component4() {
         return getDescription();
     }
 
     @Override
     @Nullable
-    public Boolean component6() {
+    public Boolean component5() {
         return getEnabled();
+    }
+
+    @Override
+    @Nullable
+    public Short component6() {
+        return getStatus();
+    }
+
+    @Override
+    @Nullable
+    public String component7() {
+        return getRoleCode();
     }
 
     @Override
@@ -234,33 +262,39 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     }
 
     @Override
-    @NonNull
+    @Nullable
     public String value2() {
-        return getRoleTitle();
+        return getRoleNum();
     }
 
     @Override
     @NonNull
-    public Integer value3() {
+    public String value3() {
         return getRoleName();
     }
 
     @Override
-    @NonNull
-    public Integer value4() {
-        return getSort();
-    }
-
-    @Override
     @Nullable
-    public String value5() {
+    public String value4() {
         return getDescription();
     }
 
     @Override
     @Nullable
-    public Boolean value6() {
+    public Boolean value5() {
         return getEnabled();
+    }
+
+    @Override
+    @Nullable
+    public Short value6() {
+        return getStatus();
+    }
+
+    @Override
+    @Nullable
+    public String value7() {
+        return getRoleCode();
     }
 
     @Override
@@ -272,48 +306,56 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
 
     @Override
     @NonNull
-    public PsysAuthRoleRecord value2(@NonNull String value) {
-        setRoleTitle(value);
+    public PsysAuthRoleRecord value2(@Nullable String value) {
+        setRoleNum(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthRoleRecord value3(@NonNull Integer value) {
+    public PsysAuthRoleRecord value3(@NonNull String value) {
         setRoleName(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthRoleRecord value4(@NonNull Integer value) {
-        setSort(value);
-        return this;
-    }
-
-    @Override
-    @NonNull
-    public PsysAuthRoleRecord value5(@Nullable String value) {
+    public PsysAuthRoleRecord value4(@Nullable String value) {
         setDescription(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthRoleRecord value6(@Nullable Boolean value) {
+    public PsysAuthRoleRecord value5(@Nullable Boolean value) {
         setEnabled(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthRoleRecord values(@NonNull Long value1, @NonNull String value2, @NonNull Integer value3, @NonNull Integer value4, @Nullable String value5, @Nullable Boolean value6) {
+    public PsysAuthRoleRecord value6(@Nullable Short value) {
+        setStatus(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAuthRoleRecord value7(@Nullable String value) {
+        setRoleCode(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAuthRoleRecord values(@NonNull Long value1, @Nullable String value2, @NonNull String value3, @Nullable String value4, @Nullable Boolean value5, @Nullable Short value6, @Nullable String value7) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
         value6(value6);
+        value7(value7);
         return this;
     }
 
@@ -331,15 +373,16 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
     /**
      * Create a detached, initialised PsysAuthRoleRecord
      */
-    public PsysAuthRoleRecord(@NonNull Long id, @NonNull String roleTitle, @NonNull Integer roleName, @NonNull Integer sort, @Nullable String description, @Nullable Boolean enabled) {
+    public PsysAuthRoleRecord(@NonNull Long id, @Nullable String roleNum, @NonNull String roleName, @Nullable String description, @Nullable Boolean enabled, @Nullable Short status, @Nullable String roleCode) {
         super(PsysAuthRole.PSYS_AUTH_ROLE);
 
         setId(id);
-        setRoleTitle(roleTitle);
+        setRoleNum(roleNum);
         setRoleName(roleName);
-        setSort(sort);
         setDescription(description);
         setEnabled(enabled);
+        setStatus(status);
+        setRoleCode(roleCode);
         resetChangedOnNotNull();
     }
 
@@ -351,11 +394,12 @@ public class PsysAuthRoleRecord extends UpdatableRecordImpl<PsysAuthRoleRecord> 
 
         if (value != null) {
             setId(value.id());
-            setRoleTitle(value.roleTitle());
+            setRoleNum(value.roleNum());
             setRoleName(value.roleName());
-            setSort(value.sort());
             setDescription(value.description());
             setEnabled(value.enabled());
+            setStatus(value.status());
+            setRoleCode(value.roleCode());
             resetChangedOnNotNull();
         }
     }

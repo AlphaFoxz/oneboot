@@ -16,11 +16,12 @@ import org.springframework.lang.Nullable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysAuthRolePo(
     @NonNull Long id,
-    @NonNull String roleTitle,
-    @NonNull Integer roleName,
-    @NonNull Integer sort,
+    @Nullable String roleNum,
+    @NonNull String roleName,
     @Nullable String description,
-    @Nullable Boolean enabled
+    @Nullable Boolean enabled,
+    @Nullable Short status,
+    @Nullable String roleCode
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,23 +42,17 @@ public record PsysAuthRolePo(
         }
         else if (!this.id.equals(other.id))
             return false;
-        if (this.roleTitle == null) {
-            if (other.roleTitle != null)
+        if (this.roleNum == null) {
+            if (other.roleNum != null)
                 return false;
         }
-        else if (!this.roleTitle.equals(other.roleTitle))
+        else if (!this.roleNum.equals(other.roleNum))
             return false;
         if (this.roleName == null) {
             if (other.roleName != null)
                 return false;
         }
         else if (!this.roleName.equals(other.roleName))
-            return false;
-        if (this.sort == null) {
-            if (other.sort != null)
-                return false;
-        }
-        else if (!this.sort.equals(other.sort))
             return false;
         if (this.description == null) {
             if (other.description != null)
@@ -71,6 +66,18 @@ public record PsysAuthRolePo(
         }
         else if (!this.enabled.equals(other.enabled))
             return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.roleCode == null) {
+            if (other.roleCode != null)
+                return false;
+        }
+        else if (!this.roleCode.equals(other.roleCode))
+            return false;
         return true;
     }
 
@@ -79,11 +86,12 @@ public record PsysAuthRolePo(
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.roleTitle == null) ? 0 : this.roleTitle.hashCode());
+        result = prime * result + ((this.roleNum == null) ? 0 : this.roleNum.hashCode());
         result = prime * result + ((this.roleName == null) ? 0 : this.roleName.hashCode());
-        result = prime * result + ((this.sort == null) ? 0 : this.sort.hashCode());
         result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.roleCode == null) ? 0 : this.roleCode.hashCode());
         return result;
     }
 
@@ -92,11 +100,12 @@ public record PsysAuthRolePo(
         StringBuilder sb = new StringBuilder("PsysAuthRolePo (");
 
         sb.append(id);
-        sb.append(", ").append(roleTitle);
+        sb.append(", ").append(roleNum);
         sb.append(", ").append(roleName);
-        sb.append(", ").append(sort);
         sb.append(", ").append(description);
         sb.append(", ").append(enabled);
+        sb.append(", ").append(status);
+        sb.append(", ").append(roleCode);
 
         sb.append(")");
         return sb.toString();

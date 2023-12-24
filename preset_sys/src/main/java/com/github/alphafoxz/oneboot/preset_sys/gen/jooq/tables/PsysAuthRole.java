@@ -12,11 +12,11 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function6;
+import org.jooq.Function7;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -58,19 +58,14 @@ public class PsysAuthRole extends TableImpl<PsysAuthRoleRecord> {
     public final TableField<PsysAuthRoleRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "主键");
 
     /**
-     * The column <code>preset_sys.psys_auth_role.role_title</code>. 角色名称
+     * The column <code>preset_sys.psys_auth_role.role_num</code>. 角色编号
      */
-    public final TableField<PsysAuthRoleRecord, String> ROLE_TITLE = createField(DSL.name("role_title"), SQLDataType.VARCHAR(50).nullable(false), this, "角色名称");
+    public final TableField<PsysAuthRoleRecord, String> ROLE_NUM = createField(DSL.name("role_num"), SQLDataType.VARCHAR(50), this, "角色编号");
 
     /**
-     * The column <code>preset_sys.psys_auth_role.role_name</code>.
+     * The column <code>preset_sys.psys_auth_role.role_name</code>. 角色名称
      */
-    public final TableField<PsysAuthRoleRecord, Integer> ROLE_NAME = createField(DSL.name("role_name"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>preset_sys.psys_auth_role.sort</code>. 排序
-     */
-    public final TableField<PsysAuthRoleRecord, Integer> SORT = createField(DSL.name("sort"), SQLDataType.INTEGER.nullable(false), this, "排序");
+    public final TableField<PsysAuthRoleRecord, String> ROLE_NAME = createField(DSL.name("role_name"), SQLDataType.VARCHAR(50).nullable(false), this, "角色名称");
 
     /**
      * The column <code>preset_sys.psys_auth_role.description</code>. 描述
@@ -81,6 +76,16 @@ public class PsysAuthRole extends TableImpl<PsysAuthRoleRecord> {
      * The column <code>preset_sys.psys_auth_role.enabled</code>. 是否启用
      */
     public final TableField<PsysAuthRoleRecord, Boolean> ENABLED = createField(DSL.name("enabled"), SQLDataType.BOOLEAN, this, "是否启用");
+
+    /**
+     * The column <code>preset_sys.psys_auth_role.status</code>. 状态
+     */
+    public final TableField<PsysAuthRoleRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
+
+    /**
+     * The column <code>preset_sys.psys_auth_role.role_code</code>. 角色bi
+     */
+    public final TableField<PsysAuthRoleRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.VARCHAR(50), this, "角色bi");
 
     private PsysAuthRole(Name alias, Table<PsysAuthRoleRecord> aliased) {
         this(alias, aliased, null);
@@ -173,19 +178,19 @@ public class PsysAuthRole extends TableImpl<PsysAuthRoleRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row6<Long, String, Integer, Integer, String, Boolean> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Long, String, String, String, Boolean, Short, String> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function6<? super Long, ? super String, ? super Integer, ? super Integer, ? super String, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -193,7 +198,7 @@ public class PsysAuthRole extends TableImpl<PsysAuthRoleRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super String, ? super Integer, ? super Integer, ? super String, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

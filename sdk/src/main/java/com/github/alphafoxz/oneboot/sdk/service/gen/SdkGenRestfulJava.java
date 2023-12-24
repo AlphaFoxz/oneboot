@@ -54,7 +54,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
-        code.add("import " + commonConfiguration.getPackage() + ".interfaces.framework.HttpController;");
+        code.add("import " + commonConfiguration.getPackage() + ".standard.framework.HttpController;");
         for (String str : interfaceBean.getImportTypeName()) {
             code.add("import " + str + ";");
         }
@@ -228,7 +228,8 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
                 switch (annoEntry.getKey()) {
-                    case "Page" -> {
+//                    case "Page" -> {
+                    case "PageResponse" -> {
                         isPage = true;
                         continue;
                     }
@@ -273,7 +274,8 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             returnType = "?";
         }
         if (isPage) {
-            returnType = "Page<" + returnType + ">";
+//            returnType = "Page<" + returnType + ">";
+            returnType = "PageResponse<" + returnType + ">";
         }
         returnType = "ResponseEntity<" + returnType + ">";
         if (isPost && !interfaceFunction.getParamList().isEmpty() && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().get(0).getParamType().isIntype())) {
@@ -317,7 +319,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
         for (var param : interfaceFunction.getParamList()) {
             String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
-            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), pathVarSet.contains(param.getParamName()) ? "@PathVariable " : "", param.getParamType().javaString(), param.getParamName()));
+            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), pathVarSet.contains(param.getParamName()) ? "@PathVariable(\"" + param.getParamName() + "\") " : "", param.getParamType().javaString(), param.getParamName()));
         }
         if (hasRequestParam) {
             paramCode.add(TAB + TAB + TAB + "HttpServletRequest _request");

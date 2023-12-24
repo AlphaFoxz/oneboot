@@ -1,16 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
 namespace ts gen.preset_sys.dtos
 
-/* 用户名密码登录参数 */
-class PsysAuthLoginParam {
-    /* 用户名 */
-    required string username
-    /* 密码 */
-    required string password
-    /* 验证码 */
-    optional string verifyCode
-}
-
 /* 用户令牌结果 */
 class PsysAuthTokenInfoDto {
     /* 用户名 */
@@ -73,4 +63,12 @@ class PsysAuthUserInfoDto {
     required i32 status
     /* 创建时间 */
     required i64 createTime
+}
+
+/* 部门信息 */
+class PsysDepartmentInfoDto {
+    /* 主键 */
+    required i64 id
+    /* 名称 */
+    required string name
 }

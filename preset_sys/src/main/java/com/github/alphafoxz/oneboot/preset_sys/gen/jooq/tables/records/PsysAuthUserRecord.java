@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record9;
-import org.jooq.Row9;
+import org.jooq.Record11;
+import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> implements Record9<Long, String, String, String, Long, Long, Boolean, Boolean, String> {
+public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> implements Record11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -183,6 +183,39 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         return (String) get(8);
     }
 
+    /**
+     * Setter for <code>preset_sys.psys_auth_user.department_id</code>. 部门id
+     */
+    public PsysAuthUserRecord setDepartmentId(@Nullable Long value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_auth_user.department_id</code>. 部门id
+     */
+    @Nullable
+    public Long getDepartmentId() {
+        return (Long) get(9);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_auth_user.phone</code>. 手机号码
+     */
+    public PsysAuthUserRecord setPhone(@Nullable String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_auth_user.phone</code>. 手机号码
+     */
+    @Size(max = 20)
+    @Nullable
+    public String getPhone() {
+        return (String) get(10);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -194,19 +227,19 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record9 type implementation
+    // Record11 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row9<Long, String, String, String, Long, Long, Boolean, Boolean, String> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row9<Long, String, String, String, Long, Long, Boolean, Boolean, String> valuesRow() {
-        return (Row9) super.valuesRow();
+    public Row11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> valuesRow() {
+        return (Row11) super.valuesRow();
     }
 
     @Override
@@ -265,6 +298,18 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
+    public Field<Long> field10() {
+        return PsysAuthUser.PSYS_AUTH_USER.DEPARTMENT_ID;
+    }
+
+    @Override
+    @NonNull
+    public Field<String> field11() {
+        return PsysAuthUser.PSYS_AUTH_USER.PHONE;
+    }
+
+    @Override
+    @NonNull
     public Long component1() {
         return getId();
     }
@@ -315,6 +360,18 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     @Nullable
     public String component9() {
         return getDescription();
+    }
+
+    @Override
+    @Nullable
+    public Long component10() {
+        return getDepartmentId();
+    }
+
+    @Override
+    @Nullable
+    public String component11() {
+        return getPhone();
     }
 
     @Override
@@ -369,6 +426,18 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     @Nullable
     public String value9() {
         return getDescription();
+    }
+
+    @Override
+    @Nullable
+    public Long value10() {
+        return getDepartmentId();
+    }
+
+    @Override
+    @Nullable
+    public String value11() {
+        return getPhone();
     }
 
     @Override
@@ -436,7 +505,21 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
-    public PsysAuthUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9) {
+    public PsysAuthUserRecord value10(@Nullable Long value) {
+        setDepartmentId(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAuthUserRecord value11(@Nullable String value) {
+        setPhone(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysAuthUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -446,6 +529,8 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         value7(value7);
         value8(value8);
         value9(value9);
+        value10(value10);
+        value11(value11);
         return this;
     }
 
@@ -463,7 +548,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     /**
      * Create a detached, initialised PsysAuthUserRecord
      */
-    public PsysAuthUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description) {
+    public PsysAuthUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description, @Nullable Long departmentId, @Nullable String phone) {
         super(PsysAuthUser.PSYS_AUTH_USER);
 
         setId(id);
@@ -475,6 +560,8 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         setEnabled(enabled);
         setExpired(expired);
         setDescription(description);
+        setDepartmentId(departmentId);
+        setPhone(phone);
         resetChangedOnNotNull();
     }
 
@@ -494,6 +581,8 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
             setEnabled(value.enabled());
             setExpired(value.expired());
             setDescription(value.description());
+            setDepartmentId(value.departmentId());
+            setPhone(value.phone());
             resetChangedOnNotNull();
         }
     }

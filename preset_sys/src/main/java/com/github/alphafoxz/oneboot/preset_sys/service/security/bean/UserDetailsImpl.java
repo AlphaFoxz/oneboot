@@ -70,6 +70,7 @@ public class UserDetailsImpl implements UserDetails {
         userDetailsImpl.setAccountNonExpired(userDetails.isAccountNonExpired());
         userDetailsImpl.setAccountNonLocked(userDetails.isAccountNonLocked());
         userDetailsImpl.setCredentialsNonExpired(userDetails.isCredentialsNonExpired());
+        userDetailsImpl.setSubjectId(userDetailsImpl.getSubjectId());
         return userDetailsImpl;
     }
 }

@@ -10,8 +10,6 @@ public class PsysAuthLoginParam {
     private String username;
     @Schema(name = "password", description = "密码")
     private String password;
-    @Schema(name = "verifyCode", description = "验证码")
-    private String verifyCode;
 
     public PsysAuthLoginParam setUsername(String username) {
         this.username = username;
@@ -19,10 +17,6 @@ public class PsysAuthLoginParam {
     }
     public PsysAuthLoginParam setPassword(String password) {
         this.password = password;
-        return this;
-    }
-    public PsysAuthLoginParam setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
         return this;
     }
 }

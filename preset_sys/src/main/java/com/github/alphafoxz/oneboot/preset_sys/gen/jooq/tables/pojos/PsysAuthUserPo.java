@@ -23,7 +23,9 @@ public record PsysAuthUserPo(
     @NonNull Long accountId,
     @NonNull Boolean enabled,
     @NonNull Boolean expired,
-    @Nullable String description
+    @Nullable String description,
+    @Nullable Long departmentId,
+    @Nullable String phone
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -92,6 +94,18 @@ public record PsysAuthUserPo(
         }
         else if (!this.description.equals(other.description))
             return false;
+        if (this.departmentId == null) {
+            if (other.departmentId != null)
+                return false;
+        }
+        else if (!this.departmentId.equals(other.departmentId))
+            return false;
+        if (this.phone == null) {
+            if (other.phone != null)
+                return false;
+        }
+        else if (!this.phone.equals(other.phone))
+            return false;
         return true;
     }
 
@@ -108,6 +122,8 @@ public record PsysAuthUserPo(
         result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
         result = prime * result + ((this.expired == null) ? 0 : this.expired.hashCode());
         result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.departmentId == null) ? 0 : this.departmentId.hashCode());
+        result = prime * result + ((this.phone == null) ? 0 : this.phone.hashCode());
         return result;
     }
 
@@ -124,6 +140,8 @@ public record PsysAuthUserPo(
         sb.append(", ").append(enabled);
         sb.append(", ").append(expired);
         sb.append(", ").append(description);
+        sb.append(", ").append(departmentId);
+        sb.append(", ").append(phone);
 
         sb.append(")");
         return sb.toString();

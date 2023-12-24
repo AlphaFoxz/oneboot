@@ -6,8 +6,8 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SdkRestfulConvertor {
-    SdkRestfulConvertor INSTANCE = Mappers.getMapper(SdkRestfulConvertor.class);
+public interface SdkRestfulConvert {
+    SdkRestfulConvert INSTANCE = Mappers.getMapper(SdkRestfulConvert.class);
 
     SdkStringResponseDto fromThriftSdkStringResponseDto(com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto source);
 

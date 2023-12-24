@@ -2,29 +2,35 @@ namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.apis
 namespace ts gen.preset_sys.apis
 
 import "../dtos/PsysAuthDto.restful"
+import "../dtos/PsysAuthParam.restful"
 
 /*登录接口*/
 @uri(/preset_sys/auth)
 interface PsysAuthApi {
     /*登录接口，返回token*/
     @postUri(/login)
-    PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthDto.PsysAuthLoginParam loginParam)
+    PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthParam.PsysAuthLoginParam loginParam)
 
     /*退出登录*/
     @getUri(/logout)
     void logout()
 
     /*传入旧token，如果其中的refreshToken没有过期则返回一对新的token*/
-    @postUri(/refresh)
-    PsysAuthDto.PsysAuthTokenResponse refresh(/*旧的token*/ PsysAuthDto.PsysAuthTokenInfoDto oldToken)
+    @postUri(/refreshToken)
+    PsysAuthDto.PsysAuthTokenResponse refreshToken(/*旧的token*/ PsysAuthDto.PsysAuthTokenInfoDto oldToken)
 
     /* 角色管理列表 */
     @page
-    @getUri(/role/list/{pageNum}/{pageSize})
-    PsysAuthDto.PsysAuthRoleInfoDto roleList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
+    @getUri(/role/page)
+    PsysAuthDto.PsysAuthRoleInfoDto rolePage(/* 角色分页查询传参 */PsysAuthParam.PsysAuthRolePageParam param)
 
     /* 用户管理列表 */
     @page
-    @getUri(/user/list)
-    PsysAuthDto.PsysAuthRoleInfoDto userList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
+    @getUri(/user/page)
+    PsysAuthDto.PsysAuthUserInfoDto userPage(/* 用户分页查询传参 */PsysAuthParam.PsysAuthUserPageParam param)
+
+    /* 组织机构列表 */
+    @page
+    @getUri(/department/page)
+    PsysAuthDto.PsysDepartmentInfoDto departmentPage(/* 组织机构分页查询传参 */PsysAuthParam.PsysAuthDepartmentPageParam param)
 }

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface MeilisearchModuleConvertor {
-    MeilisearchModuleConvertor INSTANCE = Mappers.getMapper(MeilisearchModuleConvertor.class);
+public interface MeilisearchModuleConvert {
+    MeilisearchModuleConvert INSTANCE = Mappers.getMapper(MeilisearchModuleConvert.class);
 
     public SearchResultBean searchResult2Bean(SearchResult searchResult);
 

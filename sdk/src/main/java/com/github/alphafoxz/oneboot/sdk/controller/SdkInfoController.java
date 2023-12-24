@@ -6,7 +6,7 @@ import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
-import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvertor;
+import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -71,13 +71,13 @@ public class SdkInfoController implements SdkInfoApi {
 
     @Override
     public ResponseEntity<SdkListResponseDto> checkThriftErr() {
-        return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkThriftErr()));
+        return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkThriftErr()));
     }
 
     @Override
     public ResponseEntity<SdkListResponseDto> checkRestApiImplements() {
         try {
-            return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRestApiImplements()));
+            return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRestApiImplements()));
         } catch (Exception e) {
             log.error("接口异常", e);
             return ResponseEntity.status(500).build();
@@ -87,7 +87,7 @@ public class SdkInfoController implements SdkInfoApi {
     @Override
     public ResponseEntity<SdkListResponseDto> checkRpcImplements() {
         try {
-            return ResponseEntity.ok(SdkRestfulConvertor.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRpcImplements()));
+            return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(sdkInfoService.checkRpcImplements()));
         } catch (Exception e) {
             log.error("接口异常", e);
             return ResponseEntity.status(500).build();

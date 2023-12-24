@@ -73,7 +73,7 @@ public class AppTestController implements AppTestApi {
         record.setId(id);
         record.setTestTimestamptz(OffsetDateTime.now(ZoneId.systemDefault()));
         record.setTestVarchar50("test");
-        int i = appTestCrud.insertMany(record);
+        int i = appTestCrud.insert(record);
         return ResponseEntity.ok(i);
     }
 

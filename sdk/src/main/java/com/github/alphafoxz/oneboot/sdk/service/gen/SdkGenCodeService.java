@@ -102,7 +102,7 @@ public class SdkGenCodeService implements SdkGenCodeIface.Iface {
             if (!genResult) {
                 break;
             }
-            String hash = SecureUtil.sha256(FileUtil.file(codeFile.getTemplatePath()));
+            String hash = SecureUtil.sha256(FileUtil.readUtf8String(codeFile.getTemplatePath()).replace("\r\n", "\n"));
             restfulVersionMap.put(codeFile.getTemplatePath().replace(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, ""), hash);
         }
         sdkVersionStoreService.genRestfulStore().writeFile(restfulVersionMap);

@@ -4,6 +4,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables;
 
 
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthDepartmentRecord;
 
@@ -11,16 +12,17 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function1;
+import org.jooq.Function4;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row1;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -53,7 +55,22 @@ public class PsysAuthDepartment extends TableImpl<PsysAuthDepartmentRecord> {
     /**
      * The column <code>preset_sys.psys_auth_department.id</code>. 主键
      */
-    public final TableField<PsysAuthDepartmentRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT, this, "主键");
+    public final TableField<PsysAuthDepartmentRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "主键");
+
+    /**
+     * The column <code>preset_sys.psys_auth_department.dept_name</code>. 部门名称
+     */
+    public final TableField<PsysAuthDepartmentRecord, String> DEPT_NAME = createField(DSL.name("dept_name"), SQLDataType.VARCHAR(50).nullable(false), this, "部门名称");
+
+    /**
+     * The column <code>preset_sys.psys_auth_department.sort</code>. 排序
+     */
+    public final TableField<PsysAuthDepartmentRecord, Integer> SORT = createField(DSL.name("sort"), SQLDataType.INTEGER, this, "排序");
+
+    /**
+     * The column <code>preset_sys.psys_auth_department.status</code>. 状态
+     */
+    public final TableField<PsysAuthDepartmentRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
 
     private PsysAuthDepartment(Name alias, Table<PsysAuthDepartmentRecord> aliased) {
         this(alias, aliased, null);
@@ -94,6 +111,12 @@ public class PsysAuthDepartment extends TableImpl<PsysAuthDepartmentRecord> {
     @Nullable
     public Schema getSchema() {
         return aliased() ? null : PresetSys.PRESET_SYS;
+    }
+
+    @Override
+    @NonNull
+    public UniqueKey<PsysAuthDepartmentRecord> getPrimaryKey() {
+        return Keys.PSYS_AUTH_DEPARTMENT_PK;
     }
 
     @Override
@@ -142,19 +165,19 @@ public class PsysAuthDepartment extends TableImpl<PsysAuthDepartmentRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row1 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row1<Long> fieldsRow() {
-        return (Row1) super.fieldsRow();
+    public Row4<Long, String, Integer, Short> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function1<? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function4<? super Long, ? super String, ? super Integer, ? super Short, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -162,7 +185,7 @@ public class PsysAuthDepartment extends TableImpl<PsysAuthDepartmentRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function1<? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Long, ? super String, ? super Integer, ? super Short, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

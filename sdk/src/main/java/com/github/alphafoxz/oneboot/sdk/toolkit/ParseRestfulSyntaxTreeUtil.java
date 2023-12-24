@@ -612,8 +612,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.getImportTypeName().add("org.springframework.web.bind.annotation.DeleteMapping");
                             result.setAnnotationName("DeleteMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
-                            result.getImportTypeName().add("org.springframework.data.domain.Page");
-                            result.setAnnotationName("Page");
+//                            result.getImportTypeName().add("org.springframework.data.domain.Page");
+//                            result.setAnnotationName("Page");
+                            Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
+                            result.getImportTypeName().add(c.getName());
+                            result.setAnnotationName(c.getSimpleName());
                         } else if (StrUtil.equalsIgnoreCase(annoName, "request")) { //注入request
                             result.getImportTypeName().add("jakarta.servlet.http.HttpServletRequest");
                             result.setAnnotationName("HttpServletRequest");
