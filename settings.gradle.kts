@@ -16,7 +16,7 @@ include(
     ":gradle_tasks",
     ":common",
     ":starter",
-    ":starter:meilisearch_starter",
+//    ":starter:meilisearch_starter",
     ":preset_sys",
     ":app",
     ":sdk",

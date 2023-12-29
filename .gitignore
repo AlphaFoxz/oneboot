@@ -9,6 +9,7 @@ build/
 
 **/src/main/generated/
 *.exe
+.wiki/.obsidian/
 
 ### STS ###
 .apt_generated
