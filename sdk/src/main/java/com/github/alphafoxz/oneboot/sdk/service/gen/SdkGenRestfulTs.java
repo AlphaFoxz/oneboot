@@ -71,7 +71,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             for (int i = 0; i < layer; i++) {
                 importStr += "../";
             }
-            importStr += "apisUtil'";
+            importStr += "apis-util'";
             code.add(importStr);
             code.add("");
             for (var interfaceBean : rootBean.getInterfaceList()) {
