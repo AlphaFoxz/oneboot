@@ -288,9 +288,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             for (var param : interfaceFunction.getParamList()) {
                 String paramAnno = "";
                 if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
-                    paramAnno += "@Nullable";
+                    paramAnno += "@Nullable ";
                 }
-                outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{} {} {}", paramAnno, param.getParamType().javaString(), param.getParamName()));
+                outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{}{} {}", paramAnno, param.getParamType().javaString(), param.getParamName()));
                 innerParamCode.add(StrUtil.format("({}) _requestMap.get(\"{}\")", param.getParamType().javaString(), param.getParamName()));
             }
             if (hasRequestParam) {
