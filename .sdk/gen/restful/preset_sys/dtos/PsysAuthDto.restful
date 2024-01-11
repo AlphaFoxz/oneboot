@@ -1,18 +1,20 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
 namespace ts gen.preset_sys.dtos
 
+import "../enums/PsysAuthRouteRankEnum.restful"
+
 /* 用户令牌结果 */
 class PsysAuthTokenInfoDto {
     /* 用户名 */
-    required string username
+    string username
     /* 当前登录用户的角色 */
-    required list<string> roles
+    list<string> roles
     /* 访问令牌 */
-    required string accessToken
+    string accessToken
     /* 刷新令牌 */
-    required string refreshToken
+    string refreshToken
     /* accessToken的过期时间（格式'yyyy/MM/dd HH:mm:ss'） */
-    required string expires
+    string expires
 }
 
 /* 用户信息响应体 */
@@ -23,52 +25,24 @@ class PsysAuthTokenResponse {
     optional PsysAuthTokenInfoDto data
 }
 
-/* 角色信息 */
-class PsysAuthRoleInfoDto {
-    /* 主键 */
-    required i64 id
-    /* 创建时间 */
-    required i64 createTime
-    /* 更新时间 */
-    required i64 updateTime
-    /* 角色名称 */
-    required string name
-    /* 角色编码 */
-    required string code
-    /* 状态 */
-    required i16 status
-    /* 备注 */
-    required string remark
+/* 路由信息 */
+class PsysAuthRouteDto {
+    required string path
+    optional string name
+    required PsysAuthRouteMeta meta
+    optional PsysAuthRouteDto children
 }
 
-/* 用户信息 */
-class PsysAuthUserInfoDto {
-    /* 主键 */
-    required i64 id
-    /* 用户名称 */
-    required string username
-    /* 用户昵称 */
-    required string nickname
-    /* 用户头像 */
-    required string avatar
-    /* 性别 */
-    required i32 sex
-    /* 手机号码 */
-    required string phone
-    /* 电子邮箱 */
-    required string email
-    /* 备注 */
-    optional string remark
-    /* 状态 */
-    required i32 status
-    /* 创建时间 */
-    required i64 createTime
-}
-
-/* 部门信息 */
-class PsysDepartmentInfoDto {
-    /* 主键 */
-    required i64 id
+/* 路由元数据 */
+class PsysAuthRouteMeta {
+    /* 图标 */
+    optional string icon
+    /* 标题 */
+    required string title
     /* 名称 */
-    required string name
+    optional string name
+    /* 排序 */
+    optional enum<PsysAuthRouteRankEnum.PsysAuthRouteRankEnum> rank
+    /* 权限标识 */
+    optional list<string> roles
 }

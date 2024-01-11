@@ -25,6 +25,7 @@ public interface RestfulTokenDefine {
     public static final String CONTAIN_LIST = "contain_list";
     public static final String CONTAIN_SET_TYPE = "contain_set_type";
     public static final String CONTAIN_SET = "contain_set";
+    public static final String REF_ENUM = "ref_enum";
     public static final String INTYPE = "intype";
 
     public static interface Intypes {

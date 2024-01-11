@@ -1,8 +1,9 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.enums
 namespace ts gen.preset_sys.enums
 
-/* 排序 */
-enum PsysRankEnum {
+/* 路由排序 */
+enum PsysAuthRouteRankEnum {
+    /* 主页 */
     HOME = 0
     DOC = 1
     UTILS = 2

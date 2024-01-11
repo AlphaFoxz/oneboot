@@ -78,7 +78,6 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                 code.add(genApiCode(interfaceBean));
             }
         }
-        code.add("");
         for (var classBean : rootBean.getClassList()) {
             for (var commentBean : classBean.getCommentList()) {
                 code.add("// " + commentBean.getCommentValue());
@@ -94,7 +93,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                 if (fieldBean.getDoc() != null) {
                     code.add(StrUtil.format(innerDocFormat, fieldBean.getDoc().getCommentValue()));
                 }
-                String fieldTsString = fieldBean.getType().tsString() + (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier()) ? " | null" : "");
+                String fieldTsString = fieldBean.getType().tsString() + (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier()) ? " | undefined" : "");
                 code.add(TAB + fieldBean.getFieldName() + ": " + fieldTsString);
             }
             code.add("}");
@@ -136,7 +135,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             throw new OnebootGenCodeException("api缺少uri映射", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (CollUtil.isNotEmpty(requestMappingValues)) {
-            serviceUri = requestMappingValues.get(0);
+            serviceUri = requestMappingValues.getFirst();
         }
         for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : interfaceBean.getCommentList()) {
             code.add("// " + commentBean.getCommentValue());
@@ -189,25 +188,25 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                         throw new OnebootGenCodeException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     case GET_MAPPING -> {
-                        functionUri = annoEntry.getValue().get(0);
+                        functionUri = annoEntry.getValue().getFirst();
                         executeFormat = TAB + TAB + "return (await _http()).get(`{}`)";
                     }
                     case DELETE_MAPPING -> {
-                        functionUri = annoEntry.getValue().get(0);
+                        functionUri = annoEntry.getValue().getFirst();
                         executeFormat = TAB + TAB + "return (await _http()).delete(`{}`)";
                     }
                     case POST_MAPPING -> {
-                        functionUri = annoEntry.getValue().get(0);
+                        functionUri = annoEntry.getValue().getFirst();
                         executeFormat = TAB + TAB + "return (await _http()).post(`{}`, {})";
                         isPost = true;
                     }
                     case PUT_MAPPING -> {
-                        functionUri = annoEntry.getValue().get(0);
+                        functionUri = annoEntry.getValue().getFirst();
                         executeFormat = TAB + TAB + "return (await _http()).put(`{}`, {})";
                         isPost = true;
                     }
                     case PATCH_MAPPING -> {
-                        functionUri = annoEntry.getValue().get(0);
+                        functionUri = annoEntry.getValue().getFirst();
                         executeFormat = TAB + TAB + "return (await _http()).patch(`{}`, {})";
                         isPost = true;
                     }
@@ -219,9 +218,9 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                 functionUri = StrUtil.replaceFirst(functionUri, match, "${encodeURI(p_" + pathVar + ".toString())}");
                 pathVarSet.add(pathVar);
             }
-            if (isPost && interfaceFunction.getParamList().size() == 1 && !interfaceFunction.getParamList().get(0).getParamType().isIntype()) {
+            if (isPost && interfaceFunction.getParamList().size() == 1 && !interfaceFunction.getParamList().getFirst().getParamType().isIntype()) {
                 // 只有单个参数
-                executeParam = "p_" + interfaceFunction.getParamList().get(0).getParamName();
+                executeParam = "p_" + interfaceFunction.getParamList().getFirst().getParamName();
             } else {
                 StringJoiner executeParamJoiner = isPost ? new StringJoiner(", ", "{ ", " }") : new StringJoiner("&", "?", "");
                 executeParamJoiner.setEmptyValue("");
@@ -244,7 +243,11 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
             String functionHeader = TAB + interfaceFunction.getFunctionName() + ": async ";
             StringJoiner paramStringJoiner = new StringJoiner(", ", "(", ")");
             for (var param : interfaceFunction.getParamList()) {
-                paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString());
+                String otherType = "";
+                if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+                    otherType += " | undefined";
+                }
+                paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString() + otherType);
             }
             String returnTypeString = isPage ? "_Page<" + interfaceFunction.getReturnType().tsString() + ">" : interfaceFunction.getReturnType().tsString();
             code.add(functionHeader + paramStringJoiner + ": _HttpResult<" + returnTypeString + "> => {");

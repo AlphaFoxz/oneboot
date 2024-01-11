@@ -2,10 +2,14 @@ package com.github.alphafoxz.oneboot.sdk.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import java.util.Map;
 
 @Schema(name = "SdkCodeTemplateDto", description = "代码模板实体")
+@Accessors(chain = true)
 @Getter
+@Setter
 public class SdkCodeTemplateDto {
     @Schema(name = "filePath", description = "文件路径")
     private String filePath;
@@ -19,29 +23,4 @@ public class SdkCodeTemplateDto {
     private String content;
     @Schema(name = "imports", description = "包含其他模板")
     private Map<String, SdkCodeTemplateDto> imports;
-
-    public SdkCodeTemplateDto setFilePath(String filePath) {
-        this.filePath = filePath;
-        return this;
-    }
-    public SdkCodeTemplateDto setFileSeparator(String fileSeparator) {
-        this.fileSeparator = fileSeparator;
-        return this;
-    }
-    public SdkCodeTemplateDto setNamespace(Map<String, String> namespace) {
-        this.namespace = namespace;
-        return this;
-    }
-    public SdkCodeTemplateDto setAst(String ast) {
-        this.ast = ast;
-        return this;
-    }
-    public SdkCodeTemplateDto setContent(String content) {
-        this.content = content;
-        return this;
-    }
-    public SdkCodeTemplateDto setImports(Map<String, SdkCodeTemplateDto> imports) {
-        this.imports = imports;
-        return this;
-    }
 }

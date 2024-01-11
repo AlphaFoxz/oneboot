@@ -1,16 +1,8 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
 namespace ts gen.preset_sys.dtos
 
-/* 用户名密码登录参数 */
-class PsysAuthLoginParam {
-    /* 用户名 */
-    required string username
-    /* 密码 */
-    required string password
-}
-
 /* 用户分页查询传参 */
-class PsysAuthUserPageParam {
+class PsysAccountUserPageParam {
     /* 页码 */
     optional i32 pageNum
     /* 每页条数 */
@@ -26,7 +18,7 @@ class PsysAuthUserPageParam {
 }
 
 /* 部门分页查询传参 */
-class PsysAuthDepartmentPageParam {
+class PsysAccountDepartmentPageParam {
     /* 页码 */
     optional i32 pageNum
     /* 每页条数 */
@@ -38,7 +30,7 @@ class PsysAuthDepartmentPageParam {
 }
 
 /* 角色分页查询传参 */
-class PsysAuthRolePageParam {
+class PsysAccountRolePageParam {
     /* 页码 */
     optional i32 pageNum
     /* 每页条数 */

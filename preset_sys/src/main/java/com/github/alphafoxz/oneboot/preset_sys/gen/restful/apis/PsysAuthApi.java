@@ -8,33 +8,35 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
 import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthUserPageParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthRolePageParam;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthRoleInfoDto;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Parameter;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthUserInfoDto;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthLoginParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import java.util.List;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthDepartmentPageParam;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysDepartmentInfoDto;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.lang.Nullable;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenResponse;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthRouteDto;
 
 @RequestMapping({"/preset_sys/auth"})
-@Tag(name = "PsysAuthApi", description = "登录接口")
+@Tag(name = "PsysAuthApi", description = "授权接口")
 public interface PsysAuthApi extends HttpController {
+    // PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthParam.PsysAuthLoginParam loginParam)
     @PostMapping({"/login"})
     @Operation(summary = "登录接口，返回token", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
+    public default ResponseEntity<PsysAuthTokenResponse> login(
+        @RequestBody java.util.Map<String, Object> _requestMap
+    ) {
+        return login((String) _requestMap.get("username"), (String) _requestMap.get("password"));
+    }
     public ResponseEntity<PsysAuthTokenResponse> login(
-            @Parameter(description = "用户名") @RequestBody PsysAuthLoginParam loginParam
+            @Nullable String username,
+            @Nullable String password
     );
 
     @GetMapping({"/logout"})
@@ -55,34 +57,12 @@ public interface PsysAuthApi extends HttpController {
             @Parameter(description = "旧的token") @RequestBody PsysAuthTokenInfoDto oldToken
     );
 
-    @GetMapping({"/role/page"})
-    @Operation(summary = "角色管理列表", responses = {
+    @PostMapping({"/queryRoute"})
+    @Operation(summary = "获取路由", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
-    public ResponseEntity<PageResponse<PsysAuthRoleInfoDto>> rolePage(
-            @Parameter(description = "角色分页查询传参") PsysAuthRolePageParam param
-    );
-
-    @GetMapping({"/user/page"})
-    @Operation(summary = "用户管理列表", responses = {
-            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
-            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
-    })
-    public ResponseEntity<PageResponse<PsysAuthUserInfoDto>> userPage(
-            @Parameter(description = "用户分页查询传参") PsysAuthUserPageParam param
-    );
-
-    @GetMapping({"/department/page"})
-    @Operation(summary = "组织机构列表", responses = {
-            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
-            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
-    })
-    public ResponseEntity<PageResponse<PsysDepartmentInfoDto>> departmentPage(
-            @Parameter(description = "组织机构分页查询传参") PsysAuthDepartmentPageParam param
-    );
+    public ResponseEntity<List<PsysAuthRouteDto>> queryRoute();
 
 }

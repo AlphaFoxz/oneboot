@@ -2,10 +2,14 @@ package com.github.alphafoxz.oneboot.sdk.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 // 响应体的data字段是binary
 @Schema(name = "SdkBinaryResponseDto", description = "二进制响应实体")
+@Accessors(chain = true)
 @Getter
+@Setter
 public class SdkBinaryResponseDto {
     @Schema(name = "id", description = "主键")
     private Long id;
@@ -17,25 +21,4 @@ public class SdkBinaryResponseDto {
     private String message;
     @Schema(name = "data", description = "数据内容")
     private String data;
-
-    public SdkBinaryResponseDto setId(Long id) {
-        this.id = id;
-        return this;
-    }
-    public SdkBinaryResponseDto setTaskId(Long taskId) {
-        this.taskId = taskId;
-        return this;
-    }
-    public SdkBinaryResponseDto setSuccess(Boolean success) {
-        this.success = success;
-        return this;
-    }
-    public SdkBinaryResponseDto setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-    public SdkBinaryResponseDto setData(String data) {
-        this.data = data;
-        return this;
-    }
 }
