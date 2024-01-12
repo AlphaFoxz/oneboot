@@ -3,10 +3,10 @@ package com.github.alphafoxz.oneboot.sdk;
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.common.standard.access_control.AbacActionType;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthUserRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysUserRecord;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.PsysAbacService;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacRefuseAllBusinessPolicy;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthUserCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +23,7 @@ public class PsysTest {
     @Resource
     private Snowflake snowflake;
     @Resource
-    private PsysAuthUserCrud psysAuthUserCrud;
+    private PsysUserCrud psysUserCrud;
 
     @SuppressWarnings("unchecked")
     @Test
@@ -45,7 +45,7 @@ public class PsysTest {
 
     @Test
     public void registerTest() {
-        PsysAuthUserRecord record = new PsysAuthUserRecord();
+        PsysUserRecord record = new PsysUserRecord();
         String password = new BCryptPasswordEncoder().encode("admin123");
         record.setId(snowflake.nextId());
         record.setUsername("admin");
@@ -55,6 +55,6 @@ public class PsysTest {
         record.setAccountId(snowflake.nextId());
         record.setEnabled(true);
         record.setExpired(false);
-        psysAuthUserCrud.insert(record);
+        psysUserCrud.insert(record);
     }
 }

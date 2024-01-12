@@ -1,12 +1,12 @@
-package com.github.alphafoxz.oneboot.preset_sys.service.abac.crud;
+package com.github.alphafoxz.oneboot.preset_sys.service.crud;
 
 import com.github.alphafoxz.oneboot.common.standard.access_control.AbacPolicy;
 import com.github.alphafoxz.oneboot.common.standard.framework.impl.AbstractAbacCachedCrudService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourcePo;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacResourceRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAccount;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAccountPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAccountRecord;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacOwnerPolicy;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -17,21 +17,21 @@ import org.springframework.cache.CacheManager;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_RESOURCE;
+import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ACCOUNT;
 
 /**
- * PsysAbacResource表增删改查service
+ * PsysAuthAccount表增删改查service
  */
 @Slf4j
 @Getter
 @Service
-public class PsysAbacResourceCrud extends AbstractAbacCachedCrudService<PsysAbacResource, PsysAbacResourcePo, PsysAbacResourceRecord> {
+public class PsysAccountCrud extends AbstractAbacCachedCrudService<PsysAccount, PsysAccountPo, PsysAccountRecord> {
     @Resource
     private DSLContext dslContext;
     @Resource
     private CacheManager cacheManager;
-    private final PsysAbacResource table = PSYS_ABAC_RESOURCE;
-    private final Class<PsysAbacResourcePo> poClass = PsysAbacResourcePo.class;
+    private final PsysAccount table = PSYS_ACCOUNT;
+    private final Class<PsysAccountPo> poClass = PsysAccountPo.class;
 
     @Override
     @NonNull

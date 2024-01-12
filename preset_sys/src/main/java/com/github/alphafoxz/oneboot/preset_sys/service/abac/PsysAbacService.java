@@ -19,9 +19,9 @@ import com.github.alphafoxz.oneboot.preset_sys.enums.access_control.AbacRoleAttr
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourcePo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourceProtectionPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubjectPo;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.crud.PsysAbacResourceCrud;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.crud.PsysAbacResourceProtectionCrud;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.crud.PsysAbacSubjectCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacResourceCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacResourceProtectionCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacSubjectCrud;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

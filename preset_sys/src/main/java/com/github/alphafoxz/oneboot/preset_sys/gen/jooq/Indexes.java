@@ -5,7 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -24,6 +24,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index PSYS_ABAC_RESOURCE_BUSINESS_ID_INDEX = Internal.createIndex(DSL.name("psys_abac_resource_business_id_index"), PsysAbacResource.PSYS_ABAC_RESOURCE, new OrderField[] { PsysAbacResource.PSYS_ABAC_RESOURCE.BUSINESS_ID }, false);
-    public static final Index PSYS_AUTH_USER_ACCOUNT_ID_INDEX = Internal.createIndex(DSL.name("psys_auth_user_account_id_index"), PsysAuthUser.PSYS_AUTH_USER, new OrderField[] { PsysAuthUser.PSYS_AUTH_USER.ACCOUNT_ID }, false);
-    public static final Index PSYS_AUTH_USER_USERNAME_UINDEX = Internal.createIndex(DSL.name("psys_auth_user_username_uindex"), PsysAuthUser.PSYS_AUTH_USER, new OrderField[] { PsysAuthUser.PSYS_AUTH_USER.USERNAME }, true);
+    public static final Index PSYS_USER_ACCOUNT_ID_INDEX = Internal.createIndex(DSL.name("psys_user_account_id_index"), PsysUser.PSYS_USER, new OrderField[] { PsysUser.PSYS_USER.ACCOUNT_ID }, false);
+    public static final Index PSYS_USER_USERNAME_UINDEX = Internal.createIndex(DSL.name("psys_user_username_uindex"), PsysUser.PSYS_USER, new OrderField[] { PsysUser.PSYS_USER.USERNAME }, true);
 }

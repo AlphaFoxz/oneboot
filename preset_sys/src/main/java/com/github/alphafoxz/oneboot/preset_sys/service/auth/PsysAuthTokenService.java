@@ -5,11 +5,11 @@ import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.DateUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple3;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthAccountPo;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthUserPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAccountPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthAccountCrud;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthUserCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAccountCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.toolkit.JwtUtil;
 import com.nimbusds.jwt.SignedJWT;
@@ -24,14 +24,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_AUTH_USER;
-
 @Service
 public class PsysAuthTokenService {
     @Resource
-    private PsysAuthUserCrud psysAuthUserCrud;
+    private PsysUserCrud psysUserCrud;
     @Resource
-    private PsysAuthAccountCrud psysAuthAccountCrud;
+    private PsysAccountCrud psysAccountCrud;
     @Resource
     private UserDetailsService userDetailsService;
     @Resource
@@ -39,8 +37,8 @@ public class PsysAuthTokenService {
 
     @NonNull
     public PsysAuthTokenInfoDto getAccessTokenAndRefreshToken(@NonNull String username, @NonNull String password) {
-        PsysAuthUserPo psysAuthUserPo = psysAuthUserCrud.selectOne(
-                PSYS_AUTH_USER.USERNAME.eq(username)
+        PsysUserPo psysAuthUserPo = psysUserCrud.selectOne(
+                C.PSYS_USER.USERNAME.eq(username)
         );
         if (psysAuthUserPo == null) {
             throw new OnebootAuthException("用户不存在或密码错误", HttpStatus.BAD_REQUEST);
@@ -69,11 +67,11 @@ public class PsysAuthTokenService {
         return dto;
     }
 
-    public void checkUserOrThrowsException(@Nullable PsysAuthUserPo psysAuthUserPo) throws RuntimeException {
+    public void checkUserOrThrowsException(@Nullable PsysUserPo psysAuthUserPo) throws RuntimeException {
         if (psysAuthUserPo == null) {
             throw new OnebootAuthException("用户不存在或密码错误", HttpStatus.BAD_REQUEST);
         }
-        PsysAuthAccountPo accountPo = psysAuthAccountCrud.selectOne(psysAuthUserPo.accountId());
+        PsysAccountPo accountPo = psysAccountCrud.selectOne(psysAuthUserPo.accountId());
         if (accountPo == null) {
             throw new OnebootDirtyDataException("账号数据异常，请联系联系管理员解决", HttpStatus.FORBIDDEN);
         }

@@ -14,7 +14,7 @@ import org.springframework.lang.Nullable;
  * 部门机构
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public record PsysAuthDepartmentPo(
+public record PsysUserDepartmentPo(
     @NonNull Long id,
     @NonNull String deptName,
     @Nullable Integer sort,
@@ -32,7 +32,7 @@ public record PsysAuthDepartmentPo(
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAuthDepartmentPo other = (PsysAuthDepartmentPo) obj;
+        final PsysUserDepartmentPo other = (PsysUserDepartmentPo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -73,7 +73,7 @@ public record PsysAuthDepartmentPo(
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAuthDepartmentPo (");
+        StringBuilder sb = new StringBuilder("PsysUserDepartmentPo (");
 
         sb.append(id);
         sb.append(", ").append(deptName);

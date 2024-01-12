@@ -14,7 +14,7 @@ import org.springframework.lang.Nullable;
  * 角色表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public record PsysAuthRolePo(
+public record PsysUserRolePo(
     @NonNull Long id,
     @Nullable String roleNum,
     @NonNull String roleName,
@@ -35,7 +35,7 @@ public record PsysAuthRolePo(
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAuthRolePo other = (PsysAuthRolePo) obj;
+        final PsysUserRolePo other = (PsysUserRolePo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -97,7 +97,7 @@ public record PsysAuthRolePo(
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAuthRolePo (");
+        StringBuilder sb = new StringBuilder("PsysUserRolePo (");
 
         sb.append(id);
         sb.append(", ").append(roleNum);

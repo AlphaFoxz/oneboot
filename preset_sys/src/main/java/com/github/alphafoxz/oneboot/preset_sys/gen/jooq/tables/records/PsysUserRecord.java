@@ -4,16 +4,18 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthUserPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.OffsetDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record11;
-import org.jooq.Row11;
+import org.jooq.Record12;
+import org.jooq.Row12;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -23,20 +25,20 @@ import org.springframework.lang.Nullable;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> implements Record11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> {
+public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implements Record12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.id</code>. 主键
+     * Setter for <code>preset_sys.psys_user.id</code>. 主键
      */
-    public PsysAuthUserRecord setId(@NonNull Long value) {
+    public PsysUserRecord setId(@NonNull Long value) {
         set(0, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.id</code>. 主键
+     * Getter for <code>preset_sys.psys_user.id</code>. 主键
      */
     @NotNull
     @NonNull
@@ -45,15 +47,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.username</code>. 用户名称
+     * Setter for <code>preset_sys.psys_user.username</code>. 用户名称
      */
-    public PsysAuthUserRecord setUsername(@NonNull String value) {
+    public PsysUserRecord setUsername(@NonNull String value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.username</code>. 用户名称
+     * Getter for <code>preset_sys.psys_user.username</code>. 用户名称
      */
     @NotNull
     @Size(max = 50)
@@ -63,15 +65,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.password</code>. 密码
+     * Setter for <code>preset_sys.psys_user.password</code>. 密码
      */
-    public PsysAuthUserRecord setPassword(@NonNull String value) {
+    public PsysUserRecord setPassword(@NonNull String value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.password</code>. 密码
+     * Getter for <code>preset_sys.psys_user.password</code>. 密码
      */
     @NotNull
     @Size(max = 60)
@@ -81,15 +83,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.nickname</code>. 昵称
+     * Setter for <code>preset_sys.psys_user.nickname</code>. 昵称
      */
-    public PsysAuthUserRecord setNickname(@NonNull String value) {
+    public PsysUserRecord setNickname(@NonNull String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.nickname</code>. 昵称
+     * Getter for <code>preset_sys.psys_user.nickname</code>. 昵称
      */
     @NotNull
     @Size(max = 50)
@@ -99,15 +101,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.subject_id</code>. 主体id
+     * Setter for <code>preset_sys.psys_user.subject_id</code>. 主体id
      */
-    public PsysAuthUserRecord setSubjectId(@NonNull Long value) {
+    public PsysUserRecord setSubjectId(@NonNull Long value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.subject_id</code>. 主体id
+     * Getter for <code>preset_sys.psys_user.subject_id</code>. 主体id
      */
     @NotNull
     @NonNull
@@ -116,15 +118,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.account_id</code>. 账户id
+     * Setter for <code>preset_sys.psys_user.account_id</code>. 账户id
      */
-    public PsysAuthUserRecord setAccountId(@NonNull Long value) {
+    public PsysUserRecord setAccountId(@NonNull Long value) {
         set(5, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.account_id</code>. 账户id
+     * Getter for <code>preset_sys.psys_user.account_id</code>. 账户id
      */
     @NotNull
     @NonNull
@@ -133,15 +135,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.enabled</code>. 是否可用
+     * Setter for <code>preset_sys.psys_user.enabled</code>. 是否可用
      */
-    public PsysAuthUserRecord setEnabled(@NonNull Boolean value) {
+    public PsysUserRecord setEnabled(@NonNull Boolean value) {
         set(6, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.enabled</code>. 是否可用
+     * Getter for <code>preset_sys.psys_user.enabled</code>. 是否可用
      */
     @NotNull
     @NonNull
@@ -150,15 +152,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.expired</code>. 是否过期
+     * Setter for <code>preset_sys.psys_user.expired</code>. 是否过期
      */
-    public PsysAuthUserRecord setExpired(@NonNull Boolean value) {
+    public PsysUserRecord setExpired(@NonNull Boolean value) {
         set(7, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.expired</code>. 是否过期
+     * Getter for <code>preset_sys.psys_user.expired</code>. 是否过期
      */
     @NotNull
     @NonNull
@@ -167,15 +169,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.description</code>. 描述
+     * Setter for <code>preset_sys.psys_user.description</code>. 描述
      */
-    public PsysAuthUserRecord setDescription(@Nullable String value) {
+    public PsysUserRecord setDescription(@Nullable String value) {
         set(8, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.description</code>. 描述
+     * Getter for <code>preset_sys.psys_user.description</code>. 描述
      */
     @Size(max = 300)
     @Nullable
@@ -184,15 +186,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.department_id</code>. 部门id
+     * Setter for <code>preset_sys.psys_user.department_id</code>. 部门id
      */
-    public PsysAuthUserRecord setDepartmentId(@Nullable Long value) {
+    public PsysUserRecord setDepartmentId(@Nullable Long value) {
         set(9, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.department_id</code>. 部门id
+     * Getter for <code>preset_sys.psys_user.department_id</code>. 部门id
      */
     @Nullable
     public Long getDepartmentId() {
@@ -200,20 +202,37 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_auth_user.phone</code>. 手机号码
+     * Setter for <code>preset_sys.psys_user.phone</code>. 手机号码
      */
-    public PsysAuthUserRecord setPhone(@Nullable String value) {
+    public PsysUserRecord setPhone(@Nullable String value) {
         set(10, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_auth_user.phone</code>. 手机号码
+     * Getter for <code>preset_sys.psys_user.phone</code>. 手机号码
      */
     @Size(max = 20)
     @Nullable
     public String getPhone() {
         return (String) get(10);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_user.create_time</code>. 创建时间
+     */
+    public PsysUserRecord setCreateTime(@NonNull OffsetDateTime value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_user.create_time</code>. 创建时间
+     */
+    @NotNull
+    @NonNull
+    public OffsetDateTime getCreateTime() {
+        return (OffsetDateTime) get(11);
     }
 
     // -------------------------------------------------------------------------
@@ -227,85 +246,91 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Record12 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row11<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String> valuesRow() {
-        return (Row11) super.valuesRow();
+    public Row12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> valuesRow() {
+        return (Row12) super.valuesRow();
     }
 
     @Override
     @NonNull
     public Field<Long> field1() {
-        return PsysAuthUser.PSYS_AUTH_USER.ID;
+        return PsysUser.PSYS_USER.ID;
     }
 
     @Override
     @NonNull
     public Field<String> field2() {
-        return PsysAuthUser.PSYS_AUTH_USER.USERNAME;
+        return PsysUser.PSYS_USER.USERNAME;
     }
 
     @Override
     @NonNull
     public Field<String> field3() {
-        return PsysAuthUser.PSYS_AUTH_USER.PASSWORD;
+        return PsysUser.PSYS_USER.PASSWORD;
     }
 
     @Override
     @NonNull
     public Field<String> field4() {
-        return PsysAuthUser.PSYS_AUTH_USER.NICKNAME;
+        return PsysUser.PSYS_USER.NICKNAME;
     }
 
     @Override
     @NonNull
     public Field<Long> field5() {
-        return PsysAuthUser.PSYS_AUTH_USER.SUBJECT_ID;
+        return PsysUser.PSYS_USER.SUBJECT_ID;
     }
 
     @Override
     @NonNull
     public Field<Long> field6() {
-        return PsysAuthUser.PSYS_AUTH_USER.ACCOUNT_ID;
+        return PsysUser.PSYS_USER.ACCOUNT_ID;
     }
 
     @Override
     @NonNull
     public Field<Boolean> field7() {
-        return PsysAuthUser.PSYS_AUTH_USER.ENABLED;
+        return PsysUser.PSYS_USER.ENABLED;
     }
 
     @Override
     @NonNull
     public Field<Boolean> field8() {
-        return PsysAuthUser.PSYS_AUTH_USER.EXPIRED;
+        return PsysUser.PSYS_USER.EXPIRED;
     }
 
     @Override
     @NonNull
     public Field<String> field9() {
-        return PsysAuthUser.PSYS_AUTH_USER.DESCRIPTION;
+        return PsysUser.PSYS_USER.DESCRIPTION;
     }
 
     @Override
     @NonNull
     public Field<Long> field10() {
-        return PsysAuthUser.PSYS_AUTH_USER.DEPARTMENT_ID;
+        return PsysUser.PSYS_USER.DEPARTMENT_ID;
     }
 
     @Override
     @NonNull
     public Field<String> field11() {
-        return PsysAuthUser.PSYS_AUTH_USER.PHONE;
+        return PsysUser.PSYS_USER.PHONE;
+    }
+
+    @Override
+    @NonNull
+    public Field<OffsetDateTime> field12() {
+        return PsysUser.PSYS_USER.CREATE_TIME;
     }
 
     @Override
@@ -376,6 +401,12 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
+    public OffsetDateTime component12() {
+        return getCreateTime();
+    }
+
+    @Override
+    @NonNull
     public Long value1() {
         return getId();
     }
@@ -442,84 +473,97 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value1(@NonNull Long value) {
+    public OffsetDateTime value12() {
+        return getCreateTime();
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord value1(@NonNull Long value) {
         setId(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value2(@NonNull String value) {
+    public PsysUserRecord value2(@NonNull String value) {
         setUsername(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value3(@NonNull String value) {
+    public PsysUserRecord value3(@NonNull String value) {
         setPassword(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value4(@NonNull String value) {
+    public PsysUserRecord value4(@NonNull String value) {
         setNickname(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value5(@NonNull Long value) {
+    public PsysUserRecord value5(@NonNull Long value) {
         setSubjectId(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value6(@NonNull Long value) {
+    public PsysUserRecord value6(@NonNull Long value) {
         setAccountId(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value7(@NonNull Boolean value) {
+    public PsysUserRecord value7(@NonNull Boolean value) {
         setEnabled(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value8(@NonNull Boolean value) {
+    public PsysUserRecord value8(@NonNull Boolean value) {
         setExpired(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value9(@Nullable String value) {
+    public PsysUserRecord value9(@Nullable String value) {
         setDescription(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value10(@Nullable Long value) {
+    public PsysUserRecord value10(@Nullable Long value) {
         setDepartmentId(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord value11(@Nullable String value) {
+    public PsysUserRecord value11(@Nullable String value) {
         setPhone(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysAuthUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11) {
+    public PsysUserRecord value12(@NonNull OffsetDateTime value) {
+        setCreateTime(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11, @NonNull OffsetDateTime value12) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -531,6 +575,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         value9(value9);
         value10(value10);
         value11(value11);
+        value12(value12);
         return this;
     }
 
@@ -539,17 +584,17 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached PsysAuthUserRecord
+     * Create a detached PsysUserRecord
      */
-    public PsysAuthUserRecord() {
-        super(PsysAuthUser.PSYS_AUTH_USER);
+    public PsysUserRecord() {
+        super(PsysUser.PSYS_USER);
     }
 
     /**
-     * Create a detached, initialised PsysAuthUserRecord
+     * Create a detached, initialised PsysUserRecord
      */
-    public PsysAuthUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description, @Nullable Long departmentId, @Nullable String phone) {
-        super(PsysAuthUser.PSYS_AUTH_USER);
+    public PsysUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description, @Nullable Long departmentId, @Nullable String phone, @NonNull OffsetDateTime createTime) {
+        super(PsysUser.PSYS_USER);
 
         setId(id);
         setUsername(username);
@@ -562,14 +607,15 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
         setDescription(description);
         setDepartmentId(departmentId);
         setPhone(phone);
+        setCreateTime(createTime);
         resetChangedOnNotNull();
     }
 
     /**
-     * Create a detached, initialised PsysAuthUserRecord
+     * Create a detached, initialised PsysUserRecord
      */
-    public PsysAuthUserRecord(PsysAuthUserPo value) {
-        super(PsysAuthUser.PSYS_AUTH_USER);
+    public PsysUserRecord(PsysUserPo value) {
+        super(PsysUser.PSYS_USER);
 
         if (value != null) {
             setId(value.id());
@@ -583,6 +629,7 @@ public class PsysAuthUserRecord extends UpdatableRecordImpl<PsysAuthUserRecord> 
             setDescription(value.description());
             setDepartmentId(value.departmentId());
             setPhone(value.phone());
+            setCreateTime(value.createTime());
             resetChangedOnNotNull();
         }
     }

@@ -5,6 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -14,7 +15,7 @@ import org.springframework.lang.Nullable;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public record PsysAuthUserPo(
+public record PsysUserPo(
     @NonNull Long id,
     @NonNull String username,
     @NonNull String password,
@@ -25,7 +26,8 @@ public record PsysAuthUserPo(
     @NonNull Boolean expired,
     @Nullable String description,
     @Nullable Long departmentId,
-    @Nullable String phone
+    @Nullable String phone,
+    @NonNull OffsetDateTime createTime
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +41,7 @@ public record PsysAuthUserPo(
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final PsysAuthUserPo other = (PsysAuthUserPo) obj;
+        final PsysUserPo other = (PsysUserPo) obj;
         if (this.id == null) {
             if (other.id != null)
                 return false;
@@ -106,6 +108,12 @@ public record PsysAuthUserPo(
         }
         else if (!this.phone.equals(other.phone))
             return false;
+        if (this.createTime == null) {
+            if (other.createTime != null)
+                return false;
+        }
+        else if (!this.createTime.equals(other.createTime))
+            return false;
         return true;
     }
 
@@ -124,12 +132,13 @@ public record PsysAuthUserPo(
         result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.departmentId == null) ? 0 : this.departmentId.hashCode());
         result = prime * result + ((this.phone == null) ? 0 : this.phone.hashCode());
+        result = prime * result + ((this.createTime == null) ? 0 : this.createTime.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PsysAuthUserPo (");
+        StringBuilder sb = new StringBuilder("PsysUserPo (");
 
         sb.append(id);
         sb.append(", ").append(username);
@@ -142,6 +151,7 @@ public record PsysAuthUserPo(
         sb.append(", ").append(description);
         sb.append(", ").append(departmentId);
         sb.append(", ").append(phone);
+        sb.append(", ").append(createTime);
 
         sb.append(")");
         return sb.toString();

@@ -1,12 +1,12 @@
-package com.github.alphafoxz.oneboot.preset_sys.service.auth.crud;
+package com.github.alphafoxz.oneboot.preset_sys.service.crud;
 
 import com.github.alphafoxz.oneboot.common.standard.access_control.AbacPolicy;
 import com.github.alphafoxz.oneboot.common.standard.framework.impl.AbstractAbacCachedCrudService;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthAccountPo;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAuthAccountRecord;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacDynamicAuthorizationPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAbacDynamicAuthorizationRecord;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacOwnerPolicy;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -17,21 +17,21 @@ import org.springframework.cache.CacheManager;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_AUTH_ACCOUNT;
+import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_DYNAMIC_AUTHORIZATION;
 
 /**
- * PsysAuthAccount表增删改查service
+ * PsysAbacDynamicAuthorization表增删改查service
  */
 @Slf4j
 @Getter
 @Service
-public class PsysAuthAccountCrud extends AbstractAbacCachedCrudService<PsysAuthAccount, PsysAuthAccountPo, PsysAuthAccountRecord> {
+public class PsysAbacDynamicAuthorizationCrud extends AbstractAbacCachedCrudService<PsysAbacDynamicAuthorization, PsysAbacDynamicAuthorizationPo, PsysAbacDynamicAuthorizationRecord> {
     @Resource
     private DSLContext dslContext;
     @Resource
     private CacheManager cacheManager;
-    private final PsysAuthAccount table = PSYS_AUTH_ACCOUNT;
-    private final Class<PsysAuthAccountPo> poClass = PsysAuthAccountPo.class;
+    private final PsysAbacDynamicAuthorization table = PSYS_ABAC_DYNAMIC_AUTHORIZATION;
+    private final Class<PsysAbacDynamicAuthorizationPo> poClass = PsysAbacDynamicAuthorizationPo.class;
 
     @Override
     @NonNull
