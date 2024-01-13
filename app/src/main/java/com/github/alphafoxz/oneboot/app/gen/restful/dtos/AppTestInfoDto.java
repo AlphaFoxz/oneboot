@@ -2,10 +2,14 @@ package com.github.alphafoxz.oneboot.app.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 // 测试请求参数体
 @Schema(name = "AppTestInfoDto", description = "请求参数体说明")
+@Accessors(chain = true)
 @Getter
+@Setter
 public class AppTestInfoDto {
     @Schema(name = "id", description = "主键")
     private Long id;
@@ -31,53 +35,4 @@ public class AppTestInfoDto {
     private String testDaterange;
     @Schema(name = "testVarchar50", description = "")
     private String testVarchar50;
-
-    public AppTestInfoDto setId(Long id) {
-        this.id = id;
-        return this;
-    }
-    public AppTestInfoDto setTestJson(String testJson) {
-        this.testJson = testJson;
-        return this;
-    }
-    public AppTestInfoDto setTestDate(String testDate) {
-        this.testDate = testDate;
-        return this;
-    }
-    public AppTestInfoDto setTestTimestamp(String testTimestamp) {
-        this.testTimestamp = testTimestamp;
-        return this;
-    }
-    public AppTestInfoDto setTestBool(Boolean testBool) {
-        this.testBool = testBool;
-        return this;
-    }
-    public AppTestInfoDto setTestDouble(Double testDouble) {
-        this.testDouble = testDouble;
-        return this;
-    }
-    public AppTestInfoDto setTestFloat(Double testFloat) {
-        this.testFloat = testFloat;
-        return this;
-    }
-    public AppTestInfoDto setTestTimestamptz(String testTimestamptz) {
-        this.testTimestamptz = testTimestamptz;
-        return this;
-    }
-    public AppTestInfoDto setTestTime(String testTime) {
-        this.testTime = testTime;
-        return this;
-    }
-    public AppTestInfoDto setTestTimetz(String testTimetz) {
-        this.testTimetz = testTimetz;
-        return this;
-    }
-    public AppTestInfoDto setTestDaterange(String testDaterange) {
-        this.testDaterange = testDaterange;
-        return this;
-    }
-    public AppTestInfoDto setTestVarchar50(String testVarchar50) {
-        this.testVarchar50 = testVarchar50;
-        return this;
-    }
 }

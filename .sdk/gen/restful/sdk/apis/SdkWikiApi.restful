@@ -1,0 +1,7 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
+namespace ts gen.sdk.apis
+
+/* wiki文档管理 */
+interface SdkWikiApi {
+    
+}

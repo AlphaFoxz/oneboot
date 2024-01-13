@@ -1,9 +1,18 @@
 package com.github.alphafoxz.oneboot.sdk.gen.restful.enums;
 
+import com.github.alphafoxz.oneboot.common.standard.restful.RestfulEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Schema(description = "")
-public enum SdkFileTypeEnum {
-    LOCAL_FILE,
-    LOCAL_DIR,
+@Schema(description = "文件类型")
+@AllArgsConstructor
+@Getter
+public enum SdkFileTypeEnum implements RestfulEnum {
+    /**本地文件*/
+    LOCAL_FILE(0),
+    /**本地文件夹*/
+    LOCAL_DIR(1);
+
+    private final int value;
 }

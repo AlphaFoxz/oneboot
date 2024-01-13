@@ -2,10 +2,14 @@ package com.github.alphafoxz.oneboot.sdk.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 // 响应体的data字段是double
 @Schema(name = "SdkDoubleResponseDto", description = "双精度小数响应实体")
+@Accessors(chain = true)
 @Getter
+@Setter
 public class SdkDoubleResponseDto {
     @Schema(name = "id", description = "主键")
     private Long id;
@@ -17,25 +21,4 @@ public class SdkDoubleResponseDto {
     private String message;
     @Schema(name = "data", description = "数据内容")
     private Double data;
-
-    public SdkDoubleResponseDto setId(Long id) {
-        this.id = id;
-        return this;
-    }
-    public SdkDoubleResponseDto setTaskId(Long taskId) {
-        this.taskId = taskId;
-        return this;
-    }
-    public SdkDoubleResponseDto setSuccess(Boolean success) {
-        this.success = success;
-        return this;
-    }
-    public SdkDoubleResponseDto setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-    public SdkDoubleResponseDto setData(Double data) {
-        this.data = data;
-        return this;
-    }
 }

@@ -330,7 +330,6 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private boolean isIntype = false;
         private boolean isMap = false;
         private boolean isCollection = false;
-        private boolean isNullable = false;
         private final Set<String> importJavaTypeName = CollUtil.newHashSet();
 
         public void setT1(TypeBean t1) {
@@ -361,9 +360,6 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 str = /*tsSimpleName*/t1.tsString() + "[]";
             } else {
                 str = tsSimpleName;
-            }
-            if (this.isNullable) {
-                str += " | undefined";
             }
             return str;
         }
@@ -575,7 +571,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                     case COMMENT_BLOCK -> {
                         result.setCommentType(CommentBean.CommentTypeEnum.BLOCK);
-                        result.setCommentValue((String) pairMap.get(INNER));
+                        result.setCommentValue((String) pairMap.get(INNER).toString().trim());
                     }
                 }
                 return result;
@@ -612,8 +608,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.getImportTypeName().add("org.springframework.web.bind.annotation.DeleteMapping");
                             result.setAnnotationName("DeleteMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
-                            result.getImportTypeName().add("org.springframework.data.domain.Page");
-                            result.setAnnotationName("Page");
+//                            result.getImportTypeName().add("org.springframework.data.domain.Page");
+//                            result.setAnnotationName("Page");
+                            Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
+                            result.getImportTypeName().add(c.getName());
+                            result.setAnnotationName(c.getSimpleName());
                         } else if (StrUtil.equalsIgnoreCase(annoName, "request")) { //注入request
                             result.getImportTypeName().add("jakarta.servlet.http.HttpServletRequest");
                             result.setAnnotationName("HttpServletRequest");
@@ -725,46 +724,49 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                         result.setClassName((String) pairMap.get(INNER));
                     }
                     case CLASS_FIELD -> {
-                        ClassBean.ClassFieldBean structAttribute = parseStructAttribute((Map) pairMap.get(INNER));
+                        ClassBean.ClassFieldBean classField = parseClassField((Map) pairMap.get(INNER));
                         if (targetDoc != null) {
-                            structAttribute.setDoc(targetDoc);
+                            classField.setDoc(targetDoc);
                             targetDoc = null;
                         }
                         if (!targetCommentList.isEmpty()) {
-                            structAttribute.getCommentList().addAll(targetCommentList);
+                            classField.getCommentList().addAll(targetCommentList);
                             targetCommentList.clear();
                         }
-                        result.addClassField(structAttribute);
+                        result.addClassField(classField);
                     }
                 }
             }
             return result;
         }
 
-        public ClassBean.ClassFieldBean parseStructAttribute(Map structAttributeAst) {
+        public ClassBean.ClassFieldBean parseClassField(Map classFieldAst) {
             ClassBean.ClassFieldBean result = new ClassBean.ClassFieldBean();
-            for (Map pairMap : (List<Map>) structAttributeAst.get(PAIRS)) {
+            Modifier modifier = Modifier.REQUIRED;
+            for (Map pairMap : (List<Map>) classFieldAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case MODIFIER -> result.setModifier(Modifier.getEnumByName((String) pairMap.get(INNER)));
+                    case MODIFIER -> modifier = Modifier.getEnumByName((String) pairMap.get(INNER));
                     case CONTAIN_LIST -> result.setType(parseContainList((Map) pairMap.get(INNER)));
                     case CONTAIN_MAP -> result.setType(parseContainMap((Map) pairMap.get(INNER)));
                     case CONTAIN_SET -> result.setType(parseContainSet((Map) pairMap.get(INNER)));
+                    case REF_ENUM -> result.setType(parseRefEnum((Map) pairMap.get(INNER), modifier));
                     case INTYPE -> result.setType(parseIntype((String) pairMap.get(INNER)));
-                    case UTYPE -> result.setType(parseUtType((Map) pairMap.get(INNER)));
+                    case UTYPE -> result.setType(parseUtype((Map) pairMap.get(INNER)));
                     case CLASS_FIELD_NAME -> result.setFieldName((String) pairMap.get(INNER));
                 }
             }
+            result.setModifier(modifier);
             return result;
         }
 
-        public InterfaceBean parseInterface(Map serviceAst) {
+        public InterfaceBean parseInterface(Map interfaceAst) {
             InterfaceBean result = new InterfaceBean();
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
             final Set<String> functionImportPackage = CollUtil.newHashSet();
             final Map<String, List<String>> annoMap = MapUtil.newHashMap();
-            for (Map pairMap : (List<Map>) serviceAst.get(PAIRS)) {
+            for (Map pairMap : (List<Map>) interfaceAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
                     case COMMENT -> {
@@ -782,31 +784,32 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                     case INTERFACE_NAME -> result.setInterfaceName((String) pairMap.get(INNER));
                     case INTERFACE_FUNCTION -> {
-                        InterfaceBean.InterfaceFunctionBean serviceFunction = parseServiceFunction((Map) pairMap.get(INNER));
+                        InterfaceBean.InterfaceFunctionBean interfaceFunction = parseInterfaceFunction((Map) pairMap.get(INNER));
                         if (targetDoc != null) {
-                            serviceFunction.setDoc(targetDoc);
+                            interfaceFunction.setDoc(targetDoc);
                             targetDoc = null;
                         }
-                        serviceFunction.getCommentList().addAll(targetCommentList);
+                        interfaceFunction.getCommentList().addAll(targetCommentList);
                         targetCommentList.clear();
-                        serviceFunction.getImportTypeName().addAll(functionImportPackage);
+                        interfaceFunction.getImportTypeName().addAll(functionImportPackage);
                         functionImportPackage.clear();
-                        serviceFunction.getAnnotationMap().putAll(annoMap);
+                        interfaceFunction.getAnnotationMap().putAll(annoMap);
                         annoMap.clear();
-                        result.addInterfaceFunction(serviceFunction);
+                        result.addInterfaceFunction(interfaceFunction);
                     }
                 }
             }
             return result;
         }
 
-        public InterfaceBean.InterfaceFunctionBean parseServiceFunction(Map serviceFunctionAst) {
+        public InterfaceBean.InterfaceFunctionBean parseInterfaceFunction(Map interfaceFunctionAst) {
             InterfaceBean.InterfaceFunctionBean result = new InterfaceBean.InterfaceFunctionBean();
             CommentBean doc = null;
-            for (Map pairMap : (List<Map>) serviceFunctionAst.get(PAIRS)) {
+            for (Map pairMap : (List<Map>) interfaceFunctionAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case TYPE -> result.setReturnType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER))));
+                    case TYPE ->
+                            result.setReturnType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), Modifier.REQUIRED)));
                     case VOID -> { // 没有返回值
                         TypeBean returnType = new TypeBean();
                         returnType.setJavaSimpleName("void");
@@ -823,6 +826,9 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     case PARAM -> {
                         result.getImportTypeName().add("io.swagger.v3.oas.annotations.Parameter");
                         ParamBean param = parseParam((Map) pairMap.get(INNER));
+                        if (Modifier.OPTIONAL.equals(param.getModifier())) {
+                            result.getImportTypeName().add("org.springframework.lang.Nullable");
+                        }
                         if (doc != null) {
                             param.setDoc(doc);
                         }
@@ -836,18 +842,21 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
 
         public ParamBean parseParam(Map paramAst) {
             ParamBean result = new ParamBean();
+            Modifier modifier = Modifier.REQUIRED;
             for (Map pairMap : (List<Map>) paramAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case MODIFIER -> result.setModifier(Modifier.getEnumByName((String) pairMap.get(INNER)));
-                    case TYPE -> result.setParamType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER))));
+                    case MODIFIER -> modifier = Modifier.getEnumByName((String) pairMap.get(INNER));
+                    case TYPE ->
+                            result.setParamType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), modifier)));
                     case PARAM_NAME -> result.setParamName((String) pairMap.get(INNER));
                 }
             }
+            result.setModifier(modifier);
             return result;
         }
 
-        public TypeBean parseType(Map typeAst) {
+        public TypeBean parseType(Map typeAst, Modifier modifier) {
             for (Map pairMap : (List<Map>) typeAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
@@ -860,11 +869,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     case CONTAIN_LIST -> {
                         return parseContainList((Map) pairMap.get(INNER));
                     }
-                    case CONTAIN_SET -> {
-                        return parseContainSet((Map) pairMap.get(INNER));
+                    case REF_ENUM -> {
+                        return parseRefEnum((Map) pairMap.get(INNER), modifier);
                     }
                     case UTYPE -> {
-                        return parseUtType((Map) pairMap.get(INNER));
+                        return parseUtype((Map) pairMap.get(INNER));
                     }
                 }
             }
@@ -891,10 +900,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_MAP_KEYTYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER))));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 } else if (CONTAIN_MAP_VALUETYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT2(Objects.requireNonNull(parseType((Map) lastMap.get(INNER))));
+                    result.setT2(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
             return result;
@@ -911,7 +920,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_LIST_TYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER))));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
             return result;
@@ -928,13 +937,32 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_SET_TYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER))));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseUtType(Map ast) {
+        public TypeBean parseRefEnum(Map ast, Modifier modifier) {
+            TypeBean result = new TypeBean();
+            if (Modifier.REQUIRED.equals(modifier)) {
+                result.setJavaSimpleName("int");
+            } else {
+                result.setJavaSimpleName("Integer");
+            }
+            result.setTsSimpleName("number");
+            result.setSqlSimpleName("integer");
+            result.setIntype(true);
+            for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
+                String innerRuleName = (String) innerMap.get(RULE);
+                if (UTYPE.equals(innerRuleName)) {
+                    parseUtype((Map) innerMap.get(INNER));
+                }
+            }
+            return result;
+        }
+
+        public TypeBean parseUtype(Map ast) {
             TypeBean result = new TypeBean();
             String importJavaPackage = null;
             String importTsTypeName = "";
@@ -961,7 +989,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                         result.getImportJavaTypeName().add(importJavaPackage + "." + includeValue);
                     }
                     result.setJavaSimpleName(includeValue);
-//                    注释，在java中同一个包的不同类之间不需要import
+//                    注释原因：在java中同一个包的不同类之间不需要import
 //                    if (importJavaPackage != null) {
 //                        importJavaPackage = rootBean.getJavaNameSpace();
 //                    }

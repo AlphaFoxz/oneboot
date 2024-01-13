@@ -3,28 +3,23 @@ namespace ts gen.preset_sys.apis
 
 import "../dtos/PsysAuthDto.restful"
 
-/*登录接口*/
+/* 授权接口 */
 @uri(/preset_sys/auth)
 interface PsysAuthApi {
-    /*登录接口，返回token*/
+    /* 登录接口，返回token */
     @postUri(/login)
-    PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthDto.PsysAuthLoginParam loginParam)
+    // PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthParam.PsysAuthLoginParam loginParam)
+    PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ optional string username, /*密码*/ optional string password)
 
-    /*退出登录*/
+    /* 退出登录 */
     @getUri(/logout)
     void logout()
 
-    /*传入旧token，如果其中的refreshToken没有过期则返回一对新的token*/
-    @postUri(/refresh)
-    PsysAuthDto.PsysAuthTokenResponse refresh(/*旧的token*/ PsysAuthDto.PsysAuthTokenInfoDto oldToken)
+    /* 传入旧token，如果其中的refreshToken没有过期则返回一对新的token */
+    @postUri(/refreshToken)
+    PsysAuthDto.PsysAuthTokenResponse refreshToken(/*旧的token*/ PsysAuthDto.PsysAuthTokenInfoDto oldToken)
 
-    /* 角色管理列表 */
-    @page
-    @getUri(/role/list/{pageNum}/{pageSize})
-    PsysAuthDto.PsysAuthRoleInfoDto roleList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
-
-    /* 用户管理列表 */
-    @page
-    @getUri(/user/list)
-    PsysAuthDto.PsysAuthRoleInfoDto userList(/* 页码 */i32 pageNum, /* 每页数据量 */i32 pageSize)
+    /* 获取路由 */
+    @postUri(/queryRoute)
+    list<PsysAuthDto.PsysAuthRouteDto> queryRoute()
 }

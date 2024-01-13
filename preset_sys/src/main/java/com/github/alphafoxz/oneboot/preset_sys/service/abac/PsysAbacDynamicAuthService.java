@@ -8,7 +8,7 @@ import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacDynamicAuthorizationPo;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.crud.PsysAbacDynamicAuthorizationCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacDynamicAuthorizationCrud;
 import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

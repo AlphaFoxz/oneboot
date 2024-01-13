@@ -2,10 +2,14 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import java.util.List;
 
 @Schema(name = "PsysAuthTokenInfoDto", description = "用户令牌结果")
+@Accessors(chain = true)
 @Getter
+@Setter
 public class PsysAuthTokenInfoDto {
     @Schema(name = "username", description = "用户名")
     private String username;
@@ -17,25 +21,4 @@ public class PsysAuthTokenInfoDto {
     private String refreshToken;
     @Schema(name = "expires", description = "accessToken的过期时间（格式'yyyy/MM/dd HH:mm:ss'）")
     private String expires;
-
-    public PsysAuthTokenInfoDto setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-    public PsysAuthTokenInfoDto setRoles(List<String> roles) {
-        this.roles = roles;
-        return this;
-    }
-    public PsysAuthTokenInfoDto setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
-    public PsysAuthTokenInfoDto setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
-    }
-    public PsysAuthTokenInfoDto setExpires(String expires) {
-        this.expires = expires;
-        return this;
-    }
 }

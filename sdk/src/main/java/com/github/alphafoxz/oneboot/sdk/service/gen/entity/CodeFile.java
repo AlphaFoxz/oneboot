@@ -25,7 +25,7 @@ public class CodeFile {
         try {
             if(javaFile.exists()) {
                 String oriContent = FileUtil.readUtf8String(javaFile);
-                if (content.equals(oriContent)) {
+                if (content.equals(oriContent.replace("\r\n", "\n"))) {
                     return true;
                 }
             }

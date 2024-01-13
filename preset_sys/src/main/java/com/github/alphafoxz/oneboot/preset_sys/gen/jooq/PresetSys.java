@@ -9,12 +9,12 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthDepartment;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthRole;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthToken;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAccount;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysMenu;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysToken;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserDepartment;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserRole;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,34 +64,34 @@ public class PresetSys extends SchemaImpl {
     public final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * The table <code>preset_sys.psys_auth_account</code>.
+     * The table <code>preset_sys.psys_account</code>.
      */
-    public final PsysAuthAccount PSYS_AUTH_ACCOUNT = PsysAuthAccount.PSYS_AUTH_ACCOUNT;
-
-    /**
-     * 部门机构
-     */
-    public final PsysAuthDepartment PSYS_AUTH_DEPARTMENT = PsysAuthDepartment.PSYS_AUTH_DEPARTMENT;
-
-    /**
-     * 角色表
-     */
-    public final PsysAuthRole PSYS_AUTH_ROLE = PsysAuthRole.PSYS_AUTH_ROLE;
-
-    /**
-     * The table <code>preset_sys.psys_auth_token</code>.
-     */
-    public final PsysAuthToken PSYS_AUTH_TOKEN = PsysAuthToken.PSYS_AUTH_TOKEN;
-
-    /**
-     * 用户表
-     */
-    public final PsysAuthUser PSYS_AUTH_USER = PsysAuthUser.PSYS_AUTH_USER;
+    public final PsysAccount PSYS_ACCOUNT = PsysAccount.PSYS_ACCOUNT;
 
     /**
      * The table <code>preset_sys.psys_menu</code>.
      */
     public final PsysMenu PSYS_MENU = PsysMenu.PSYS_MENU;
+
+    /**
+     * The table <code>preset_sys.psys_token</code>.
+     */
+    public final PsysToken PSYS_TOKEN = PsysToken.PSYS_TOKEN;
+
+    /**
+     * 用户表
+     */
+    public final PsysUser PSYS_USER = PsysUser.PSYS_USER;
+
+    /**
+     * 部门机构
+     */
+    public final PsysUserDepartment PSYS_USER_DEPARTMENT = PsysUserDepartment.PSYS_USER_DEPARTMENT;
+
+    /**
+     * 角色表
+     */
+    public final PsysUserRole PSYS_USER_ROLE = PsysUserRole.PSYS_USER_ROLE;
 
     /**
      * No further instances allowed
@@ -116,12 +116,12 @@ public class PresetSys extends SchemaImpl {
             PsysAbacResource.PSYS_ABAC_RESOURCE,
             PsysAbacResourceProtection.PSYS_ABAC_RESOURCE_PROTECTION,
             PsysAbacSubject.PSYS_ABAC_SUBJECT,
-            PsysAuthAccount.PSYS_AUTH_ACCOUNT,
-            PsysAuthDepartment.PSYS_AUTH_DEPARTMENT,
-            PsysAuthRole.PSYS_AUTH_ROLE,
-            PsysAuthToken.PSYS_AUTH_TOKEN,
-            PsysAuthUser.PSYS_AUTH_USER,
-            PsysMenu.PSYS_MENU
+            PsysAccount.PSYS_ACCOUNT,
+            PsysMenu.PSYS_MENU,
+            PsysToken.PSYS_TOKEN,
+            PsysUser.PSYS_USER,
+            PsysUserDepartment.PSYS_USER_DEPARTMENT,
+            PsysUserRole.PSYS_USER_ROLE
         );
     }
 }

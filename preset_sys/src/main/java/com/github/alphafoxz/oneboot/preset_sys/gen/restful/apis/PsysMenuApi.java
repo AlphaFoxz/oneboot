@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
 import org.springframework.web.bind.annotation.RequestBody;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysMenuResponseDto;

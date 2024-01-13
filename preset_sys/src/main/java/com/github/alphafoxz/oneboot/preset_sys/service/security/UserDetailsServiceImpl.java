@@ -2,11 +2,11 @@ package com.github.alphafoxz.oneboot.preset_sys.service.security;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthAccountPo;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAuthUserPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAccountPo;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAccountCrud;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthAccountCrud;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.crud.PsysAuthUserCrud;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
@@ -15,14 +15,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_AUTH_USER;
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
-    private PsysAuthAccountCrud psysAuthAccountCrud;
+    private PsysAccountCrud psysAccountCrud;
     @Resource
-    private PsysAuthUserCrud psysAuthUserCrud;
+    private PsysUserCrud psysUserCrud;
 
     @Nullable
     @Override
@@ -30,13 +28,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (username == null) {
             return null;
         }
-        PsysAuthUserPo userPo = psysAuthUserCrud.selectOne(
-                PSYS_AUTH_USER.USERNAME.eq(username)
+        PsysUserPo userPo = psysUserCrud.selectOne(
+                C.PSYS_USER.USERNAME.eq(username)
         );
         if (userPo == null) {
             throw new OnebootAuthException("用户" + username + "不存在", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        PsysAuthAccountPo accountPo = psysAuthAccountCrud.selectOne(userPo.accountId());
+        PsysAccountPo accountPo = psysAccountCrud.selectOne(userPo.accountId());
         if (accountPo == null) {
             throw new OnebootDirtyDataException("用户账号对应不上，请检查是否为脏数据 username： " + username, HttpStatus.INTERNAL_SERVER_ERROR);
         }

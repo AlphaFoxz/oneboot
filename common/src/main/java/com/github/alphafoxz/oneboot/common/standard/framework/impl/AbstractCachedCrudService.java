@@ -62,9 +62,9 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         return getCacheManager().getCache(getTable().getName());
     }
 
-    public void evictCaches(@NonNull RECORD... records) {
+    public void evictCaches(@NonNull List<RECORD> records) {
         Cache cache = getCache();
-        if (records.length == 0) {
+        if (records.isEmpty()) {
             return;
         }
         if (cache != null) {
@@ -84,9 +84,9 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
     }
 
     @Override
-    public int insertMany(@NonNull RECORD... records) {
+    public int insertMany(@NonNull List<RECORD> records) {
         int[] i = getDslContext().batchInsert(records).execute();
-        return ArrayUtil.isEmpty(i) ? 0 : records.length;
+        return ArrayUtil.isEmpty(i) ? 0 : records.size();
     }
 
     @Nullable
@@ -210,8 +210,7 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
         if (id == null) {
             return 0;
         }
-        int i = deleteById(id);
-        return i;
+        return deleteById(id);
     }
 
     @Override
@@ -225,7 +224,7 @@ public abstract class AbstractCachedCrudService<TABLE extends TableImpl<RECORD>,
     }
 
     @Override
-    public int[] deleteByIds(@NonNull RECORD... records) {
+    public int[] deleteByIds(@NonNull List<RECORD> records) {
         evictCaches(records);
         int[] execute = getDslContext().batchDelete(records).execute();
         evictCaches(records);

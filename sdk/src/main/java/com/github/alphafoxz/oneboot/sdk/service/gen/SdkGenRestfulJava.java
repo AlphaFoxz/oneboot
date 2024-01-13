@@ -54,7 +54,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 import io.swagger.v3.oas.annotations.tags.Tag;
                 import org.springframework.http.ResponseEntity;
                 """);
-        code.add("import " + commonConfiguration.getPackage() + ".interfaces.framework.HttpController;");
+        code.add("import " + commonConfiguration.getPackage() + ".standard.framework.HttpController;");
         for (String str : interfaceBean.getImportTypeName()) {
             code.add("import " + str + ";");
         }
@@ -111,25 +111,36 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         CodeFile codeFile = new CodeFile();
         StringJoiner code = new StringJoiner("\n");
         code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
-        code.add("import io.swagger.v3.oas.annotations.media.Schema;\n");
+        code.add("import com.github.alphafoxz.oneboot.common.standard.restful.RestfulEnum;");
+        code.add("import io.swagger.v3.oas.annotations.media.Schema;");
+        code.add("import lombok.AllArgsConstructor;");
+        code.add("import lombok.Getter;\n");
         // 生成Enum的注释
         code.add(StrUtil.format("@Schema(description = {})", commentDocToStringWrapParam(enumBean.getDoc())));
+        code.add("@AllArgsConstructor");
+        code.add("@Getter");
         if (enumBean.getCommentList() != null) {
             for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : enumBean.getCommentList()) {
                 code.add("// " + commentBean.getCommentValue());
             }
         }
-        code.add("public enum " + enumBean.getEnumName() + " {");
+        code.add("public enum " + enumBean.getEnumName() + " implements RestfulEnum {");
+        StringJoiner enumJoiner = new StringJoiner(",\n", "", ";");
         for (ParseRestfulSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
+            String instStr = "";
             //生成枚举的注释
             for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : enumInstance.getCommentList()) {
-                code.add(TAB + "// " + commentBean.getCommentValue());
+                instStr += TAB + "// " + commentBean.getCommentValue() + '\n';
             }
             if (enumInstance.getDoc() != null) {
-                code.add(TAB + "/**" + enumInstance.getDoc().getCommentValue() + "*/");
+                instStr += TAB + "/**" + enumInstance.getDoc().getCommentValue() + "*/\n";
             }
-            code.add(TAB + enumInstance.getInstanceName() + ",");
+            instStr += TAB + enumInstance.getInstanceName() + "(" + enumInstance.getInstanceConstant() + ")";
+            enumJoiner.add(instStr);
         }
+        code.add(enumJoiner.toString());
+        code.add("");
+        code.add(TAB + "private final int value;");
         code.add("}");
         codeFile.setContent(code.toString());
         codeFile.setPath(getRestGeneratePath(restfulRoot, enumBean.getEnumName()));
@@ -152,6 +163,8 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
         code.add("import io.swagger.v3.oas.annotations.media.Schema;");
         code.add("import lombok.Getter;");
+        code.add("import lombok.Setter;");
+        code.add("import lombok.experimental.Accessors;");
         for (String str : classBean.getImportTypeName()) {
             code.add("import " + str + ";");
         }
@@ -170,7 +183,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             ParseRestfulSyntaxTreeUtil.CommentBean classDoc = classBean.getDoc();
             code.add(StrUtil.format("@Schema(name = {}, description = {})", JSONUtil.quote(classBean.getClassName(), true), commentDocToStringWrapParam(classDoc)));
         }
+        code.add("@Accessors(chain = true)");
         code.add("@Getter");
+        code.add("@Setter");
         code.add("public class " + classBean.getClassName() + " {");
         for (var fieldBean : classBean.getClassFieldList()) {
             if (CollUtil.isNotEmpty(fieldBean.getCommentList())) {
@@ -180,20 +195,6 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             }
             code.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(fieldBean.getFieldName(), true), commentDocToStringWrapParam(fieldBean.getDoc())));
             code.add(TAB + "private " + fieldBean.getType().javaString() + " " + fieldBean.getFieldName() + ";");
-        }
-        code.add("");
-        for (var fieldBean : classBean.getClassFieldList()) {
-            String format = TAB + "public {} {}({} {}) {";
-            code.add(StrUtil.format(format,
-                    classBean.getClassName(),
-                    StrUtil.upperFirstAndAddPre(fieldBean.getFieldName(), "set"),
-                    fieldBean.getType().javaString(),
-                    fieldBean.getFieldName()
-            ));
-            format = TAB + TAB + "this.{} = {};";
-            code.add(StrUtil.format(format, fieldBean.getFieldName(), fieldBean.getFieldName()));
-            code.add(TAB + TAB + "return this;");
-            code.add(TAB + "}");
         }
         code.add("}");
 
@@ -228,7 +229,8 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
                 switch (annoEntry.getKey()) {
-                    case "Page" -> {
+//                    case "Page" -> {
+                    case "PageResponse" -> {
                         isPage = true;
                         continue;
                     }
@@ -273,17 +275,22 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             returnType = "?";
         }
         if (isPage) {
-            returnType = "Page<" + returnType + ">";
+//            returnType = "Page<" + returnType + ">";
+            returnType = "PageResponse<" + returnType + ">";
         }
         returnType = "ResponseEntity<" + returnType + ">";
-        if (isPost && !interfaceFunction.getParamList().isEmpty() && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().get(0).getParamType().isIntype())) {
+        if (isPost && !interfaceFunction.getParamList().isEmpty() && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().getFirst().getParamType().isIntype())) {
             // NOTE 对多个参数的post方法进行特殊处理
             StringJoiner outerParamCode1 = new StringJoiner(",\n", "\n", "\n" + TAB);
             outerParamCode1.add(TAB + TAB + "@RequestBody java.util.Map<String, Object> _requestMap");
             StringJoiner outerParamCode2 = new StringJoiner(",\n", "\n", "\n" + TAB);
             StringJoiner innerParamCode = new StringJoiner(", ");
             for (var param : interfaceFunction.getParamList()) {
-                outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{} {}", param.getParamType().javaString(), param.getParamName()));
+                String paramAnno = "";
+                if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+                    paramAnno += "@Nullable ";
+                }
+                outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{}{} {}", paramAnno, param.getParamType().javaString(), param.getParamName()));
                 innerParamCode.add(StrUtil.format("({}) _requestMap.get(\"{}\")", param.getParamType().javaString(), param.getParamName()));
             }
             if (hasRequestParam) {
@@ -317,7 +324,14 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
         for (var param : interfaceFunction.getParamList()) {
             String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
-            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), pathVarSet.contains(param.getParamName()) ? "@PathVariable " : "", param.getParamType().javaString(), param.getParamName()));
+            String paramAnno = "";
+            if (pathVarSet.contains(param.getParamName())) {
+                paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
+            }
+            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+                paramAnno += "@Nullable ";
+            }
+            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, param.getParamType().javaString(), param.getParamName()));
         }
         if (hasRequestParam) {
             paramCode.add(TAB + TAB + TAB + "HttpServletRequest _request");

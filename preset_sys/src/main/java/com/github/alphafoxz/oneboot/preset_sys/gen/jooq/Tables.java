@@ -9,12 +9,12 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacGroup;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResource;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacResourceProtection;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacSubject;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthAccount;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthDepartment;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthRole;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthToken;
-import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAuthUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAccount;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysMenu;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysToken;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserDepartment;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserRole;
 
 
 /**
@@ -49,32 +49,32 @@ public class Tables {
     public static final PsysAbacSubject PSYS_ABAC_SUBJECT = PsysAbacSubject.PSYS_ABAC_SUBJECT;
 
     /**
-     * The table <code>preset_sys.psys_auth_account</code>.
+     * The table <code>preset_sys.psys_account</code>.
      */
-    public static final PsysAuthAccount PSYS_AUTH_ACCOUNT = PsysAuthAccount.PSYS_AUTH_ACCOUNT;
-
-    /**
-     * 部门机构
-     */
-    public static final PsysAuthDepartment PSYS_AUTH_DEPARTMENT = PsysAuthDepartment.PSYS_AUTH_DEPARTMENT;
-
-    /**
-     * 角色表
-     */
-    public static final PsysAuthRole PSYS_AUTH_ROLE = PsysAuthRole.PSYS_AUTH_ROLE;
-
-    /**
-     * The table <code>preset_sys.psys_auth_token</code>.
-     */
-    public static final PsysAuthToken PSYS_AUTH_TOKEN = PsysAuthToken.PSYS_AUTH_TOKEN;
-
-    /**
-     * 用户表
-     */
-    public static final PsysAuthUser PSYS_AUTH_USER = PsysAuthUser.PSYS_AUTH_USER;
+    public static final PsysAccount PSYS_ACCOUNT = PsysAccount.PSYS_ACCOUNT;
 
     /**
      * The table <code>preset_sys.psys_menu</code>.
      */
     public static final PsysMenu PSYS_MENU = PsysMenu.PSYS_MENU;
+
+    /**
+     * The table <code>preset_sys.psys_token</code>.
+     */
+    public static final PsysToken PSYS_TOKEN = PsysToken.PSYS_TOKEN;
+
+    /**
+     * 用户表
+     */
+    public static final PsysUser PSYS_USER = PsysUser.PSYS_USER;
+
+    /**
+     * 部门机构
+     */
+    public static final PsysUserDepartment PSYS_USER_DEPARTMENT = PsysUserDepartment.PSYS_USER_DEPARTMENT;
+
+    /**
+     * 角色表
+     */
+    public static final PsysUserRole PSYS_USER_ROLE = PsysUserRole.PSYS_USER_ROLE;
 }

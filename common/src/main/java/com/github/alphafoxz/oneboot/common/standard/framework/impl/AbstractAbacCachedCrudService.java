@@ -76,9 +76,9 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
         return getCacheManager().getCache(getTable().getName());
     }
 
-    public void evictCaches(@NonNull RECORD... records) {
+    public void evictCaches(@NonNull List<RECORD> records) {
         Cache cache = getCache();
-        if (records.length == 0) {
+        if (records.isEmpty()) {
             return;
         }
         if (cache != null) {
@@ -114,20 +114,20 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     @Override
-    public int insertMany(@NonNull RECORD... records) {
+    public int insertMany(@NonNull List<RECORD> records) {
         return insertMany(true, records);
     }
 
-    protected int insertManyWithoutAc(@NonNull RECORD... records) {
+    protected int insertManyWithoutAc(@NonNull List<RECORD> records) {
         return insertMany(false, records);
     }
 
-    private int insertMany(boolean useAc, @NonNull RECORD... records) {
+    private int insertMany(boolean useAc, @NonNull List<RECORD> records) {
         if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.CREATE, getCreatePolicies())) {
             throw403Error(getTable().getName(), null);
         }
         int[] i = getDslContext().batchInsert(records).execute();
-        return ArrayUtil.isEmpty(i) ? 0 : records.length;
+        return ArrayUtil.isEmpty(i) ? 0 : records.size();
     }
 
     @Nullable
@@ -330,8 +330,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
         if (id == null) {
             return 0;
         }
-        int i = deleteById(id);
-        return i;
+        return deleteById(id);
     }
 
     @Override
@@ -356,15 +355,15 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     @Override
-    public int[] deleteByIds(@NonNull RECORD... records) {
+    public int[] deleteByIds(@NonNull List<RECORD> records) {
         return deleteByIds(true, records);
     }
 
-    protected int[] deleteByIdsWithoutAc(@NonNull RECORD... records) {
+    protected int[] deleteByIdsWithoutAc(@NonNull List<RECORD> records) {
         return deleteByIds(false, records);
     }
 
-    private int[] deleteByIds(boolean useAc, @NonNull RECORD... records) {
+    private int[] deleteByIds(boolean useAc, @NonNull List<RECORD> records) {
         if (useAc) {
             for (RECORD record : records) {
                 Long id = record.get(getIdField());
