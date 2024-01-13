@@ -12,6 +12,6 @@ import lombok.experimental.Accessors;
 public class PsysAccountDepartmentInfoDto {
     @Schema(name = "id", description = "主键")
     private Long id;
-    @Schema(name = "name", description = "名称")
-    private String name;
+    @Schema(name = "deptName", description = "名称")
+    private String deptName;
 }

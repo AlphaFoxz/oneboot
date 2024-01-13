@@ -5,6 +5,7 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,12 +17,14 @@ import org.springframework.lang.Nullable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysUserRolePo(
     @NonNull Long id,
-    @Nullable String roleNum,
     @NonNull String roleName,
     @Nullable String description,
     @Nullable Boolean enabled,
     @Nullable Short status,
-    @Nullable String roleCode
+    @Nullable String roleCode,
+    @NonNull OffsetDateTime createTime,
+    @Nullable OffsetDateTime updateTime,
+    @Nullable Integer remark
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,12 +44,6 @@ public record PsysUserRolePo(
                 return false;
         }
         else if (!this.id.equals(other.id))
-            return false;
-        if (this.roleNum == null) {
-            if (other.roleNum != null)
-                return false;
-        }
-        else if (!this.roleNum.equals(other.roleNum))
             return false;
         if (this.roleName == null) {
             if (other.roleName != null)
@@ -78,6 +75,24 @@ public record PsysUserRolePo(
         }
         else if (!this.roleCode.equals(other.roleCode))
             return false;
+        if (this.createTime == null) {
+            if (other.createTime != null)
+                return false;
+        }
+        else if (!this.createTime.equals(other.createTime))
+            return false;
+        if (this.updateTime == null) {
+            if (other.updateTime != null)
+                return false;
+        }
+        else if (!this.updateTime.equals(other.updateTime))
+            return false;
+        if (this.remark == null) {
+            if (other.remark != null)
+                return false;
+        }
+        else if (!this.remark.equals(other.remark))
+            return false;
         return true;
     }
 
@@ -86,12 +101,14 @@ public record PsysUserRolePo(
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.roleNum == null) ? 0 : this.roleNum.hashCode());
         result = prime * result + ((this.roleName == null) ? 0 : this.roleName.hashCode());
         result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.enabled == null) ? 0 : this.enabled.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.roleCode == null) ? 0 : this.roleCode.hashCode());
+        result = prime * result + ((this.createTime == null) ? 0 : this.createTime.hashCode());
+        result = prime * result + ((this.updateTime == null) ? 0 : this.updateTime.hashCode());
+        result = prime * result + ((this.remark == null) ? 0 : this.remark.hashCode());
         return result;
     }
 
@@ -100,12 +117,14 @@ public record PsysUserRolePo(
         StringBuilder sb = new StringBuilder("PsysUserRolePo (");
 
         sb.append(id);
-        sb.append(", ").append(roleNum);
         sb.append(", ").append(roleName);
         sb.append(", ").append(description);
         sb.append(", ").append(enabled);
         sb.append(", ").append(status);
         sb.append(", ").append(roleCode);
+        sb.append(", ").append(createTime);
+        sb.append(", ").append(updateTime);
+        sb.append(", ").append(remark);
 
         sb.append(")");
         return sb.toString();

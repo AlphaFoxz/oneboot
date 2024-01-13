@@ -14,8 +14,8 @@ import java.time.OffsetDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record12;
-import org.jooq.Row12;
+import org.jooq.Record16;
+import org.jooq.Row16;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
  * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implements Record12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> {
+public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implements Record16<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime, String, Short, String, Short> {
 
     private static final long serialVersionUID = 1L;
 
@@ -169,19 +169,19 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     /**
-     * Setter for <code>preset_sys.psys_user.description</code>. 描述
+     * Setter for <code>preset_sys.psys_user.remark</code>. 描述
      */
-    public PsysUserRecord setDescription(@Nullable String value) {
+    public PsysUserRecord setRemark(@Nullable String value) {
         set(8, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_user.description</code>. 描述
+     * Getter for <code>preset_sys.psys_user.remark</code>. 描述
      */
     @Size(max = 300)
     @Nullable
-    public String getDescription() {
+    public String getRemark() {
         return (String) get(8);
     }
 
@@ -235,6 +235,72 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
         return (OffsetDateTime) get(11);
     }
 
+    /**
+     * Setter for <code>preset_sys.psys_user.avatar</code>. 头像
+     */
+    public PsysUserRecord setAvatar(@Nullable String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_user.avatar</code>. 头像
+     */
+    @Size(max = 255)
+    @Nullable
+    public String getAvatar() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_user.sex</code>. 性别
+     */
+    public PsysUserRecord setSex(@Nullable Short value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_user.sex</code>. 性别
+     */
+    @Nullable
+    public Short getSex() {
+        return (Short) get(13);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_user.email</code>. 邮箱地址
+     */
+    public PsysUserRecord setEmail(@Nullable String value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_user.email</code>. 邮箱地址
+     */
+    @Size(max = 50)
+    @Nullable
+    public String getEmail() {
+        return (String) get(14);
+    }
+
+    /**
+     * Setter for <code>preset_sys.psys_user.status</code>. 状态
+     */
+    public PsysUserRecord setStatus(@Nullable Short value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>preset_sys.psys_user.status</code>. 状态
+     */
+    @Nullable
+    public Short getStatus() {
+        return (Short) get(15);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -246,19 +312,19 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     // -------------------------------------------------------------------------
-    // Record12 type implementation
+    // Record16 type implementation
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> fieldsRow() {
-        return (Row12) super.fieldsRow();
+    public Row16<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime, String, Short, String, Short> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> valuesRow() {
-        return (Row12) super.valuesRow();
+    public Row16<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime, String, Short, String, Short> valuesRow() {
+        return (Row16) super.valuesRow();
     }
 
     @Override
@@ -312,7 +378,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @Override
     @NonNull
     public Field<String> field9() {
-        return PsysUser.PSYS_USER.DESCRIPTION;
+        return PsysUser.PSYS_USER.REMARK;
     }
 
     @Override
@@ -331,6 +397,30 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @NonNull
     public Field<OffsetDateTime> field12() {
         return PsysUser.PSYS_USER.CREATE_TIME;
+    }
+
+    @Override
+    @NonNull
+    public Field<String> field13() {
+        return PsysUser.PSYS_USER.AVATAR;
+    }
+
+    @Override
+    @NonNull
+    public Field<Short> field14() {
+        return PsysUser.PSYS_USER.SEX;
+    }
+
+    @Override
+    @NonNull
+    public Field<String> field15() {
+        return PsysUser.PSYS_USER.EMAIL;
+    }
+
+    @Override
+    @NonNull
+    public Field<Short> field16() {
+        return PsysUser.PSYS_USER.STATUS;
     }
 
     @Override
@@ -384,7 +474,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @Override
     @Nullable
     public String component9() {
-        return getDescription();
+        return getRemark();
     }
 
     @Override
@@ -403,6 +493,30 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @NonNull
     public OffsetDateTime component12() {
         return getCreateTime();
+    }
+
+    @Override
+    @Nullable
+    public String component13() {
+        return getAvatar();
+    }
+
+    @Override
+    @Nullable
+    public Short component14() {
+        return getSex();
+    }
+
+    @Override
+    @Nullable
+    public String component15() {
+        return getEmail();
+    }
+
+    @Override
+    @Nullable
+    public Short component16() {
+        return getStatus();
     }
 
     @Override
@@ -456,7 +570,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @Override
     @Nullable
     public String value9() {
-        return getDescription();
+        return getRemark();
     }
 
     @Override
@@ -475,6 +589,30 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @NonNull
     public OffsetDateTime value12() {
         return getCreateTime();
+    }
+
+    @Override
+    @Nullable
+    public String value13() {
+        return getAvatar();
+    }
+
+    @Override
+    @Nullable
+    public Short value14() {
+        return getSex();
+    }
+
+    @Override
+    @Nullable
+    public String value15() {
+        return getEmail();
+    }
+
+    @Override
+    @Nullable
+    public Short value16() {
+        return getStatus();
     }
 
     @Override
@@ -536,7 +674,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     @Override
     @NonNull
     public PsysUserRecord value9(@Nullable String value) {
-        setDescription(value);
+        setRemark(value);
         return this;
     }
 
@@ -563,7 +701,35 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
 
     @Override
     @NonNull
-    public PsysUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11, @NonNull OffsetDateTime value12) {
+    public PsysUserRecord value13(@Nullable String value) {
+        setAvatar(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord value14(@Nullable Short value) {
+        setSex(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord value15(@Nullable String value) {
+        setEmail(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord value16(@Nullable Short value) {
+        setStatus(value);
+        return this;
+    }
+
+    @Override
+    @NonNull
+    public PsysUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11, @NonNull OffsetDateTime value12, @Nullable String value13, @Nullable Short value14, @Nullable String value15, @Nullable Short value16) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -576,6 +742,10 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
         value10(value10);
         value11(value11);
         value12(value12);
+        value13(value13);
+        value14(value14);
+        value15(value15);
+        value16(value16);
         return this;
     }
 
@@ -593,7 +763,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     /**
      * Create a detached, initialised PsysUserRecord
      */
-    public PsysUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String description, @Nullable Long departmentId, @Nullable String phone, @NonNull OffsetDateTime createTime) {
+    public PsysUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String remark, @Nullable Long departmentId, @Nullable String phone, @NonNull OffsetDateTime createTime, @Nullable String avatar, @Nullable Short sex, @Nullable String email, @Nullable Short status) {
         super(PsysUser.PSYS_USER);
 
         setId(id);
@@ -604,10 +774,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
         setAccountId(accountId);
         setEnabled(enabled);
         setExpired(expired);
-        setDescription(description);
+        setRemark(remark);
         setDepartmentId(departmentId);
         setPhone(phone);
         setCreateTime(createTime);
+        setAvatar(avatar);
+        setSex(sex);
+        setEmail(email);
+        setStatus(status);
         resetChangedOnNotNull();
     }
 
@@ -626,10 +800,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
             setAccountId(value.accountId());
             setEnabled(value.enabled());
             setExpired(value.expired());
-            setDescription(value.description());
+            setRemark(value.remark());
             setDepartmentId(value.departmentId());
             setPhone(value.phone());
             setCreateTime(value.createTime());
+            setAvatar(value.avatar());
+            setSex(value.sex());
+            setEmail(value.email());
+            setStatus(value.status());
             resetChangedOnNotNull();
         }
     }

@@ -8,15 +8,16 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysUserRoleRecord;
 
+import java.time.OffsetDateTime;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
+import org.jooq.Function9;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -58,11 +59,6 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
     public final TableField<PsysUserRoleRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "主键");
 
     /**
-     * The column <code>preset_sys.psys_user_role.role_num</code>. 角色编号
-     */
-    public final TableField<PsysUserRoleRecord, String> ROLE_NUM = createField(DSL.name("role_num"), SQLDataType.VARCHAR(50), this, "角色编号");
-
-    /**
      * The column <code>preset_sys.psys_user_role.role_name</code>. 角色名称
      */
     public final TableField<PsysUserRoleRecord, String> ROLE_NAME = createField(DSL.name("role_name"), SQLDataType.VARCHAR(50).nullable(false), this, "角色名称");
@@ -83,9 +79,24 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
     public final TableField<PsysUserRoleRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
 
     /**
-     * The column <code>preset_sys.psys_user_role.role_code</code>. 角色bi
+     * The column <code>preset_sys.psys_user_role.role_code</code>. 角色编码
      */
-    public final TableField<PsysUserRoleRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.VARCHAR(50), this, "角色bi");
+    public final TableField<PsysUserRoleRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.VARCHAR(50), this, "角色编码");
+
+    /**
+     * The column <code>preset_sys.psys_user_role.create_time</code>. 创建时间
+     */
+    public final TableField<PsysUserRoleRecord, OffsetDateTime> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "创建时间");
+
+    /**
+     * The column <code>preset_sys.psys_user_role.update_time</code>. 更新时间
+     */
+    public final TableField<PsysUserRoleRecord, OffsetDateTime> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "更新时间");
+
+    /**
+     * The column <code>preset_sys.psys_user_role.remark</code>. varchar(100)
+     */
+    public final TableField<PsysUserRoleRecord, Integer> REMARK = createField(DSL.name("remark"), SQLDataType.INTEGER, this, "varchar(100)");
 
     private PsysUserRole(Name alias, Table<PsysUserRoleRecord> aliased) {
         this(alias, aliased, null);
@@ -178,19 +189,19 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row7<Long, String, String, String, Boolean, Short, String> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, Integer> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super Integer, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -198,7 +209,7 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super Integer, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

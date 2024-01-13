@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function12;
+import org.jooq.Function16;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row12;
+import org.jooq.Row16;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -98,9 +98,9 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
     public final TableField<PsysUserRecord, Boolean> EXPIRED = createField(DSL.name("expired"), SQLDataType.BOOLEAN.nullable(false), this, "是否过期");
 
     /**
-     * The column <code>preset_sys.psys_user.description</code>. 描述
+     * The column <code>preset_sys.psys_user.remark</code>. 描述
      */
-    public final TableField<PsysUserRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(300), this, "描述");
+    public final TableField<PsysUserRecord, String> REMARK = createField(DSL.name("remark"), SQLDataType.VARCHAR(300), this, "描述");
 
     /**
      * The column <code>preset_sys.psys_user.department_id</code>. 部门id
@@ -116,6 +116,26 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * The column <code>preset_sys.psys_user.create_time</code>. 创建时间
      */
     public final TableField<PsysUserRecord, OffsetDateTime> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "创建时间");
+
+    /**
+     * The column <code>preset_sys.psys_user.avatar</code>. 头像
+     */
+    public final TableField<PsysUserRecord, String> AVATAR = createField(DSL.name("avatar"), SQLDataType.VARCHAR(255), this, "头像");
+
+    /**
+     * The column <code>preset_sys.psys_user.sex</code>. 性别
+     */
+    public final TableField<PsysUserRecord, Short> SEX = createField(DSL.name("sex"), SQLDataType.SMALLINT, this, "性别");
+
+    /**
+     * The column <code>preset_sys.psys_user.email</code>. 邮箱地址
+     */
+    public final TableField<PsysUserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(50), this, "邮箱地址");
+
+    /**
+     * The column <code>preset_sys.psys_user.status</code>. 状态
+     */
+    public final TableField<PsysUserRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
 
     private PsysUser(Name alias, Table<PsysUserRecord> aliased) {
         this(alias, aliased, null);
@@ -214,19 +234,19 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row12 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
     @NonNull
-    public Row12<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime> fieldsRow() {
-        return (Row12) super.fieldsRow();
+    public Row16<Long, String, String, String, Long, Long, Boolean, Boolean, String, Long, String, OffsetDateTime, String, Short, String, Short> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function12<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function16<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? super OffsetDateTime, ? super String, ? super Short, ? super String, ? super Short, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -234,7 +254,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function12<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? super OffsetDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function16<? super Long, ? super String, ? super String, ? super String, ? super Long, ? super Long, ? super Boolean, ? super Boolean, ? super String, ? super Long, ? super String, ? super OffsetDateTime, ? super String, ? super Short, ? super String, ? super Short, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

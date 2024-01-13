@@ -10,9 +10,9 @@ class PsysAccountRoleInfoDto {
     /* 更新时间 */
     i64 updateTime
     /* 角色名称 */
-    string name
+    string roleName
     /* 角色编码 */
-    string code
+    string roleCode
     /* 状态 */
     i16 status
     /* 备注 */
@@ -48,5 +48,5 @@ class PsysAccountDepartmentInfoDto {
     /* 主键 */
     i64 id
     /* 名称 */
-    string name
+    string deptName
 }
