@@ -5,7 +5,7 @@
     "\\preset_sys\\apis\\PsysAccountApi.restful": "32d4ef40f1b9814f76d1eaba1bed86edf883b3b6d9db7c1ab6649392024b81ae",
     "\\preset_sys\\apis\\PsysAuthApi.restful": "5a3956037491705543b846a68aa2674c032b06339429438b8c18aec420fd417f",
     "\\preset_sys\\apis\\PsysMenuApi.restful": "6cff3611a132f797da23c26a624634156de122acde83e1427728053d6f2d5a38",
-    "\\preset_sys\\dtos\\PsysAccountDto.restful": "42244acf3801511c8708e5118bb87cf109ff66e4037f6f7de144179dbbaf27f6",
+    "\\preset_sys\\dtos\\PsysAccountDto.restful": "19a7b64f84101452d6ee05e88892a16523d89c422e4ade253ccc9420b4fa582a",
     "\\preset_sys\\dtos\\PsysAccountParam.restful": "cb429ef7b063feef8c29a425a2be5434e73c02234cd345142deccd01d53aa2a2",
     "\\preset_sys\\dtos\\PsysAuthDto.restful": "fb1c76e604c73cc7a74a9abd23c8607c2d73d10226247e138c37be0363724251",
     "\\preset_sys\\dtos\\PsysMenuDto.restful": "ddb617545ffdf0e210ed5b91c1d70418f1d00851972d57edb6fa646816f63e73",

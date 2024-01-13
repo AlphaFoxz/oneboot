@@ -14,7 +14,7 @@ class PsysAccountRoleInfoDto {
     /* 角色编码 */
     string roleCode
     /* 状态 */
-    i16 status
+    i32 status
     /* 备注 */
     string remark
 }
