@@ -3,7 +3,7 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
-    id("org.graalvm.buildtools.native")
+//    id("org.graalvm.buildtools.native")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -19,7 +19,7 @@ allprojects {
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "org.graalvm.buildtools.native")
+//    apply(plugin = "org.graalvm.buildtools.native")
     group = "com.github.alphafoxz.oneboot"
     version = "0.0.1-alpha.0"
     repositories {

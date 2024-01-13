@@ -65,24 +65,24 @@ public class SearchRequestBean {
     public String toString() {
         JSONObject jsonObject =
                 new JSONObject()
-                        .put("q", this.q)
-                        .put("offset", this.offset)
-                        .put("limit", this.limit)
-                        .put("attributesToRetrieve", this.attributesToRetrieve)
-                        .put("cropLength", this.cropLength)
-                        .put("cropMarker", this.cropMarker)
-                        .put("highlightPreTag", this.highlightPreTag)
-                        .put("highlightPostTag", this.highlightPostTag)
-                        .put(
+                        .set("q", this.q)
+                        .set("offset", this.offset)
+                        .set("limit", this.limit)
+                        .set("attributesToRetrieve", this.attributesToRetrieve)
+                        .set("cropLength", this.cropLength)
+                        .set("cropMarker", this.cropMarker)
+                        .set("highlightPreTag", this.highlightPreTag)
+                        .set("highlightPostTag", this.highlightPostTag)
+                        .set(
                                 "matchingStrategy",
                                 this.matchingStrategy == null
                                         ? null
                                         : this.matchingStrategy.toString())
-                        .put("showMatchesPosition", this.showMatchesPosition)
-                        .put("facets", this.facets)
-                        .put("sort", this.sort)
-                        .put("page", this.page)
-                        .put("hitsPerPage", this.hitsPerPage)
+                        .set("showMatchesPosition", this.showMatchesPosition)
+                        .set("facets", this.facets)
+                        .set("sort", this.sort)
+                        .set("page", this.page)
+                        .set("hitsPerPage", this.hitsPerPage)
                         .putOpt("attributesToCrop", this.attributesToCrop)
                         .putOpt("attributesToHighlight", this.attributesToHighlight)
                         .putOpt("attributesToSearchOn", this.attributesToSearchOn)
