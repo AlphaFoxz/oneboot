@@ -869,6 +869,9 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     case CONTAIN_LIST -> {
                         return parseContainList((Map) pairMap.get(INNER));
                     }
+                    case CONTAIN_SET -> {
+                        return parseContainSet((Map) pairMap.get(INNER));
+                    }
                     case REF_ENUM -> {
                         return parseRefEnum((Map) pairMap.get(INNER), modifier);
                     }

@@ -2,6 +2,7 @@
     "\\app\\apis\\AppTestApi.restful": "93b7873aa43f34179e3d8a7241c1e051c86430a1c661707eb8495ee87c2ca412",
     "\\app\\dtos\\AppTestDto.restful": "107a0b8a3e619b6cc9a33a6751b87b11ed4fc9283691059cd31f5ec82f672400",
     "\\app\\enums\\AppTestEnum.restful": "86006af270823271620469a1084df47b6219c4236d4bf301ff51e666c2f86023",
+    "\\preset_sys\\apis\\PsysAccessControlApi.restful": "b0d2d39774c9d54de475a36214c96f2b22ccbabd98708fe2bf8b1ccc6c0b6310",
     "\\preset_sys\\apis\\PsysAccountApi.restful": "32d4ef40f1b9814f76d1eaba1bed86edf883b3b6d9db7c1ab6649392024b81ae",
     "\\preset_sys\\apis\\PsysAuthApi.restful": "5a3956037491705543b846a68aa2674c032b06339429438b8c18aec420fd417f",
     "\\preset_sys\\apis\\PsysMenuApi.restful": "6cff3611a132f797da23c26a624634156de122acde83e1427728053d6f2d5a38",
