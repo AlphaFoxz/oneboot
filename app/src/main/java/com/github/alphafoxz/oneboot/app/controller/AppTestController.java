@@ -4,7 +4,7 @@ import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
 import com.github.alphafoxz.oneboot.app.gen.restful.apis.AppTestApi;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
-import com.github.alphafoxz.oneboot.app.service.test.crud.AppTestCrud;
+import com.github.alphafoxz.oneboot.app.service.crud.AppTestCrud;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;

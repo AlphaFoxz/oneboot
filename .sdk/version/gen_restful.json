@@ -11,7 +11,7 @@
     "\\preset_sys\\dtos\\PsysAuthDto.restful": "fb1c76e604c73cc7a74a9abd23c8607c2d73d10226247e138c37be0363724251",
     "\\preset_sys\\dtos\\PsysMenuDto.restful": "ddb617545ffdf0e210ed5b91c1d70418f1d00851972d57edb6fa646816f63e73",
     "\\preset_sys\\enums\\PsysAuthRouteRankEnum.restful": "5478579a96d8d7167765cd2cfa5b8cdf267236669b800fd3d12deea2863d29b6",
-    "\\sdk\\apis\\SdkGenCodeApi.restful": "994f78464c3d46ccd5638274a904518eb25fdee36afafa0b8a40a578d3f71b3c",
+    "\\sdk\\apis\\SdkGenCodeApi.restful": "ef825b4ece36b084fa2d72b617fa4c875ae31d03644719046d7cda77b54f8e89",
     "\\sdk\\apis\\SdkInfoApi.restful": "5de8494e4739168892eabf26ff92896451805ee4410775fa8b1c2412d09e7412",
     "\\sdk\\apis\\SdkThriftApi.restful": "3f1ae6ede016758b42c89342834fbda0fd40125c4a04e3d043f640d4b2c8444d",
     "\\sdk\\apis\\SdkVersionApi.restful": "95904c8924971e795ba91930ec5a1e8e514276f481947e1f56abecd9e04ef920",
@@ -21,5 +21,7 @@
     "\\sdk\\dtos\\SdkRequestDto.restful": "37ca18fc71a6cae8795b85fc3bc9f100d835547de1be23451403d2ed4ea36c3d",
     "\\sdk\\dtos\\SdkResponseDto.restful": "a84a256702a43dfc83c19619551aceb12575191fff296e0e3a64d692f8bda03b",
     "\\sdk\\dtos\\SdkVersionDto.restful": "5d5a2f5b37ba95c63ae66d380f3ad2a76eb9a8b079f9690d13a913da50e397f4",
-    "\\sdk\\enums\\SdkFileTypeEnum.restful": "4a801a385c41ea73786e8018f6815dc9db33945fe182db559c2a8dbe0a62debb"
+    "\\sdk\\enums\\SdkCrudServiceTypeEnum.restful": "1511645c817dc559604bb14416e5fa0cf881f9af9a5341c052e69a7faa63a48f",
+    "\\sdk\\enums\\SdkFileTypeEnum.restful": "4a801a385c41ea73786e8018f6815dc9db33945fe182db559c2a8dbe0a62debb",
+    "\\sdk\\enums\\SdkGenCrudTypeEnum.restful": "1511645c817dc559604bb14416e5fa0cf881f9af9a5341c052e69a7faa63a48f"
 }

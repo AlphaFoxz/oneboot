@@ -1,0 +1,78 @@
+package {basePackage}.{moduleName}.service.crud;
+
+import {basePackage}.{moduleName}.gen.jooq.tables.{PoName};
+import {basePackage}.{moduleName}.gen.jooq.tables.pojos.{PoName}Po;
+import {basePackage}.{moduleName}.gen.jooq.tables.records.{PoName}Record;
+import {basePackage}.common.standard.access_control.AbacPolicy;
+import {basePackage}.common.standard.framework.impl.AbstractAbacCachedCrudService;
+import {basePackage}.common.toolkit.coding.ArrayUtil;
+import {basePackage}.common.toolkit.coding.CollUtil;
+import {basePackage}.preset_sys.service.abac.policy.PsysAbacOwnerPolicy;
+import jakarta.annotation.Resource;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.jooq.Condition;
+import org.jooq.DSLContext;
+import org.jooq.SortField;
+import org.slf4j.Logger;
+import org.springframework.cache.CacheManager;
+import org.springframework.data.domain.Page;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
+
+import static {basePackage}.{moduleName}.gen.jooq.Tables.{PO_NAME};
+
+/**
+ * {PoName}表增删改查service
+ */
+@Slf4j
+@Getter
+@Service
+public class {PoName}Crud extends AbstractAbacCachedCrudService<{PoName}, {PoName}Po, {PoName}Record> {
+    @Resource
+    private DSLContext dslContext;
+    @Resource
+    private CacheManager cacheManager;
+    private final {PoName} table = {PO_NAME};
+    private final Class<{PoName}Po> poClass = {PoName}Po.class;
+
+    @Override
+    @NonNull
+    public Logger getLogger() {
+        return log;
+    }
+
+    @SuppressWarnings("unchecked")
+    Class<? extends AbacPolicy>[] createPolicies = ArrayUtil.toArray(CollUtil.newArrayList(
+            PsysAbacOwnerPolicy.class
+    ), Class.class);
+
+    @SuppressWarnings("unchecked")
+    Class<? extends AbacPolicy>[] readPolicies = ArrayUtil.toArray(CollUtil.newArrayList(
+            PsysAbacOwnerPolicy.class
+    ), Class.class);
+
+    @SuppressWarnings("unchecked")
+    Class<? extends AbacPolicy>[] updatePolicies = ArrayUtil.toArray(CollUtil.newArrayList(
+            PsysAbacOwnerPolicy.class
+    ), Class.class);
+
+    @SuppressWarnings("unchecked")
+    Class<? extends AbacPolicy>[] logicDeletePolicies = ArrayUtil.toArray(CollUtil.newArrayList(
+            PsysAbacOwnerPolicy.class
+    ), Class.class);
+
+    @SuppressWarnings("unchecked")
+    Class<? extends AbacPolicy>[] deletePolicies = ArrayUtil.toArray(CollUtil.newArrayList(
+            PsysAbacOwnerPolicy.class
+    ), Class.class);
+
+    /**
+     * 查询分页不进行权限控制
+     */
+    @Override
+    @NonNull
+    public Page<{PoName}Po> selectPage(int pageNum, int pageSize, SortField<?>[] orderBy, Condition... conditions) {
+        return super.selectPageWithoutAc(pageNum, pageSize, orderBy, conditions);
+    }
+}

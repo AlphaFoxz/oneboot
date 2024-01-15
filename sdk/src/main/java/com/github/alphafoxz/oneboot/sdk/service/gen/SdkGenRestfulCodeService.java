@@ -29,7 +29,7 @@ import java.util.TreeMap;
 // 执行命令为 thrift-0.18.1.exe -out F:\idea_projects\oneboot\sdk\src\main\java --gen java .\CommandIface.thrift
 @Slf4j
 @Service
-public class SdkGenCodeService implements SdkGenCodeIface.Iface {
+public class SdkGenRestfulCodeService implements SdkGenCodeIface.Iface {
     @Resource
     private Snowflake snowflake;
     @Resource

@@ -2,6 +2,7 @@ namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
 namespace ts gen.sdk.apis
 
 import "../dtos/SdkResponseDto.restful"
+import "../enums/SdkCrudServiceTypeEnum.restful"
 
 /*Sdk模块代码生成接口*/
 @uri(/_sdk/genCode)
@@ -9,4 +10,19 @@ interface SdkGenCodeApi {
     /*创建所有Java rpc代码*/
     @getUri(/generateJavaRpc)
     SdkResponseDto.SdkListResponseDto generateJavaRpc()
+
+    /* 创建单表CRUD代码 */
+    @getUri(/generateTableCrud)
+    void generateTableCrud(
+        /*模块名称*/ string moduleName,
+        /*表名*/ string poName,
+        /*生成类型*/ enum<SdkCrudServiceTypeEnum.SdkCrudServiceTypeEnum> serviceType,
+        /*是否覆盖已有代码*/ boolean force)
+
+    /* 创建整个模块的CRUD代码 */
+    @getUri(/generateModuleCrud)
+    void generateModuleCrud(
+        /*模块名称*/ string moduleName,
+        /*生成类型*/ enum<SdkCrudServiceTypeEnum.SdkCrudServiceTypeEnum> serviceType,
+        /*是否覆盖已有代码*/ boolean force)
 }

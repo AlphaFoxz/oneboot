@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.app.service.test.crud;
+package com.github.alphafoxz.oneboot.app.service.crud;
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.AppTest;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;

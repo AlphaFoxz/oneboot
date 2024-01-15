@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenCodeService;
+import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenRestfulCodeService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,13 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class SdkTest {
     @Resource
-    private SdkGenCodeService sdkGenCodeService;
+    private SdkGenRestfulCodeService sdkGenRestfulCodeService;
     @Resource
     private Snowflake snowflake;
 
     @Test
     public void generateAllTest() {
-        assert sdkGenCodeService.generateJavaRpc(snowflake.nextId()).isSuccess();
+        assert sdkGenRestfulCodeService.generateJavaRpc(snowflake.nextId()).isSuccess();
     }
 
     @Test
