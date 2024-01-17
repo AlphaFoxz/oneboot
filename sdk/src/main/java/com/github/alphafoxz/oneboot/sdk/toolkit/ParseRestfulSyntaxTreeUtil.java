@@ -295,7 +295,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             JAVA_INTYPE_MAP.put(Intypes.INT, "Integer");
             JAVA_INTYPE_MAP.put(Intypes.LONG, "Long");
             JAVA_INTYPE_MAP.put(Intypes.DOUBLE, "Double");
-            JAVA_INTYPE_MAP.put(Intypes.BINARY, "String");
+            JAVA_INTYPE_MAP.put(Intypes.BINARY, "Resource");
             JAVA_INTYPE_MAP.put(Intypes.STRING, "String");
 
             TS_INTYPE_MAP.put(Intypes.BOOLEAN, "boolean");
@@ -360,15 +360,17 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         }
 
         public String tsString() {
-            String str;
             if (this.isMap) {
-                str = "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
+                return "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
             } else if (this.isCollection) {
-                str = /*tsSimpleName*/t1.tsString() + "[]";
+                // 对于二进制集合，我们实际上期望它实现下载功能
+                if (this.getT1().getToken().equals(Intypes.BYTE)) {
+                    return "string";
+                }
+                return t1.tsString() + "[]";
             } else {
-                str = tsSimpleName;
+                return tsSimpleName;
             }
-            return str;
         }
 
         public String sqlString() {

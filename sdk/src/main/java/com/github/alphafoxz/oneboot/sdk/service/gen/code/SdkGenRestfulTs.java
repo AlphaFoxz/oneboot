@@ -188,25 +188,25 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                     }
                     case GET_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();
-                        executeFormat = TAB + TAB + "return (await _http()).get(`{}`)";
+                        executeFormat = TAB + TAB + "return (await _http()).get(`{}`, {})";
                     }
                     case DELETE_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();
-                        executeFormat = TAB + TAB + "return (await _http()).delete(`{}`)";
+                        executeFormat = TAB + TAB + "return (await _http()).delete(`{}`, {})";
                     }
                     case POST_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();
-                        executeFormat = TAB + TAB + "return (await _http()).post(`{}`, {})";
+                        executeFormat = TAB + TAB + "return (await _http()).post(`{}`, {}, {})";
                         isPost = true;
                     }
                     case PUT_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();
-                        executeFormat = TAB + TAB + "return (await _http()).put(`{}`, {})";
+                        executeFormat = TAB + TAB + "return (await _http()).put(`{}`, {}, {})";
                         isPost = true;
                     }
                     case PATCH_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();
-                        executeFormat = TAB + TAB + "return (await _http()).patch(`{}`, {})";
+                        executeFormat = TAB + TAB + "return (await _http()).patch(`{}`, {}, {})";
                         isPost = true;
                     }
                 }
@@ -249,11 +249,18 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                 paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString() + otherType);
             }
             String returnTypeString = isPage ? "_Page<" + interfaceFunction.getReturnType().tsString() + ">" : interfaceFunction.getReturnType().tsString();
+            String config = "{}";
+            if (interfaceFunction.getReturnType().isCollection() && ParseRestfulSyntaxTreeUtil.Intypes.BYTE.equals(interfaceFunction.getReturnType().getT1().getToken())) {
+                // 下载二进制文件
+                config = "{\n" +
+                        TAB + TAB + TAB + "responseType: 'blob',\n" +
+                        TAB + TAB + "}";
+            }
             code.add(functionHeader + paramStringJoiner + ": _HttpResult<" + returnTypeString + "> => {");
             if (isPost) {
-                code.add(StrUtil.format(executeFormat, serviceUri + functionUri, executeParam));
+                code.add(StrUtil.format(executeFormat, serviceUri + functionUri, executeParam, config));
             } else {
-                code.add(StrUtil.format(executeFormat, serviceUri + functionUri + executeParam));
+                code.add(StrUtil.format(executeFormat, serviceUri + functionUri + executeParam, config));
             }
             code.add(TAB + "},");
         }
