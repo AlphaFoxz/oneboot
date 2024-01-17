@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAccountUserPageParam;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAccountDepartmentInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public interface PsysAccountApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<PageResponse<PsysAccountRoleInfoDto>> rolePage(
-            @Parameter(description = "角色分页查询传参") PsysAccountRolePageParam param
+            @Parameter(description = "角色分页查询传参") @RequestParam PsysAccountRolePageParam param
     );
 
     @GetMapping({"/user/page"})
@@ -39,7 +40,7 @@ public interface PsysAccountApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<PageResponse<PsysAccountUserInfoDto>> userPage(
-            @Parameter(description = "用户分页查询传参") PsysAccountUserPageParam param
+            @Parameter(description = "用户分页查询传参") @RequestParam PsysAccountUserPageParam param
     );
 
     @GetMapping({"/department/page"})
@@ -49,7 +50,7 @@ public interface PsysAccountApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<PageResponse<PsysAccountDepartmentInfoDto>> departmentPage(
-            @Parameter(description = "组织机构分页查询传参") PsysAccountDepartmentPageParam param
+            @Parameter(description = "组织机构分页查询传参") @RequestParam PsysAccountDepartmentPageParam param
     );
 
 }

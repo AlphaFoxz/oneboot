@@ -1,6 +1,5 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import org.springframework.lang.NonNull;
 

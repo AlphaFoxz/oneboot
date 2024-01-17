@@ -1,11 +1,10 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
 import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -194,6 +193,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 }
             }
             code.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(fieldBean.getFieldName(), true), commentDocToStringWrapParam(fieldBean.getDoc())));
+            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier())) {
+                code.add(TAB + "@Nullable");
+            }
             code.add(TAB + "private " + fieldBean.getType().javaString() + " " + fieldBean.getFieldName() + ";");
         }
         code.add("}");
@@ -325,11 +327,13 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         for (var param : interfaceFunction.getParamList()) {
             String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
             String paramAnno = "";
-            if (pathVarSet.contains(param.getParamName())) {
-                paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
-            }
             if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
                 paramAnno += "@Nullable ";
+            }
+            if (pathVarSet.contains(param.getParamName())) {
+                paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
+            } else if (!isPost) {
+                paramAnno += "@RequestParam ";
             }
             paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, param.getParamType().javaString(), param.getParamName()));
         }

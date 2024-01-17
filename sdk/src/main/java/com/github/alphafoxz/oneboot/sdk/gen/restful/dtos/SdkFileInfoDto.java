@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import java.util.List;
+import org.springframework.lang.Nullable;
 
 @Schema(name = "SdkFileInfoDto", description = "")
 @Accessors(chain = true)
@@ -20,8 +21,10 @@ public class SdkFileInfoDto {
     @Schema(name = "separator", description = "")
     private String separator;
     @Schema(name = "content", description = "")
+    @Nullable
     private String content;
     @Schema(name = "ext", description = "")
+    @Nullable
     private String ext;
     @Schema(name = "fileType", description = "")
     private int fileType;
@@ -30,5 +33,6 @@ public class SdkFileInfoDto {
     @Schema(name = "isEmpty", description = "")
     private Boolean isEmpty;
     @Schema(name = "children", description = "")
+    @Nullable
     private List<SdkFileInfoDto> children;
 }

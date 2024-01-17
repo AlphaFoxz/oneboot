@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto;
+import org.springframework.lang.Nullable;
 
 // 响应体的data字段是SdkCodeTemplateDto
 @Schema(name = "SdkCodeTemplateResponseDto", description = "代码模板响应实体")
@@ -19,7 +20,9 @@ public class SdkCodeTemplateResponseDto {
     @Schema(name = "success", description = "是否成功")
     private Boolean success;
     @Schema(name = "message", description = "消息")
+    @Nullable
     private String message;
     @Schema(name = "data", description = "数据内容")
+    @Nullable
     private SdkCodeTemplateDto data;
 }

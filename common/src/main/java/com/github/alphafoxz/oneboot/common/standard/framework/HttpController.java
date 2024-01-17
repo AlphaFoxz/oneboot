@@ -3,17 +3,17 @@ package com.github.alphafoxz.oneboot.common.standard.framework;
 import org.springframework.http.HttpStatus;
 
 public interface HttpController {
-    public static HttpStatus CODE_200 = HttpStatus.OK;
-    public static HttpStatus CODE_201 = HttpStatus.CREATED;
-    public static HttpStatus CODE_204 = HttpStatus.NO_CONTENT;
-    public static HttpStatus CODE_301 = HttpStatus.MOVED_PERMANENTLY;
-    public static HttpStatus CODE_302 = HttpStatus.FOUND;
-    public static HttpStatus CODE_400 = HttpStatus.BAD_REQUEST;
-    public static HttpStatus CODE_401 = HttpStatus.UNAUTHORIZED;
-    public static HttpStatus CODE_403 = HttpStatus.FORBIDDEN;
-    public static HttpStatus CODE_404 = HttpStatus.NOT_FOUND;
-    public static HttpStatus CODE_500 = HttpStatus.INTERNAL_SERVER_ERROR;
-    public static HttpStatus CODE_501 = HttpStatus.NOT_IMPLEMENTED;
+    public static HttpStatus OK_200 = HttpStatus.OK;
+    public static HttpStatus CREATED_201 = HttpStatus.CREATED;
+    public static HttpStatus NO_CONTENT_204 = HttpStatus.NO_CONTENT;
+    public static HttpStatus MOVED_PERMANENTLY_301 = HttpStatus.MOVED_PERMANENTLY;
+    public static HttpStatus FOUND_302 = HttpStatus.FOUND;
+    public static HttpStatus BAD_REQUEST_400 = HttpStatus.BAD_REQUEST;
+    public static HttpStatus UNAUTHORIZED_401 = HttpStatus.UNAUTHORIZED;
+    public static HttpStatus FORBIDDEN_403 = HttpStatus.FORBIDDEN;
+    public static HttpStatus NOT_FOUND_404 = HttpStatus.NOT_FOUND;
+    public static HttpStatus INTERNAL_SERVER_ERROR_500 = HttpStatus.INTERNAL_SERVER_ERROR;
+    public static HttpStatus NOT_IMPLEMENTED_501 = HttpStatus.NOT_IMPLEMENTED;
 
     /**
      * 基于前端不可信这个原则，对于有默认值的属性每次都判空会导致大量重复代码

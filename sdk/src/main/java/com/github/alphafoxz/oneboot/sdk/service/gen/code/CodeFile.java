@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen.entity;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
@@ -23,7 +23,7 @@ public class CodeFile {
     public boolean writeToLocal() {
         File javaFile = FileUtil.file(path);
         try {
-            if(javaFile.exists()) {
+            if (javaFile.exists()) {
                 String oriContent = FileUtil.readUtf8String(javaFile);
                 if (content.equals(oriContent.replace("\r\n", "\n"))) {
                     return true;

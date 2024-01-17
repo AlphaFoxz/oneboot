@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 
 @Schema(name = "SdkCodeTemplateDto", description = "代码模板实体")
 @Accessors(chain = true)
@@ -18,6 +19,7 @@ public class SdkCodeTemplateDto {
     @Schema(name = "namespace", description = "命名空间")
     private Map<String, String> namespace;
     @Schema(name = "ast", description = "抽象语法树")
+    @Nullable
     private String ast;
     @Schema(name = "content", description = "文件内容")
     private String content;

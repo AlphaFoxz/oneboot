@@ -1,10 +1,9 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -232,7 +231,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                         executeParamJoiner.add(param.getParamName() + ": p_" + param.getParamName());
                         continue;
                     }
-                    if (param.getParamType().isIntype()) {
+                    if (param.getParamType().isIntype() || param.getParamType().isCollection()) {
                         executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(p_" + param.getParamName() + ".toString())}");
                     } else {
                         executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(_JSON().stringify(p_" + param.getParamName() + "))}");

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ public interface SdkThriftApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<SdkCodeTemplateResponseDto> getTemplateContentByPath(
-            @Parameter(description = "") String filePath
+            @Parameter(description = "") @RequestParam String filePath
     );
 
 }

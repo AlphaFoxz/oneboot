@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
@@ -31,10 +32,10 @@ public interface SdkGenCodeApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<?> generateTableCrud(
-            @Parameter(description = "模块名称") String moduleName,
-            @Parameter(description = "表名") String poName,
-            @Parameter(description = "生成类型") int serviceType,
-            @Parameter(description = "是否覆盖已有代码") Boolean force
+            @Parameter(description = "模块名称") @RequestParam String moduleName,
+            @Parameter(description = "表名") @RequestParam String poName,
+            @Parameter(description = "生成类型") @RequestParam int serviceType,
+            @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force
     );
 
     @GetMapping({"/generateModuleCrud"})
@@ -44,9 +45,9 @@ public interface SdkGenCodeApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<?> generateModuleCrud(
-            @Parameter(description = "模块名称") String moduleName,
-            @Parameter(description = "生成类型") int serviceType,
-            @Parameter(description = "是否覆盖已有代码") Boolean force
+            @Parameter(description = "模块名称") @RequestParam String moduleName,
+            @Parameter(description = "生成类型") @RequestParam int serviceType,
+            @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force
     );
 
 }

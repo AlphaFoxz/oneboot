@@ -1,8 +1,7 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
