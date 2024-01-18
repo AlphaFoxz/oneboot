@@ -370,6 +370,8 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     return "FileList";
                 }
                 return t1.tsString() + "[]";
+            } else if (REF_ENUM.equals(this.getToken())) {
+                return this.getT1().tsString();
             } else {
                 return tsSimpleName;
             }
@@ -982,7 +984,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (UTYPE.equals(innerRuleName)) {
-                    parseUtype((Map) innerMap.get(INNER));
+                    result.setT1(parseUtype((Map) innerMap.get(INNER)));
                 }
             }
             return result;
