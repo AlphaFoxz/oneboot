@@ -1,11 +1,10 @@
-package com.github.alphafoxz.oneboot.sdk.service.gen;
+package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +85,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析接口方法
             for (var interfaceFunction : interfaceBean.getInterfaceFunctionList()) {
                 if (interfaceFunction.getAnnotationMap().get("RequestMapping") != null) {
-                    throw new OnebootGenCodeException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
+                    throw new OnebootGenException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 code.add(genInterfaceFunctionCode(interfaceFunction));
             }
@@ -99,7 +98,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return codeFile;
     }
 
-    private void generateRestJavaIfaces(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaIfaces(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var interfaceBean : rootBean.getInterfaceList()) {
             result.add(genApiFile(restfulRoot, interfaceBean));
@@ -149,7 +148,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return codeFile;
     }
 
-    private void generateRestJavaEnums(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaEnums(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var enumBean : rootBean.getEnumList()) {
             result.add(genEnumFile(restfulRoot, enumBean));
@@ -194,6 +193,9 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 }
             }
             code.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(fieldBean.getFieldName(), true), commentDocToStringWrapParam(fieldBean.getDoc())));
+            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier())) {
+                code.add(TAB + "@Nullable");
+            }
             code.add(TAB + "private " + fieldBean.getType().javaString() + " " + fieldBean.getFieldName() + ";");
         }
         code.add("}");
@@ -215,6 +217,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         // 是否分页
         boolean isPage = false;
         boolean isPost = false;
+        boolean isFormData = false;
         boolean hasRequestParam = false;
         boolean hasResponseParam = false;
         Set<String> pathVarSet = CollUtil.newHashSet();
@@ -229,9 +232,12 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
                 switch (annoEntry.getKey()) {
-//                    case "Page" -> {
                     case "PageResponse" -> {
                         isPage = true;
+                        continue;
+                    }
+                    case "FormData" -> {
+                        isFormData = true;
                         continue;
                     }
                     case "HttpServletRequest" -> {
@@ -245,7 +251,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 }
                 String annoCode = TAB + "@" + annoEntry.getKey();
                 if (CollUtil.isNotEmpty(annoEntry.getValue())) {
-                    StringJoiner valueJoiner = new StringJoiner("\", \"", "({\"", "\"})");
+                    StringJoiner valueJoiner = new StringJoiner("\", \"", "(value = {\"", isFormData ? "\"}, consumes = \"multipart/form-data\")" : "\"})");
                     valueJoiner.setEmptyValue("");
                     for (String s : annoEntry.getValue()) {
                         List<String> all = ReUtil.findAll("\\{\\s*\\w+\\s*}", s, 0);
@@ -279,7 +285,10 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             returnType = "PageResponse<" + returnType + ">";
         }
         returnType = "ResponseEntity<" + returnType + ">";
-        if (isPost && !interfaceFunction.getParamList().isEmpty() && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().getFirst().getParamType().isIntype())) {
+        if (isPost
+                && !isFormData
+                && !interfaceFunction.getParamList().isEmpty()
+                && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().getFirst().getParamType().isIntype())) {
             // NOTE 对多个参数的post方法进行特殊处理
             StringJoiner outerParamCode1 = new StringJoiner(",\n", "\n", "\n" + TAB);
             outerParamCode1.add(TAB + TAB + "@RequestBody java.util.Map<String, Object> _requestMap");
@@ -323,15 +332,27 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         }
         StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
         for (var param : interfaceFunction.getParamList()) {
-            String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
+            String format = isPost && !isFormData ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
             String paramAnno = "";
-            if (pathVarSet.contains(param.getParamName())) {
-                paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
-            }
             if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
                 paramAnno += "@Nullable ";
             }
-            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, param.getParamType().javaString(), param.getParamName()));
+            if (pathVarSet.contains(param.getParamName())) {
+                paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
+            } else if (!isPost) {
+                paramAnno += "@RequestParam ";
+            }
+            String paramType;
+            if (isFormData
+                    && (param.getParamType().isCollection() && ParseRestfulSyntaxTreeUtil.Intypes.BINARY.equals(param.getParamType().getT1().getToken())
+                    || ParseRestfulSyntaxTreeUtil.Intypes.BINARY.equals(param.getParamType().getToken()))
+            ) {
+                // 传参为二进制单文件或多文件
+                paramType = "MultipartFile";
+            } else {
+                paramType = param.getParamType().javaString();
+            }
+            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, paramType, param.getParamName()));
         }
         if (hasRequestParam) {
             paramCode.add(TAB + TAB + TAB + "HttpServletRequest _request");
@@ -348,7 +369,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return code.toString();
     }
 
-    private void generateRestJavaDtos(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaDtos(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var classBean : rootBean.getClassList()) {
             result.add(genDtoFile(restfulRoot, classBean));

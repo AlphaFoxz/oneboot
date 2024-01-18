@@ -1,0 +1,10 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
+namespace ts gen.sdk.apis
+
+/* 文档生成接口 */
+@uri(/_sdk/genDoc)
+interface SdkGenDocApi {
+    /* 生成word Api文档 */
+    @getUri(/generateWordApi)
+    list<byte> generateWordApi(/*模块名称*/string moduleName)
+}

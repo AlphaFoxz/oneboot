@@ -34,10 +34,12 @@ allprojects {
             dependency("org.mapstruct:mapstruct-processor:1.5.5.Final")
             dependency("org.apache.thrift:libthrift:0.18.1")
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-            dependency("cn.hutool:hutool-all:5.8.23")
+            dependency("cn.hutool:hutool-all:5.8.25")
             dependency("org.jooq:jooq-postgres-extensions:3.18.7")
             dependency("org.jooq:jooq-codegen:3.18.7")
             dependency("com.google.code.findbugs:annotations:3.0.1")
+            dependency("org.apache.poi:poi-ooxml:5.2.5")
+            dependency("com.deepoove:poi-tl:1.12.1")
         }
     }
 }
@@ -144,6 +146,8 @@ project(":sdk") {
 
         implementation("org.apache.thrift:libthrift")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
+        implementation("org.apache.poi:poi-ooxml")
+        implementation("com.deepoove:poi-tl")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }

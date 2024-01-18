@@ -9,7 +9,10 @@ import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.ifaces.SdkGenCodeIface;
 import com.github.alphafoxz.oneboot.sdk.service.SdkInfoService;
 import com.github.alphafoxz.oneboot.sdk.service.SdkThriftService;
-import com.github.alphafoxz.oneboot.sdk.service.gen.entity.CodeFile;
+import com.github.alphafoxz.oneboot.sdk.service.gen.code.CodeFile;
+import com.github.alphafoxz.oneboot.sdk.service.gen.code.SdkGenRestfulJava;
+import com.github.alphafoxz.oneboot.sdk.service.gen.code.SdkGenRestfulSql;
+import com.github.alphafoxz.oneboot.sdk.service.gen.code.SdkGenRestfulTs;
 import com.github.alphafoxz.oneboot.sdk.service.version.SdkVersionStoreService;
 import com.github.alphafoxz.oneboot.sdk.toolkit.ParseRestfulSyntaxTreeUtil;
 import jakarta.annotation.Resource;
@@ -29,7 +32,7 @@ import java.util.TreeMap;
 // 执行命令为 thrift-0.18.1.exe -out F:\idea_projects\oneboot\sdk\src\main\java --gen java .\CommandIface.thrift
 @Slf4j
 @Service
-public class SdkGenCodeService implements SdkGenCodeIface.Iface {
+public class SdkGenRestfulCodeService implements SdkGenCodeIface.Iface {
     @Resource
     private Snowflake snowflake;
     @Resource

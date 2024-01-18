@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.toolkit;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateDto;
 import lombok.Data;
@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 
 import java.io.File;
 import java.util.List;
@@ -294,7 +295,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             JAVA_INTYPE_MAP.put(Intypes.INT, "Integer");
             JAVA_INTYPE_MAP.put(Intypes.LONG, "Long");
             JAVA_INTYPE_MAP.put(Intypes.DOUBLE, "Double");
-            JAVA_INTYPE_MAP.put(Intypes.BINARY, "String");
+            JAVA_INTYPE_MAP.put(Intypes.BINARY, "Object");
             JAVA_INTYPE_MAP.put(Intypes.STRING, "String");
 
             TS_INTYPE_MAP.put(Intypes.BOOLEAN, "boolean");
@@ -306,7 +307,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TS_INTYPE_MAP.put(Intypes.INT, "number");
             TS_INTYPE_MAP.put(Intypes.LONG, "bigint");
             TS_INTYPE_MAP.put(Intypes.DOUBLE, "number");
-            TS_INTYPE_MAP.put(Intypes.BINARY, "string");
+            TS_INTYPE_MAP.put(Intypes.BINARY, "File");
             TS_INTYPE_MAP.put(Intypes.STRING, "string");
 
             SQL_INTYPE_MAP.put(Intypes.BOOLEAN, "bool");
@@ -322,6 +323,8 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             SQL_INTYPE_MAP.put(Intypes.STRING, "varchar(200)");
         }
 
+        private Modifier modifier = Modifier.REQUIRED;
+        private String token;
         private String javaSimpleName;
         private String tsSimpleName;
         private String sqlSimpleName;
@@ -346,6 +349,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             if (this.isMap) {
                 return javaSimpleName + "<" + t1.javaString() + ", " + t2.javaString() + ">";
             } else if (this.isCollection) {
+                // 对于二进制集合，我们实际上期望它的类型是byte[]，而不是List<Byte>
+                if (Intypes.BYTE.equals(this.t1.getToken())) {
+                    return "byte[]";
+                }
                 return javaSimpleName + "<" + t1.javaString() + ">";
             } else {
                 return javaSimpleName;
@@ -353,15 +360,19 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         }
 
         public String tsString() {
-            String str;
             if (this.isMap) {
-                str = "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
+                return "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
             } else if (this.isCollection) {
-                str = /*tsSimpleName*/t1.tsString() + "[]";
+                // 对于二进制集合，我们实际上期望它实现上传/下载功能
+                if (this.getT1().getToken().equals(Intypes.BYTE)) {
+                    return "string";
+                } else if (this.getT1().getToken().equals(Intypes.BINARY)) {
+                    return "FileList";
+                }
+                return t1.tsString() + "[]";
             } else {
-                str = tsSimpleName;
+                return tsSimpleName;
             }
-            return str;
         }
 
         public String sqlString() {
@@ -441,7 +452,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             Map<String, Object> rootAst = parser.parseMap(dto.getAst());
             List rootPairs = (List) rootAst.get(PAIRS);
             if (rootPairs == null || rootPairs.isEmpty()) {
-                throw new OnebootGenCodeException("根节点不能为空", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new OnebootGenException("根节点不能为空", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -576,7 +587,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 }
                 return result;
             }
-            throw new OnebootGenCodeException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new OnebootGenException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         public AnnotationBean parseAnnotation(Map annoAst) {
@@ -595,6 +606,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.setAnnotationName("PostMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "getUri")) {
                             result.getImportTypeName().add("org.springframework.web.bind.annotation.GetMapping");
+                            result.getImportTypeName().add("org.springframework.web.bind.annotation.RequestParam");
                             result.setAnnotationName("GetMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "putUri")) {
                             result.getImportTypeName().add("org.springframework.web.bind.annotation.PutMapping");
@@ -613,6 +625,9 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
                             result.getImportTypeName().add(c.getName());
                             result.setAnnotationName(c.getSimpleName());
+                        } else if (StrUtil.equalsIgnoreCase(annoName, "formData")) {
+                            result.getImportTypeName().add("org.springframework.web.multipart.MultipartFile");
+                            result.setAnnotationName("FormData");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "request")) { //注入request
                             result.getImportTypeName().add("jakarta.servlet.http.HttpServletRequest");
                             result.setAnnotationName("HttpServletRequest");
@@ -747,16 +762,19 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
                     case MODIFIER -> modifier = Modifier.getEnumByName((String) pairMap.get(INNER));
-                    case CONTAIN_LIST -> result.setType(parseContainList((Map) pairMap.get(INNER)));
-                    case CONTAIN_MAP -> result.setType(parseContainMap((Map) pairMap.get(INNER)));
-                    case CONTAIN_SET -> result.setType(parseContainSet((Map) pairMap.get(INNER)));
+                    case CONTAIN_LIST -> result.setType(parseContainList((Map) pairMap.get(INNER), modifier));
+                    case CONTAIN_MAP -> result.setType(parseContainMap((Map) pairMap.get(INNER), modifier));
+                    case CONTAIN_SET -> result.setType(parseContainSet((Map) pairMap.get(INNER), modifier));
                     case REF_ENUM -> result.setType(parseRefEnum((Map) pairMap.get(INNER), modifier));
-                    case INTYPE -> result.setType(parseIntype((String) pairMap.get(INNER)));
-                    case UTYPE -> result.setType(parseUtype((Map) pairMap.get(INNER)));
+                    case INTYPE -> result.setType(parseIntype((String) pairMap.get(INNER), modifier));
+                    case UTYPE -> result.setType(parseUtype((Map) pairMap.get(INNER), modifier));
                     case CLASS_FIELD_NAME -> result.setFieldName((String) pairMap.get(INNER));
                 }
             }
             result.setModifier(modifier);
+            if (Modifier.OPTIONAL.equals(modifier)) {
+                result.getImportTypeName().add(Nullable.class.getName());
+            }
             return result;
         }
 
@@ -812,6 +830,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.setReturnType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), Modifier.REQUIRED)));
                     case VOID -> { // 没有返回值
                         TypeBean returnType = new TypeBean();
+                        returnType.setToken("void");
                         returnType.setJavaSimpleName("void");
                         returnType.setTsSimpleName("null");
                         result.setReturnType(returnType);
@@ -827,7 +846,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                         result.getImportTypeName().add("io.swagger.v3.oas.annotations.Parameter");
                         ParamBean param = parseParam((Map) pairMap.get(INNER));
                         if (Modifier.OPTIONAL.equals(param.getModifier())) {
-                            result.getImportTypeName().add("org.springframework.lang.Nullable");
+                            result.getImportTypeName().add(Nullable.class.getName());
                         }
                         if (doc != null) {
                             param.setDoc(doc);
@@ -859,38 +878,41 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         public TypeBean parseType(Map typeAst, Modifier modifier) {
             for (Map pairMap : (List<Map>) typeAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
+                TypeBean result;
+
                 switch (ruleName) {
-                    case INTYPE -> {
-                        return parseIntype((String) pairMap.get(INNER));
-                    }
-                    case CONTAIN_MAP -> {
-                        return parseContainMap((Map) pairMap.get(INNER));
-                    }
-                    case CONTAIN_LIST -> {
-                        return parseContainList((Map) pairMap.get(INNER));
-                    }
-                    case REF_ENUM -> {
-                        return parseRefEnum((Map) pairMap.get(INNER), modifier);
-                    }
-                    case UTYPE -> {
-                        return parseUtype((Map) pairMap.get(INNER));
-                    }
+                    case INTYPE -> result = parseIntype((String) pairMap.get(INNER), modifier);
+                    case CONTAIN_MAP -> result = parseContainMap((Map) pairMap.get(INNER), modifier);
+                    case CONTAIN_LIST -> result = parseContainList((Map) pairMap.get(INNER), modifier);
+                    case CONTAIN_SET -> result = parseContainSet((Map) pairMap.get(INNER), modifier);
+                    case REF_ENUM -> result = parseRefEnum((Map) pairMap.get(INNER), modifier);
+                    case UTYPE -> result = parseUtype((Map) pairMap.get(INNER));
+                    default ->
+                            throw new OnebootGenException("unknown type rule: " + ruleName, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
+                if (Modifier.OPTIONAL.equals(modifier)) {
+                    result.getImportJavaTypeName().add(Nullable.class.getName());
+                }
+                return result;
             }
             return null;
         }
 
-        public TypeBean parseIntype(String intypeString) {
+        public TypeBean parseIntype(String intypeString, Modifier modifier) {
             TypeBean result = new TypeBean();
             result.setIntype(true);
+            result.setToken(intypeString);
+            result.setModifier(modifier);
             result.setJavaSimpleName(TypeBean.JAVA_INTYPE_MAP.get(intypeString));
             result.setTsSimpleName(TypeBean.TS_INTYPE_MAP.get(intypeString));
             result.setSqlSimpleName(TypeBean.SQL_INTYPE_MAP.get(intypeString));
             return result;
         }
 
-        public TypeBean parseContainMap(Map ast) {
+        public TypeBean parseContainMap(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
+            result.setToken(CONTAIN_MAP);
+            result.setModifier(modifier);
             result.setJavaSimpleName("Map");
             result.setTsSimpleName("Record");
             result.setSqlSimpleName("jsonb");
@@ -899,18 +921,19 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_MAP_KEYTYPE.equals(innerRuleName)) {
-                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
+                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).getFirst();
                     result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 } else if (CONTAIN_MAP_VALUETYPE.equals(innerRuleName)) {
-                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
+                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).getFirst();
                     result.setT2(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseContainList(Map ast) {
+        public TypeBean parseContainList(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
+            result.setToken(CONTAIN_LIST);
             result.setJavaSimpleName("List");
             result.setTsSimpleName("");
             result.setSqlSimpleName("jsonb");
@@ -919,15 +942,17 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_LIST_TYPE.equals(innerRuleName)) {
-                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
+                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).getFirst();
                     result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseContainSet(Map ast) {
+        public TypeBean parseContainSet(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
+            result.setModifier(modifier);
+            result.setToken(CONTAIN_SET);
             result.setJavaSimpleName("Set");
             result.setTsSimpleName("");
             result.setSqlSimpleName("jsonb");
@@ -936,7 +961,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_SET_TYPE.equals(innerRuleName)) {
-                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
+                    Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).getFirst();
                     result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
                 }
             }
@@ -945,6 +970,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
 
         public TypeBean parseRefEnum(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
+            result.setToken(REF_ENUM);
             if (Modifier.REQUIRED.equals(modifier)) {
                 result.setJavaSimpleName("int");
             } else {
@@ -963,6 +989,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         }
 
         public TypeBean parseUtype(Map ast) {
+            return parseUtype(ast, Modifier.REQUIRED);
+        }
+
+        public TypeBean parseUtype(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
             String importJavaPackage = null;
             String importTsTypeName = "";
@@ -979,7 +1009,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                     String javaPackageName = restfulIncludeBean.getRootBean().getJavaNameSpace();
                     if (javaPackageName == null) {
-                        throw new OnebootGenCodeException("import数据类型有误，请检查", HttpStatus.INTERNAL_SERVER_ERROR);
+                        throw new OnebootGenException("import数据类型有误，请检查", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     importJavaPackage = javaPackageName;
                 } else if (UTYPE_CUSTOMNAME.equals(innerRuleName)) {
@@ -998,6 +1028,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             }
             result.setTsSimpleName(importTsTypeName);
             result.setSqlSimpleName("jsonb");
+            result.setToken(UTYPE);
             return result;
         }
     }

@@ -1,0 +1,10 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.enums
+namespace ts gen.sdk.enums
+
+/*CRUD service的枚举类*/
+enum SdkCrudServiceTypeEnum {
+    /* 有缓存的增删改查 */
+    CACHED = 0,
+    /* ABAC数据鉴权 + 缓存的增删改查 */
+    ABAC_CACHED = 1
+}
