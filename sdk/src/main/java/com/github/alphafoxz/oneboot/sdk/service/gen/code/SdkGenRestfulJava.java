@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
@@ -85,7 +85,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析接口方法
             for (var interfaceFunction : interfaceBean.getInterfaceFunctionList()) {
                 if (interfaceFunction.getAnnotationMap().get("RequestMapping") != null) {
-                    throw new OnebootGenCodeException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
+                    throw new OnebootGenException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 code.add(genInterfaceFunctionCode(interfaceFunction));
             }
@@ -98,7 +98,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return codeFile;
     }
 
-    private void generateRestJavaIfaces(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaIfaces(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var interfaceBean : rootBean.getInterfaceList()) {
             result.add(genApiFile(restfulRoot, interfaceBean));
@@ -148,7 +148,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return codeFile;
     }
 
-    private void generateRestJavaEnums(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaEnums(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var enumBean : rootBean.getEnumList()) {
             result.add(genEnumFile(restfulRoot, enumBean));
@@ -251,7 +251,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                 }
                 String annoCode = TAB + "@" + annoEntry.getKey();
                 if (CollUtil.isNotEmpty(annoEntry.getValue())) {
-                    StringJoiner valueJoiner = new StringJoiner("\", \"", "({\"", "\"})");
+                    StringJoiner valueJoiner = new StringJoiner("\", \"", "(value = {\"", isFormData ? "\"}, consumes = \"multipart/form-data\")" : "\"})");
                     valueJoiner.setEmptyValue("");
                     for (String s : annoEntry.getValue()) {
                         List<String> all = ReUtil.findAll("\\{\\s*\\w+\\s*}", s, 0);
@@ -339,7 +339,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             }
             if (pathVarSet.contains(param.getParamName())) {
                 paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
-            } else if (!isPost || isFormData) {
+            } else if (!isPost) {
                 paramAnno += "@RequestParam ";
             }
             String paramType;
@@ -369,7 +369,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         return code.toString();
     }
 
-    private void generateRestJavaDtos(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, Set<CodeFile> result) throws OnebootGenCodeException {
+    private void generateRestJavaDtos(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, Set<CodeFile> result) throws OnebootGenException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (var classBean : rootBean.getClassList()) {
             result.add(genDtoFile(restfulRoot, classBean));

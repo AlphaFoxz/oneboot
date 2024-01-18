@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.toolkit;
 
 import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateDto;
 import lombok.Data;
@@ -452,7 +452,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             Map<String, Object> rootAst = parser.parseMap(dto.getAst());
             List rootPairs = (List) rootAst.get(PAIRS);
             if (rootPairs == null || rootPairs.isEmpty()) {
-                throw new OnebootGenCodeException("根节点不能为空", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new OnebootGenException("根节点不能为空", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -587,7 +587,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 }
                 return result;
             }
-            throw new OnebootGenCodeException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new OnebootGenException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         public AnnotationBean parseAnnotation(Map annoAst) {
@@ -888,7 +888,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     case REF_ENUM -> result = parseRefEnum((Map) pairMap.get(INNER), modifier);
                     case UTYPE -> result = parseUtype((Map) pairMap.get(INNER));
                     default ->
-                            throw new OnebootGenCodeException("unknown type rule: " + ruleName, HttpStatus.INTERNAL_SERVER_ERROR);
+                            throw new OnebootGenException("unknown type rule: " + ruleName, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 if (Modifier.OPTIONAL.equals(modifier)) {
                     result.getImportJavaTypeName().add(Nullable.class.getName());
@@ -1009,7 +1009,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                     String javaPackageName = restfulIncludeBean.getRootBean().getJavaNameSpace();
                     if (javaPackageName == null) {
-                        throw new OnebootGenCodeException("import数据类型有误，请检查", HttpStatus.INTERNAL_SERVER_ERROR);
+                        throw new OnebootGenException("import数据类型有误，请检查", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     importJavaPackage = javaPackageName;
                 } else if (UTYPE_CUSTOMNAME.equals(innerRuleName)) {

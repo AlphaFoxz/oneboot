@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.service.gen.code;
 
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
@@ -131,7 +131,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
         String serviceUri = "";
         List<String> requestMappingValues = interfaceBean.getAnnotationMap().get(RequestMapping.class.getSimpleName());
         if (requestMappingValues == null) {
-            throw new OnebootGenCodeException("api缺少uri映射", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new OnebootGenException("api缺少uri映射", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (CollUtil.isNotEmpty(requestMappingValues)) {
             serviceUri = requestMappingValues.getFirst();
@@ -155,7 +155,7 @@ public class SdkGenRestfulTs implements RestfulCodeGenerator {
                         isFormData = true;
                     }
                     case "RequestMapping" -> {
-                        throw new OnebootGenCodeException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
+                        throw new OnebootGenException("@uri不允许注解在具体方法上，必须指定一个特定的http方法，请使用@postUri或@getUri", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     case GET_MAPPING -> {
                         functionUri = annoEntry.getValue().getFirst();

@@ -7,7 +7,4 @@ interface SdkGenDocApi {
     /* 生成word Api文档 */
     @getUri(/generateWordApi)
     list<byte> generateWordApi(/*模块名称*/string moduleName)
-    /* 生成Excel Api文档 */
-    @getUri(/generateExcelApi)
-    list<byte> generateExcelApi(/*模块名称*/string moduleName)
 }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({"/app/test"})
 @Tag(name = "AppTestApi", description = "测试API")
 public interface AppTestApi extends HttpController {
-    @GetMapping({"/query/{id}"})
+    @GetMapping(value = {"/query/{id}"})
     @Operation(summary = "查询单条", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -34,7 +34,7 @@ public interface AppTestApi extends HttpController {
             @Parameter(description = "主键") @PathVariable("id") Long id
     );
 
-    @GetMapping({"/queryPage/{pageNum}/{pageSize}"})
+    @GetMapping(value = {"/queryPage/{pageNum}/{pageSize}"})
     @Operation(summary = "分页", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -45,7 +45,7 @@ public interface AppTestApi extends HttpController {
             @Parameter(description = "每页数据量") @PathVariable("pageSize") Integer pageSize
     );
 
-    @PostMapping({"/update"})
+    @PostMapping(value = {"/update"})
     @Operation(summary = "更新", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -55,7 +55,7 @@ public interface AppTestApi extends HttpController {
             @Parameter(description = "更新参数") @RequestBody AppTestInfoDto param
     );
 
-    @GetMapping({"/download"})
+    @GetMapping(value = {"/download"})
     @Operation(summary = "测试下载功能", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -65,15 +65,15 @@ public interface AppTestApi extends HttpController {
             @Parameter(description = "模块名称") @RequestParam Long id
     );
 
-    @PostMapping({"/upload"})
+    @PostMapping(value = {"/upload"}, consumes = "multipart/form-data")
     @Operation(summary = "测试上传功能", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<?> upload(
-            @Parameter(description = "上传文件") @RequestParam MultipartFile file,
-            @Parameter(description = "名称") @RequestParam String name
+            @Parameter(description = "上传文件") MultipartFile file,
+            @Parameter(description = "名称") String name
     );
 
 }

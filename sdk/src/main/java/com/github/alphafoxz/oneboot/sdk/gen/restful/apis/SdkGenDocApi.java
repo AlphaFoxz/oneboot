@@ -27,14 +27,4 @@ public interface SdkGenDocApi extends HttpController {
             @Parameter(description = "模块名称") @RequestParam String moduleName
     );
 
-    @GetMapping({"/generateExcelApi"})
-    @Operation(summary = "生成Excel Api文档", responses = {
-            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
-            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
-    })
-    public ResponseEntity<byte[]> generateExcelApi(
-            @Parameter(description = "模块名称") @RequestParam String moduleName
-    );
-
 }

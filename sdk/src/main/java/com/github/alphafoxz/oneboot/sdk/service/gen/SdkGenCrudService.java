@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.service.gen;
 
 import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenCodeException;
+import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ResourceUtil;
@@ -41,11 +41,11 @@ public class SdkGenCrudService {
     public void generateTableCrud(@NonNull String moduleName, @NonNull String poName, int serviceType, @NonNull Boolean force) {
         String formatStr;
         if (serviceType == SdkCrudServiceTypeEnum.ABAC_CACHED.getValue()) {
-            formatStr = ResourceUtil.getResourceObj("classpath:sdk/abac_cached_crud_service.java.vm").readUtf8Str();
+            formatStr = ResourceUtil.getResourceObj("classpath:sdk/crud/abac_cached_crud_service.java.vm").readUtf8Str();
         } else if (serviceType == SdkCrudServiceTypeEnum.CACHED.getValue()) {
-            formatStr = ResourceUtil.getResourceObj("classpath:sdk/cached_crud_service.java.vm").readUtf8Str();
+            formatStr = ResourceUtil.getResourceObj("classpath:sdk/crud/cached_crud_service.java.vm").readUtf8Str();
         } else {
-            throw new OnebootGenCodeException("未定义的CURD service类型，请确认传参", HttpStatus.BAD_REQUEST);
+            throw new OnebootGenException("未定义的CURD service类型，请确认传参", HttpStatus.BAD_REQUEST);
         }
         String fileName = StrUtil.upperFirst(poName) + "Crud.java";
         String basePackage = commonProperties.getBasePackage();

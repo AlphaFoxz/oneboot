@@ -21,13 +21,4 @@ public class SdkGenDocController implements SdkGenDocApi {
         return U.fileBodyBuilder(OK_200, fileName)
                 .body(FileUtil.readBytes(file));
     }
-
-    @Override
-    public ResponseEntity<byte[]> generateExcelApi(String moduleName) {
-//        File file = sdkGenDocService.generateExcelApi(moduleName);
-        File file = FileUtil.file("C:\\Users\\Wong\\Pictures\\Screenshots\\Screenshot 2024-01-02 225820.png");
-        String fileName = moduleName + "模块Api文档.png";
-        return U.fileBodyBuilder(OK_200, fileName)
-                .body(FileUtil.readBytes(file));
-    }
 }
