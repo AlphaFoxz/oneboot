@@ -5,6 +5,7 @@ import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
 import com.github.alphafoxz.oneboot.app.gen.restful.apis.AppTestApi;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import com.github.alphafoxz.oneboot.app.service.crud.AppTestCrud;
+import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -93,6 +96,19 @@ public class AppTestController implements AppTestApi {
     @Override
     public ResponseEntity<Boolean> update(AppTestInfoDto param) {
         AppTestRecord appTestRecord = new AppTestRecord();
+        return ResponseEntity.ok(true);
+    }
+
+    @Override
+    public ResponseEntity<byte[]> download(Long id) {
+        File file = FileUtil.file("C:\\Users\\Wong\\Pictures\\Screenshots\\Screenshot 2024-01-02 225820.png");
+        String fileName = "测试下载文件.png";
+        return U.fileBodyBuilder(OK_200, fileName)
+                .body(FileUtil.readBytes(file));
+    }
+
+    @Override
+    public ResponseEntity<?> upload(MultipartFile file, String name) {
         return ResponseEntity.ok(true);
     }
 

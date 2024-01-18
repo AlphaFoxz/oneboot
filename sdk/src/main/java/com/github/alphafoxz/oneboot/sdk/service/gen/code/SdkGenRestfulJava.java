@@ -217,6 +217,7 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         // 是否分页
         boolean isPage = false;
         boolean isPost = false;
+        boolean isFormData = false;
         boolean hasRequestParam = false;
         boolean hasResponseParam = false;
         Set<String> pathVarSet = CollUtil.newHashSet();
@@ -231,9 +232,12 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
                 switch (annoEntry.getKey()) {
-//                    case "Page" -> {
                     case "PageResponse" -> {
                         isPage = true;
+                        continue;
+                    }
+                    case "FormData" -> {
+                        isFormData = true;
                         continue;
                     }
                     case "HttpServletRequest" -> {
@@ -281,7 +285,10 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
             returnType = "PageResponse<" + returnType + ">";
         }
         returnType = "ResponseEntity<" + returnType + ">";
-        if (isPost && !interfaceFunction.getParamList().isEmpty() && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().getFirst().getParamType().isIntype())) {
+        if (isPost
+                && !isFormData
+                && !interfaceFunction.getParamList().isEmpty()
+                && (interfaceFunction.getParamList().size() > 1 || interfaceFunction.getParamList().getFirst().getParamType().isIntype())) {
             // NOTE 对多个参数的post方法进行特殊处理
             StringJoiner outerParamCode1 = new StringJoiner(",\n", "\n", "\n" + TAB);
             outerParamCode1.add(TAB + TAB + "@RequestBody java.util.Map<String, Object> _requestMap");
@@ -325,17 +332,27 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
         }
         StringJoiner paramCode = new StringJoiner(",\n", "\n", "\n" + TAB);
         for (var param : interfaceFunction.getParamList()) {
-            String format = isPost ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
+            String format = isPost && !isFormData ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
             String paramAnno = "";
             if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
                 paramAnno += "@Nullable ";
             }
             if (pathVarSet.contains(param.getParamName())) {
                 paramAnno += "@PathVariable(\"" + param.getParamName() + "\") ";
-            } else if (!isPost) {
+            } else if (!isPost || isFormData) {
                 paramAnno += "@RequestParam ";
             }
-            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, param.getParamType().javaString(), param.getParamName()));
+            String paramType;
+            if (isFormData
+                    && (param.getParamType().isCollection() && ParseRestfulSyntaxTreeUtil.Intypes.BINARY.equals(param.getParamType().getT1().getToken())
+                    || ParseRestfulSyntaxTreeUtil.Intypes.BINARY.equals(param.getParamType().getToken()))
+            ) {
+                // 传参为二进制单文件或多文件
+                paramType = "MultipartFile";
+            } else {
+                paramType = param.getParamType().javaString();
+            }
+            paramCode.add(StrUtil.format(format, commentDocToStringWrapParam(param.getDoc()), paramAnno, paramType, param.getParamName()));
         }
         if (hasRequestParam) {
             paramCode.add(TAB + TAB + TAB + "HttpServletRequest _request");

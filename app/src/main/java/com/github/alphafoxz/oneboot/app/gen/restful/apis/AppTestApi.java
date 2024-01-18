@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 // 本api为自动生成代码，请勿修改
@@ -51,6 +53,27 @@ public interface AppTestApi extends HttpController {
     })
     public ResponseEntity<Boolean> update(
             @Parameter(description = "更新参数") @RequestBody AppTestInfoDto param
+    );
+
+    @GetMapping({"/download"})
+    @Operation(summary = "测试下载功能", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<byte[]> download(
+            @Parameter(description = "模块名称") @RequestParam Long id
+    );
+
+    @PostMapping({"/upload"})
+    @Operation(summary = "测试上传功能", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<?> upload(
+            @Parameter(description = "上传文件") @RequestParam MultipartFile file,
+            @Parameter(description = "名称") @RequestParam String name
     );
 
 }

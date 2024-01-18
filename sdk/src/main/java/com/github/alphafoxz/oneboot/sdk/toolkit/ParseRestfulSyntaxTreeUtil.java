@@ -295,7 +295,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             JAVA_INTYPE_MAP.put(Intypes.INT, "Integer");
             JAVA_INTYPE_MAP.put(Intypes.LONG, "Long");
             JAVA_INTYPE_MAP.put(Intypes.DOUBLE, "Double");
-            JAVA_INTYPE_MAP.put(Intypes.BINARY, "Resource");
+            JAVA_INTYPE_MAP.put(Intypes.BINARY, "Object");
             JAVA_INTYPE_MAP.put(Intypes.STRING, "String");
 
             TS_INTYPE_MAP.put(Intypes.BOOLEAN, "boolean");
@@ -307,7 +307,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             TS_INTYPE_MAP.put(Intypes.INT, "number");
             TS_INTYPE_MAP.put(Intypes.LONG, "bigint");
             TS_INTYPE_MAP.put(Intypes.DOUBLE, "number");
-            TS_INTYPE_MAP.put(Intypes.BINARY, "Blob");
+            TS_INTYPE_MAP.put(Intypes.BINARY, "File");
             TS_INTYPE_MAP.put(Intypes.STRING, "string");
 
             SQL_INTYPE_MAP.put(Intypes.BOOLEAN, "bool");
@@ -363,9 +363,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             if (this.isMap) {
                 return "Record<" + t1.tsString() + ", " + t2.tsString() + ">";
             } else if (this.isCollection) {
-                // 对于二进制集合，我们实际上期望它实现下载功能
+                // 对于二进制集合，我们实际上期望它实现上传/下载功能
                 if (this.getT1().getToken().equals(Intypes.BYTE)) {
                     return "string";
+                } else if (this.getT1().getToken().equals(Intypes.BINARY)) {
+                    return "FileList";
                 }
                 return t1.tsString() + "[]";
             } else {
@@ -623,6 +625,9 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
                             result.getImportTypeName().add(c.getName());
                             result.setAnnotationName(c.getSimpleName());
+                        } else if (StrUtil.equalsIgnoreCase(annoName, "formData")) {
+                            result.getImportTypeName().add("org.springframework.web.multipart.MultipartFile");
+                            result.setAnnotationName("FormData");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "request")) { //注入request
                             result.getImportTypeName().add("jakarta.servlet.http.HttpServletRequest");
                             result.setAnnotationName("HttpServletRequest");

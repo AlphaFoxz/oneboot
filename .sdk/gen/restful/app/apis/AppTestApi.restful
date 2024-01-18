@@ -18,4 +18,11 @@ interface AppTestApi {
     /*更新*/
     @postUri(/update)
     boolean update(/*更新参数*/ AppTestDto.AppTestInfoDto param)
+    /* 测试下载功能 */
+    @getUri(/download)
+    list<byte> download(/*模块名称*/i64 id)
+    /* 测试上传功能 */
+    @formData
+    @postUri(/upload)
+    void upload(/*上传文件*/list<binary> file, /*名称*/string name)
 }
