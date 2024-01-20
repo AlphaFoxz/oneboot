@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.thrift.TException;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.http.HttpStatus;
 
@@ -15,9 +14,10 @@ import java.io.File;
 import java.util.*;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
+@Deprecated
 @Slf4j
 public final class ParseThriftSyntaxTreeUtil {
-    public static ThriftRootBean parseThriftRoot(SdkCodeTemplateDto dto) throws TException {
+    public static ThriftRootBean parseThriftRoot(SdkCodeTemplateDto dto) throws Exception {
         String filePath = dto.getFilePath();
         String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
 
@@ -40,7 +40,7 @@ public final class ParseThriftSyntaxTreeUtil {
         private final RootBean rootBean;
         private final ThriftRootBean parentRootBean;
 
-        public ThriftIncludeBean(ThriftRootBean parentRootBean, SdkCodeTemplateDto dto) throws TException {
+        public ThriftIncludeBean(ThriftRootBean parentRootBean, SdkCodeTemplateDto dto) throws Exception {
             filePath = dto.getFilePath();
             fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
             content = dto.getContent();
@@ -408,17 +408,17 @@ public final class ParseThriftSyntaxTreeUtil {
             rootBean = new RootBean();
         }
 
-        private RootBean build() throws TException {
+        private RootBean build() throws Exception {
             this.parseRoot();
             return rootBean;
         }
 
-        private void parseRoot() throws TException {
+        private void parseRoot() throws Exception {
             JacksonJsonParser parser = new JacksonJsonParser();
             Map<String, Object> rootAst = parser.parseMap(dto.getAst());
             List rootPairs = (List) rootAst.get(PAIRS);
             if (rootPairs == null || rootPairs.isEmpty()) {
-                throw new TException("根节点不能为空");
+                throw new Exception("根节点不能为空");
             }
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -535,7 +535,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public CommentBean parseComment(Map commentAst) throws TException {
+        public CommentBean parseComment(Map commentAst) throws Exception {
             for (Map pairMap : (List<Map>) commentAst.get(PAIRS)) {
                 CommentBean result = new CommentBean();
                 String ruleName = (String) pairMap.get(RULE);
@@ -606,10 +606,10 @@ public final class ParseThriftSyntaxTreeUtil {
                 }
                 return result;
             }
-            throw new TException("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst));
+            throw new Exception("非预期的注解：\n" + JSONUtil.toJsonStr(commentAst));
         }
 
-        public EnumBean parseEnum(Map enumAst) throws TException {
+        public EnumBean parseEnum(Map enumAst) throws Exception {
             EnumBean result = new EnumBean();
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -665,7 +665,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public StructBean parseStruct(Map structAst) throws TException {
+        public StructBean parseStruct(Map structAst) throws Exception {
             StructBean result = new StructBean();
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -708,7 +708,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public StructBean.StructAttributeBean parseStructAttribute(Map structAttributeAst) throws TException {
+        public StructBean.StructAttributeBean parseStructAttribute(Map structAttributeAst) throws Exception {
             StructBean.StructAttributeBean result = new StructBean.StructAttributeBean();
             for (Map pairMap : (List<Map>) structAttributeAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
@@ -727,7 +727,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public ServiceBean parseService(Map serviceAst) throws TException {
+        public ServiceBean parseService(Map serviceAst) throws Exception {
             ServiceBean result = new ServiceBean();
             CommentBean targetDoc = null;
             final List<CommentBean> targetCommentList = CollUtil.newArrayList();
@@ -767,7 +767,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public ServiceBean.ServiceFunctionBean parseServiceFunction(Map serviceFunctionAst) throws TException {
+        public ServiceBean.ServiceFunctionBean parseServiceFunction(Map serviceFunctionAst) throws Exception {
             ServiceBean.ServiceFunctionBean result = new ServiceBean.ServiceFunctionBean();
             CommentBean doc = null;
             for (Map pairMap : (List<Map>) serviceFunctionAst.get(PAIRS)) {
@@ -801,7 +801,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Param parseParam(Map paramAst) throws TException {
+        public Param parseParam(Map paramAst) throws Exception {
             Param result = new Param();
             for (Map pairMap : (List<Map>) paramAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
@@ -815,7 +815,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Type parseType(Map typeAst) throws TException {
+        public Type parseType(Map typeAst) throws Exception {
             for (Map pairMap : (List<Map>) typeAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
@@ -847,7 +847,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Type parseContainMap(Map ast) throws TException {
+        public Type parseContainMap(Map ast) throws Exception {
             Type result = new Type();
             result.setJavaSimpleName("Map");
             result.setTsSimpleName("Record");
@@ -866,7 +866,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Type parseContainList(Map ast) throws TException {
+        public Type parseContainList(Map ast) throws Exception {
             Type result = new Type();
             result.setJavaSimpleName("List");
             result.setTsSimpleName("");
@@ -882,7 +882,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Type parseContainSet(Map ast) throws TException {
+        public Type parseContainSet(Map ast) throws Exception {
             Type result = new Type();
             result.setJavaSimpleName("Set");
             result.setTsSimpleName("");
@@ -898,7 +898,7 @@ public final class ParseThriftSyntaxTreeUtil {
             return result;
         }
 
-        public Type parseUtType(Map ast) throws TException {
+        public Type parseUtType(Map ast) throws Exception {
             Type result = new Type();
             String importJavaPackage = null;
             String importTsTypeName = "";
@@ -915,7 +915,7 @@ public final class ParseThriftSyntaxTreeUtil {
                     }
                     String javaPackageName = thriftIncludeBean.getRootBean().getJavaNameSpace();
                     if (javaPackageName == null) {
-                        throw new TException("import数据类型有误，请检查");
+                        throw new Exception("import数据类型有误，请检查");
                     }
                     importJavaPackage = javaPackageName;
                 } else if ("utype_customname".equals(innerRuleName)) {

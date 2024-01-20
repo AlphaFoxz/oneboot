@@ -1,6 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
 namespace ts gen.sdk.dtos
-namespace rs thrift.gen.dtos
+namespace rs gen.sdk.dtos
 
 import "./SdkCodeTemplateDto.restful"
 

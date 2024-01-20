@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                         .requestMatchers(
                                 mvcMatcherBuilder.pattern("/_sdk/**"),
+                                mvcMatcherBuilder.pattern("/_restfulDsl/**"),
                                 mvcMatcherBuilder.pattern("/app/test/**"),
                                 mvcMatcherBuilder.pattern("/preset_sys/auth/login"),
                                 mvcMatcherBuilder.pattern("/preset_sys/auth/logout"),

@@ -20,7 +20,7 @@ import java.util.StringJoiner;
 
 @Slf4j
 @Service
-public class SdkGenRestfulJava implements RestfulCodeGenerator {
+public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
     private static final String TAB = "    ";
     private final List<String> postAnnoList = CollUtil.newArrayList("PostMapping", "PutMapping", "PatchMapping");
     @Resource
@@ -300,7 +300,11 @@ public class SdkGenRestfulJava implements RestfulCodeGenerator {
                     paramAnno += "@Nullable ";
                 }
                 outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{}{} {}", paramAnno, param.getParamType().javaString(), param.getParamName()));
-                innerParamCode.add(StrUtil.format("({}) _requestMap.get(\"{}\")", param.getParamType().javaString(), param.getParamName()));
+                if (param.getParamType().isIntype()) {
+                    innerParamCode.add(StrUtil.format("({}) _requestMap.get(\"{}\")", param.getParamType().javaString(), param.getParamName()));
+                } else {
+                    innerParamCode.add(StrUtil.format("U.toBean(_requestMap.get(\"{}\"), {}.class)", param.getParamName(), param.getParamType().javaString()));
+                }
             }
             if (hasRequestParam) {
                 outerParamCode1.add(TAB + TAB + TAB + "HttpServletRequest _request");

@@ -1,5 +1,6 @@
 package com.github.alphafoxz.oneboot.common.standard.framework;
 
+import com.github.alphafoxz.oneboot.common.toolkit.coding.BeanUtil;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.URLUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,10 @@ public interface HttpController {
      * Tips: 对于不可口空的参数则应该自己根据实际情况返回http错误码
      */
     public static class U {
+        public static <T> T toBean(Object source, Class<T> clazz) {
+            return BeanUtil.toBean(source, clazz);
+        }
+
         public static ResponseEntity.BodyBuilder fileBodyBuilder(@NonNull String fileName) {
             return fileBodyBuilder(null, fileName);
         }

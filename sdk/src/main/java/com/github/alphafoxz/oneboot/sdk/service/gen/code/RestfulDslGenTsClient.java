@@ -18,7 +18,7 @@ import java.util.StringJoiner;
 
 @Slf4j
 @Service
-public class SdkGenRestfulTs implements RestfulCodeGenerator {
+public class RestfulDslGenTsClient implements RestfulCodeGenerator {
     private static final String TAB = "  ";
     final String GET_MAPPING = "GetMapping";
     final String POST_MAPPING = "PostMapping";

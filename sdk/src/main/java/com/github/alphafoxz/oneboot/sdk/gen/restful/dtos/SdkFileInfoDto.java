@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkFileTypeEnum;
 import java.util.List;
 import org.springframework.lang.Nullable;
 

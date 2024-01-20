@@ -16,7 +16,7 @@ import java.util.StringJoiner;
  */
 @Slf4j
 @Service
-public class SdkGenRestfulSql implements RestfulCodeGenerator {
+public class RestfulDslGenSqlPostgre implements RestfulCodeGenerator {
     private static final String TAB = "    ";
 
     @Override

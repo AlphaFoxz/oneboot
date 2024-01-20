@@ -5,7 +5,7 @@ import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkGenCodeApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvert;
 import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenCrudService;
-import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenRestfulCodeService;
+import com.github.alphafoxz.oneboot.sdk.service.gen.RestfulDslGenCodeService;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SdkGenCodeController implements SdkGenCodeApi {
     @Resource
-    private SdkGenRestfulCodeService sdkGenRestfulCodeService;
+    private RestfulDslGenCodeService restfulDslGenCodeService;
     @Resource
     private SdkGenCrudService sdkGenCrudService;
     @Resource
@@ -21,7 +21,7 @@ public class SdkGenCodeController implements SdkGenCodeApi {
 
     @Override
     public ResponseEntity<SdkListResponseDto> generateJavaRpc() {
-        return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(sdkGenRestfulCodeService.generateJavaRpc(snowflake.nextId())));
+        return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(restfulDslGenCodeService.generateJavaRpc(snowflake.nextId())));
     }
 
     @Override

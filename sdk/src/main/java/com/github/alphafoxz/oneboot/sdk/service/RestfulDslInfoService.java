@@ -5,6 +5,11 @@ import com.github.alphafoxz.oneboot.common.configuration.CommonConfiguration;
 import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkFileInfoDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkFileTreeResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkFileTypeEnum;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringRequestDto;
 import com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkStringResponseDto;
@@ -19,13 +24,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
 @Slf4j
 @Getter
 @Service
-public class SdkInfoService implements SdkInfoIface.Iface {
+public class RestfulDslInfoService implements SdkInfoIface.Iface {
     private static final String FILE_SEPARATOR = File.separator;
 
     @Resource
@@ -210,6 +216,163 @@ public class SdkInfoService implements SdkInfoIface.Iface {
             result.setMessage("【文件重命名失败】" + e.getMessage());
             result.setSuccess(false);
             return result;
+        }
+        return result;
+    }
+
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto getTemplateContentByPath(String filePath) {
+        com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateResponseDto()
+                .setId(snowflake.nextId())
+                .setTaskId(snowflake.nextId())
+                .setSuccess(false);
+        try {
+            File file = FileUtil.file(filePath);
+            String content = FileUtil.readUtf8String(file);
+            com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto template = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto();
+            template.setContent(content);
+            template.setFilePath(file.getAbsolutePath());
+            template.setFileSeparator(File.separator);
+            template.setNamespace(MapUtil.newHashMap());
+            template.setImports(MapUtil.newHashMap());
+            result.setData(template);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            log.error("{} 读取文件异常", filePath);
+            result.setMessage(filePath + "读取文件异常");
+        }
+        return result;
+    }
+
+    public SdkFileTreeResponseDto getRestfulTemplateFileTree() {
+        SdkFileTreeResponseDto result = new SdkFileTreeResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        try {
+            result.setData(readFileTree(FileUtil.file(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH), 0));
+            return result;
+        } catch (Exception e) {
+            log.error("{} 读取文件异常", SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH);
+            result.setMessage(SdkConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH + " 读取文件异常");
+            result.setSuccess(false);
+            return result;
+        }
+    }
+
+    private SdkFileInfoDto readFileTree(File fileOrDir, int level) {
+        SdkFileInfoDto dto = new SdkFileInfoDto();
+        dto.setSeparator(File.separator);
+        dto.setIsReadOnly(level <= 2);
+        dto.setFilePath(fileOrDir.getAbsolutePath());
+        dto.setFileName(fileOrDir.getName());
+        dto.setParentDir(fileOrDir.getParentFile().getAbsolutePath());
+        if (FileUtil.isFile(fileOrDir)) {
+            // 文件类型
+            dto.setExt(FileUtil.getSuffix(fileOrDir));
+            dto.setFileType(SdkFileTypeEnum.LOCAL_FILE.getValue());
+            dto.setIsEmpty(FileUtil.size(fileOrDir) == 0);
+            dto.setContent(FileUtil.readUtf8String(fileOrDir));
+            return dto;
+        }
+        // 目录类型
+        dto.setFileType(SdkFileTypeEnum.LOCAL_DIR.getValue());
+        dto.setChildren(CollUtil.newArrayList());
+        File[] innerFiles = FileUtil.ls(fileOrDir.getAbsolutePath());
+        boolean isEmpty = innerFiles == null || innerFiles.length == 0;
+        dto.setIsEmpty(isEmpty);
+        if (isEmpty) {
+            return dto;
+        }
+        for (File innerFile : innerFiles) {
+            dto.getChildren().add(readFileTree(innerFile, level + 1));
+        }
+        return dto;
+    }
+
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto deleteFile(String filePath) {
+        File file = FileUtil.file(filePath);
+        com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto dto = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto()
+                .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), SdkConstants.PROJECT_ROOT_PATH)) {
+            dto.setMessage("【文件路径非法】" + file.getAbsolutePath());
+            dto.setSuccess(false);
+            return dto;
+        }
+        FileUtil.del(file);
+        return dto;
+    }
+
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto renameFile(String filePath, String newPath) {
+        com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto()
+                .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        File file = FileUtil.file(filePath);
+        if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), SdkConstants.PROJECT_ROOT_PATH) || !newPath.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
+            result.setMessage("【文件路径非法】" + file.getAbsolutePath());
+            result.setSuccess(false);
+            return result;
+        }
+        try {
+            file.renameTo(FileUtil.file(newPath));
+        } catch (Exception e) {
+            result.setMessage("【文件重命名失败】" + e.getMessage());
+            result.setSuccess(false);
+            return result;
+        }
+        return result;
+    }
+
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto createFolder(String folderPath) {
+        com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto()
+                .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        if (StrUtil.isBlank(folderPath) || !folderPath.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
+            result.setMessage("【文件路径非法】" + folderPath);
+            result.setSuccess(false);
+            return result;
+        }
+        try {
+            FileUtil.mkdir(folderPath);
+        } catch (Exception e) {
+            result.setMessage("【文件夹创建失败】" + e.getMessage());
+            result.setSuccess(false);
+            return result;
+        }
+        return result;
+    }
+
+    public com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto createOrUpdateFile(String filePath, String content) {
+        com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto result = new com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto()
+                .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        File file = FileUtil.file(filePath);
+        if (StrUtil.isBlank(filePath) || !filePath.startsWith(SdkConstants.PROJECT_ROOT_PATH)) {
+            result.setMessage("【文件路径非法】" + file.getAbsolutePath());
+            result.setSuccess(false);
+            return result;
+        } else if (file.isDirectory()) {
+            result.setMessage("【不能以文件夹为目标】" + file.getAbsolutePath());
+            result.setSuccess(false);
+            return result;
+        }
+        FileUtil.writeUtf8String(content, file);
+        return result;
+    }
+
+    public SdkCodeTemplateResponseDto getTemplateContentByImportPath(String tempPath, String importPath) {
+        SdkCodeTemplateResponseDto result = new SdkCodeTemplateResponseDto()
+                .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        try {
+            File templateFile = FileUtil.file(tempPath);
+            String targetPath = templateFile.getPath();
+            targetPath = targetPath.substring(0, targetPath.lastIndexOf(File.separator) + 1);
+            targetPath += importPath;
+            File targetFile = FileUtil.file(targetPath);
+            com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto dto = new SdkCodeTemplateDto();
+            dto.setContent(FileUtil.readString(targetFile, StandardCharsets.UTF_8));
+            dto.setFilePath(targetFile.getAbsolutePath());
+            dto.setFileSeparator(File.separator);
+            dto.setNamespace(MapUtil.newHashMap());
+            dto.setImports(MapUtil.newHashMap());
+            result.setData(dto);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            log.error("{} 读取文件异常", importPath);
+            result.setMessage(importPath + " 读取文件异常");
         }
         return result;
     }

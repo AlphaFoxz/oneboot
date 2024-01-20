@@ -1,5 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.dtos
 namespace ts gen.sdk.dtos
+namespace rs gen.sdk.dtos
 
 /*版本检查响应*/
 class SdkVersionCheckResponse {
