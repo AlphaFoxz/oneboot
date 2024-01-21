@@ -41,6 +41,10 @@ interface RestfulDslApi {
     /* 获取restful模板文件树 */
     @getUri(/getRestfulTemplateFileTree)
     SdkResponseDto.SdkFileTreeResponseDto getRestfulTemplateFileTree()
+    /* 获取引用文件 */
     @getUri(/getTemplateContentByImportPath)
     SdkResponseDto.SdkCodeTemplateResponseDto getTemplateContentByImportPath(string temp_path, string import_path)
+    /* 获取文件包前缀 */
+    @getUri(/getBasePackage)
+    SdkResponseDto.SdkStringResponseDto getBasePackage()
 }

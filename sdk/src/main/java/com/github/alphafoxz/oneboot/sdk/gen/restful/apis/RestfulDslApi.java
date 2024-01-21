@@ -162,7 +162,7 @@ public interface RestfulDslApi extends HttpController {
     public ResponseEntity<SdkFileTreeResponseDto> getRestfulTemplateFileTree();
 
     @GetMapping(value = {"/getTemplateContentByImportPath"})
-    @Operation(summary = "", responses = {
+    @Operation(summary = "获取引用文件", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
@@ -171,5 +171,13 @@ public interface RestfulDslApi extends HttpController {
             @Parameter(description = "") @RequestParam String temp_path,
             @Parameter(description = "") @RequestParam String import_path
     );
+
+    @GetMapping(value = {"/getBasePackage"})
+    @Operation(summary = "获取文件包前缀", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<SdkStringResponseDto> getBasePackage();
 
 }

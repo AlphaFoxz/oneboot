@@ -11,7 +11,7 @@
     "\\preset_sys\\dtos\\PsysAuthDto.restful": "fb1c76e604c73cc7a74a9abd23c8607c2d73d10226247e138c37be0363724251",
     "\\preset_sys\\dtos\\PsysMenuDto.restful": "ddb617545ffdf0e210ed5b91c1d70418f1d00851972d57edb6fa646816f63e73",
     "\\preset_sys\\enums\\PsysAuthRouteRankEnum.restful": "5478579a96d8d7167765cd2cfa5b8cdf267236669b800fd3d12deea2863d29b6",
-    "\\sdk\\apis\\RestfulDslApi.restful": "e5e9b719c2b4e7b7da287cebbab20073c27ce6d0f7314e81a4994cfbe5d78f01",
+    "\\sdk\\apis\\RestfulDslApi.restful": "01f90a442fb45ec9926fdbace553c0943bf34ce489b246ae9a9c4acb97f7bfa7",
     "\\sdk\\apis\\SdkGenCodeApi.restful": "ef825b4ece36b084fa2d72b617fa4c875ae31d03644719046d7cda77b54f8e89",
     "\\sdk\\apis\\SdkGenDocApi.restful": "fcfedfaa56b1080949d679177ce19c84a5d6076ef0034a8c61ad3f01c703d0d3",
     "\\sdk\\apis\\SdkInfoApi.restful": "5de8494e4739168892eabf26ff92896451805ee4410775fa8b1c2412d09e7412",

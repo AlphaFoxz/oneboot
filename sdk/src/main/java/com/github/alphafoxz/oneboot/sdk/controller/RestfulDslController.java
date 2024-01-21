@@ -69,4 +69,9 @@ public class RestfulDslController implements RestfulDslApi {
     public ResponseEntity<SdkCodeTemplateResponseDto> getTemplateContentByImportPath(String temp_path, String import_path) {
         return ResponseEntity.ok(restfulDslInfoService.getTemplateContentByImportPath(temp_path, import_path));
     }
+
+    @Override
+    public ResponseEntity<SdkStringResponseDto> getBasePackage() {
+        return null;
+    }
 }
