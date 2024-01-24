@@ -39,7 +39,6 @@ WARNING：本项目是一个非常激进的项目。具体表现为：
 - java JDK 21
   - springboot3
   - JOOQ 3.18+
-  - Thrift
 - PostgreSQL 14+
 - Gradle 包管理 8.4+
 
@@ -78,16 +77,11 @@ WARNING：本项目是一个非常激进的项目。具体表现为：
 
 ## 关于代码生成
 
-### java rpc代码
-
-1. 依赖了[Apache Thrift](https://thrift.apache.org/)框架。应用场景仅限于内网环境，服务端到服务端的通信（虽然性能明显优于http通信，但因为没有web权限那一套功能会造成很多麻烦，而且client线程安全性还有待验证。因此只应用于可信的服务端之间无高并发场景，可以认为是稳定可靠的。***此处期待benchmark***）
-2. 由java通过命令行对thrift可执行文件的调用实现代码生成
-
 ### java restful接口部分
 
-1. java端存储了thrift模板，和rpc部分一致，方便管理
-2. 在[oneboot_rust](https://github.com/AlphaFoxz/oneboot_rust)项目中，依赖[pest](https://crates.io/crates/pest)库实现了一个针对thrift语法的解析器，输出[语法树](https://baike.baidu.com/item/%E8%AF%AD%E6%B3%95%E6%95%B0?fromtitle=%E8%AF%AD%E6%B3%95%E6%A0%91)
-3. 然后通过rpc代码进行通信，将语法树（JSON）发送给java
+1. java端存储了原创[restful-dsl](https://github.com/AlphaFoxz/restful-dsl-java)模板
+2. 在[oneboot-sdk-client](https://github.com/AlphaFoxz/oneboot-sdk-client)项目中，依赖[pest](https://crates.io/crates/pest)库实现了一个针对自定义语法的解析器，输出[语法树](https://baike.baidu.com/item/%E8%AF%AD%E6%B3%95%E6%95%B0?fromtitle=%E8%AF%AD%E6%B3%95%E6%A0%91)
+3. 然后通过http请求进行通信，将语法树（JSON）发送给java
 4. java通过对语法树进行遍历，构建出对应的java bean
 5. 通过java service对bean进行分析，生成指定代码
 
@@ -121,7 +115,6 @@ WARNING：本项目是一个非常激进的项目。具体表现为：
   - [X]  基于jwt认证的前后端交互
   - [ ]  oauth2 - server实现
 - [X]  SpringDoc - API文档
-- [X]  Thrift - Rpc服务
 - [X]  jOOQ - 持久层框架
 - [X]  MapStruct - 实体转换
 - [X]  Meilisearch - 搜索引擎（场景：面向中小型项目，索引上限2TiB）

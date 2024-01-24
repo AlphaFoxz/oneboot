@@ -12,20 +12,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkCrudServiceTypeEnum;
 
 @RequestMapping({"/_sdk/genCode"})
 @Tag(name = "SdkGenCodeApi", description = "Sdk模块代码生成接口")
 public interface SdkGenCodeApi extends HttpController {
-    @GetMapping({"/generateJavaRpc"})
-    @Operation(summary = "创建所有Java rpc代码", responses = {
-            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
-            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
-    })
-    public ResponseEntity<SdkListResponseDto> generateJavaRpc();
-
-    @GetMapping({"/generateTableCrud"})
+    @GetMapping(value = {"/generateTableCrud"})
     @Operation(summary = "创建单表CRUD代码", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -34,11 +26,11 @@ public interface SdkGenCodeApi extends HttpController {
     public ResponseEntity<?> generateTableCrud(
             @Parameter(description = "模块名称") @RequestParam String moduleName,
             @Parameter(description = "表名") @RequestParam String poName,
-            @Parameter(description = "生成类型") @RequestParam int serviceType,
+            @Parameter(description = "生成类型") @RequestParam Integer serviceType,
             @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force
     );
 
-    @GetMapping({"/generateModuleCrud"})
+    @GetMapping(value = {"/generateModuleCrud"})
     @Operation(summary = "创建整个模块的CRUD代码", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -46,7 +38,7 @@ public interface SdkGenCodeApi extends HttpController {
     })
     public ResponseEntity<?> generateModuleCrud(
             @Parameter(description = "模块名称") @RequestParam String moduleName,
-            @Parameter(description = "生成类型") @RequestParam int serviceType,
+            @Parameter(description = "生成类型") @RequestParam Integer serviceType,
             @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force
     );
 

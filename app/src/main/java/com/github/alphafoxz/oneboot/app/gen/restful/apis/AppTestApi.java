@@ -11,10 +11,9 @@ import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
+import com.github.alphafoxz.oneboot.preset_sys.service.framework.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.List;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +39,7 @@ public interface AppTestApi extends HttpController {
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
-    public ResponseEntity<PageResponse<AppTestInfoDto>> queryPage(
+    public ResponseEntity<Page<AppTestInfoDto>> queryPage(
             @Parameter(description = "页码") @PathVariable("pageNum") Integer pageNum,
             @Parameter(description = "每页数据量") @PathVariable("pageSize") Integer pageSize
     );

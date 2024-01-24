@@ -27,8 +27,11 @@ public class SdkFileInfoDto {
     @Schema(name = "ext", description = "")
     @Nullable
     private String ext;
+    /**
+     * @see SdkFileTypeEnum
+     */
     @Schema(name = "fileType", description = "")
-    private int fileType;
+    private Integer fileType;
     @Schema(name = "isReadOnly", description = "")
     private Boolean isReadOnly;
     @Schema(name = "isEmpty", description = "")

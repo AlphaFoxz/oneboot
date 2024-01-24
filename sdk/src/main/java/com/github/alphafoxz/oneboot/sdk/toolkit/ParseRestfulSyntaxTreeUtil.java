@@ -2,6 +2,7 @@ package com.github.alphafoxz.oneboot.sdk.toolkit;
 
 import com.github.alphafoxz.oneboot.common.exceptions.RestfulDslException;
 import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
+import com.github.alphafoxz.oneboot.preset_sys.service.framework.Page;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto;
 import lombok.Data;
 import lombok.Getter;
@@ -20,11 +21,6 @@ import java.util.Set;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Slf4j
 public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
-    public static RestfulRootBean parseRestfulRoot(com.github.alphafoxz.oneboot.sdk.gen.thrift.dtos.SdkCodeTemplateDto dto) {
-        SdkCodeTemplateDto d = BeanUtil.copyProperties(dto, SdkCodeTemplateDto.class);
-        return parseRestfulRoot(d);
-    }
-
     public static RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto dto) {
         String filePath = dto.getFilePath();
         String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
@@ -676,7 +672,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                         } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
 //                            result.getImportTypeName().add("org.springframework.data.domain.Page");
 //                            result.setAnnotationName("Page");
-                            Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
+                            Class<?> c = Page.class;
                             result.getImportTypeName().add(c.getName());
                             result.setAnnotationName(c.getSimpleName());
                         } else if (StrUtil.equalsIgnoreCase(annoName, "formData")) {

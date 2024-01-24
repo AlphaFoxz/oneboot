@@ -10,6 +10,7 @@ pluginManagement {
         id("org.graalvm.buildtools.native") version graalvmBuildtoolsVersion
     }
 }
+
 rootProject.name = "oneboot"
 
 include(
