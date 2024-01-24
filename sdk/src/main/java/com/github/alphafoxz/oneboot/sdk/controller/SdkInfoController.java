@@ -3,10 +3,7 @@ package com.github.alphafoxz.oneboot.sdk.controller;
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkListResponseDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
-import com.github.alphafoxz.oneboot.sdk.service.RestfulDslInfoService;
-import com.github.alphafoxz.oneboot.sdk.service.common.SdkRestfulConvert;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class SdkInfoController implements SdkInfoApi {
-    @Resource
-    private RestfulDslInfoService restfulDslInfoService;
     @Resource
     private Snowflake snowflake;
 
@@ -69,28 +64,4 @@ public class SdkInfoController implements SdkInfoApi {
         return ResponseEntity.ok(result);
     }
 
-    @Override
-    public ResponseEntity<SdkListResponseDto> checkThriftErr() {
-        return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(restfulDslInfoService.checkThriftErr()));
-    }
-
-    @Override
-    public ResponseEntity<SdkListResponseDto> checkRestApiImplements() {
-        try {
-            return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(restfulDslInfoService.checkRestApiImplements()));
-        } catch (Exception e) {
-            log.error("接口异常", e);
-            return ResponseEntity.status(500).build();
-        }
-    }
-
-    @Override
-    public ResponseEntity<SdkListResponseDto> checkRpcImplements() {
-        try {
-            return ResponseEntity.ok(SdkRestfulConvert.INSTANCE.fromThriftSdkListResponseDto(restfulDslInfoService.checkRpcImplements()));
-        } catch (Exception e) {
-            log.error("接口异常", e);
-            return ResponseEntity.status(500).build();
-        }
-    }
 }

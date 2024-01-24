@@ -9,11 +9,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PageResponse<T> implements CustomPage {
+public class Page<T> implements CustomPage {
     private Boolean success = true;
     private DataBean<T> data;
 
-    public PageResponse(List<T> content, Pageable pageable, Long total) {
+    public Page(List<T> content, Pageable pageable, Long total) {
         data = new DataBean<>();
         data.setList(content);
         data.setTotal(total);

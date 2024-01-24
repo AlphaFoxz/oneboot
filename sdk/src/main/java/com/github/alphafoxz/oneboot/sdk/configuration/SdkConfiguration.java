@@ -1,6 +1,5 @@
 package com.github.alphafoxz.oneboot.sdk.configuration;
 
-import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
 import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class SdkConfiguration implements OnebootModuleConfig {
+public class SdkConfiguration {
     @Resource
     private SdkProperties sdkProperties;
     @Resource
@@ -32,15 +31,5 @@ public class SdkConfiguration implements OnebootModuleConfig {
         text += "\n页面导航请访问 http://127.0.0.1:" + serverProperties.getPort() + "/_sdk";
         text += "\nAPI页面导航请访问 http://127.0.0.1:" + serverProperties.getPort() + "/swagger-ui.html";
         log.info(text);
-    }
-
-    @Override
-    public String getModuleName() {
-        return sdkProperties.getModuleName();
-    }
-
-    @Override
-    public String getPackage() {
-        return commonProperties.getBasePackage() + "." + sdkProperties.getModuleName();
     }
 }

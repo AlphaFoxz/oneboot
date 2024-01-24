@@ -12,7 +12,7 @@ public class SdkVersionStoreService {
     private final GenRestful genRestfulPart = new GenRestful();
 
     public static class GenRestful implements VersionStore {
-        private final File file = FileUtil.file(SdkConstants.SDK_VERSION_PATH + File.separator + "gen_restful.json");
+        private final File file = FileUtil.file(SdkConstants.SDK_VERSION_PATH + File.separator + "sdk_gen.json");
 
         {
             init();
