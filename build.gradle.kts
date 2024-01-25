@@ -135,6 +135,9 @@ project(":sdk") {
             !gradle.taskGraph.hasTask(":build")
         }
     }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)
+    }
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":common"))
@@ -142,6 +145,13 @@ project(":sdk") {
         implementation(project(":app"))
         implementation(project(":preset_sys"))
         implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:3.0.0-alpha.2")
+
+        compileOnly("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
+            isChanging = true
+        }
+        annotationProcessor("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
+            isChanging = true
+        }
 
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         implementation("org.apache.poi:poi-ooxml")

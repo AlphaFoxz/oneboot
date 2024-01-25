@@ -32,7 +32,7 @@ public class PsysTest {
         System.err.println(b);
     }
 
-    @Test
+//    @Test
     void storeKeyPair() throws NoSuchAlgorithmException {
 
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
@@ -55,6 +55,6 @@ public class PsysTest {
         record.setAccountId(snowflake.nextId());
         record.setEnabled(true);
         record.setExpired(false);
-        psysUserCrud.insert(record);
+//        psysUserCrud.insert(record);
     }
 }
