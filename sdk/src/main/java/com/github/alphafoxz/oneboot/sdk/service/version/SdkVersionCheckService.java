@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.service.version;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkVersionCheckDto;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkVersionCheckResponse;

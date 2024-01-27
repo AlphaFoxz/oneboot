@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.sdk.toolkit;
 
-import com.github.alphafoxz.oneboot.common.exceptions.RestfulDslException;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
+import com.github.alphafoxz.oneboot.core.exceptions.RestfulDslException;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.*;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.Page;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkCodeTemplateDto;
 import lombok.Data;

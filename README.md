@@ -54,7 +54,7 @@ WARNING：本项目是一个非常激进的项目。具体表现为：
 ## 项目结构说明
 
 - .sdk //SDK工具私有目录
-- common //公共依赖模块
+- core //核心模块
 
   - annotations //注解
   - configuration //配置注入

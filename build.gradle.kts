@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
@@ -13,7 +13,7 @@ tasks.bootJar {
     enabled = false
 }
 allprojects {
-    apply(plugin = "java")
+    apply(plugin = "java-library")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
 //    apply(plugin = "org.graalvm.buildtools.native")
@@ -43,6 +43,10 @@ allprojects {
     }
 }
 subprojects {
+    tasks.jar {
+        enabled = true
+        archiveClassifier = ""
+    }
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
@@ -71,29 +75,13 @@ subprojects {
     }
 }
 
-project(":common") {
-    tasks.bootJar {
-        enabled = false
-    }
-    tasks.jar {
-        enabled = true
-    }
-    dependencies {
-        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-        implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    }
-}
-
 project(":preset_sys") {
     tasks.bootJar {
         enabled = false
     }
-    tasks.jar {
-        enabled = true
-    }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
 
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
@@ -115,7 +103,7 @@ project(":app") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
         implementation(project(":starter"))
         implementation(project(":preset_sys"))
 
@@ -140,7 +128,7 @@ project(":sdk") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
         implementation(project(":starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
@@ -163,9 +151,6 @@ project(":sdk") {
 project(":gradle_tasks") {
     tasks.bootJar {
         enabled = false
-    }
-    tasks.jar {
-        enabled = true
     }
 }
 dependencies {

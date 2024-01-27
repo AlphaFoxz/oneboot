@@ -1,9 +1,9 @@
 package com.github.alphafoxz.oneboot.sdk.service.version;
 
 import cn.hutool.json.JSON;
-import com.github.alphafoxz.oneboot.common.CommonConstants;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
+import com.github.alphafoxz.oneboot.core.CoreConstants;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import org.springframework.lang.NonNull;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public interface VersionStore {
         File file = getFile();
         FileUtil.mkParentDirs(file);
         if (!file.exists()) {
-            FileUtil.writeUtf8String(CommonConstants.EMPTY_JSON_OBJ, file);
+            FileUtil.writeUtf8String(CoreConstants.EMPTY_JSON_OBJ, file);
         }
     }
 

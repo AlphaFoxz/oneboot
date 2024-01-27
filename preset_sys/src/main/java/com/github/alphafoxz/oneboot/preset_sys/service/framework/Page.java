@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.framework;
 
-import com.github.alphafoxz.oneboot.common.standard.restful.CustomPage;
+import com.github.alphafoxz.oneboot.core.standard.restful.CustomPage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Pageable;

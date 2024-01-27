@@ -2,7 +2,7 @@ tasks.bootJar {
     enabled = false
 }
 dependencies {
-    implementation(project(":common"))
+    compileOnly(project(":core"))
 //    implementation(project(":starter:flowable_starter"))
 //    implementation(project(":starter:meilisearch_starter"))
 }

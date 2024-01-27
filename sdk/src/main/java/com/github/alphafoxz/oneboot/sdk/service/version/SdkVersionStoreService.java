@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.service.version;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;

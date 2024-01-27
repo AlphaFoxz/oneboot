@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.standard.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysUserRecord;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.PsysAbacService;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacRefuseAllBusinessPolicy;

@@ -31,7 +31,7 @@ springdoc:
 logging:
   level:
     root: info
-    com.github.alphafoxz.oneboot.common: error
+    com.github.alphafoxz.oneboot.core: error
     com.github.alphafoxz.oneboot.preset_sys: warn
     com.github.alphafoxz.oneboot.app: info
     com.github.alphafoxz.oneboot.sdk: info

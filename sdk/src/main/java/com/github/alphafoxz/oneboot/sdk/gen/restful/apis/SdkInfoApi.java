@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
+import com.github.alphafoxz.oneboot.core.standard.framework.HttpController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;

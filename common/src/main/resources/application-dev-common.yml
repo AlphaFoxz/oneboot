@@ -1,8 +1,0 @@
-oneboot:
-  common:
-    cache-strategy: caffeine
-    base-package: com.github.alphafoxz.oneboot
-    module-name: common
-    snowflake:
-      worker-id: 1
-      datacenter-id: 1

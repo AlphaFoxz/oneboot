@@ -1,0 +1,13 @@
+oneboot:
+  sdk:
+
+dsl:
+  restful:
+    base-package: com.github.alphafoxz.oneboot
+    include-modules:
+      - preset_sys
+      - app
+      - sdk
+    #    http-controller-class: com.github.alphafoxz.spring_boot_starter_restful_dsl.standard.HttpController
+    http-controller-class: com.github.alphafoxz.oneboot.core.standard.framework.HttpController
+    page-class: com.github.alphafoxz.oneboot.preset_sys.service.framework.Page

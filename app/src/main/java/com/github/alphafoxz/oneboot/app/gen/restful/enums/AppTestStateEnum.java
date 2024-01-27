@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.app.gen.restful.enums;
 
-import com.github.alphafoxz.oneboot.common.standard.restful.RestfulEnum;
+import com.github.alphafoxz.oneboot.core.standard.restful.RestfulEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

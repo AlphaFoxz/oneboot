@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.preset_sys.controller;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserDepartment;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserRole;

@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk;
 
 import cn.hutool.system.OsInfo;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SystemUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;

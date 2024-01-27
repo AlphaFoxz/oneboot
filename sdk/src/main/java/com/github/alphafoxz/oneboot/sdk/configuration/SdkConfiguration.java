@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.configuration;
 
-import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
+import com.github.alphafoxz.oneboot.core.configuration.CoreProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ public class SdkConfiguration {
     @Resource
     private SdkProperties sdkProperties;
     @Resource
-    private CommonProperties commonProperties;
+    private CoreProperties coreProperties;
 
     @Autowired
     public void init(ServerProperties serverProperties) {

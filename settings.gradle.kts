@@ -15,7 +15,7 @@ rootProject.name = "oneboot"
 
 include(
     ":gradle_tasks",
-    ":common",
+    ":core",
     ":starter",
 //    ":starter:meilisearch_starter",
     ":preset_sys",

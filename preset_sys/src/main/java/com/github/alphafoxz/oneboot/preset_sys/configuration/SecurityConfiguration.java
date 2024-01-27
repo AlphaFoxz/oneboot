@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.preset_sys.configuration;
 
 import cn.hutool.crypto.asymmetric.AsymmetricAlgorithm;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ResourceUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ResourceUtil;
 import com.github.alphafoxz.oneboot.preset_sys.PsysConstants;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;

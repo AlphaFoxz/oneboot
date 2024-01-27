@@ -1,10 +1,10 @@
 package com.github.alphafoxz.oneboot.meilisearch_starter.service;
 
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.MeilisearchService;
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchRequestBean;
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchResultBean;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
+import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.MeilisearchService;
+import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchRequestBean;
+import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchResultBean;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.exceptions.MeilisearchException;
 import com.meilisearch.sdk.model.Key;

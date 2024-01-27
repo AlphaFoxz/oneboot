@@ -61,7 +61,7 @@ jooq {
                         isValidationAnnotations = true
                     }
                     target.apply {
-                        packageName = "com.github.alphafoxz.oneboot.common.gen.jooq"
+                        packageName = "com.github.alphafoxz.oneboot.core.gen.jooq"
                         directory = "$rootDir/sdk/src/gen"
                         isClean = true
                     }
