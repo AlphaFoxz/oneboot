@@ -12,7 +12,7 @@
     "\\preset_sys\\enums\\PsysAuthRouteRankEnum.restful": "5478579a96d8d7167765cd2cfa5b8cdf267236669b800fd3d12deea2863d29b6",
     "\\sdk\\apis\\SdkGenCodeApi.restful": "431cfedaa76a3390a6963671d1c9c237cd45a81c6601804d58ee9f77ea885b69",
     "\\sdk\\apis\\SdkGenDocApi.restful": "822c8acd24d67c3dba2db191ac55cb08b6def8d690d109425d88c2e65204a7ab",
-    "\\sdk\\apis\\SdkInfoApi.restful": "d82dfe0cadb4bfb576993c3aebda493d1542043aa29a4a1923d44727ce6927df",
+    "\\sdk\\apis\\SdkInfoApi.restful": "582315eece63c1bebe69c3e5c69145211a414d3d8b427763eb200ae0eef9a582",
     "\\sdk\\apis\\SdkVersionApi.restful": "558cdb88e845bdad73d3cc327e5aaf002c6e25e7f0805291135ae80fe0b28754",
     "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "dd353050eac537094d8b3719d8ab35410eee36d63523d12ed575153bf6d901e9",
     "\\sdk\\dtos\\SdkFileInfoDto.restful": "f9d826de14778720bf029f3ada02d6412e48064a138e0e07e6f6f8f940e1f422",

@@ -132,7 +132,9 @@ project(":sdk") {
         implementation(project(":starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
-        implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:3.0.0-alpha.2")
+        implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
+            isChanging = true
+        }
 
         compileOnly("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
             isChanging = true

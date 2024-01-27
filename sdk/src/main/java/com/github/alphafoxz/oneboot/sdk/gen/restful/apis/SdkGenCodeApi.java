@@ -17,6 +17,10 @@ import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkCrudServiceTypeEnum
 @RequestMapping({"/_sdk/genCode"})
 @Tag(name = "SdkGenCodeApi", description = "Sdk模块代码生成接口")
 public interface SdkGenCodeApi extends HttpController {
+    /**
+     * @param serviceType 枚举值
+     * @see SdkCrudServiceTypeEnum
+     */
     @GetMapping(value = {"/generateTableCrud"})
     @Operation(summary = "创建单表CRUD代码", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
@@ -30,6 +34,10 @@ public interface SdkGenCodeApi extends HttpController {
             @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force
     );
 
+    /**
+     * @param serviceType 枚举值
+     * @see SdkCrudServiceTypeEnum
+     */
     @GetMapping(value = {"/generateModuleCrud"})
     @Operation(summary = "创建整个模块的CRUD代码", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),

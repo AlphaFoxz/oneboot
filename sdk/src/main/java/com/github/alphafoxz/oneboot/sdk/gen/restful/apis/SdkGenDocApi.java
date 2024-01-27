@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import com.github.alphafoxz.oneboot.core.standard.framework.HttpController;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 

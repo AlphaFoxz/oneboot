@@ -10,16 +10,4 @@ interface SdkInfoApi {
     /*获取当前项目的硬盘根目录*/
     @getUri(/rootPath)
     SdkResponseDto.SdkStringResponseDto rootPath()
-
-    /*检查项目错误*/
-    @getUri(/checkThriftErr)
-    SdkResponseDto.SdkListResponseDto checkThriftErr()
-
-    /*检查RestApi实现情况*/
-    @getUri(/checkRestApiImplements)
-    SdkResponseDto.SdkListResponseDto checkRestApiImplements()
-
-    /*检查Rpc实现情况*/
-    @getUri(/checkRpcImplements)
-    SdkResponseDto.SdkListResponseDto checkRpcImplements()
 }
