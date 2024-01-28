@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkFileTypeEnum;
 import java.util.List;
 import org.springframework.lang.Nullable;
 
@@ -26,8 +27,11 @@ public class SdkFileInfoDto {
     @Schema(name = "ext", description = "")
     @Nullable
     private String ext;
+    /**
+     * @see SdkFileTypeEnum
+     */
     @Schema(name = "fileType", description = "")
-    private int fileType;
+    private Integer fileType;
     @Schema(name = "isReadOnly", description = "")
     private Boolean isReadOnly;
     @Schema(name = "isEmpty", description = "")

@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.security;
 
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAccountPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAccountCrud;

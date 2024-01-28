@@ -1,11 +1,11 @@
 package com.github.alphafoxz.oneboot.sdk.service.gen;
 
-import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ResourceUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.core.configuration.CoreProperties;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootGenException;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ResourceUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkCrudServiceTypeEnum;
 import jakarta.annotation.Resource;
@@ -29,7 +29,7 @@ public class SdkGenCrudService {
     @Resource
     DSLContext dslContext;
     @Resource
-    CommonProperties commonProperties;
+    CoreProperties coreProperties;
 
     /**
      * 生成
@@ -48,7 +48,7 @@ public class SdkGenCrudService {
             throw new OnebootGenException("未定义的CURD service类型，请确认传参", HttpStatus.BAD_REQUEST);
         }
         String fileName = StrUtil.upperFirst(poName) + "Crud.java";
-        String basePackage = commonProperties.getBasePackage();
+        String basePackage = coreProperties.getBasePackage();
         String path = new StringJoiner(File.separator)
                 .add(SdkConstants.PROJECT_ROOT_PATH)
                 .add(moduleName)

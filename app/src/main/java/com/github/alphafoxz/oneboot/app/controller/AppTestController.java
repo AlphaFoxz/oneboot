@@ -5,15 +5,14 @@ import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
 import com.github.alphafoxz.oneboot.app.gen.restful.apis.AppTestApi;
 import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
 import com.github.alphafoxz.oneboot.app.service.crud.AppTestCrud;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.MapUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
-import com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ReflectUtil;
+import com.github.alphafoxz.oneboot.preset_sys.service.framework.Page;
 import jakarta.annotation.Resource;
 import org.jooq.impl.DSL;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,13 +56,13 @@ public class AppTestController implements AppTestApi {
     }
 
     @GetMapping("/queryPage")
-    public ResponseEntity<PageResponse<AppTestInfoDto>> queryPage(Integer pageNum, Integer pageSize) {
-        Page<AppTestPo> appTestPage = appTestCrud.selectPage(pageNum, pageSize, DSL.trueCondition());
-        Page<AppTestInfoDto> map = appTestPage.map((testPo) -> {
+    public ResponseEntity<Page<AppTestInfoDto>> queryPage(Integer pageNum, Integer pageSize) {
+        org.springframework.data.domain.Page<AppTestPo> appTestPage = appTestCrud.selectPage(pageNum, pageSize, DSL.trueCondition());
+        org.springframework.data.domain.Page<AppTestInfoDto> map = appTestPage.map((testPo) -> {
             return new AppTestInfoDto();
         });
-        PageResponse<AppTestInfoDto> pageResponse = new PageResponse<>(map.getContent(), map.getPageable(), map.getTotalElements());
-        return ResponseEntity.ok(pageResponse);
+        Page<AppTestInfoDto> page = new Page<>(map.getContent(), map.getPageable(), map.getTotalElements());
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/queryList")

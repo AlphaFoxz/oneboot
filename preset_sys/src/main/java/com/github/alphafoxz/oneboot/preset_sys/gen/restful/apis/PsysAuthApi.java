@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-import com.github.alphafoxz.oneboot.common.standard.framework.HttpController;
+import com.github.alphafoxz.oneboot.core.standard.framework.HttpController;
 import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthRouteDto
 @Tag(name = "PsysAuthApi", description = "授权接口")
 public interface PsysAuthApi extends HttpController {
     // PsysAuthDto.PsysAuthTokenResponse login(/*用户名*/ PsysAuthParam.PsysAuthLoginParam loginParam)
-    @PostMapping({"/login"})
+    @PostMapping(value = {"/login"})
     @Operation(summary = "登录接口，返回token", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -40,7 +40,7 @@ public interface PsysAuthApi extends HttpController {
             @Nullable String password
     );
 
-    @GetMapping({"/logout"})
+    @GetMapping(value = {"/logout"})
     @Operation(summary = "退出登录", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -48,7 +48,7 @@ public interface PsysAuthApi extends HttpController {
     })
     public ResponseEntity<?> logout();
 
-    @PostMapping({"/refreshToken"})
+    @PostMapping(value = {"/refreshToken"})
     @Operation(summary = "传入旧token，如果其中的refreshToken没有过期则返回一对新的token", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
@@ -58,7 +58,7 @@ public interface PsysAuthApi extends HttpController {
             @Parameter(description = "旧的token") @RequestBody PsysAuthTokenInfoDto oldToken
     );
 
-    @PostMapping({"/queryRoute"})
+    @PostMapping(value = {"/queryRoute"})
     @Operation(summary = "获取路由", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),

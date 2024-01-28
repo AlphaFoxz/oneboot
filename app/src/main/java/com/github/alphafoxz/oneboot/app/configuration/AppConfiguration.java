@@ -1,24 +1,13 @@
 package com.github.alphafoxz.oneboot.app.configuration;
 
-import com.github.alphafoxz.oneboot.common.standard.OnebootModuleConfig;
-import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
+import com.github.alphafoxz.oneboot.core.configuration.CoreProperties;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AppConfiguration implements OnebootModuleConfig {
+public class AppConfiguration {
     @Resource
     private AppProperties appProperties;
     @Resource
-    private CommonProperties commonProperties;
-
-    @Override
-    public String getModuleName() {
-        return appProperties.getModuleName();
-    }
-
-    @Override
-    public String getPackage() {
-        return commonProperties.getBasePackage() + "." + appProperties.getModuleName();
-    }
+    private CoreProperties coreProperties;
 }

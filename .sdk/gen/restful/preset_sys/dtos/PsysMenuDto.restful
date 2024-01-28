@@ -1,6 +1,8 @@
 namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos
 namespace ts gen.preset_sys.dtos
 
+import "../enums/PsysAuthRouteRankEnum.restful"
+
 /* 系统菜单响应体 */
 class PsysMenuResponseDto {
     /* 是否成功 */
@@ -24,7 +26,7 @@ class PsysMenuInfoDto {
 /* 系统菜单元信息 */
 class PsysMenuMetaDto {
     /* 类型 */
-    optional i32 rank
+    optional enum<PsysAuthRouteRankEnum.PsysAuthRouteRankEnum> rank
     /* 标题 */
     optional string icon
     /* 权限 */

@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.security.bean;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
 import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

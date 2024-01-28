@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkGenDocApi;
 import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenDocService;
 import jakarta.annotation.Resource;

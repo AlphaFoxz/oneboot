@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import java.util.List;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.enums.PsysAuthRouteRankEnum;
 import org.springframework.lang.Nullable;
 
 @Schema(name = "PsysMenuMetaDto", description = "系统菜单元信息")
@@ -12,6 +13,9 @@ import org.springframework.lang.Nullable;
 @Getter
 @Setter
 public class PsysMenuMetaDto {
+    /**
+     * @see PsysAuthRouteRankEnum
+     */
     @Schema(name = "rank", description = "类型")
     @Nullable
     private Integer rank;

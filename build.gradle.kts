@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("nu.studer.jooq")
@@ -9,14 +9,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
-repositories {
-    mavenCentral()
-}
 tasks.bootJar {
     enabled = false
 }
 allprojects {
-    apply(plugin = "java")
+    apply(plugin = "java-library")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
 //    apply(plugin = "org.graalvm.buildtools.native")
@@ -24,6 +21,9 @@ allprojects {
     version = "0.0.1-alpha.0"
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
     }
     dependencyManagement {
         imports {
@@ -32,7 +32,6 @@ allprojects {
         dependencies {
             dependency("org.mapstruct:mapstruct:1.5.5.Final")
             dependency("org.mapstruct:mapstruct-processor:1.5.5.Final")
-            dependency("org.apache.thrift:libthrift:0.18.1")
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
             dependency("cn.hutool:hutool-all:5.8.25")
             dependency("org.jooq:jooq-postgres-extensions:3.18.7")
@@ -44,6 +43,10 @@ allprojects {
     }
 }
 subprojects {
+    tasks.jar {
+        enabled = true
+        archiveClassifier = ""
+    }
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
@@ -72,29 +75,13 @@ subprojects {
     }
 }
 
-project(":common") {
-    tasks.bootJar {
-        enabled = false
-    }
-    tasks.jar {
-        enabled = true
-    }
-    dependencies {
-        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-        implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    }
-}
-
 project(":preset_sys") {
     tasks.bootJar {
         enabled = false
     }
-    tasks.jar {
-        enabled = true
-    }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
 
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
@@ -116,11 +103,10 @@ project(":app") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
         implementation(project(":starter"))
         implementation(project(":preset_sys"))
 
-        implementation("org.apache.thrift:libthrift")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
@@ -137,19 +123,36 @@ project(":sdk") {
             !gradle.taskGraph.hasTask(":build")
         }
     }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)
+    }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":common"))
+        implementation(project(":core"))
         implementation(project(":starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
+        implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
+            isChanging = true
+        }
 
-        implementation("org.apache.thrift:libthrift")
+        compileOnly("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
+            isChanging = true
+        }
+        annotationProcessor("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
+            isChanging = true
+        }
+
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         implementation("org.apache.poi:poi-ooxml")
         implementation("com.deepoove:poi-tl")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
+    }
+}
+project(":gradle_tasks") {
+    tasks.bootJar {
+        enabled = false
     }
 }
 dependencies {

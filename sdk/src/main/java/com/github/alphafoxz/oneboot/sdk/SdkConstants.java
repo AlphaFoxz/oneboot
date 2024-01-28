@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.sdk;
 
 import cn.hutool.system.OsInfo;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.FileUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SystemUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.SystemUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -14,7 +14,6 @@ public final class SdkConstants {
     public static OsTypeEnum OS_TYPE;
     public final static String SDK_PATH;
     public final static String SDK_GEN_PATH;
-    public final static String SDK_GEN_THRIFT_TEMPLATE_PATH;
     public final static String SDK_GEN_RESTFUL_TEMPLATE_PATH;
     public final static String SDK_VERSION_PATH;
     public final static String SDK_BIN_PATH;
@@ -24,7 +23,6 @@ public final class SdkConstants {
         initOsType();
         SDK_PATH = PROJECT_ROOT_PATH + FILE_SEPARATOR + ".sdk";
         SDK_GEN_PATH = SDK_PATH + FILE_SEPARATOR + "gen";
-        SDK_GEN_THRIFT_TEMPLATE_PATH = SDK_GEN_PATH + FILE_SEPARATOR + "thrift";
         SDK_GEN_RESTFUL_TEMPLATE_PATH = SDK_GEN_PATH + FILE_SEPARATOR + "restful";
         SDK_VERSION_PATH = SDK_PATH + FILE_SEPARATOR + "version";
         SDK_BIN_PATH = SDK_PATH + FILE_SEPARATOR + "bin";

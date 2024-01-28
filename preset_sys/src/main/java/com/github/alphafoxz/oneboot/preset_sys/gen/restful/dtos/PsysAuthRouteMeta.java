@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import java.util.List;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restful.enums.PsysAuthRouteRankEnum;
 import org.springframework.lang.Nullable;
 
 @Schema(name = "PsysAuthRouteMeta", description = "路由元数据")
@@ -20,6 +21,9 @@ public class PsysAuthRouteMeta {
     @Schema(name = "name", description = "名称")
     @Nullable
     private String name;
+    /**
+     * @see PsysAuthRouteRankEnum
+     */
     @Schema(name = "rank", description = "排序")
     @Nullable
     private Integer rank;

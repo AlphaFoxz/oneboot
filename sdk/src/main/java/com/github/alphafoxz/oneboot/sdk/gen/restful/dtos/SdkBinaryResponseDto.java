@@ -23,5 +23,5 @@ public class SdkBinaryResponseDto {
     private String message;
     @Schema(name = "data", description = "数据内容")
     @Nullable
-    private String data;
+    private Object data;
 }

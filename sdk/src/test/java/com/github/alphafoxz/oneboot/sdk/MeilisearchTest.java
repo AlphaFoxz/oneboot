@@ -2,10 +2,10 @@
 //
 //import cn.hutool.core.date.DateField;
 //import cn.hutool.json.JSONObject;
-//import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.MeilisearchService;
-//import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-//import com.github.alphafoxz.oneboot.common.toolkit.coding.JSONUtil;
-//import com.github.alphafoxz.oneboot.common.toolkit.coding.RandomUtil;
+//import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.MeilisearchService;
+//import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
+//import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
+//import com.github.alphafoxz.oneboot.core.toolkit.coding.RandomUtil;
 //import jakarta.annotation.Resource;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;

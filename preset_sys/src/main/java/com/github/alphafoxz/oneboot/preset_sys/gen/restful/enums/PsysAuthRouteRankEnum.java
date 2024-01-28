@@ -1,6 +1,5 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.restful.enums;
 
-import com.github.alphafoxz.oneboot.common.standard.restful.RestfulEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Getter;
 @Schema(description = "路由排序")
 @AllArgsConstructor
 @Getter
-public enum PsysAuthRouteRankEnum implements RestfulEnum {
+public enum PsysAuthRouteRankEnum {
     /**主页*/
     HOME(0),
     DOC(1),

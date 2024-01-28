@@ -1,24 +1,13 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.apis
 namespace ts gen.sdk.apis
+namespace rs gen.sdk.apis
 
 import "../dtos/SdkResponseDto.restful"
 
-@uri(/_sdk)
+@uri(/_sdk/info)
 /*Sdk模块基本信息接口*/
 interface SdkInfoApi {
     /*获取当前项目的硬盘根目录*/
-    @getUri(/info/rootPath)
+    @getUri(/rootPath)
     SdkResponseDto.SdkStringResponseDto rootPath()
-
-    /*检查项目错误*/
-    @getUri(/info/checkThriftErr)
-    SdkResponseDto.SdkListResponseDto checkThriftErr()
-
-    /*检查RestApi实现情况*/
-    @getUri(/info/checkRestApiImplements)
-    SdkResponseDto.SdkListResponseDto checkRestApiImplements()
-
-    /*检查Rpc实现情况*/
-    @getUri(/info/checkRpcImplements)
-    SdkResponseDto.SdkListResponseDto checkRpcImplements()
 }

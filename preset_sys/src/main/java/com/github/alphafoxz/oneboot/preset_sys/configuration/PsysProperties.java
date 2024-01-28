@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 @ConfigurationProperties(prefix = "oneboot.preset-sys")
 public class PsysProperties {
-    private String moduleName = "preset_sys";
     private JwtProperties jwt;
 
     /**

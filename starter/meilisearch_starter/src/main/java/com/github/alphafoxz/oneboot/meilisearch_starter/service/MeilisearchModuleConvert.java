@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.meilisearch_starter.service;
 
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchRequestBean;
-import com.github.alphafoxz.oneboot.common.standard.starter.meilisearch.SearchResultBean;
+import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchRequestBean;
+import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchResultBean;
 import com.meilisearch.sdk.SearchRequest;
 import com.meilisearch.sdk.model.SearchResult;
 import org.mapstruct.InjectionStrategy;

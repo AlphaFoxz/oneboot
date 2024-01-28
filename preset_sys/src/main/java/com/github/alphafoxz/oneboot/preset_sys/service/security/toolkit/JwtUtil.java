@@ -1,13 +1,13 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.security.toolkit;
 
 import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ResourceUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SecureUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.SpringUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuple3;
-import com.github.alphafoxz.oneboot.common.toolkit.container.tuple.Tuples;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootApiDesignException;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ResourceUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.SecureUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.SpringUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple3;
+import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuples;
 import com.github.alphafoxz.oneboot.preset_sys.PsysConstants;
 import com.github.alphafoxz.oneboot.preset_sys.configuration.PsysProperties;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;

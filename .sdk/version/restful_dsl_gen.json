@@ -1,0 +1,23 @@
+{
+    "\\app\\apis\\AppTestApi.restful": "b212298a1196fe5ef215c6eaff6d827704163d53cbaa8a1f4d4e386cfa4af75a",
+    "\\app\\dtos\\AppTestDto.restful": "107a0b8a3e619b6cc9a33a6751b87b11ed4fc9283691059cd31f5ec82f672400",
+    "\\preset_sys\\apis\\PsysAccessControlApi.restful": "b0d2d39774c9d54de475a36214c96f2b22ccbabd98708fe2bf8b1ccc6c0b6310",
+    "\\preset_sys\\apis\\PsysAccountApi.restful": "32d4ef40f1b9814f76d1eaba1bed86edf883b3b6d9db7c1ab6649392024b81ae",
+    "\\preset_sys\\apis\\PsysAuthApi.restful": "5a3956037491705543b846a68aa2674c032b06339429438b8c18aec420fd417f",
+    "\\preset_sys\\apis\\PsysMenuApi.restful": "6cff3611a132f797da23c26a624634156de122acde83e1427728053d6f2d5a38",
+    "\\preset_sys\\dtos\\PsysAccountDto.restful": "19a7b64f84101452d6ee05e88892a16523d89c422e4ade253ccc9420b4fa582a",
+    "\\preset_sys\\dtos\\PsysAccountParam.restful": "cb429ef7b063feef8c29a425a2be5434e73c02234cd345142deccd01d53aa2a2",
+    "\\preset_sys\\dtos\\PsysAuthDto.restful": "fb1c76e604c73cc7a74a9abd23c8607c2d73d10226247e138c37be0363724251",
+    "\\preset_sys\\dtos\\PsysMenuDto.restful": "604e530cedfca4391c3d476e3b12e36bf0960cb458fc890cc006689eef7da169",
+    "\\preset_sys\\enums\\PsysAuthRouteRankEnum.restful": "5478579a96d8d7167765cd2cfa5b8cdf267236669b800fd3d12deea2863d29b6",
+    "\\sdk\\apis\\SdkGenCodeApi.restful": "431cfedaa76a3390a6963671d1c9c237cd45a81c6601804d58ee9f77ea885b69",
+    "\\sdk\\apis\\SdkGenDocApi.restful": "822c8acd24d67c3dba2db191ac55cb08b6def8d690d109425d88c2e65204a7ab",
+    "\\sdk\\apis\\SdkInfoApi.restful": "582315eece63c1bebe69c3e5c69145211a414d3d8b427763eb200ae0eef9a582",
+    "\\sdk\\apis\\SdkVersionApi.restful": "558cdb88e845bdad73d3cc327e5aaf002c6e25e7f0805291135ae80fe0b28754",
+    "\\sdk\\dtos\\SdkCodeTemplateDto.restful": "dd353050eac537094d8b3719d8ab35410eee36d63523d12ed575153bf6d901e9",
+    "\\sdk\\dtos\\SdkFileInfoDto.restful": "f9d826de14778720bf029f3ada02d6412e48064a138e0e07e6f6f8f940e1f422",
+    "\\sdk\\dtos\\SdkResponseDto.restful": "bb962e3552883bde1fa319f471f167ab313a2e7a5935977ee6c5e0ee6f0848c8",
+    "\\sdk\\dtos\\SdkVersionDto.restful": "13f58b4e4031c10c230a49c31fe5bf795b0dd10daba2351b116f2bf17a800286",
+    "\\sdk\\enums\\SdkCrudServiceTypeEnum.restful": "36e536beb8ae50e37b0968541a17e522339ccb0a1333307a2430c64817889e40",
+    "\\sdk\\enums\\SdkFileTypeEnum.restful": "5084460c093db19fa10973a13d8940dfeaede23d6692f2f5645ff57791ac0f2f"
+}

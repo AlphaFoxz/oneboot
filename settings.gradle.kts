@@ -10,11 +10,12 @@ pluginManagement {
         id("org.graalvm.buildtools.native") version graalvmBuildtoolsVersion
     }
 }
+
 rootProject.name = "oneboot"
 
 include(
     ":gradle_tasks",
-    ":common",
+    ":core",
     ":starter",
     ":starter:flowable_starter",
 //    ":starter:meilisearch_starter",

@@ -1,6 +1,6 @@
 namespace java com.github.alphafoxz.oneboot.sdk.gen.restful.enums
 namespace ts gen.sdk.enums
-namespace rs thrift.gen.enums
+namespace rs gen.sdk.enums
 
 /* 文件类型 */
 enum SdkFileTypeEnum {

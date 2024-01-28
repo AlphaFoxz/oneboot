@@ -1,9 +1,9 @@
 package com.github.alphafoxz.oneboot.sdk.service.gen;
 
 import com.deepoove.poi.XWPFTemplate;
-import com.github.alphafoxz.oneboot.common.configuration.CommonProperties;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootGenException;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.*;
+import com.github.alphafoxz.oneboot.core.configuration.CoreProperties;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootGenException;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -23,10 +23,10 @@ import java.util.Set;
 @Service
 public class SdkGenDocService {
     @Resource
-    private CommonProperties commonProperties;
+    private CoreProperties coreProperties;
 
     public File generateWordApi(String moduleName) {
-        String scanPackage = commonProperties.getBasePackage() + "." + moduleName + ".gen.restful.apis";
+        String scanPackage = coreProperties.getBasePackage() + "." + moduleName + ".gen.restful.apis";
         Set<Class<?>> classes = ClassUtil.scanPackage(scanPackage);
         List<ApiBean> apiList = CollUtil.newArrayList();
         for (Class<?> clazz : classes) {

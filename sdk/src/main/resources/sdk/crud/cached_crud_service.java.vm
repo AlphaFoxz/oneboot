@@ -1,6 +1,6 @@
 package {basePackage}.{moduleName}.service.crud;
 
-import {basePackage}.common.standard.framework.impl.AbstractCachedCrudService;
+import {basePackage}.core.standard.framework.impl.AbstractCachedCrudService;
 import {basePackage}.{moduleName}.gen.jooq.tables.{PoName};
 import {basePackage}.{moduleName}.gen.jooq.tables.pojos.{PoName}Po;
 import {basePackage}.{moduleName}.gen.jooq.tables.records.{PoName}Record;

@@ -1,18 +1,18 @@
 package com.github.alphafoxz.oneboot.preset_sys.aspect;
 
-import com.github.alphafoxz.oneboot.common.annotations.access_control.AbacResourceBizId;
-import com.github.alphafoxz.oneboot.common.annotations.access_control.AccessControl;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootApiDesignException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootAuthException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootDirtyDataException;
-import com.github.alphafoxz.oneboot.common.exceptions.OnebootException;
-import com.github.alphafoxz.oneboot.common.standard.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.common.standard.access_control.AbacApi;
-import com.github.alphafoxz.oneboot.common.standard.framework.ReliableService;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ArrayUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.CollUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.ReflectUtil;
-import com.github.alphafoxz.oneboot.common.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.core.annotations.access_control.AbacResourceBizId;
+import com.github.alphafoxz.oneboot.core.annotations.access_control.AccessControl;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootApiDesignException;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootDirtyDataException;
+import com.github.alphafoxz.oneboot.core.exceptions.OnebootException;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
+import com.github.alphafoxz.oneboot.core.standard.framework.ReliableService;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.ReflectUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import jakarta.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -42,7 +42,7 @@ public class AccessControlAspect {
     @Resource
     private AbacApi abacApi;
 
-    @Pointcut("@annotation(com.github.alphafoxz.oneboot.common.annotations.access_control.AccessControl)")
+    @Pointcut("@annotation(com.github.alphafoxz.oneboot.core.annotations.access_control.AccessControl)")
     public void accessControlPointcut() {
     }
 

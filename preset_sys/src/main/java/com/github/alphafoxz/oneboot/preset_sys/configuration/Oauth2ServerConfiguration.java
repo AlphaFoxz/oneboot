@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.configuration;
 
-import com.github.alphafoxz.oneboot.common.toolkit.coding.IdUtil;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.IdUtil;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
