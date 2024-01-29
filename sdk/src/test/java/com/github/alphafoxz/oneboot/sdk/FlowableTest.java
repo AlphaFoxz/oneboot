@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk;
 
-import com.github.alphafoxz.oneboot.common.standard.starter.flowable.FlowableService;
+import com.github.alphafoxz.oneboot.core.standard.starter.flowable.FlowableService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

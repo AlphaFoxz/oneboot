@@ -1,4 +1,5 @@
 plugins {
+    id("java")
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -13,6 +14,7 @@ tasks.bootJar {
     enabled = false
 }
 allprojects {
+    apply(plugin = "java")
     apply(plugin = "java-library")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
@@ -57,7 +59,6 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-data-rest")
         implementation("com.github.ben-manes.caffeine:caffeine")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
-        implementation("cn.hutool:hutool-all")
 
         compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
         compileOnly("org.projectlombok:lombok")
@@ -115,6 +116,7 @@ project(":app") {
 project(":sdk") {
     tasks.bootJar {
         enabled = true
+        mustRunAfter(":app:bootJar")
     }
     tasks.withType<Test> {
         useJUnitPlatform()

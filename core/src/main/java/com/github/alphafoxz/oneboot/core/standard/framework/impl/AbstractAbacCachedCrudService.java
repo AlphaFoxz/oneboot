@@ -48,6 +48,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
 
     private Field<Long> idField;
 
+    @SuppressWarnings("unchecked")
     protected Field<Long> getIdField() {
         if (idField == null) {
             idField = (Field<Long>) getTable().getPrimaryKey().getFields().get(0);

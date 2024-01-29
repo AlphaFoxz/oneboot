@@ -1,6 +1,6 @@
-package com.github.alphafoxz.oneboot.flowable_starter.service;
+package com.github.alphafoxz.oneboot.starter.flowable.service;
 
-import com.github.alphafoxz.oneboot.common.standard.starter.flowable.FlowableService;
+import com.github.alphafoxz.oneboot.core.standard.starter.flowable.FlowableService;
 import jakarta.annotation.Resource;
 import org.flowable.engine.ProcessEngine;
 import org.springframework.stereotype.Service;

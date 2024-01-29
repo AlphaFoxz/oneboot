@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.meilisearch_starter.service;
+package com.github.alphafoxz.oneboot.meilisearch.service;
 
 import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchRequestBean;
 import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchResultBean;

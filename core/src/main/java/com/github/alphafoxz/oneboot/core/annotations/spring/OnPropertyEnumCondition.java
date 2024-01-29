@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.http.HttpStatus;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -35,8 +36,18 @@ public class OnPropertyEnumCondition<T extends Enum<T>> implements Condition {
         if (ArrayUtil.isEmpty(propertyValues) || enumClass == null || (ArrayUtil.isEmpty(includeAnyValue) && ArrayUtil.isEmpty(includeAllValue))) {
             return false;
         }
-        Method valuesMethod = enumClass.getMethod("values", (Class<?>[]) null);
-        T[] enums = (T[]) valuesMethod.invoke(null, (Object[]) null);
+        Method valuesMethod = null;
+        try {
+            valuesMethod = enumClass.getMethod("values", (Class<?>[]) null);
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new OnebootConfigException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
+        T[] enums = null;
+        try {
+            enums = (T[]) valuesMethod.invoke(null, (Object[]) null);
+        } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+            throw new OnebootConfigException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, e);
+        }
         boolean flag = true;
         //传入的枚举值必须全匹配
         if (ArrayUtil.isNotEmpty(includeAllValue)) {

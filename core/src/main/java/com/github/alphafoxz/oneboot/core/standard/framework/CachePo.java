@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
  */
 public interface CachePo<PO extends java.lang.Record> extends Cacheable<Cache> {
     @Nullable
+    @SuppressWarnings("unchecked")
     public default PO queryCache(long id) {
         Cache cache = getCache();
         PO result = null;

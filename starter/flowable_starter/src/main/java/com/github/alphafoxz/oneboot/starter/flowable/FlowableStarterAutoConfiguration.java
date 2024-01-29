@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.flowable_starter;
+package com.github.alphafoxz.oneboot.starter.flowable;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

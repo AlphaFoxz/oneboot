@@ -1,10 +1,10 @@
-module oneboot.common.main {
+module oneboot.core {
     requires cn.hutool;
     requires org.springdoc.openapi.common;
     requires io.swagger.v3.oas.models;
     requires spring.context;
     requires org.jooq;
-    requires lombok;
+    requires static lombok;
     requires spring.core;
     requires spring.web;
     requires com.github.benmanes.caffeine;

@@ -3,6 +3,8 @@ tasks.bootJar {
 }
 dependencies {
     compileOnly(project(":core"))
+
     implementation(project(":starter:flowable_starter"))
-//    implementation(project(":starter:meilisearch_starter"))
+    implementation(project(":starter:jooq_starter"))
+    implementation(project(":starter:meilisearch_starter"))
 }

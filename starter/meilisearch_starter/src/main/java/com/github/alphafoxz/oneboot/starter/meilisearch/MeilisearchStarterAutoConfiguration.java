@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.meilisearch_starter;
+package com.github.alphafoxz.oneboot.starter.meilisearch;
 
 import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.Config;
