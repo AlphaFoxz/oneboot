@@ -35,3 +35,18 @@ logging:
     com.github.alphafoxz.oneboot.app: info
     com.github.alphafoxz.oneboot.sdk: debug
     org.springframework.web.servlet: debug
+
+oneboot:
+  core:
+    base-package: com.github.alphafoxz.oneboot
+    snowflake:
+      worker-id: 1
+      datacenter-id: 1
+  starter:
+    cache:
+      cache-expire-ms: 1_800_000
+      cache-max-size: 10_000
+      cache-strategy: caffeine
+    meilisearch:
+      url: "http://127.0.0.1:7700"
+      master-key: "123QWEasdzxcfffff"

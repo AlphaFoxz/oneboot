@@ -1,7 +1,0 @@
-oneboot:
-  app:
-    module-name: app
-    thrift:
-      enabled: false
-      port: 8081
-      t-server: t_threaded_selector_server

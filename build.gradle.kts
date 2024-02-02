@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -17,7 +16,6 @@ tasks.jar {
     enabled = false
 }
 allprojects {
-    apply(plugin = "java")
     apply(plugin = "java-library")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
@@ -33,17 +31,14 @@ allprojects {
     dependencyManagement {
         imports {
             org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            mavenBom(project.property("parentProject") as String)
         }
         dependencies {
-            dependency("org.mapstruct:mapstruct:1.5.5.Final")
-            dependency("org.mapstruct:mapstruct-processor:1.5.5.Final")
-            dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-            dependency("cn.hutool:hutool-all:5.8.25")
-            dependency("org.jooq:jooq-postgres-extensions:3.18.7")
-            dependency("org.jooq:jooq-codegen:3.18.7")
-            dependency("com.google.code.findbugs:annotations:3.0.1")
-            dependency("org.apache.poi:poi-ooxml:5.2.5")
-            dependency("com.deepoove:poi-tl:1.12.1")
+            dependency(project.property("parentProject") as String)
+            dependency("com.github.AlphaFoxz.oneboot-starter:cache_starter:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-starter:flowable_starter:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-starter:meilisearch_starter:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-starter:postgres_starter:dev-SNAPSHOT")
         }
     }
 }
@@ -79,9 +74,11 @@ project(":preset_sys") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":core"))
-        api(project(":starter:postgres_starter"))
-        api(project(":starter:cache_starter"))
+        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
+            isChanging = true
+        }
+        api("com.github.AlphaFoxz.oneboot-starter:cache_starter")
+        api("com.github.AlphaFoxz.oneboot-starter:postgres_starter")
 
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
@@ -105,8 +102,10 @@ project(":app") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":core"))
-        implementation(project(":preset_sys"))
+        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
+            isChanging = true
+        }
+        api(project(":preset_sys"))
 
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
@@ -131,11 +130,10 @@ project(":sdk") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation(project(":core"))
-        implementation(project(":starter:postgres_starter"))
-        implementation(project(":starter:cache_starter"))
-        implementation(project(":app"))
-        implementation(project(":preset_sys"))
+        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
+            isChanging = true
+        }
+        api(project(":app"))
         implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
             isChanging = true
         }

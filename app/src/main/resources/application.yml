@@ -5,8 +5,4 @@ spring:
   profiles:
     active: dev
     include:
-      - dev-core
-      - dev-preset_sys
-      - dev-app
       - dev-sdk
-      - dev-starter

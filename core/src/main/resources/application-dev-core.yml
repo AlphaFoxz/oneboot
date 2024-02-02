@@ -1,6 +1,0 @@
-oneboot:
-  core:
-    base-package: com.github.alphafoxz.oneboot
-    snowflake:
-      worker-id: 1
-      datacenter-id: 1
