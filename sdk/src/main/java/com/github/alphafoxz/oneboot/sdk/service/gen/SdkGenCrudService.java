@@ -7,7 +7,7 @@ import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ResourceUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.enums.SdkCrudServiceTypeEnum;
+import com.github.alphafoxz.oneboot.sdk.gen.restl.enums.SdkCrudServiceTypeEnum;
 import jakarta.annotation.Resource;
 import org.jooq.DSLContext;
 import org.jooq.Record;

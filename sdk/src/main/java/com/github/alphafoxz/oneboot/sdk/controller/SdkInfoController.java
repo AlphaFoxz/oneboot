@@ -2,8 +2,8 @@ package com.github.alphafoxz.oneboot.sdk.controller;
 
 import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkInfoApi;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.dtos.SdkStringResponseDto;
+import com.github.alphafoxz.oneboot.sdk.gen.restl.apis.SdkInfoApi;
+import com.github.alphafoxz.oneboot.sdk.gen.restl.dtos.SdkStringResponseDto;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

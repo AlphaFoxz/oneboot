@@ -1,0 +1,18 @@
+namespace java com.github.alphafoxz.oneboot.sdk.gen.restl.dtos
+namespace ts gen.sdk.dtos
+namespace rs gen.sdk.dtos
+
+import "../enums/SdkFileTypeEnum.restl"
+
+class SdkFileInfoDto {
+    required string filePath
+    required string parentDir
+    required string fileName
+    required string separator
+    optional string content
+    optional string ext
+    required enum<SdkFileTypeEnum.SdkFileTypeEnum> fileType
+    required boolean isReadOnly
+    required boolean isEmpty
+    optional list<SdkFileInfoDto> children
+}

@@ -1,7 +1,6 @@
 package com.github.alphafoxz.oneboot.sdk.controller;
 
-import cn.hutool.core.lang.Snowflake;
-import com.github.alphafoxz.oneboot.sdk.gen.restful.apis.SdkGenCodeApi;
+import com.github.alphafoxz.oneboot.sdk.gen.restl.apis.SdkGenCodeApi;
 import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenCrudService;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;

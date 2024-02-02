@@ -13,6 +13,9 @@ java {
 tasks.bootJar {
     enabled = false
 }
+tasks.jar {
+    enabled = false
+}
 allprojects {
     apply(plugin = "java")
     apply(plugin = "java-library")

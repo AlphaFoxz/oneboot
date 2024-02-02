@@ -2,8 +2,8 @@ package com.github.alphafoxz.oneboot.app.controller;
 
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
-import com.github.alphafoxz.oneboot.app.gen.restful.apis.AppTestApi;
-import com.github.alphafoxz.oneboot.app.gen.restful.dtos.AppTestInfoDto;
+import com.github.alphafoxz.oneboot.app.gen.restl.apis.AppTestApi;
+import com.github.alphafoxz.oneboot.app.gen.restl.dtos.AppTestInfoDto;
 import com.github.alphafoxz.oneboot.app.service.crud.AppTestCrud;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.FileUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;

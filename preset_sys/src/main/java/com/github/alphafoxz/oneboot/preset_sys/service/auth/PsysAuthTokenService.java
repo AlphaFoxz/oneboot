@@ -7,7 +7,7 @@ import com.github.alphafoxz.oneboot.core.toolkit.coding.DateUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple3;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAccountPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAuthTokenInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAccountCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.security.bean.UserDetailsImpl;

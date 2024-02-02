@@ -1,0 +1,48 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos
+namespace ts gen.preset_sys.dtos
+
+import "../enums/PsysAuthRouteRankEnum.restl"
+
+/* 用户令牌结果 */
+class PsysAuthTokenInfoDto {
+    /* 用户名 */
+    string username
+    /* 当前登录用户的角色 */
+    list<string> roles
+    /* 访问令牌 */
+    string accessToken
+    /* 刷新令牌 */
+    string refreshToken
+    /* accessToken的过期时间（格式'yyyy/MM/dd HH:mm:ss'） */
+    string expires
+}
+
+/* 用户信息响应体 */
+class PsysAuthTokenResponse {
+    /* 是否成功 */
+    required boolean success
+    /* 响应数据 */
+    optional PsysAuthTokenInfoDto data
+}
+
+/* 路由信息 */
+class PsysAuthRouteDto {
+    required string path
+    optional string name
+    required PsysAuthRouteMeta meta
+    optional PsysAuthRouteDto children
+}
+
+/* 路由元数据 */
+class PsysAuthRouteMeta {
+    /* 图标 */
+    optional string icon
+    /* 标题 */
+    required string title
+    /* 名称 */
+    optional string name
+    /* 排序 */
+    optional enum<PsysAuthRouteRankEnum.PsysAuthRouteRankEnum> rank
+    /* 权限标识 */
+    optional list<string> roles
+}

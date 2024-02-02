@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.controller;
 
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.apis.PsysAccessControlApi;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis.PsysAccessControlApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

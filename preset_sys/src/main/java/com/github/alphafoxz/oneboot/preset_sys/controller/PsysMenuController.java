@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.controller;
 
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.apis.PsysMenuApi;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysMenuResponseDto;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis.PsysMenuApi;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysMenuResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

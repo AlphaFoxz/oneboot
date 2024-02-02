@@ -1,9 +1,9 @@
 package com.github.alphafoxz.oneboot.preset_sys.controller;
 
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.apis.PsysAuthApi;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthRouteDto;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenInfoDto;
-import com.github.alphafoxz.oneboot.preset_sys.gen.restful.dtos.PsysAuthTokenResponse;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis.PsysAuthApi;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAuthRouteDto;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAuthTokenInfoDto;
+import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAuthTokenResponse;
 import com.github.alphafoxz.oneboot.preset_sys.service.auth.PsysAuthTokenService;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
