@@ -2,7 +2,6 @@ package com.github.alphafoxz.oneboot.preset_sys.service.abac.policy;
 
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacPolicy;
-import com.github.alphafoxz.oneboot.core.standard.access_control.impl.AbstractAbacBusinessPolicy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

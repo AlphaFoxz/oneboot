@@ -1,4 +1,4 @@
-//module oneboot.starter.meilisearch {
+//module com.github.alphafoxz.oneboot.starter.meilisearch {
 //    requires spring.boot;
 //    requires spring.boot.autoconfigure;
 //    requires spring.beans;
@@ -7,7 +7,7 @@
 //    requires meilisearch.java;
 //    requires spring.context;
 //    requires org.mapstruct;
-//    requires oneboot.core;
+//    requires com.github.alphafoxz.oneboot.core;
 //    requires spring.core;
 //    requires org.slf4j;
 //}

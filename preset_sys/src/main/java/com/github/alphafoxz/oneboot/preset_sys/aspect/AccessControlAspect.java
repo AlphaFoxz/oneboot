@@ -1,7 +1,7 @@
 package com.github.alphafoxz.oneboot.preset_sys.aspect;
 
-import com.github.alphafoxz.oneboot.core.annotations.access_control.AbacResourceBizId;
-import com.github.alphafoxz.oneboot.core.annotations.access_control.AccessControl;
+import com.github.alphafoxz.oneboot.preset_sys.annotation.AbacResourceBizId;
+import com.github.alphafoxz.oneboot.preset_sys.annotation.AccessControl;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootApiDesignException;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootDirtyDataException;
@@ -42,7 +42,7 @@ public class AccessControlAspect {
     @Resource
     private AbacApi abacApi;
 
-    @Pointcut("@annotation(com.github.alphafoxz.oneboot.core.annotations.access_control.AccessControl)")
+    @Pointcut("@annotation(com.github.alphafoxz.oneboot.preset_sys.annotation.AccessControl)")
     public void accessControlPointcut() {
     }
 

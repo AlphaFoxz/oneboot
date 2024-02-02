@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.crud;
 
-import com.github.alphafoxz.oneboot.core.standard.framework.impl.AbstractCachedCrudService;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.impl.AbstractCachedCrudService;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysUserRecord;

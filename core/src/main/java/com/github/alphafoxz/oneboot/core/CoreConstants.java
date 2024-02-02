@@ -20,14 +20,6 @@ public final class CoreConstants {
      */
     public static final String EMPTY_JSON_OBJ = "{}";
     /**
-     * 缓存过期时间
-     */
-    public static final Duration CACHE_EXPIRE_TIME = Duration.ofMinutes(30);
-    /**
-     * 缓存最大容量
-     */
-    public static final long CACHE_MAX_SIZE = 10000;
-    /**
      * 慢SQL判定阈值毫秒
      */
     public static final long SLOW_SQL_TIMEOUT_MS = 10;

@@ -12,8 +12,6 @@ tasks.bootJar {
     enabled = false
 }
 dependencies {
-    implementation(project(":core"))
-
     implementation("org.flowable:flowable-spring-boot-autoconfigure:7.0.1")
     implementation("org.flowable:flowable-spring-boot-starter:7.0.1")
 //    implementation("org.flowable:flowable-spring-boot-starter-rest:7.0.0")

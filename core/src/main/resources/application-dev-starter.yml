@@ -1,5 +1,7 @@
 oneboot:
   starter:
-    meilisearch-starter:
+    cache:
+      cache-strategy: caffeine
+    meilisearch:
       url: "http://127.0.0.1:7700"
       master-key: "123QWEasdzxcfffff"

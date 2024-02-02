@@ -12,7 +12,5 @@ tasks.bootJar {
     enabled = false
 }
 dependencies {
-    implementation(project(":core"))
-
     implementation("com.meilisearch.sdk:meilisearch-java:0.11.5")
 }

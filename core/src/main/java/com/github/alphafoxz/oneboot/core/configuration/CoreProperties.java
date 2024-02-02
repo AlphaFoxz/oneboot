@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "oneboot.core")
 public class CoreProperties {
-    private CacheStrategyEnum cacheStrategy = CacheStrategyEnum.CAFFEINE;
     private String basePackage = "com.github.alphafoxz.oneboot";
     private SnowflakePropertiesBean snowflake;
 
@@ -18,8 +17,4 @@ public class CoreProperties {
         private Long datacenterId;
     }
 
-    public static enum CacheStrategyEnum {
-        CAFFEINE,
-        REDIS;
-    }
 }

@@ -1,11 +1,9 @@
-package com.github.alphafoxz.oneboot.meilisearch.service;
+package com.github.alphafoxz.oneboot.starter.meilisearch.service;
 
-import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.MeilisearchService;
-import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchRequestBean;
-import com.github.alphafoxz.oneboot.core.standard.starter.meilisearch.SearchResultBean;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.meilisearch.sdk.Client;
+import com.meilisearch.sdk.SearchRequest;
 import com.meilisearch.sdk.exceptions.MeilisearchException;
 import com.meilisearch.sdk.model.Key;
 import com.meilisearch.sdk.model.SearchResult;
@@ -22,15 +20,12 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class MeilisearchStarterService implements MeilisearchService {
-    @Resource
-    private MeilisearchModuleConvert meilisearchModuleConvert;
-//    @Resource
+public class MeilisearchStarterService {
+    //    @Resource
 //    private MeilisearchStarterProperties meilisearchStarterProperties;
     @Resource
     private Client client;
 
-    @Override
     public void createApiKey() {
         long t = System.currentTimeMillis();
         Date expDate = new Date(t + 1000 * 60 * 60 * 24 * 365);
@@ -47,7 +42,6 @@ public class MeilisearchStarterService implements MeilisearchService {
     }
 
     @Nullable
-    @Override
     public String getApiKey() {
         Key[] keys = null;
         try {
@@ -61,12 +55,10 @@ public class MeilisearchStarterService implements MeilisearchService {
         return keys[0].getKey();
     }
 
-    @Override
     public boolean addDocuments(@NonNull String index, @NonNull List<?> documents) {
         return addDocuments(index, JSONUtil.toJsonStr(documents));
     }
 
-    @Override
     public boolean addDocuments(@NonNull String index, @NonNull String documentsJsonArr) {
         try {
             TaskStatus status = getClient().index(index).addDocuments(documentsJsonArr).getStatus();
@@ -77,7 +69,6 @@ public class MeilisearchStarterService implements MeilisearchService {
         return false;
     }
 
-    @Override
     public boolean deleteIndex(@NonNull String index) {
         try {
             TaskStatus status = getClient().deleteIndex(index).getStatus();
@@ -88,7 +79,6 @@ public class MeilisearchStarterService implements MeilisearchService {
         return false;
     }
 
-    @Override
     public boolean deleteDocuments(@NonNull String index, @NonNull List<String> documentsIds) {
         try {
             TaskStatus status = getClient().index(index).deleteDocuments(documentsIds).getStatus();
@@ -99,7 +89,6 @@ public class MeilisearchStarterService implements MeilisearchService {
         return false;
     }
 
-    @Override
     public <T extends Serializable> T getDocument(@NonNull String index, @NonNull String id, @NonNull Class<T> targetClass) {
         try {
             return getClient().index(index).getDocument(id, targetClass);
@@ -109,23 +98,20 @@ public class MeilisearchStarterService implements MeilisearchService {
         return null;
     }
 
-    @Override
     @Nullable
-    public SearchResultBean search(@NonNull String index, @NonNull String str) {
+    public SearchResult search(@NonNull String index, @NonNull String str) {
         try {
             //TODO 测试str是否支持空，如果是空就应该返回无条件查询列表？
-            SearchResult search = getClient().index(index).search(str);
-            return meilisearchModuleConvert.searchResult2Bean(search);
+            return getClient().index(index).search(str);
         } catch (MeilisearchException e) {
             log.error("search error: ", e);
         }
         return null;
     }
 
-    public SearchResultBean search(@NonNull String index, @NonNull SearchRequestBean searchRequest) {
+    public SearchResult search(@NonNull String index, @NonNull SearchRequest searchRequest) {
         try {
-            SearchResult search = (SearchResult) getClient().index(index).search(meilisearchModuleConvert.bean2SearchRequest(searchRequest));
-            return meilisearchModuleConvert.searchResult2Bean(search);
+            return (SearchResult) getClient().index(index).search(searchRequest);
         } catch (MeilisearchException e) {
             log.error("search error: ", e);
         }

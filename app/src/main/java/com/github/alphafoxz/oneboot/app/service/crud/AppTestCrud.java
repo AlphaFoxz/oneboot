@@ -4,7 +4,7 @@ import com.github.alphafoxz.oneboot.app.gen.jooq.tables.AppTest;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.pojos.AppTestPo;
 import com.github.alphafoxz.oneboot.app.gen.jooq.tables.records.AppTestRecord;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacPolicy;
-import com.github.alphafoxz.oneboot.core.standard.framework.impl.AbstractAbacCachedCrudService;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.impl.AbstractAbacCachedCrudService;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacOwnerPolicy;

@@ -55,9 +55,7 @@ subprojects {
         }
         implementation("org.springframework.boot:spring-boot-starter-undertow")
         implementation("org.springframework.boot:spring-boot-starter-aop")
-        implementation("org.springframework.boot:spring-boot-starter-cache")
         implementation("org.springframework.boot:spring-boot-starter-data-rest")
-        implementation("com.github.ben-manes.caffeine:caffeine")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
 
         compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
@@ -68,11 +66,7 @@ subprojects {
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-        implementation("org.springframework.boot:spring-boot-starter-jooq")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-        compileOnly("org.jooq:jooq-codegen")
-        implementation("org.postgresql:postgresql")
     }
 }
 
@@ -83,9 +77,13 @@ project(":preset_sys") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":core"))
+        api(project(":starter:postgres_starter"))
+        api(project(":starter:cache_starter"))
 
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
+
+        compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
@@ -105,9 +103,9 @@ project(":app") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":core"))
-        implementation(project(":starter"))
         implementation(project(":preset_sys"))
 
+        compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
@@ -131,7 +129,8 @@ project(":sdk") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         implementation(project(":core"))
-        implementation(project(":starter"))
+        implementation(project(":starter:postgres_starter"))
+        implementation(project(":starter:cache_starter"))
         implementation(project(":app"))
         implementation(project(":preset_sys"))
         implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
@@ -148,6 +147,8 @@ project(":sdk") {
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
         implementation("org.apache.poi:poi-ooxml")
         implementation("com.deepoove:poi-tl")
+
+        compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
@@ -155,6 +156,9 @@ project(":sdk") {
 project(":gradle_tasks") {
     tasks.bootJar {
         enabled = false
+    }
+    dependencies {
+        compileOnly("org.jooq:jooq-codegen")
     }
 }
 dependencies {

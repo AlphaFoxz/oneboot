@@ -1,10 +1,20 @@
 tasks.bootJar {
     enabled = false
 }
-dependencies {
-    compileOnly(project(":core"))
-
-    implementation(project(":starter:flowable_starter"))
-    implementation(project(":starter:jooq_starter"))
-    implementation(project(":starter:meilisearch_starter"))
+tasks.jar {
+    enabled = false
+}
+subprojects {
+    tasks.bootJar {
+        enabled = false
+    }
+    tasks.jar {
+        enabled = true
+        archiveClassifier.set("")
+    }
+    dependencies {
+        implementation(project(":core"))
+        compileOnly("org.springframework.boot:spring-boot-starter-web")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    }
 }
