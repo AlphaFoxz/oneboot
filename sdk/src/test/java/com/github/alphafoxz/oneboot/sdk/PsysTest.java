@@ -55,6 +55,6 @@ public class PsysTest {
         record.setAccountId(snowflake.nextId());
         record.setEnabled(true);
         record.setExpired(false);
-//        psysUserCrud.insert(record);
+        psysUserCrud.insert(record);
     }
 }

@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/app/test")
 public class AppTestController implements AppTestApi {
     @Resource
     private AppTestCrud appTestCrud;
@@ -46,7 +45,7 @@ public class AppTestController implements AppTestApi {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/query/{id}")
+    @Override
     public ResponseEntity<AppTestInfoDto> queryOne(@PathVariable Long id) {
         AppTestPo appTest = appTestCrud.selectOne(id);
         if (appTest == null) {
@@ -55,7 +54,7 @@ public class AppTestController implements AppTestApi {
         return ResponseEntity.ok(new AppTestInfoDto());
     }
 
-    @GetMapping("/queryPage")
+    @Override
     public ResponseEntity<Page<AppTestInfoDto>> queryPage(Integer pageNum, Integer pageSize) {
         org.springframework.data.domain.Page<AppTestPo> appTestPage = appTestCrud.selectPage(pageNum, pageSize, DSL.trueCondition());
         org.springframework.data.domain.Page<AppTestInfoDto> map = appTestPage.map((testPo) -> {

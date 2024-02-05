@@ -41,6 +41,13 @@ allprojects {
             dependency("com.github.AlphaFoxz.oneboot-starter:postgres_starter:dev-SNAPSHOT")
         }
     }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        onlyIf {
+            //在执行build任务时跳过test
+            !gradle.taskGraph.hasTask(":build")
+        }
+    }
 }
 subprojects {
     tasks.jar {
@@ -48,21 +55,16 @@ subprojects {
         archiveClassifier = ""
     }
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-web") {
-            exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
+            isChanging = true
         }
-        implementation("org.springframework.boot:spring-boot-starter-undertow")
-        implementation("org.springframework.boot:spring-boot-starter-aop")
-        implementation("org.springframework.boot:spring-boot-starter-data-rest")
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
-
-        compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
+        compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
+
         compileOnly("org.mapstruct:mapstruct")
         annotationProcessor("org.mapstruct:mapstruct-processor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         developmentOnly("org.springframework.boot:spring-boot-devtools")
     }
@@ -74,14 +76,13 @@ project(":preset_sys") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
-            isChanging = true
-        }
         api("com.github.AlphaFoxz.oneboot-starter:cache_starter")
         api("com.github.AlphaFoxz.oneboot-starter:postgres_starter")
-
+        api("org.springframework.boot:spring-boot-starter-data-rest")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
+
 
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
@@ -102,10 +103,11 @@ project(":app") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
-            isChanging = true
-        }
         api(project(":preset_sys"))
+        api("org.springframework.boot:spring-boot-starter-web") {
+            exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+        }
+        api("org.springframework.boot:spring-boot-starter-undertow")
 
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
@@ -130,9 +132,6 @@ project(":sdk") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
-        implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
-            isChanging = true
-        }
         api(project(":app"))
         implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
             isChanging = true
@@ -145,9 +144,10 @@ project(":sdk") {
             isChanging = true
         }
 
-        implementation("org.springframework.security:spring-security-oauth2-authorization-server")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
         implementation("org.apache.poi:poi-ooxml")
         implementation("com.deepoove:poi-tl")
+        implementation("org.springframework.security:spring-security-oauth2-authorization-server")
 
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
@@ -164,12 +164,4 @@ project(":gradle_tasks") {
 }
 dependencies {
     jooqGenerator("org.postgresql:postgresql")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-    onlyIf {
-        //在执行build任务时跳过test
-        !gradle.taskGraph.hasTask(":build")
-    }
 }
