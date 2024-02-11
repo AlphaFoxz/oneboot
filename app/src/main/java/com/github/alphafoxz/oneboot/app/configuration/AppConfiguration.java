@@ -6,8 +6,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfiguration {
-    @Resource
-    private AppProperties appProperties;
-    @Resource
-    private CoreProperties coreProperties;
 }

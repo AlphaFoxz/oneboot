@@ -83,7 +83,6 @@ project(":preset_sys") {
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
 
-
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
