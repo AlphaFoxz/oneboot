@@ -8,5 +8,5 @@ import "../dtos/PsysMenuDto.restl"
 interface PsysMenuApi {
     /* 根据Token动态获取菜单 */
     @postUri(/getAsyncRoutes)
-    PsysMenuDto.PsysMenuResponseDto getAsyncRoutes(/* token */required string token)
+    PsysMenuDto.PsysMenuResponseDto getAsyncRoutes(/* token */ string token)
 }

@@ -14,31 +14,31 @@ class PsysMenuResponseDto {
 /* 系统菜单dto */
 class PsysMenuInfoDto {
     /* 路径 */
-    required string path
+    string path
     /* 名称 */
-    optional string name
+    string name?
     /* 元信息 */
-    required PsysMenuMetaDto meta
+    PsysMenuMetaDto meta
     /* 子节点 */
-    optional list<PsysMenuInfoDto> children
+    list<PsysMenuInfoDto> children?
 }
 
 /* 系统菜单元信息 */
 class PsysMenuMetaDto {
     /* 类型 */
-    optional enum<PsysAuthRouteRankEnum.PsysAuthRouteRankEnum> rank
+    enum<PsysAuthRouteRankEnum.PsysAuthRouteRankEnum> rank?
     /* 标题 */
-    optional string icon
+    string icon?
     /* 权限 */
-    optional list<string> auths
+    list<string> auths?
     /* iframe路径 */
-    optional string frameSrc
+    string frameSrc?
     /* 标题 */
-    optional string title
+    string title?
     /* 显示链接 */
-    optional boolean showLink
+    boolean showLink?
     /* 启用路径 */
-    optional string activePath
+    string activePath?
     /* 角色 */
-    optional list<string> roles
+    list<string> roles?
 }

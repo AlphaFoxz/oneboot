@@ -5,16 +5,16 @@ namespace ts gen.app.dtos
 /*请求参数体说明*/
 class AppTestInfoDto {
     /*主键*/
-    required long id
-    required string testJson
-    required string testDate
-    required string testTimestamp
-    required boolean testBool
-    required double testDouble
-    required double testFloat
-    required string testTimestamptz
-    required string testTime
-    required string testTimetz
-    required string testDaterange
-    required string testVarchar50
+    long id
+    string testJson
+    string testDate
+    string testTimestamp
+    boolean testBool
+    double testDouble
+    double testFloat
+    string testTimestamptz
+    string testTime
+    string testTimetz
+    string testDaterange
+    string testVarchar50
 }

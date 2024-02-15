@@ -5,31 +5,31 @@ namespace rs gen.sdk.dtos
 import "./SdkCodeTemplateDto.restl"
 
 class SdkListRequestDto {
-    required long id
-    required long taskId
-    required list<string> data
+    long id
+    long taskId
+    list<string> data
 }
 
 class SdkMapRequestDto {
-    required long id
-    required long taskId
-    required map<string, string> data
+    long id
+    long taskId
+    map<string, string> data
 }
 
 class SdkStringRequestDto {
-    required long id
-    required long taskId
-    required string data
+    long id
+    long taskId
+    string data
 }
 
 class SdkLongRequestDto {
-    required long id
-    required long taskId
-    required long data
+    long id
+    long taskId
+    long data
 }
 
 class SdkCodeTemplateRequestDto {
-    required long id
-    required long taskId
-    required SdkCodeTemplateDto.SdkCodeTemplateDto data
+    long id
+    long taskId
+    SdkCodeTemplateDto.SdkCodeTemplateDto data
 }

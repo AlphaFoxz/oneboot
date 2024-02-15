@@ -132,7 +132,7 @@ project(":sdk") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         api(project(":app"))
-        implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:springboot3-SNAPSHOT") {
+        implementation("com.github.AlphaFoxz:restful-dsl-java:springboot3-release-SNAPSHOT") {
             isChanging = true
         }
 
