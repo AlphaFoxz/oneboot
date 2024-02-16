@@ -31,7 +31,7 @@ public record PsysUserPo(
     @Nullable String avatar,
     @Nullable Short sex,
     @Nullable String email,
-    @Nullable Short status
+    @NonNull Short status
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;

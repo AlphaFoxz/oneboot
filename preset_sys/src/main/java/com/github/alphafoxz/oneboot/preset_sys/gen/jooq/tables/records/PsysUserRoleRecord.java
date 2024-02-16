@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
  * 角色表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> implements Record9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, Integer> {
+public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> implements Record9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -114,7 +114,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_user_role.role_code</code>. 角色编码
+     * Setter for <code>preset_sys.psys_user_role.role_code</code>. 角色bi
      */
     public PsysUserRoleRecord setRoleCode(@Nullable String value) {
         set(5, value);
@@ -122,7 +122,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
     }
 
     /**
-     * Getter for <code>preset_sys.psys_user_role.role_code</code>. 角色编码
+     * Getter for <code>preset_sys.psys_user_role.role_code</code>. 角色bi
      */
     @Size(max = 50)
     @Nullable
@@ -164,19 +164,20 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
     }
 
     /**
-     * Setter for <code>preset_sys.psys_user_role.remark</code>. varchar(100)
+     * Setter for <code>preset_sys.psys_user_role.remark</code>. 备注
      */
-    public PsysUserRoleRecord setRemark(@Nullable Integer value) {
+    public PsysUserRoleRecord setRemark(@Nullable String value) {
         set(8, value);
         return this;
     }
 
     /**
-     * Getter for <code>preset_sys.psys_user_role.remark</code>. varchar(100)
+     * Getter for <code>preset_sys.psys_user_role.remark</code>. 备注
      */
+    @Size(max = 50)
     @Nullable
-    public Integer getRemark() {
-        return (Integer) get(8);
+    public String getRemark() {
+        return (String) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -195,13 +196,13 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
 
     @Override
     @NonNull
-    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, Integer> fieldsRow() {
+    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, String> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 
     @Override
     @NonNull
-    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, Integer> valuesRow() {
+    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, String> valuesRow() {
         return (Row9) super.valuesRow();
     }
 
@@ -255,7 +256,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
 
     @Override
     @NonNull
-    public Field<Integer> field9() {
+    public Field<String> field9() {
         return PsysUserRole.PSYS_USER_ROLE.REMARK;
     }
 
@@ -309,7 +310,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
 
     @Override
     @Nullable
-    public Integer component9() {
+    public String component9() {
         return getRemark();
     }
 
@@ -363,7 +364,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
 
     @Override
     @Nullable
-    public Integer value9() {
+    public String value9() {
         return getRemark();
     }
 
@@ -425,14 +426,14 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
 
     @Override
     @NonNull
-    public PsysUserRoleRecord value9(@Nullable Integer value) {
+    public PsysUserRoleRecord value9(@Nullable String value) {
         setRemark(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysUserRoleRecord values(@NonNull Long value1, @NonNull String value2, @Nullable String value3, @Nullable Boolean value4, @Nullable Short value5, @Nullable String value6, @NonNull OffsetDateTime value7, @Nullable OffsetDateTime value8, @Nullable Integer value9) {
+    public PsysUserRoleRecord values(@NonNull Long value1, @NonNull String value2, @Nullable String value3, @Nullable Boolean value4, @Nullable Short value5, @Nullable String value6, @NonNull OffsetDateTime value7, @Nullable OffsetDateTime value8, @Nullable String value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -459,7 +460,7 @@ public class PsysUserRoleRecord extends UpdatableRecordImpl<PsysUserRoleRecord> 
     /**
      * Create a detached, initialised PsysUserRoleRecord
      */
-    public PsysUserRoleRecord(@NonNull Long id, @NonNull String roleName, @Nullable String description, @Nullable Boolean enabled, @Nullable Short status, @Nullable String roleCode, @NonNull OffsetDateTime createTime, @Nullable OffsetDateTime updateTime, @Nullable Integer remark) {
+    public PsysUserRoleRecord(@NonNull Long id, @NonNull String roleName, @Nullable String description, @Nullable Boolean enabled, @Nullable Short status, @Nullable String roleCode, @NonNull OffsetDateTime createTime, @Nullable OffsetDateTime updateTime, @Nullable String remark) {
         super(PsysUserRole.PSYS_USER_ROLE);
 
         setId(id);

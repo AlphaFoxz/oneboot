@@ -128,14 +128,14 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
     public final TableField<PsysUserRecord, Short> SEX = createField(DSL.name("sex"), SQLDataType.SMALLINT, this, "性别");
 
     /**
-     * The column <code>preset_sys.psys_user.email</code>. 邮箱地址
+     * The column <code>preset_sys.psys_user.email</code>. 电子邮箱
      */
-    public final TableField<PsysUserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(50), this, "邮箱地址");
+    public final TableField<PsysUserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(50), this, "电子邮箱");
 
     /**
      * The column <code>preset_sys.psys_user.status</code>. 状态
      */
-    public final TableField<PsysUserRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
+    public final TableField<PsysUserRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT.nullable(false), this, "状态");
 
     private PsysUser(Name alias, Table<PsysUserRecord> aliased) {
         this(alias, aliased, null);

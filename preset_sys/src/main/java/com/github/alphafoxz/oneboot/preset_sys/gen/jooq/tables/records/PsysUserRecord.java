@@ -269,7 +269,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     /**
-     * Setter for <code>preset_sys.psys_user.email</code>. 邮箱地址
+     * Setter for <code>preset_sys.psys_user.email</code>. 电子邮箱
      */
     public PsysUserRecord setEmail(@Nullable String value) {
         set(14, value);
@@ -277,7 +277,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     /**
-     * Getter for <code>preset_sys.psys_user.email</code>. 邮箱地址
+     * Getter for <code>preset_sys.psys_user.email</code>. 电子邮箱
      */
     @Size(max = 50)
     @Nullable
@@ -288,7 +288,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     /**
      * Setter for <code>preset_sys.psys_user.status</code>. 状态
      */
-    public PsysUserRecord setStatus(@Nullable Short value) {
+    public PsysUserRecord setStatus(@NonNull Short value) {
         set(15, value);
         return this;
     }
@@ -296,7 +296,8 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     /**
      * Getter for <code>preset_sys.psys_user.status</code>. 状态
      */
-    @Nullable
+    @NotNull
+    @NonNull
     public Short getStatus() {
         return (Short) get(15);
     }
@@ -514,7 +515,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     @Override
-    @Nullable
+    @NonNull
     public Short component16() {
         return getStatus();
     }
@@ -610,7 +611,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     }
 
     @Override
-    @Nullable
+    @NonNull
     public Short value16() {
         return getStatus();
     }
@@ -722,14 +723,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
 
     @Override
     @NonNull
-    public PsysUserRecord value16(@Nullable Short value) {
+    public PsysUserRecord value16(@NonNull Short value) {
         setStatus(value);
         return this;
     }
 
     @Override
     @NonNull
-    public PsysUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11, @NonNull OffsetDateTime value12, @Nullable String value13, @Nullable Short value14, @Nullable String value15, @Nullable Short value16) {
+    public PsysUserRecord values(@NonNull Long value1, @NonNull String value2, @NonNull String value3, @NonNull String value4, @NonNull Long value5, @NonNull Long value6, @NonNull Boolean value7, @NonNull Boolean value8, @Nullable String value9, @Nullable Long value10, @Nullable String value11, @NonNull OffsetDateTime value12, @Nullable String value13, @Nullable Short value14, @Nullable String value15, @NonNull Short value16) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -763,7 +764,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> implemen
     /**
      * Create a detached, initialised PsysUserRecord
      */
-    public PsysUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String remark, @Nullable Long departmentId, @Nullable String phone, @NonNull OffsetDateTime createTime, @Nullable String avatar, @Nullable Short sex, @Nullable String email, @Nullable Short status) {
+    public PsysUserRecord(@NonNull Long id, @NonNull String username, @NonNull String password, @NonNull String nickname, @NonNull Long subjectId, @NonNull Long accountId, @NonNull Boolean enabled, @NonNull Boolean expired, @Nullable String remark, @Nullable Long departmentId, @Nullable String phone, @NonNull OffsetDateTime createTime, @Nullable String avatar, @Nullable Short sex, @Nullable String email, @NonNull Short status) {
         super(PsysUser.PSYS_USER);
 
         setId(id);

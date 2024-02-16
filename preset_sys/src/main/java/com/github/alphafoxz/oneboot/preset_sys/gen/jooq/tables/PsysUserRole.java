@@ -79,9 +79,9 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
     public final TableField<PsysUserRoleRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "状态");
 
     /**
-     * The column <code>preset_sys.psys_user_role.role_code</code>. 角色编码
+     * The column <code>preset_sys.psys_user_role.role_code</code>. 角色bi
      */
-    public final TableField<PsysUserRoleRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.VARCHAR(50), this, "角色编码");
+    public final TableField<PsysUserRoleRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.VARCHAR(50), this, "角色bi");
 
     /**
      * The column <code>preset_sys.psys_user_role.create_time</code>. 创建时间
@@ -94,9 +94,9 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
     public final TableField<PsysUserRoleRecord, OffsetDateTime> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "更新时间");
 
     /**
-     * The column <code>preset_sys.psys_user_role.remark</code>. varchar(100)
+     * The column <code>preset_sys.psys_user_role.remark</code>. 备注
      */
-    public final TableField<PsysUserRoleRecord, Integer> REMARK = createField(DSL.name("remark"), SQLDataType.INTEGER, this, "varchar(100)");
+    public final TableField<PsysUserRoleRecord, String> REMARK = createField(DSL.name("remark"), SQLDataType.VARCHAR(50), this, "备注");
 
     private PsysUserRole(Name alias, Table<PsysUserRoleRecord> aliased) {
         this(alias, aliased, null);
@@ -194,14 +194,14 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
 
     @Override
     @NonNull
-    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, Integer> fieldsRow() {
+    public Row9<Long, String, String, Boolean, Short, String, OffsetDateTime, OffsetDateTime, String> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super Integer, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -209,7 +209,7 @@ public class PsysUserRole extends TableImpl<PsysUserRoleRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super Integer, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super Boolean, ? super Short, ? super String, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

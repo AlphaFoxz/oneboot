@@ -24,7 +24,7 @@ public record PsysUserRolePo(
     @Nullable String roleCode,
     @NonNull OffsetDateTime createTime,
     @Nullable OffsetDateTime updateTime,
-    @Nullable Integer remark
+    @Nullable String remark
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;
