@@ -38,7 +38,7 @@ public class PsysAuthTokenService {
     @NonNull
     public PsysAuthTokenInfoDto getAccessTokenAndRefreshToken(@NonNull String username, @NonNull String password) {
         PsysUserPo psysAuthUserPo = psysUserCrud.selectOne(
-                C.PSYS_USER.USERNAME.eq(username)
+                Const.PSYS_USER.USERNAME.eq(username)
         );
         if (psysAuthUserPo == null) {
             throw new OnebootAuthException("用户不存在或密码错误", HttpStatus.BAD_REQUEST);

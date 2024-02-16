@@ -3,12 +3,9 @@ package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 import cn.hutool.json.JSONArray;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacPolicy;
-import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbacAttrImpl;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbstractAbacBusinessPolicy;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbstractAbacOwnerPolicy;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.SpringUtil;
@@ -19,6 +16,9 @@ import com.github.alphafoxz.oneboot.preset_sys.enums.access_control.AbacRoleAttr
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourcePo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourceProtectionPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacSubjectPo;
+import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbacAttrImpl;
+import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbstractAbacBusinessPolicy;
+import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbstractAbacOwnerPolicy;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacResourceCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacResourceProtectionCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacSubjectCrud;
@@ -31,9 +31,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_RESOURCE;
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_RESOURCE_PROTECTION;
 
 /**
  * 访问控制api
@@ -61,9 +58,9 @@ public class PsysAbacService implements AbacApi {
 
         //NOTE 第一步：查询资源是否受保护
         List<PsysAbacResourceProtectionPo> psysAbacResourceProtectionPoList = psysAbacResourceProtectionCrud.selectList(5,
-                PSYS_ABAC_RESOURCE_PROTECTION.SCHEMA_NAME.eq(schemaName),
-                PSYS_ABAC_RESOURCE_PROTECTION.TABLE_NAME.eq(tableName),
-                PSYS_ABAC_RESOURCE_PROTECTION.ENABLED.eq(true)
+                Const.PSYS_ABAC_RESOURCE_PROTECTION.SCHEMA_NAME.eq(schemaName),
+                Const.PSYS_ABAC_RESOURCE_PROTECTION.TABLE_NAME.eq(tableName),
+                Const.PSYS_ABAC_RESOURCE_PROTECTION.ENABLED.eq(true)
         );
         if (psysAbacResourceProtectionPoList.isEmpty()) {
             //不受保护的资源
@@ -90,20 +87,24 @@ public class PsysAbacService implements AbacApi {
             PsysAbacResourcePo psysAbacResourcePo = null;
             if (AbacResourceTypeEnum.TABLE.eqauls(resourceType)) {
                 psysAbacResourcePo = psysAbacResourceCrud.selectOne(
-                        PSYS_ABAC_RESOURCE.PROTECTION_ID.eq(psysAbacResourceProtectionPo.id()),
-                        PSYS_ABAC_RESOURCE.BUSINESS_ID.isNull()
+                        Const.PSYS_ABAC_RESOURCE.PROTECTION_ID.eq(psysAbacResourceProtectionPo.id()),
+                        Const.PSYS_ABAC_RESOURCE.BUSINESS_ID.isNull()
                 );
             } else if (AbacResourceTypeEnum.RECORD.eqauls(resourceType)) {
                 psysAbacResourcePo = psysAbacResourceCrud.selectOne(
-                        PSYS_ABAC_RESOURCE.PROTECTION_ID.eq(psysAbacResourceProtectionPo.id()),
-                        PSYS_ABAC_RESOURCE.BUSINESS_ID.eq(resourceBizId)
+                        Const.PSYS_ABAC_RESOURCE.PROTECTION_ID.eq(psysAbacResourceProtectionPo.id()),
+                        Const.PSYS_ABAC_RESOURCE.BUSINESS_ID.eq(resourceBizId)
                 );
             }
-            if (psysAbacResourcePo == null && !AbacActionType.CREATE.equals(actionType)) {
-                // 无效的删改查
-                String msg = StrUtil.format("未检测到resource，请检查数据完整性：resourceType = {}, schemaName = {}, tableName = {}, bizId = {}", resourceType, schemaName, tableName, resourceBizId);
-                log.error(msg);
-                return false;
+            if (psysAbacResourcePo == null) {
+                if (AbacActionType.CREATE.equals(actionType)) {
+                    continue;
+                } else {
+                    // 无效的删改查
+                    String msg = StrUtil.format("未检测到resource，请检查数据完整性：resourceType = {}, schemaName = {}, tableName = {}, bizId = {}", resourceType, schemaName, tableName, resourceBizId);
+                    log.error(msg);
+                    return false;
+                }
             }
             Map<String, AbacAttr> resourceAttrs = stringToAttrMap(psysAbacResourcePo.resourceAttrSet());
             //NOTE 第三步：DAC模块可以让当前主体扮演另一个主体
@@ -125,10 +126,7 @@ public class PsysAbacService implements AbacApi {
                     if (!businessPolicy.access(subjectAttrs, resourceAttrs, actionType, policiesClass)) {
                         return false;
                     }
-                } else if (policy instanceof AbstractAbacOwnerPolicy ownerPolicy && ownerPolicy.access(subjectId, psysAbacResourcePo.ownerSubjectId(), subjectAttrs, resourceAttrs, actionType, policiesClass)) {
-                    return false;
-                } else {
-                    log.error("未知的策略类型：{}", policy.getClass().getName());
+                } else if (policy instanceof AbstractAbacOwnerPolicy ownerPolicy && !ownerPolicy.access(subjectId, psysAbacResourcePo.ownerSubjectId(), subjectAttrs, resourceAttrs, actionType, policiesClass)) {
                     return false;
                 }
             }

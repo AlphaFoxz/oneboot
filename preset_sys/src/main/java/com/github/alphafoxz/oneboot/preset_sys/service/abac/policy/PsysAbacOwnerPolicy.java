@@ -16,4 +16,5 @@ public class PsysAbacOwnerPolicy extends AbstractAbacOwnerPolicy {
     public boolean access(long currentSubjectId, long ownerSubjectId, Map<String, AbacAttr> subjectAttrMap, Map<String, AbacAttr> resourceAttrMap, String actionType, Class<? extends AbacPolicy>[] currentPolicies) {
         return currentSubjectId == ownerSubjectId;
     }
+
 }

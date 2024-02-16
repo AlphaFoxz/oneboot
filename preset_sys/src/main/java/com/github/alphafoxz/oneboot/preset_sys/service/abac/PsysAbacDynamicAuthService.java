@@ -2,12 +2,12 @@ package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacDynamicAuthApi;
-import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbacAttrImpl;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacDynamicAuthorizationPo;
+import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbacAttrImpl;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysAbacDynamicAuthorizationCrud;
 import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.PSYS_ABAC_DYNAMIC_AUTHORIZATION;
 
 /**
  * 动态访问控制api
@@ -35,7 +33,7 @@ public class PsysAbacDynamicAuthService implements AbacDynamicAuthApi {
     @Override
     @Nullable
     public Tuple2<Long, Map<String, AbacAttr>> queryAuthorization(long ownerSubjectId, long resourceId, @Nullable Long targetSubjectId, @NonNull String actionType) {
-        PsysAbacDynamicAuthorization t = PSYS_ABAC_DYNAMIC_AUTHORIZATION;
+        PsysAbacDynamicAuthorization t = Const.PSYS_ABAC_DYNAMIC_AUTHORIZATION;
         List<PsysAbacDynamicAuthorizationPo> list = psysAbacDynamicAuthorizationCrud.selectList(1000,
                 t.OWNER_SUBJECT_ID.eq(ownerSubjectId),
                 t.RESOURCE_ID.eq(resourceId),

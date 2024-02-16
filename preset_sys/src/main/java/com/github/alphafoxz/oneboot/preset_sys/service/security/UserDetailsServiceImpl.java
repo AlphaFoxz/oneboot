@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return null;
         }
         PsysUserPo userPo = psysUserCrud.selectOne(
-                C.PSYS_USER.USERNAME.eq(username)
+                Const.PSYS_USER.USERNAME.eq(username)
         );
         if (userPo == null) {
             throw new OnebootAuthException("用户" + username + "不存在", HttpStatus.INTERNAL_SERVER_ERROR);

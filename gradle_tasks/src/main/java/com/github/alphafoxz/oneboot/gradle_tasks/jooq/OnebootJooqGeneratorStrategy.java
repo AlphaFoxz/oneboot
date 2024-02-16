@@ -6,7 +6,7 @@ import org.jooq.meta.Definition;
 import org.jooq.meta.SchemaDefinition;
 import org.jooq.tools.StringUtils;
 
-public class OnebootGeneratorStrategy extends DefaultGeneratorStrategy {
+public class OnebootJooqGeneratorStrategy extends DefaultGeneratorStrategy {
     @Override
     public String getJavaClassName(Definition definition, Mode mode) {
         String name = getFixedJavaClassName(definition);
