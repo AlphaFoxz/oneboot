@@ -1,29 +1,24 @@
-package com.github.alphafoxz.oneboot.preset_sys.service.auth.convert;
+package com.github.alphafoxz.oneboot.preset_sys.service.auth.mapper;
 
-import com.github.alphafoxz.oneboot.preset_sys.annotation.CreateTimeDtoMapping;
-import com.github.alphafoxz.oneboot.preset_sys.annotation.UpdateTimeDtoMapping;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserDepartmentPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserRolePo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAccountDepartmentInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAccountRoleInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAccountUserInfoDto;
+import com.github.alphafoxz.oneboot.preset_sys.service.framework.CommonMapper;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface PsysAuthConvert {
-    @CreateTimeDtoMapping
-    @UpdateTimeDtoMapping
+@Mapper(uses = CommonMapper.class)
+public interface PsysAuthMapper {
     public PsysAccountRoleInfoDto roleInfoDto(PsysUserRolePo source);
 
     public List<PsysAccountRoleInfoDto> roleInfoDtoList(List<PsysUserRolePo> source);
 
-    @CreateTimeDtoMapping
     public PsysAccountUserInfoDto userInfoDto(PsysUserPo source);
 
     public List<PsysAccountUserInfoDto> userInfoDtoList(List<PsysUserPo> source);

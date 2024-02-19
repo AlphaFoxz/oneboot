@@ -3,6 +3,7 @@ package com.github.alphafoxz.oneboot.preset_sys.controller;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserDepartment;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUserRole;
@@ -11,7 +12,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserPo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysUserRolePo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis.PsysAccountApi;
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.*;
-import com.github.alphafoxz.oneboot.preset_sys.service.auth.convert.PsysAuthConvert;
+import com.github.alphafoxz.oneboot.preset_sys.service.auth.mapper.PsysAuthMapper;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserDepartmentCrud;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserRoleCrud;
@@ -32,11 +33,11 @@ public class PsysAccountController implements PsysAccountApi {
     @Resource
     private PsysUserDepartmentCrud psysUserDepartmentCrud;
     @Resource
-    private PsysAuthConvert psysAuthConvert;
+    private PsysAuthMapper psysAuthMapper;
 
     @Override
     public ResponseEntity<Page<PsysAccountRoleInfoDto>> rolePage(PsysAccountRolePageParam param) {
-        PsysUserRole table = C.PSYS_USER_ROLE;
+        PsysUserRole table = Tables.PSYS_USER_ROLE;
         List<Condition> condList = CollUtil.newArrayList();
         if (StrUtil.isNotBlank(param.getCode())) {
             condList.add(table.ROLE_CODE.eq(param.getCode()));
@@ -48,13 +49,13 @@ public class PsysAccountController implements PsysAccountApi {
             condList.add(table.STATUS.eq(param.getStatus()));
         }
         org.springframework.data.domain.Page<PsysUserRolePo> page = psysUserRoleCrud.selectPage(U.intVal(param.getPageNum(), 1), U.intVal(param.getPageSize(), 10), ArrayUtil.toArray(condList, Condition.class));
-        Page<PsysAccountRoleInfoDto> result = new Page<>(psysAuthConvert.roleInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
+        Page<PsysAccountRoleInfoDto> result = new Page<>(psysAuthMapper.roleInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
         return ResponseEntity.ok().body(result);
     }
 
     @Override
     public ResponseEntity<Page<PsysAccountUserInfoDto>> userPage(PsysAccountUserPageParam param) {
-        PsysUser table = C.PSYS_USER;
+        PsysUser table = Tables.PSYS_USER;
         List<Condition> condList = CollUtil.newArrayList();
         if (param.getDeptId() != null) {
             condList.add(table.DEPARTMENT_ID.eq(param.getDeptId()));
@@ -66,14 +67,14 @@ public class PsysAccountController implements PsysAccountApi {
             condList.add(table.PHONE.startsWith(param.getPhone()));
         }
         org.springframework.data.domain.Page<PsysUserPo> page = psysUserCrud.selectPage(U.intVal(param.getPageNum(), 1), U.intVal(param.getPageSize(), 10), ArrayUtil.toArray(condList, Condition.class));
-        Page<PsysAccountUserInfoDto> result = new Page<>(psysAuthConvert.userInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
+        Page<PsysAccountUserInfoDto> result = new Page<>(psysAuthMapper.userInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
         return ResponseEntity.ok().body(result);
     }
 
     @Override
     public ResponseEntity<Page<PsysAccountDepartmentInfoDto>> departmentPage(PsysAccountDepartmentPageParam param) {
         List<Condition> condList = CollUtil.newArrayList();
-        PsysUserDepartment table = C.PSYS_USER_DEPARTMENT;
+        PsysUserDepartment table = Tables.PSYS_USER_DEPARTMENT;
         if (StrUtil.isNotBlank(param.getName())) {
             table.DEPT_NAME.startsWith(param.getName());
         }
@@ -81,7 +82,7 @@ public class PsysAccountController implements PsysAccountApi {
             table.STATUS.eq(param.getStatus());
         }
         org.springframework.data.domain.Page<PsysUserDepartmentPo> page = psysUserDepartmentCrud.selectPage(U.intVal(param.getPageNum(), 1), U.intVal(param.getPageSize(), 10), (ArrayUtil.toArray(condList, Condition.class)));
-        Page<PsysAccountDepartmentInfoDto> result = new Page<>(psysAuthConvert.departmentInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
+        Page<PsysAccountDepartmentInfoDto> result = new Page<>(psysAuthMapper.departmentInfoDtoList(page.getContent()), page.getPageable(), page.getTotalElements());
         return ResponseEntity.ok().body(result);
     }
 }

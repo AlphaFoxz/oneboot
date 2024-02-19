@@ -3,14 +3,14 @@ package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 import cn.hutool.json.JSONArray;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacFilter;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacPolicy;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.SpringUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
-import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple2;
+import com.github.alphafoxz.oneboot.core.toolkit.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.preset_sys.enums.access_control.AbacResourceTypeEnum;
 import com.github.alphafoxz.oneboot.preset_sys.enums.access_control.AbacRoleAttrNameEnum;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacResourcePo;
@@ -37,7 +37,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class PsysAbacService implements AbacApi {
+public class PsysAbacService implements AbacFilter {
     @Resource
     private PsysAbacResourceCrud psysAbacResourceCrud;
     @Resource

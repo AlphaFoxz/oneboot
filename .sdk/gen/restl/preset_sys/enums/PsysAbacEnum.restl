@@ -1,0 +1,10 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restl.enums
+namespace ts gen.preset_sys.enums
+
+/* Abac动态授权类型 */
+enum PsysAbacDynamicAuthTypeEnum {
+    /* 主动 */
+    INITIATIVE = 0
+    /* 被动 */
+    PASSIVE = 1
+}

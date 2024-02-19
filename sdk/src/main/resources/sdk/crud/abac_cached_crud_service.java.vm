@@ -4,7 +4,7 @@ import {basePackage}.{moduleName}.gen.jooq.tables.{PoName};
 import {basePackage}.{moduleName}.gen.jooq.tables.pojos.{PoName}Po;
 import {basePackage}.{moduleName}.gen.jooq.tables.records.{PoName}Record;
 import {basePackage}.core.standard.access_control.AbacPolicy;
-import {basePackage}.core.standard.framework.impl.AbstractAbacCachedCrudService;
+import {basePackage}.core.standard.service.impl.AbstractAbacCachedCrudService;
 import {basePackage}.core.toolkit.coding.ArrayUtil;
 import {basePackage}.core.toolkit.coding.CollUtil;
 import {basePackage}.preset_sys.service.abac.policy.PsysAbacOwnerPolicy;

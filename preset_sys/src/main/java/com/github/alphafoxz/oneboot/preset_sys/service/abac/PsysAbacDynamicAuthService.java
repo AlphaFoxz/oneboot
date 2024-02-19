@@ -1,10 +1,10 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
-import com.github.alphafoxz.oneboot.core.standard.access_control.AbacDynamicAuthApi;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacDynamicService;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
-import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple2;
+import com.github.alphafoxz.oneboot.core.toolkit.tuple.Tuple2;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAbacDynamicAuthorization;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos.PsysAbacDynamicAuthorizationPo;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.AbacAttrImpl;
@@ -21,7 +21,7 @@ import java.util.Map;
  * 动态访问控制api
  */
 @Service
-public class PsysAbacDynamicAuthService implements AbacDynamicAuthApi {
+public class PsysAbacDynamicAuthService implements AbacDynamicService {
     @Resource
     private PsysAbacDynamicAuthorizationCrud psysAbacDynamicAuthorizationCrud;
 

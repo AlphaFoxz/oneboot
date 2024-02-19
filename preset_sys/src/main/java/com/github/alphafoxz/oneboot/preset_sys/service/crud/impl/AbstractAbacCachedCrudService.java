@@ -2,8 +2,11 @@ package com.github.alphafoxz.oneboot.preset_sys.service.crud.impl;
 
 import com.github.alphafoxz.oneboot.core.CoreConstants;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
-import com.github.alphafoxz.oneboot.core.standard.framework.*;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacFilter;
+import com.github.alphafoxz.oneboot.core.standard.service.AbacService;
+import com.github.alphafoxz.oneboot.core.standard.service.CachePo;
+import com.github.alphafoxz.oneboot.core.standard.service.LogAble;
+import com.github.alphafoxz.oneboot.core.standard.service.ReliableService;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ReflectUtil;
@@ -34,17 +37,17 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     @NonNull
     public abstract CacheManager getCacheManager();
 
-    private volatile AbacApi abacApi;
+    private volatile AbacFilter abacFilter;
 
-    private AbacApi getAbacApi() {
-        if (abacApi == null) {
+    private AbacFilter getAbacFilter() {
+        if (abacFilter == null) {
             synchronized (this) {
-                if (abacApi == null) {
-                    abacApi = SpringUtil.getBean(AbacApi.class);
+                if (abacFilter == null) {
+                    abacFilter = SpringUtil.getBean(AbacFilter.class);
                 }
             }
         }
-        return abacApi;
+        return abacFilter;
     }
 
     private Field<Long> idField;
@@ -109,7 +112,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     private int insert(boolean useAc, @NonNull RECORD record) {
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.CREATE, getCreatePolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.CREATE, getCreatePolicies())) {
             throw403Error(getTable().getName(), null);
         }
         return getDslContext().executeInsert(record);
@@ -125,7 +128,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     private int insertMany(boolean useAc, @NonNull List<RECORD> records) {
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.CREATE, getCreatePolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.CREATE, getCreatePolicies())) {
             throw403Error(getTable().getName(), null);
         }
         int[] i = getDslContext().batchInsert(records).execute();
@@ -163,7 +166,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     private PO selectOne(boolean useAc, long id) {
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.READ, getReadPolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.READ, getReadPolicies())) {
             throw403Error(getTable().getName(), id);
         }
         PO result = queryCache(id);
@@ -209,7 +212,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
         Page<PO> poPage = new PageImpl<>(poList, pageRequest, total);
         for (PO po : poPage.getContent()) {
             Long id = po == null ? null : (long) ReflectUtil.getFieldValue(po, getIdField().getName());
-            if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.READ, getReadPolicies())) {
+            if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.READ, getReadPolicies())) {
                 throw403Error(getTable().getName(), id);
             }
         }
@@ -294,7 +297,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     private int selectCount(boolean useAc, @Nullable Condition... conditions) {
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.READ, getReadPolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), null, AbacActionType.READ, getReadPolicies())) {
             throw403Error(getTable().getName(), null);
         }
         if (ArrayUtil.isEmpty(conditions)) {
@@ -314,7 +317,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
 
     private int update(boolean useAc, @NonNull RECORD record) {
         Long id = record.get(getIdField());
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.UPDATE, getUpdatePolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.UPDATE, getUpdatePolicies())) {
             throw403Error(getTable().getName(), id);
         }
         if (id == null) {
@@ -345,7 +348,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     }
 
     private int deleteById(boolean useAc, long id) {
-        if (useAc && !getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
+        if (useAc && !getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
             throw403Error(getTable().getName(), id);
         }
         evictCache(id);
@@ -369,7 +372,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
         if (useAc) {
             for (RECORD record : records) {
                 Long id = record.get(getIdField());
-                if (!getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
+                if (!getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
                     throw403Error(getTable().getName(), id);
                 }
             }
@@ -392,7 +395,7 @@ public abstract class AbstractAbacCachedCrudService<TABLE extends TableImpl<RECO
     private int deleteByIds(boolean useAc, @NonNull long... ids) {
         if (useAc) {
             for (long id : ids) {
-                if (!getAbacApi().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
+                if (!getAbacFilter().access(getCurrentSubjectId(), getTable().getSchema().getName(), getTable().getName(), id, AbacActionType.DELETE, getDeletePolicies())) {
                     throw403Error(getTable().getName(), id);
                 }
             }

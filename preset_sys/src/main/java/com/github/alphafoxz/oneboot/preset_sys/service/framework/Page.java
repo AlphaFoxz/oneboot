@@ -10,6 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 public class Page<T> implements CustomPage {
+    public static <T> Page<T> from(org.springframework.data.domain.Page<T> page) {
+        return new Page<>(page.getContent(), page.getPageable(), page.getTotalElements());
+    }
+
     private Boolean success = true;
     private DataBean<T> data;
 

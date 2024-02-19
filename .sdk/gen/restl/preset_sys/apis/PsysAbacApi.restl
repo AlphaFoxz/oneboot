@@ -1,0 +1,29 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis
+namespace ts gen.preset_sys.apis
+
+import "../dtos/PsysAbacDto.restl"
+
+// 数据鉴权包括dac和abac两个体系
+// 具体设计可在wiki中查找
+/* ABAC接口 */
+@uri(/preset_sys/abac)
+interface PsysAbacApi {
+    /* 查询当前用户属性集合 */
+    set<string> queryCurrentAttributes()
+    
+}
+
+/* ABAC动态授权接口 */
+@uri(/preset_sys/abacDynamic)
+interface PsysAbacDynamicApi {
+    /* 查询分页 */
+    @page
+    @getUri(/query)
+    PsysAbacDto.PsysAbacDynamicAuthDto query(int pageNum?, int pageSize?)
+    /* 创建 */
+    @postUri(/save)
+    boolean save(PsysAbacDto.PsysAbacDynamicAuthDto dto)
+    /* 根据id删除 */
+    @getUri(/delete)
+    boolean delete(string id)
+}

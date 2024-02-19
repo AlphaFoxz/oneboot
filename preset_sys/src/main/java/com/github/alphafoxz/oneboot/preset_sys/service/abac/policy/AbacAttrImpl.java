@@ -3,7 +3,7 @@ package com.github.alphafoxz.oneboot.preset_sys.service.abac.policy;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttr;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacAttrName;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.JSONUtil;
-import com.github.alphafoxz.oneboot.core.toolkit.container.tuple.Tuple2;
+import com.github.alphafoxz.oneboot.core.toolkit.tuple.Tuple2;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

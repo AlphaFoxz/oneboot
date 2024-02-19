@@ -1,3 +1,6 @@
+/**
+ * ABAC（基于属性的访问控制）的实现
+ */
 package com.github.alphafoxz.oneboot.preset_sys.service.abac;
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables;

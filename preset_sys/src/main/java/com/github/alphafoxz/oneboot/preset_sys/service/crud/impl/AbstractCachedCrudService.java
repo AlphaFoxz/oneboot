@@ -1,12 +1,12 @@
 package com.github.alphafoxz.oneboot.preset_sys.service.crud.impl;
 
 import com.github.alphafoxz.oneboot.core.CoreConstants;
-import com.github.alphafoxz.oneboot.core.standard.framework.CachePo;
-import com.github.alphafoxz.oneboot.preset_sys.service.crud.def.CrudService;
-import com.github.alphafoxz.oneboot.core.standard.framework.LogAble;
-import com.github.alphafoxz.oneboot.core.standard.framework.ReliableService;
+import com.github.alphafoxz.oneboot.core.standard.service.CachePo;
+import com.github.alphafoxz.oneboot.core.standard.service.LogAble;
+import com.github.alphafoxz.oneboot.core.standard.service.ReliableService;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
+import com.github.alphafoxz.oneboot.preset_sys.service.crud.def.CrudService;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.TableImpl;

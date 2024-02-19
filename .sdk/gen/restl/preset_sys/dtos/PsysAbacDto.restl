@@ -1,0 +1,22 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos
+namespace ts gen.preset_sys.dtos
+
+import "../enums/PsysAbacEnum.restl"
+
+/* Abac动态授权信息 */
+class PsysAbacDynamicAuthDto {
+    /* 主键 */
+    string id
+    /* 授权类型 */
+    enum<PsysAbacEnum.PsysAbacDynamicAuthTypeEnum> authorizationType
+    /* 授权主体属性集 */
+    set<string> subjectAttrSet
+    /* 授权过期时间 yyyy-MM-dd HH:mm:ss */
+    string timeoutUntil
+    /* 资源Id */
+    string resourceId
+    /* 资源所有者主体Id */
+    string ownerSubjectId
+    /* 授权目标主体Id */
+    string targetSubjectId
+}

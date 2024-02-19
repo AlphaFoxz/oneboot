@@ -1,19 +1,20 @@
 package com.github.alphafoxz.oneboot.preset_sys.aspect;
 
-import com.github.alphafoxz.oneboot.preset_sys.annotation.AbacResourceBizId;
-import com.github.alphafoxz.oneboot.preset_sys.annotation.AccessControl;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootApiDesignException;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootAuthException;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootDirtyDataException;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootException;
 import com.github.alphafoxz.oneboot.core.standard.access_control.AbacActionType;
-import com.github.alphafoxz.oneboot.core.standard.access_control.AbacApi;
-import com.github.alphafoxz.oneboot.core.standard.framework.ReliableService;
+import com.github.alphafoxz.oneboot.core.standard.access_control.AbacFilter;
+import com.github.alphafoxz.oneboot.core.standard.service.ReliableService;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ArrayUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.CollUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.ReflectUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
+import com.github.alphafoxz.oneboot.preset_sys.annotation.AbacResourceBizId;
+import com.github.alphafoxz.oneboot.preset_sys.annotation.AccessControl;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -36,11 +37,12 @@ import java.util.Set;
 /**
  * 访问控制切面
  */
+@Slf4j
 @Aspect
 @Component
 public class AccessControlAspect {
     @Resource
-    private AbacApi abacApi;
+    private AbacFilter abacFilter;
 
     @Pointcut("@annotation(com.github.alphafoxz.oneboot.preset_sys.annotation.AccessControl)")
     public void accessControlPointcut() {
@@ -63,8 +65,9 @@ public class AccessControlAspect {
         Annotation[][] paramAnnotations;
         Object result;
         boolean startTransaction = false;
+        final boolean isReadonly = AbacActionType.isReadonlyAction(acAnno.action());
         try {
-            if (resultResourceBizIdAnno != null && AbacActionType.isUpdatableAction(acAnno.action())) {
+            if (resultResourceBizIdAnno != null && !isReadonly) {
                 startTransaction = true;
                 service.startTransaction();
             }
@@ -88,7 +91,7 @@ public class AccessControlAspect {
             String schemaName = table.getSchema().getName();
             for (Long bizId : paramBizIdSet) {
                 // FIXME 实现JWT认证之后修复此处subjectId功能
-                if (!abacApi.access(1704372248082780160L, schemaName, table.getName(), bizId, acAnno.action(), acAnno.policies())) {
+                if (!abacFilter.access(1704372248082780160L, schemaName, table.getName(), bizId, acAnno.action(), acAnno.policies())) {
                     String msg = StrUtil.format("对指定资源的操作异常，没有权限，schemaName：{}, tableName：{}，bizId：{}", schemaName, table.getName(), bizId);
                     throw new OnebootAuthException(msg, HttpStatus.FORBIDDEN);
                 }
@@ -98,22 +101,25 @@ public class AccessControlAspect {
             // 检验资源
             if (resultResourceBizIdAnno != null) {
                 for (Long resultBizId : putBizIdsFromArg(null, resultResourceBizIdAnno, result)) {
-                    if (!paramBizIdSet.contains(resultBizId) && !abacApi.access(1704372248082780160L, schemaName, table.getName(), resultBizId, acAnno.action(), acAnno.policies())) {
+                    if (!paramBizIdSet.contains(resultBizId) && !abacFilter.access(1704372248082780160L, schemaName, table.getName(), resultBizId, acAnno.action(), acAnno.policies())) {
                         String msg = StrUtil.format("对指定资源的操作异常，没有权限，schemaName：{}, tableName：{}，bizId：{}", schemaName, table.getName(), resultBizId);
                         throw new OnebootAuthException(msg, HttpStatus.FORBIDDEN);
                     }
                 }
             }
             // 提交事务
-            if (resultResourceBizIdAnno != null && AbacActionType.isUpdatableAction(acAnno.action())) {
+            if (resultResourceBizIdAnno != null && !isReadonly) {
                 service.commitTransaction();
             }
         } catch (Throwable e) {
+            log.error("操作受保护的资源异常", e);
             // 回滚事务
             if (startTransaction) {
+                log.error("操作类型为非只读，正在回滚事务...");
                 try {
                     service.rollbackTransaction();
                 } catch (Throwable t) {
+                    log.error("事务回滚失败", t);
                 }
             }
             String msg = StrUtil.format("访问控制方法执行异常：{}", e.getMessage());

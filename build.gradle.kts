@@ -6,8 +6,8 @@ plugins {
 //    id("org.graalvm.buildtools.native")
 }
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 tasks.bootJar {
     enabled = false
@@ -39,6 +39,8 @@ allprojects {
             dependency("com.github.AlphaFoxz.oneboot-starter:flowable_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-starter:meilisearch_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-starter:postgres_starter:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-processor:processor:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-processor:starter:dev-SNAPSHOT")
         }
     }
     tasks.withType<Test> {
@@ -53,6 +55,10 @@ subprojects {
     tasks.jar {
         enabled = true
         archiveClassifier = ""
+        exclude("**/_compile_only/**")
+    }
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
     }
     dependencies {
         implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
@@ -62,7 +68,10 @@ subprojects {
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
 
-        compileOnly("org.mapstruct:mapstruct")
+        implementation("com.github.AlphaFoxz.oneboot-processor:processor") {
+            isChanging = true
+        }
+        annotationProcessor("com.github.AlphaFoxz.oneboot-processor:processor")
         annotationProcessor("org.mapstruct:mapstruct-processor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -79,6 +88,7 @@ project(":preset_sys") {
         api("com.github.AlphaFoxz.oneboot-starter:cache_starter")
         api("com.github.AlphaFoxz.oneboot-starter:postgres_starter")
         api("org.springframework.boot:spring-boot-starter-data-rest")
+
         implementation("org.springframework.boot:spring-boot-starter-aop")
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
@@ -132,14 +142,7 @@ project(":sdk") {
     apply(plugin = "nu.studer.jooq")
     dependencies {
         api(project(":app"))
-        implementation("com.github.AlphaFoxz:restful-dsl-java:springboot3-release-SNAPSHOT") {
-            isChanging = true
-        }
-
-        compileOnly("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
-            isChanging = true
-        }
-        annotationProcessor("com.github.AlphaFoxz:oneboot-annotation:test2-SNAPSHOT") {
+        implementation("com.github.AlphaFoxz:restful-dsl-java:springboot3-dev-SNAPSHOT") {
             isChanging = true
         }
 

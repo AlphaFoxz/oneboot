@@ -8,5 +8,8 @@ dsl:
       - preset_sys
       - app
       - sdk
-    http-controller-class: com.github.alphafoxz.oneboot.core.standard.framework.HttpController
+    http-controller-class: com.github.alphafoxz.oneboot.core.standard.service.HttpController
     page-class: com.github.alphafoxz.oneboot.preset_sys.service.framework.Page
+    gen-dto-fields:
+      enabled: true
+      package-name: _compile_only
