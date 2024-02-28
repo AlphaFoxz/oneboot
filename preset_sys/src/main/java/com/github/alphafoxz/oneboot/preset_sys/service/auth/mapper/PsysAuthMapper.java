@@ -8,11 +8,9 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAccountRoleInf
 import com.github.alphafoxz.oneboot.preset_sys.gen.restl.dtos.PsysAccountUserInfoDto;
 import com.github.alphafoxz.oneboot.preset_sys.service.framework.CommonMapper;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @Mapper(uses = CommonMapper.class)
 public interface PsysAuthMapper {
     public PsysAccountRoleInfoDto roleInfoDto(PsysUserRolePo source);

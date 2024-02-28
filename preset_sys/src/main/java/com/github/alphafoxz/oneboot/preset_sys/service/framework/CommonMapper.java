@@ -17,6 +17,10 @@ public class CommonMapper {
         return source == null ? null : source.toInstant().toEpochMilli();
     }
 
+    public String asString(Collection<?> source) {
+        return source == null ? null : JSONUtil.toJsonStr(source);
+    }
+
     public String asString(OffsetDateTime source) {
         return source == null ? null : DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(source);
     }
@@ -29,7 +33,7 @@ public class CommonMapper {
         return source == null ? null : OffsetDateTime.parse(source);
     }
 
-    public Set<String> toStringSet(String source) {
+    public Set<String> asStringSet(String source) {
         if (source == null) {
             return null;
         }
@@ -51,7 +55,7 @@ public class CommonMapper {
         return CollUtil.newHashSet(Arrays.stream(arr).map(s -> JSONUtil.unquote(s, true)).collect(Collectors.toSet()));
     }
 
-    public List<String> toStringList(String source) {
+    public List<String> asStringList(String source) {
         if (source == null) {
             return null;
         }
@@ -71,9 +75,5 @@ public class CommonMapper {
             return Arrays.asList(arr);
         }
         return Arrays.stream(arr).map(s -> JSONUtil.unquote(s, true)).collect(Collectors.toList());
-    }
-
-    public String toString(Collection<?> source) {
-        return source == null ? null : JSONUtil.toJsonStr(source);
     }
 }

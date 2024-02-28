@@ -37,6 +37,7 @@ allprojects {
             dependency(project.property("parentProject") as String)
             dependency("com.github.AlphaFoxz.oneboot-starter:cache_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-starter:flowable_starter:dev-SNAPSHOT")
+            dependency("com.github.AlphaFoxz.oneboot-starter:mysql_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-starter:meilisearch_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-starter:postgres_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-processor:processor:dev-SNAPSHOT")
@@ -59,6 +60,9 @@ subprojects {
     }
     tasks.withType<JavaCompile> {
         options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+    }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)
     }
     dependencies {
         implementation("com.github.AlphaFoxz:oneboot-core:dev-SNAPSHOT") {
@@ -135,9 +139,6 @@ project(":sdk") {
             //在执行build任务时跳过test
             !gradle.taskGraph.hasTask(":build")
         }
-    }
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
