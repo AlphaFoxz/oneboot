@@ -72,11 +72,10 @@ subprojects {
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
 
-        implementation("com.github.AlphaFoxz.oneboot-processor:processor") {
+        compileOnly("com.github.AlphaFoxz.oneboot-processor:processor") {
             isChanging = true
         }
         annotationProcessor("com.github.AlphaFoxz.oneboot-processor:processor")
-        annotationProcessor("org.mapstruct:mapstruct-processor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
         developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -125,6 +124,13 @@ project(":app") {
         compileOnly("org.jooq:jooq-codegen")
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
+    }
+    graalvmNative {
+        binaries.all {
+            useFatJar = false
+            jvmArgs.add("-H:Kind=EXECUTABLE")
+            verbose = true
+        }
     }
 }
 
