@@ -126,6 +126,13 @@ project(":app") {
         jooqGenerator("org.postgresql:postgresql")
         jooqGenerator(project(":gradle_tasks"))
     }
+    graalvmNative {
+        binaries.all {
+            useFatJar = false
+            jvmArgs.add("-H:Kind=EXECUTABLE")
+            verbose = true
+        }
+    }
 }
 
 project(":sdk") {
