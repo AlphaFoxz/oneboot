@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,20 @@ public class CommonMapper {
         return source == null ? null : source.toInstant().toEpochMilli();
     }
 
+    public Long asLong(Date source) {
+        return source == null ? null : source.getTime();
+    }
+
     public String asString(Collection<?> source) {
         return source == null ? null : JSONUtil.toJsonStr(source);
     }
 
-    public String asString(OffsetDateTime source) {
+    public String asString(TemporalAccessor source) {
         return source == null ? null : DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(source);
+    }
+
+    public Date asDate(Long source) {
+        return source == null ? null : new Date(source);
     }
 
     public OffsetDateTime asOffsetDateTime(Long source) {
