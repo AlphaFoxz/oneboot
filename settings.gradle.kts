@@ -15,6 +15,7 @@ pluginManagement {
 rootProject.name = "oneboot"
 
 include(
+    ":domain",
     ":gradle_tasks",
     ":preset_sys",
     ":app",

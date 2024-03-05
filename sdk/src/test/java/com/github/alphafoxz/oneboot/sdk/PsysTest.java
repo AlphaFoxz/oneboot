@@ -8,6 +8,8 @@ import com.github.alphafoxz.oneboot.preset_sys.service.abac.PsysAbacService;
 import com.github.alphafoxz.oneboot.preset_sys.service.abac.policy.PsysAbacRefuseAllBusinessPolicy;
 import com.github.alphafoxz.oneboot.preset_sys.service.crud.PsysUserCrud;
 import jakarta.annotation.Resource;
+import org.jooq.exception.IntegrityConstraintViolationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.time.OffsetDateTime;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PsysTest {
@@ -29,10 +32,10 @@ public class PsysTest {
     @Test
     void test() {
         boolean b = psysAcApiService.access(1704372248082780160L, "app", "app_test", 1704389955196948480L, AbacActionType.READ, new Class[]{PsysAbacRefuseAllBusinessPolicy.class});
-        System.err.println(b);
+        Assertions.assertTrue(b);
     }
 
-//    @Test
+    //    @Test
     void storeKeyPair() throws NoSuchAlgorithmException {
 
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
@@ -47,14 +50,21 @@ public class PsysTest {
     public void registerTest() {
         PsysUserRecord record = new PsysUserRecord();
         String password = new BCryptPasswordEncoder().encode("admin123");
-        record.setId(snowflake.nextId());
-        record.setUsername("admin");
-        record.setPassword(password);
-        record.setNickname("系统管理员");
-        record.setSubjectId(snowflake.nextId());
-        record.setAccountId(snowflake.nextId());
-        record.setEnabled(true);
-        record.setExpired(false);
-        psysUserCrud.insert(record);
+        record.setId(snowflake.nextId())
+                .setUsername("admin")
+                .setPassword(password)
+                .setNickname("系统管理员")
+                .setSubjectId(snowflake.nextId())
+                .setAccountId(snowflake.nextId())
+                .setEnabled(true)
+                .setCreateTime(OffsetDateTime.now())
+                .setStatus(Integer.valueOf(0).shortValue())
+                .setExpired(false);
+        try {
+            psysUserCrud.insert(record);
+            Assertions.fail();
+        } catch (Exception e) {
+            Assertions.assertInstanceOf(IntegrityConstraintViolationException.class, e);
+        }
     }
 }

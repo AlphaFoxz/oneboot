@@ -1,6 +1,4 @@
 {
-    "\\app\\apis\\AppTestApi.restl": "869c97e20baf2ac932ec627b23f14a4937a0ceddf686e4f5a6ffbc7eb9b8d8d3",
-    "\\app\\dtos\\AppTestDto.restl": "74a453c6c09620d649cb837e9cda1dbcee7273cb4f773700d9d4a7a35a088651",
     "\\preset_sys\\apis\\PsysAbacApi.restl": "78e7231d0d87694ce1789760a3249d1552c43c4cc341d3ed7886a600d45cae7f",
     "\\preset_sys\\apis\\PsysAccountApi.restl": "e79c5de2e8e695efb07851fd1709bb726607fb6880edac95f3cea1e8757adff8",
     "\\preset_sys\\apis\\PsysAuthApi.restl": "f686b8b9e3d7d1b753894a5d78c8ee5cb9e7eb56465ea50b8d8741e11f1e5e0c",

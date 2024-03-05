@@ -78,7 +78,19 @@ subprojects {
         annotationProcessor("com.github.AlphaFoxz.oneboot-processor:processor")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+        testCompileOnly("org.projectlombok:lombok")
+        testAnnotationProcessor("org.projectlombok:lombok")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
+    }
+}
+
+project(":domain") {
+    tasks.bootJar {
+        enabled = false
+    }
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter")
     }
 }
 
@@ -115,6 +127,7 @@ project(":app") {
     }
     apply(plugin = "nu.studer.jooq")
     dependencies {
+        implementation(project(":domain"))
         api(project(":preset_sys"))
         api("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
@@ -153,7 +166,6 @@ project(":sdk") {
             isChanging = true
         }
 
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
         implementation("org.apache.poi:poi-ooxml")
         implementation("com.deepoove:poi-tl")
         implementation("org.springframework.security:spring-security-oauth2-authorization-server")
