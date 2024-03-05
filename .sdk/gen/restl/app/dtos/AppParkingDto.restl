@@ -1,0 +1,20 @@
+namespace java com.github.alphafoxz.oneboot.app.gen.restl.dtos
+namespace ts gen.app.dtos
+
+/* 停车历史视图 */
+class AppParkingHistoryVO {
+    /* 车牌号 */
+    string plate
+    /* 入场时间 */
+    string checkInTime
+    /* 出场时间 */
+    string checkOutTime
+    /* 金额 */
+    i32 payAmount
+}
+
+/* 日常营业额视图 */
+class AppParkingDailyRevenueVO {
+    string date
+    i32 revenue
+}

@@ -12,14 +12,14 @@ public class SdkGenCodeController implements SdkGenCodeApi {
     private SdkGenCrudService sdkGenCrudService;
 
     @Override
-    public ResponseEntity<?> generateTableCrud(String moduleName, String poName, Integer serviceType, Boolean force) {
+    public ResponseEntity<Boolean> generateTableCrud(String moduleName, String poName, Integer serviceType, Boolean force) {
         sdkGenCrudService.generateTableCrud(moduleName, poName, serviceType, force);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
     @Override
-    public ResponseEntity<?> generateModuleCrud(String moduleName, Integer serviceType, Boolean force) {
+    public ResponseEntity<Boolean> generateModuleCrud(String moduleName, Integer serviceType, Boolean force) {
         sdkGenCrudService.generateModuleCrud(moduleName, serviceType, force);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 }

@@ -27,7 +27,7 @@ public interface SdkGenCodeApi extends HttpController {
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
-    public ResponseEntity<?> generateTableCrud(
+    public ResponseEntity<Boolean> generateTableCrud(
             @Parameter(description = "模块名称") @RequestParam String moduleName,
             @Parameter(description = "表名") @RequestParam String poName,
             @Parameter(description = "生成类型") @RequestParam Integer serviceType,
@@ -44,7 +44,7 @@ public interface SdkGenCodeApi extends HttpController {
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
-    public ResponseEntity<?> generateModuleCrud(
+    public ResponseEntity<Boolean> generateModuleCrud(
             @Parameter(description = "模块名称") @RequestParam String moduleName,
             @Parameter(description = "生成类型") @RequestParam Integer serviceType,
             @Parameter(description = "是否覆盖已有代码") @RequestParam Boolean force

@@ -1,0 +1,53 @@
+namespace java com.github.alphafoxz.oneboot.app.gen.restl.apis
+namespace ts gen.app.apis
+
+import "../dtos/AppParkingDto.restl"
+
+/* 停车业务命令接口 */
+@uri(/app/command)
+interface AppParkingCommandApi {
+    /* 入场请求 */
+    @postUri(/checkIn)
+    boolean checkIn(
+        /* 车牌号 */
+        string plate,
+        /* 时间 */
+        string time
+    )
+
+    /* 出场请求 */
+    @postUri(/checkOut)
+    boolean checkOut(
+        /* 车牌号 */
+        string plate,
+        /* 时间 */
+        string time
+    )
+
+    /* 告知付款请求 */
+    @postUri(/notifyPay)
+    boolean notifyPay(
+        /* 车牌号 */
+        string plate,
+        /* 时间 */
+        string time,
+        /* 金额 */
+        i32 amount
+    )
+}
+
+/* 停车业务查询接口 */
+@uri(/app/query)
+interface AppParkingQueryApi {
+    /* 查询停车历史 */
+    @getUri(/parkingHistory)
+    AppParkingDto.AppParkingHistoryVO parkingHistory()
+
+    /* 查询总停车数 */
+    @getUri(/totalInPark)
+    i32 totalInPark()
+
+    /* 查询营业额 */
+    @getUri(/dailyRevenue)
+    AppParkingDto.AppParkingDailyRevenueVO dailyRevenue()
+}

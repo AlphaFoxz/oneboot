@@ -1,4 +1,6 @@
 {
+    "\\app\\apis\\AppParkingApi.restl": "0a475c2d96b413ef9a360e82868b892b95dacb6eb268df21fb4f0b8b9068b7fc",
+    "\\app\\dtos\\AppParkingDto.restl": "70686ed2758812c4b09e996c13390705190aca1a8d59dede7c33ddd1aa66dd21",
     "\\preset_sys\\apis\\PsysAbacApi.restl": "78e7231d0d87694ce1789760a3249d1552c43c4cc341d3ed7886a600d45cae7f",
     "\\preset_sys\\apis\\PsysAccountApi.restl": "e79c5de2e8e695efb07851fd1709bb726607fb6880edac95f3cea1e8757adff8",
     "\\preset_sys\\apis\\PsysAuthApi.restl": "f686b8b9e3d7d1b753894a5d78c8ee5cb9e7eb56465ea50b8d8741e11f1e5e0c",
@@ -10,7 +12,7 @@
     "\\preset_sys\\dtos\\PsysMenuDto.restl": "f39fcb7a0ff332f24ef3905ce3b144cf1d1f4f420e1be4c2a0c762533083b524",
     "\\preset_sys\\enums\\PsysAbacEnum.restl": "57bf670dcf7f15d6ba734a6cb956d0a6be66d1b88da769fd4d30604618fb23ae",
     "\\preset_sys\\enums\\PsysAuthRouteRankEnum.restl": "99b116f343a24e2eda92ec668651f83dddbc015e41c598836dbfc91c55638862",
-    "\\sdk\\apis\\SdkGenCodeApi.restl": "a70cd84f8ffdaf0e8078ac824d47b183e7dfc1f0e7757e119fedeeca060f03f3",
+    "\\sdk\\apis\\SdkGenCodeApi.restl": "2d4271ee6bfce9d94f198f43dbd917c51e20bcaed63528f7545fae138c7bb499",
     "\\sdk\\apis\\SdkGenDocApi.restl": "0f3bc8c9d0d9ac6069b534fec431109601d349401c87e926a839e13a3896bf37",
     "\\sdk\\apis\\SdkInfoApi.restl": "6a655c2ce5643dea2544cdc22297e4d9fdfe0e34144cde036e6f1f2bb9fe0a85",
     "\\sdk\\dtos\\SdkCodeTemplateDto.restl": "ddfa575c5f07a7c24d4290bca6db8cd65f2f9c5910bae909130713372a4247a0",
