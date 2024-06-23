@@ -13,8 +13,17 @@ spring:
       maximum-pool-size: 30
       auto-commit: true
       pool-name: "MainHikariCP"
+      connection-test-query: 'select 1'
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}
+  jpa:
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   data:
     redis:
       host: 127.0.0.1
