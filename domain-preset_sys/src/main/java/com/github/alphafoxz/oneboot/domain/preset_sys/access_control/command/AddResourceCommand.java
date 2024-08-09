@@ -8,22 +8,22 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.Resource
  * 添加资源事件
  * @author Wong
  * @version 1.0
- * @created 22-6月-2024 1:59:36
+ * @created 03-7月-2024 7:16:44
  */
 @lombok.experimental.Accessors(chain = true)
-@lombok.Setter(lombok.AccessLevel.PACKAGE)
-@lombok.NoArgsConstructor(access = lombok.AccessLevel.PACKAGE)
-@lombok.Getter(lombok.AccessLevel.PUBLIC)
+@lombok.Setter
+@lombok.NoArgsConstructor
+@lombok.Getter
 public class AddResourceCommand {
 
-	private java.util.Set<ResourceActionType> actionTypeSet;
-	private java.util.Set<AbacAttr> attrSet;
-	private Long businessId;
-	private Boolean enabled;
-	private java.time.OffsetDateTime expireTime;
-	private Long ownerSubjectId;
-	private ResourceType resourceType;
-	private String schemaName;
-	private String tableName;
+    private java.util.Set<ResourceActionType> actionTypeSet;
+    private java.util.Set<AbacAttr> attrSet;
+    private Long businessId;
+    private Boolean enabled;
+    private java.time.OffsetDateTime expireTime;
+    private Long ownerSubjectId;
+    private ResourceType resourceType;
+    private String schemaName;
+    private String tableName;
 
 }//end AddResourceCommand

@@ -17,6 +17,5 @@ include(
     ":domain-preset_sys",
     ":preset_sys",
     ":app",
-//    ":sdk",
+    ":sdk",
 )
-
