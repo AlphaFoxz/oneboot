@@ -8,7 +8,7 @@ import com.github.alphafoxz.oneboot.core.toolkit.coding.ResourceUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restl.enums.SdkCrudServiceTypeEnum;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.ResultQuery;
@@ -25,11 +25,10 @@ import java.util.regex.Matcher;
  * 实现生成CURD service
  */
 @Service
+@RequiredArgsConstructor
 public class SdkGenCrudService {
-    @Resource
-    DSLContext dslContext;
-    @Resource
-    CoreProperties coreProperties;
+    private final DSLContext dslContext;
+    private final CoreProperties coreProperties;
 
     /**
      * 生成

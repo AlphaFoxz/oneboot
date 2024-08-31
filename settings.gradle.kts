@@ -14,8 +14,9 @@ rootProject.name = "oneboot"
 
 include(
 //    ":gradle_tasks",
-    ":domain-preset_sys",
-    ":preset_sys",
-    ":app",
     ":sdk",
+    ":app",
+    ":preset_sys",
+    ":domain-preset_sys",
+    ":core",
 )

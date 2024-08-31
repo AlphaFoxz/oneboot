@@ -1,9 +1,9 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user.entity;
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Nickname;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Phone;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.NicknameVo;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PhoneVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UserStatus;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Username;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
 
 /**
  * @author Wong
@@ -15,14 +15,12 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Username;
 @lombok.NoArgsConstructor
 @lombok.Getter
 public class User {
-
-    private java.util.Map<String, String> abacAttrs;
-    private java.time.OffsetDateTime createTime;
     private Long id;
-    private Nickname nickname;
-    private Phone phone;
+    private UsernameVo username;
+    private NicknameVo nickname;
+    private java.util.Map<String, String> abacAttrs;
+    private PhoneVo phone;
     private UserStatus status;
+    private java.time.OffsetDateTime createTime;
     private java.time.OffsetDateTime updateTime;
-    private Username username;
-
-}//end User
+}

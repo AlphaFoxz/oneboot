@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.oneboot.sdk.SdkConstants;
 import com.github.alphafoxz.oneboot.sdk.gen.restl.apis.SdkInfoApi;
 import com.github.alphafoxz.oneboot.sdk.gen.restl.dtos.SdkStringResponseDto;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class SdkInfoController implements SdkInfoApi {
-    @Resource
-    private Snowflake snowflake;
+    private final Snowflake snowflake;
 
     @GetMapping(value = {"", "/index"})
     public String index() {

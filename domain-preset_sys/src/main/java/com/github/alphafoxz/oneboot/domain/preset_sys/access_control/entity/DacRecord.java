@@ -12,8 +12,6 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.DacType;
 @lombok.NoArgsConstructor
 @lombok.Getter
 public class DacRecord {
-
     private DacType dacType;
     private Long resourceId;
-
-}//end DacRecord
+}

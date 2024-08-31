@@ -9,13 +9,14 @@ tasks.withType<Test> {
     }
 }
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation(project(":core"))
+    implementation(project(":preset_sys"))
+    implementation(project(":domain-preset_sys"))
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
     }
     implementation("org.springframework.boot:spring-boot-starter-undertow")
-    implementation(project(":preset_sys"))
-    implementation(project(":domain-preset_sys"))
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(project(":preset_sys"))

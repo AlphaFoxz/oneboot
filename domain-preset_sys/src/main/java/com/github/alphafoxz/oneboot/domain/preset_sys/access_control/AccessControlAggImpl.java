@@ -1,22 +1,16 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.access_control;
 
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.AbacAttr;
 import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.entity.DacRecord;
+import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.AbacAttrVo;
+import lombok.AllArgsConstructor;
 
 /**
  * 访问控制聚合
- * @author Wong
- * @version 1.0
- * @created 03-7月-2024 7:16:43
  */
-@lombok.experimental.Accessors(chain = true)
-@lombok.Setter
-@lombok.NoArgsConstructor
-@lombok.Getter
+@AllArgsConstructor
 public class AccessControlAggImpl implements AccessControlAgg {
-
-    private java.util.Set<AbacAttr> abacAttrSet;
+    private java.util.Set<AbacAttrVo> abacAttrSet;
     private java.util.Set<DacRecord> dacSet;
     private Long resourceId;
     /**
@@ -26,10 +20,10 @@ public class AccessControlAggImpl implements AccessControlAgg {
 
     /**
      * 通过resourceId判断是否有访问权限
-     * 
-     * @param resourceId    资源id
+     *
+     * @param resourceId 资源id
      */
-    public boolean hasPermissionToAccessByResourceId(Long resourceId){
-    	return false;
+    public boolean hasPermissionToAccessByResourceId(Long resourceId) {
+        return false;
     }
 }//end AccessControlAggImpl

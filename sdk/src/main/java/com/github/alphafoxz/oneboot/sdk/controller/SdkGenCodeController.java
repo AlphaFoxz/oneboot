@@ -2,14 +2,14 @@ package com.github.alphafoxz.oneboot.sdk.controller;
 
 import com.github.alphafoxz.oneboot.sdk.gen.restl.apis.SdkGenCodeApi;
 import com.github.alphafoxz.oneboot.sdk.service.gen.SdkGenCrudService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class SdkGenCodeController implements SdkGenCodeApi {
-    @Resource
-    private SdkGenCrudService sdkGenCrudService;
+    private final SdkGenCrudService sdkGenCrudService;
 
     @Override
     public ResponseEntity<?> generateTableCrud(String moduleName, String poName, Integer serviceType, Boolean force) {

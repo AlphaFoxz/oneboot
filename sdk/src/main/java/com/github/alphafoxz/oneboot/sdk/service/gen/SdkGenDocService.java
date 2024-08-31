@@ -5,8 +5,8 @@ import com.github.alphafoxz.oneboot.core.configuration.CoreProperties;
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootGenException;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ import java.util.Set;
  * 生成文档service
  */
 @Service
+@RequiredArgsConstructor
 public class SdkGenDocService {
-    @Resource
-    private CoreProperties coreProperties;
+    private final CoreProperties coreProperties;
 
     public File generateWordApi(String moduleName) {
         String scanPackage = coreProperties.getBasePackage() + "." + moduleName + ".gen.restful.apis";
