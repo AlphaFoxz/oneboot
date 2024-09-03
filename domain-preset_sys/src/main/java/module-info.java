@@ -5,17 +5,15 @@ module oneboot.domain.preset_sys {
     requires jakarta.annotation;
     requires oneboot.core;
     requires spring.context;
-    requires spring.web;
+    requires spring.beans;
 
     exports com.github.alphafoxz.oneboot.domain.preset_sys.access_control.command;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.access_control.event;
-    exports com.github.alphafoxz.oneboot.domain.preset_sys.access_control.entity;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.access_control;
 
     exports com.github.alphafoxz.oneboot.domain.preset_sys.user.command;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.user.event;
-    exports com.github.alphafoxz.oneboot.domain.preset_sys.user.entity;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
     exports com.github.alphafoxz.oneboot.domain.preset_sys.user;
 }

@@ -1,11 +1,11 @@
 dependencies {
-    compileOnly("jakarta.annotation:jakarta.annotation-api")
-    compileOnly("org.springframework.boot:spring-boot-starter-web")
-
     implementation(project(":core"))
     implementation("org.springframework:spring-context")
+    implementation("jakarta.annotation:jakarta.annotation-api")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.mockito:mockito-core")
 }
 
 tasks.withType<JavaCompile> {

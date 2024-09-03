@@ -1,6 +1,8 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo;
 
 
+import com.github.alphafoxz.oneboot.core.domain.DomainArgCheckException;
+import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -11,4 +13,9 @@ public record AbacAttrVo(
         String name,
         @Nonnull
         String value) {
+    public AbacAttrVo {
+        if (StrUtil.isBlank(name) || StrUtil.isBlank(value)) {
+            throw new DomainArgCheckException("abac属性名和属性值不能为空");
+        }
+    }
 }

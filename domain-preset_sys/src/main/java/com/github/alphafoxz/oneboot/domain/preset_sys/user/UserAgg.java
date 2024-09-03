@@ -19,4 +19,6 @@ public interface UserAgg {
     public TokenVo handleRefreshToken(UserRefreshTokenCommand command);
 
     public void handleUpdatePassword(UserUpdatePasswordCommand command);
+
+    public boolean hasLogin();
 }

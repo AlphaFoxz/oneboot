@@ -1,22 +1,22 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user;
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.DomainEventPublisher;
-import com.github.alphafoxz.oneboot.domain.preset_sys.DomainException;
-import com.github.alphafoxz.oneboot.domain.preset_sys.PasswordEncoder;
+import com.github.alphafoxz.oneboot.core.annotations.Aggregate;
+import com.github.alphafoxz.oneboot.core.domain.DomainBusinessException;
+import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.*;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.entity.Account;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.entity.User;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.event.*;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Account;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PasswordVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.User;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.time.OffsetDateTime;
 
 /**
  * 用户聚合
  */
+@Aggregate
 @AllArgsConstructor
 public class UserAggImpl implements UserAgg {
     private Account account;
@@ -29,28 +29,30 @@ public class UserAggImpl implements UserAgg {
         if (this.user != null) {
             var reason = "该用户名已存在";
             DomainEventPublisher.getInstance().publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
-            throw new DomainException(reason, HttpStatus.BAD_REQUEST);
+            throw new DomainBusinessException(reason);
         } else if (account != null) {
             var reason = "该账号已存在（目前不支持一个账号，多个用户）";
             DomainEventPublisher.getInstance().publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
-            throw new DomainException("", HttpStatus.BAD_REQUEST);
+            throw new DomainBusinessException(reason);
         }
         var encoder = PasswordEncoder.getInstance();
         var userId = UserRepo.getInstance().nextUserId();
         var accountId = UserRepo.getInstance().nextAccountId();
         var encryptedPassword = new PasswordVo(encoder.encode(command.password().value()), true);
-        this.account = new Account()
-                .setId(accountId)
-                .setPassword(encryptedPassword)
-                .setEmail(command.email())
-                .setPhone(command.phone())
-                .setCreateTime(now)
-                .setUpdateTime(now);
-        this.user = new User()
-                .setId(userId)
-                .setUsername(command.username())
-                .setCreateTime(now)
-                .setUpdateTime(now);
+        this.account = Account.builder()
+                .id(accountId)
+                .password(encryptedPassword)
+                .email(command.email())
+                .phone(command.phone())
+                .createTime(now)
+                .updateTime(now)
+                .build();
+        this.user = User.builder()
+                .id(userId)
+                .username(command.username())
+                .createTime(now)
+                .updateTime(now)
+                .build();
         DomainEventPublisher.getInstance()
                 .publishEvent(new UserRegisterSucceededEvent(userId, command.username(), now, command.ip()));
     }
@@ -61,32 +63,35 @@ public class UserAggImpl implements UserAgg {
         if (this.user == null) {
             var reason = "用户不存在";
             DomainEventPublisher.getInstance().publishEvent(new UserLoginFailedEvent(null, command.username(), reason, now, command.ip()));
-            throw new DomainException(reason, HttpStatus.FORBIDDEN);
+            throw new DomainBusinessException(reason);
         }
         var encoder = PasswordEncoder.getInstance();
-        if (!encoder.matches(command.password().value(), this.account.getPassword().value())) {
+        if (!encoder.matches(command.password().value(), this.account.password().value())) {
             var reason = "密码不正确";
-            DomainEventPublisher.getInstance().publishEvent(new UserLoginFailedEvent(this.user.getId(), this.user.getUsername(), reason, now, command.ip()));
-            throw new DomainException(reason, HttpStatus.BAD_REQUEST);
+            DomainEventPublisher.getInstance().publishEvent(new UserLoginFailedEvent(this.user.id(), this.user.username(), reason, now, command.ip()));
+            throw new DomainBusinessException(reason);
         }
-        this.token = UserRepo.getInstance().createToken(this.user.getId());
-        DomainEventPublisher.getInstance().publishEvent(new UserLoginSucceededEvent(this.user.getId(), this.user.getUsername(), now, command.ip()));
+        this.token = UserRepo.getInstance().createToken(this.user.id());
+        DomainEventPublisher.getInstance().publishEvent(new UserLoginSucceededEvent(this.user.id(), this.user.username(), now, command.ip()));
     }
 
     @Override
     public void handleUpdateInfo(UserUpdateInfoCommand command) {
         if (this.user == null) {
-            throw new DomainException("用户不存在", HttpStatus.FORBIDDEN);
+            throw new DomainBusinessException("用户不存在");
         }
         var now = OffsetDateTime.now();
-        this.account.setEmail(command.email())
-                .setPhone(command.phone())
-                .setUpdateTime(now);
-        this.user
-                .setNickname(command.nickname())
-                .setPhone(command.phone())
-                .setUpdateTime(now);
-        DomainEventPublisher.getInstance().publishEvent(new UserUpdateInfoSucceededEvent(this.user.getId(), command.username(), now));
+        this.account = this.account.toBuilder()
+                .email(command.email())
+                .phone(command.phone())
+                .updateTime(now)
+                .build();
+        this.user = this.user.toBuilder()
+                .nickname(command.nickname())
+                .phone(command.phone())
+                .updateTime(now)
+                .build();
+        DomainEventPublisher.getInstance().publishEvent(new UserUpdateInfoSucceededEvent(this.user.id(), command.username(), now));
     }
 
     @Override
@@ -97,9 +102,9 @@ public class UserAggImpl implements UserAgg {
     @Override
     public TokenVo handleRefreshToken(UserRefreshTokenCommand command) {
         if (user == null) {
-            throw new DomainException("用户不存在", HttpStatus.FORBIDDEN);
+            throw new DomainBusinessException("用户不存在");
         } else if (this.token == null) {
-            throw new DomainException("用户未登录", HttpStatus.UNAUTHORIZED);
+            throw new DomainBusinessException("用户未登录");
         }
         this.token = UserRepo.getInstance().refreshToken(command.userId(), token);
         return this.token;
@@ -108,11 +113,16 @@ public class UserAggImpl implements UserAgg {
     @Override
     public void handleUpdatePassword(UserUpdatePasswordCommand command) {
         var encoder = PasswordEncoder.getInstance();
-        if (!encoder.matches(command.oldPassword().value(), this.account.getPassword().value())) {
-            throw new DomainException("旧密码不正确", HttpStatus.BAD_REQUEST);
+        if (!encoder.matches(command.oldPassword().value(), this.account.password().value())) {
+            throw new DomainBusinessException("旧密码不正确");
         }
-        this.account
-                .setPassword(new PasswordVo(encoder.encode(command.newPassword().value()), true))
-                .setUpdateTime(OffsetDateTime.now());
+        this.account = this.account.toBuilder()
+                .password(new PasswordVo(encoder.encode(command.newPassword().value()), true))
+                .updateTime(OffsetDateTime.now())
+                .build();
+    }
+
+    public boolean hasLogin() {
+        return token != null && PasswordEncoder.getInstance().isValid(account.password().value());
     }
 }

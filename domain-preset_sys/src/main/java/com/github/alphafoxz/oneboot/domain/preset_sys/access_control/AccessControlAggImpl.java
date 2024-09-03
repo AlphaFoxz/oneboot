@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.access_control;
 
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.entity.DacRecord;
 import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.AbacAttrVo;
+import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.DacRecord;
 import lombok.AllArgsConstructor;
 
 /**
@@ -26,4 +26,4 @@ public class AccessControlAggImpl implements AccessControlAgg {
     public boolean hasPermissionToAccessByResourceId(Long resourceId) {
         return false;
     }
-}//end AccessControlAggImpl
+}

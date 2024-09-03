@@ -8,7 +8,21 @@ import jakarta.annotation.Nullable;
 
 public interface UserRepo {
     public static UserRepo getInstance() {
-        return SpringUtil.getBean(UserRepo.class);
+        if (Instance.VALUE == null) {
+            Instance.VALUE = SpringUtil.getBean(UserRepo.class);
+        }
+        return Instance.VALUE;
+    }
+
+    class Instance {
+        private static UserRepo VALUE = null;
+    }
+
+    public static void setInstance(UserRepo instance) {
+        if (Instance.VALUE != null) {
+            throw new RuntimeException("Instance already exists");
+        }
+        Instance.VALUE = instance;
     }
 
     @Nonnull
@@ -33,4 +47,7 @@ public interface UserRepo {
 
     @Nonnull
     Long nextAccountId();
+
+
 }
+

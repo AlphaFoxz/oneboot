@@ -16,4 +16,4 @@ public record UserLoginCommand(
         @Nonnull
         IpVo ip
 ) {
-}//end LoginCommand
+}

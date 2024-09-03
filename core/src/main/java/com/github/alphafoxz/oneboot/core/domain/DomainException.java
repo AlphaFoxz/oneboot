@@ -1,4 +1,4 @@
-package com.github.alphafoxz.oneboot.domain.preset_sys;
+package com.github.alphafoxz.oneboot.core.domain;
 
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootException;
 import org.springframework.http.HttpStatusCode;

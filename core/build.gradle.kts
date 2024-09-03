@@ -1,5 +1,5 @@
 dependencies {
-    compileOnly("com.google.code.findbugs:annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
+    compileOnly("com.github.spotbugs:spotbugs-annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.mapstruct:mapstruct")

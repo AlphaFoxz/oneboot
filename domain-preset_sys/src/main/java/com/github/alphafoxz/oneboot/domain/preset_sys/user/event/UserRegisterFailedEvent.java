@@ -1,6 +1,6 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user.event;
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.DomainEvent;
+import com.github.alphafoxz.oneboot.core.domain.DomainEvent;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
 import jakarta.annotation.Nonnull;
 
