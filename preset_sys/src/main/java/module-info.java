@@ -9,6 +9,7 @@ module oneboot.preset_sys {
     requires oneboot.domain.preset_sys;
     requires org.apache.tomcat.embed.core;
     requires org.aspectj.weaver;
+    requires org.jooq;
     requires org.mapstruct;
     requires org.slf4j;
     requires spring.context;

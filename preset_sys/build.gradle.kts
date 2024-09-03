@@ -8,6 +8,7 @@ dependencies {
     implementation("com.github.AlphaFoxz.oneboot-starter:postgres_starter")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
+    implementation("org.flywaydb:flyway-core")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")

@@ -1,6 +1,5 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user;
 
-import com.github.alphafoxz.oneboot.core.annotations.Aggregate;
 import com.github.alphafoxz.oneboot.core.domain.DomainBusinessException;
 import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.*;
@@ -16,7 +15,6 @@ import java.time.OffsetDateTime;
 /**
  * 用户聚合
  */
-@Aggregate
 @AllArgsConstructor
 public class UserAggImpl implements UserAgg {
     private Account account;

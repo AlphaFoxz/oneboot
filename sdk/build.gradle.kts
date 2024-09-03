@@ -2,13 +2,6 @@ tasks.bootJar {
     enabled = true
     mustRunAfter(":app:bootJar")
 }
-tasks.withType<Test> {
-    useJUnitPlatform()
-    onlyIf {
-        //在执行build任务时跳过test
-        !gradle.taskGraph.hasTask(":build")
-    }
-}
 apply(plugin = "nu.studer.jooq")
 dependencies {
     implementation(project(":core"))

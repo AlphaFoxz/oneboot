@@ -3,7 +3,7 @@ server:
 debug: true
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres?TimeZone=Asia/Shanghai
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     username: postgres
@@ -16,19 +16,25 @@ spring:
       connection-test-query: 'select 1'
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}
-  jpa:
-    show-sql: true
-    database: postgresql
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
   data:
     redis:
       host: 127.0.0.1
       port: 6379
       password: 123456
+  flyway:
+    # sql脚本的合法格式：
+    # V1.0.0__init.sql【V表示版本迁移，版本号必须唯一，会计算校验和，执行过的文件不允许修改，按版本顺序执行，一个脚本只会执行一次；】
+    # V1.0.002__add-new-table.sql
+    # U1.0.0__init.sql【U表示撤销迁移，和V开头的版本号相同，表示撤销当前版本的迁移，sql文件编写与版本迁移相反作用的语句即可。】
+    # R__add_new_table.sql【R表示可重复迁移，其没有版本，不是只运行一次，而是每次程序启动，校验发生修改时，就会执行，R始终是在V执行完成后再执行。】
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    # 生产环境注意
+    clean-disabled: false
+    locations: classpath:db/migration
+    placeholder-replacement: true
+    schemas: app, preset_sys
   jackson:
     time-zone: GMT+8
     serialization:

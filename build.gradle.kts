@@ -42,14 +42,14 @@ allprojects {
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0") // api文档
             dependency("org.mockito:mockito-core:3.+")
             /** 持久化组件 */
-            dependency("com.mysql:mysql-connector-j:8.3.0") // mysql驱动
+            dependency("com.mysql:mysql-connector-j:8.4.0") // mysql驱动
             dependency("mysql:mysql-connector-java:8.0.33") // mysql驱动 （停止更新）
-            dependency("org.jooq:jooq-postgres-extensions:3.18.7") // jooq
-            dependency("org.jooq:jooq-codegen:3.18.7") // jooq
-            dependency("org.hibernate:hibernate-core:6.3.1.Final") // JPA
+            dependency("org.jooq:jooq-postgres-extensions:3.19.11") // jooq
+            dependency("org.jooq:jooq-codegen:3.19.11") // jooq
+            dependency("org.hibernate:hibernate-core:6.6.0.Final") // JPA
             /** 文档处理 */
-            dependency("org.apache.poi:poi-ooxml:5.2.5") // poi
-            dependency("com.deepoove:poi-tl:1.12.1") // poi
+            dependency("org.apache.poi:poi-ooxml:5.3.0") // poi
+            dependency("com.deepoove:poi-tl:1.12.2") // poi
 
 //            dependency(project.property("parentProject") as String)
             dependency("com.github.AlphaFoxz.oneboot-starter:cache_starter:dev-SNAPSHOT")
@@ -59,13 +59,6 @@ allprojects {
             dependency("com.github.AlphaFoxz.oneboot-starter:postgres_starter:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-processor:processor:dev-SNAPSHOT")
             dependency("com.github.AlphaFoxz.oneboot-processor:starter:dev-SNAPSHOT")
-        }
-    }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        onlyIf {
-            //在执行build任务时跳过test
-            !gradle.taskGraph.hasTask(":build")
         }
     }
 }

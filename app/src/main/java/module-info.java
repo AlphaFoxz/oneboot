@@ -6,6 +6,7 @@ module oneboot.app {
     requires jakarta.annotation;
     requires oneboot.core;
     requires oneboot.preset_sys;
+    requires org.flywaydb.core;
     requires org.springdoc.openapi.common;
     requires spring.beans;
     requires spring.boot;
