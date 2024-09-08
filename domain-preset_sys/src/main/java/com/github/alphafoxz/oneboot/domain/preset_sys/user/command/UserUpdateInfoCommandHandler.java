@@ -10,7 +10,7 @@ public class UserUpdateInfoCommandHandler {
     private final UserRepo userRepo;
 
     public void handle(UserUpdateInfoCommand command) {
-        var userAgg = UserRepo.getInstance().findById(command.userId());
+        var userAgg = userRepo.findById(command.userId());
         userAgg.handleUpdateInfo(command);
         userRepo.save(userAgg);
     }

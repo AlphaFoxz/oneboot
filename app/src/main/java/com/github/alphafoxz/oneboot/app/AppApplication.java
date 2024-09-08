@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 "com.github.alphafoxz.oneboot.*.service",
                 "com.github.alphafoxz.oneboot.*.controller",
                 "com.github.alphafoxz.oneboot.*.gen",
+                "com.github.alphafoxz.oneboot.*.domain",
         }
 )
 public class AppApplication {

@@ -13,4 +13,4 @@ public record EmailVo(String value) {
             throw new DomainArgCheckException("电子邮箱格式不正确");
         }
     }
-}//end Email
+}

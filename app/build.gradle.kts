@@ -1,13 +1,6 @@
 tasks.bootJar {
     enabled = true
 }
-//tasks.withType<Test> {
-//    useJUnitPlatform()
-//    onlyIf {
-//        //在执行build任务时跳过test
-//        !gradle.taskGraph.hasTask(":build")
-//    }
-//}
 dependencies {
     implementation(project(":core"))
     implementation(project(":preset_sys"))

@@ -95,6 +95,13 @@ subprojects {
 
         developmentOnly("org.springframework.boot:spring-boot-devtools")
     }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+//    onlyIf {
+//        //在执行build任务时跳过test
+//        !gradle.taskGraph.hasTask(":build")
+//    }
+    }
 }
 
 dependencies {

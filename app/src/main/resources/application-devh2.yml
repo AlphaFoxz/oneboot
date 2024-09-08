@@ -1,0 +1,67 @@
+server:
+  port: 8080
+debug: true
+spring:
+  datasource:
+    url: jdbc:h2:mem:test_db
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: postgres
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 30
+      auto-commit: true
+      pool-name: "MainHikariCP"
+      connection-test-query: 'select 1'
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+  flyway:
+    # sql脚本的合法格式：
+    # V1.0.0__init.sql【V表示版本迁移，版本号必须唯一，会计算校验和，执行过的文件不允许修改，按版本顺序执行，一个脚本只会执行一次；】
+    # V1.0.002__add-new-table.sql
+    # U1.0.0__init.sql【U表示撤销迁移，和V开头的版本号相同，表示撤销当前版本的迁移，sql文件编写与版本迁移相反作用的语句即可。】
+    # R__add_new_table.sql【R表示可重复迁移，其没有版本，不是只运行一次，而是每次程序启动，校验发生修改时，就会执行，R始终是在V执行完成后再执行。】
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    # 生产环境注意
+    clean-disabled: false
+    locations: classpath:db/migration
+    placeholder-replacement: true
+    schemas: app, preset_sys
+  jackson:
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+springdoc:
+  api-docs:
+    enabled: true
+logging:
+  level:
+    root: info
+    com.github.alphafoxz.oneboot.core: warn
+    com.github.alphafoxz.oneboot.preset_sys: warn
+    com.github.alphafoxz.oneboot.app: info
+    com.github.alphafoxz.oneboot.sdk: debug
+    org.springframework.web.servlet: debug
+
+oneboot:
+  core:
+    base-package: com.github.alphafoxz.oneboot
+    snowflake:
+      worker-id: 1
+      datacenter-id: 1
+  starter:
+    cache:
+      cache-expire-ms: 1_800_000
+      cache-max-size: 10_000
+      cache-strategy: caffeine
+    meilisearch:
+      url: "http://127.0.0.1:7700"
+      master-key: "123QWEasdzxcfffff"

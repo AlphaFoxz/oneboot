@@ -1,5 +1,6 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user;
 
+import com.github.alphafoxz.oneboot.core.configuration.BeanHolder;
 import com.github.alphafoxz.oneboot.core.domain.DomainBusinessException;
 import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.*;
@@ -26,16 +27,16 @@ public class UserAggImpl implements UserAgg {
         var now = OffsetDateTime.now();
         if (this.user != null) {
             var reason = "该用户名已存在";
-            DomainEventPublisher.getInstance().publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
+            BeanHolder.get(DomainEventPublisher.class).publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
             throw new DomainBusinessException(reason);
         } else if (account != null) {
             var reason = "该账号已存在（目前不支持一个账号，多个用户）";
-            DomainEventPublisher.getInstance().publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
+            BeanHolder.get(DomainEventPublisher.class).publishEvent(new UserRegisterFailedEvent(command.ip(), reason, now));
             throw new DomainBusinessException(reason);
         }
-        var encoder = PasswordEncoder.getInstance();
-        var userId = UserRepo.getInstance().nextUserId();
-        var accountId = UserRepo.getInstance().nextAccountId();
+        var encoder = BeanHolder.get(PasswordEncoder.class);
+        var userId = BeanHolder.get(UserRepo.class).nextUserId();
+        var accountId = BeanHolder.get(UserRepo.class).nextAccountId();
         var encryptedPassword = new PasswordVo(encoder.encode(command.password().value()), true);
         this.account = Account.builder()
                 .id(accountId)
@@ -51,7 +52,7 @@ public class UserAggImpl implements UserAgg {
                 .createTime(now)
                 .updateTime(now)
                 .build();
-        DomainEventPublisher.getInstance()
+        BeanHolder.get(DomainEventPublisher.class)
                 .publishEvent(new UserRegisterSucceededEvent(userId, command.username(), now, command.ip()));
     }
 
@@ -60,17 +61,20 @@ public class UserAggImpl implements UserAgg {
         var now = OffsetDateTime.now();
         if (this.user == null) {
             var reason = "用户不存在";
-            DomainEventPublisher.getInstance().publishEvent(new UserLoginFailedEvent(null, command.username(), reason, now, command.ip()));
+            BeanHolder.get(DomainEventPublisher.class)
+                    .publishEvent(new UserLoginFailedEvent(null, command.username(), reason, now, command.ip()));
             throw new DomainBusinessException(reason);
         }
-        var encoder = PasswordEncoder.getInstance();
+        var encoder = BeanHolder.get(PasswordEncoder.class);
         if (!encoder.matches(command.password().value(), this.account.password().value())) {
             var reason = "密码不正确";
-            DomainEventPublisher.getInstance().publishEvent(new UserLoginFailedEvent(this.user.id(), this.user.username(), reason, now, command.ip()));
+            BeanHolder.get(DomainEventPublisher.class)
+                    .publishEvent(new UserLoginFailedEvent(this.user.id(), this.user.username(), reason, now, command.ip()));
             throw new DomainBusinessException(reason);
         }
-        this.token = UserRepo.getInstance().createToken(this.user.id());
-        DomainEventPublisher.getInstance().publishEvent(new UserLoginSucceededEvent(this.user.id(), this.user.username(), now, command.ip()));
+        this.token = BeanHolder.get(UserRepo.class).createToken(this.user.id());
+        BeanHolder.get(DomainEventPublisher.class)
+                .publishEvent(new UserLoginSucceededEvent(this.user.id(), this.user.username(), now, command.ip()));
     }
 
     @Override
@@ -89,7 +93,8 @@ public class UserAggImpl implements UserAgg {
                 .phone(command.phone())
                 .updateTime(now)
                 .build();
-        DomainEventPublisher.getInstance().publishEvent(new UserUpdateInfoSucceededEvent(this.user.id(), command.username(), now));
+        BeanHolder.get(DomainEventPublisher.class)
+                .publishEvent(new UserUpdateInfoSucceededEvent(this.user.id(), command.username(), now));
     }
 
     @Override
@@ -104,13 +109,13 @@ public class UserAggImpl implements UserAgg {
         } else if (this.token == null) {
             throw new DomainBusinessException("用户未登录");
         }
-        this.token = UserRepo.getInstance().refreshToken(command.userId(), token);
+        this.token = BeanHolder.get(UserRepo.class).refreshToken(command.userId(), token);
         return this.token;
     }
 
     @Override
     public void handleUpdatePassword(UserUpdatePasswordCommand command) {
-        var encoder = PasswordEncoder.getInstance();
+        var encoder = BeanHolder.get(PasswordEncoder.class);
         if (!encoder.matches(command.oldPassword().value(), this.account.password().value())) {
             throw new DomainBusinessException("旧密码不正确");
         }
@@ -121,6 +126,6 @@ public class UserAggImpl implements UserAgg {
     }
 
     public boolean hasLogin() {
-        return token != null && PasswordEncoder.getInstance().isValid(account.password().value());
+        return token != null && BeanHolder.get(PasswordEncoder.class).isValid(account.password().value());
     }
 }

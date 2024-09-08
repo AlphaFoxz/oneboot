@@ -25,4 +25,4 @@ public record TokenVo(
             throw new DomainArgCheckException("刷新令牌不能为空");
         }
     }
-}//end Token
+}

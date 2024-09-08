@@ -1,6 +1,7 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user;
 
 import cn.hutool.core.lang.Assert;
+import com.github.alphafoxz.oneboot.core.configuration.BeanHolder;
 import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.UserLoginCommand;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
@@ -22,7 +23,7 @@ public class TestUser {
 
     {
         var encoder = new BCryptPasswordEncoder();
-        var PATTERN = Pattern.compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
+        var PATTERN = Pattern.compile("\\A\\$2([ayb])?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
 
         Mockito.when(passwordEncoder.isValid(Const.encryptedPassword.value()))
                 .thenReturn(PATTERN.matcher(Const.encryptedPassword.value()).matches());
@@ -33,9 +34,9 @@ public class TestUser {
         Mockito.when(userRepo.createToken(1L)).thenReturn(new TokenVo("123", "123", OffsetDateTime.now()));
         Mockito.when(userRepo.findByUsername(new UsernameVo("admin"))).thenReturn(Const.adminUserAgg);
 
-        UserRepo.setInstance(userRepo);
-        PasswordEncoder.setInstance(passwordEncoder);
-        DomainEventPublisher.setInstance(domainEventPublisher);
+        BeanHolder.setMockBean(userRepo);
+        BeanHolder.setMockBean(passwordEncoder);
+        BeanHolder.setMockBean(domainEventPublisher);
     }
 
     @Test

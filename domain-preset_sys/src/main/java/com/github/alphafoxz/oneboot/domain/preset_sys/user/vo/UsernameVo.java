@@ -14,4 +14,4 @@ public record UsernameVo(@Nonnull String value) {
             throw new DomainArgCheckException("用户名不能为空");
         }
     }
-}//end Username
+}

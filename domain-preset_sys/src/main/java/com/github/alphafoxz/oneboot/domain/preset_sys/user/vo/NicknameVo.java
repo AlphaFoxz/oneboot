@@ -12,4 +12,4 @@ public record NicknameVo(String value) {
             throw new DomainArgCheckException("昵称不能超过20个字符");
         }
     }
-}//end Nickname
+}
