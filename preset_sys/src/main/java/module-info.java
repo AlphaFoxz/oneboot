@@ -23,7 +23,7 @@ module oneboot.preset_sys {
     requires spring.webmvc;
 
     opens com.github.alphafoxz.oneboot.preset_sys.configuration;
-//    opens com.github.alphafoxz.oneboot.preset_sys.gen.db.entity;
+    opens com.github.alphafoxz.oneboot.preset_sys.controller;
 
     exports com.github.alphafoxz.oneboot.preset_sys.service.abac.policy;
     exports com.github.alphafoxz.oneboot.preset_sys.service.framework;

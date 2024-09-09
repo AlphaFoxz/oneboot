@@ -2,7 +2,6 @@ plugins {
     id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id("nu.studer.jooq")
 }
 tasks.bootJar {
     enabled = false
@@ -12,7 +11,6 @@ tasks.jar {
 }
 allprojects {
     apply(plugin = "java-library")
-    apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     group = "com.github.alphafoxz.oneboot"
     version = "0.0.1-alpha.0"
@@ -44,8 +42,11 @@ allprojects {
             /** 持久化组件 */
             dependency("com.mysql:mysql-connector-j:8.4.0") // mysql驱动
             dependency("mysql:mysql-connector-java:8.0.33") // mysql驱动 （停止更新）
+            dependency("org.postgresql:postgresql:42.6.0") // jooq
             dependency("org.jooq:jooq-postgres-extensions:3.19.11") // jooq
             dependency("org.jooq:jooq-codegen:3.19.11") // jooq
+            dependency("org.jooq:jooq-meta:3.19.11") // jooq
+            dependency("org.jooq:jooq-meta-extensions:3.19.11") // jooq
             dependency("org.hibernate:hibernate-core:6.6.0.Final") // JPA
             /** 文档处理 */
             dependency("org.apache.poi:poi-ooxml:5.3.0") // poi
@@ -63,6 +64,10 @@ allprojects {
     }
 }
 subprojects {
+    if (name == "_tasks") {
+        return@subprojects
+    }
+    apply(plugin = "org.springframework.boot")
     tasks.jar {
         enabled = true
         archiveClassifier = ""
@@ -102,8 +107,4 @@ subprojects {
 //        !gradle.taskGraph.hasTask(":build")
 //    }
     }
-}
-
-dependencies {
-    jooqGenerator("org.postgresql:postgresql")
 }

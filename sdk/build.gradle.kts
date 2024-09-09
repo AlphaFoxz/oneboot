@@ -2,7 +2,6 @@ tasks.bootJar {
     enabled = true
     mustRunAfter(":app:bootJar")
 }
-apply(plugin = "nu.studer.jooq")
 dependencies {
     implementation(project(":core"))
     implementation(project(":app"))
