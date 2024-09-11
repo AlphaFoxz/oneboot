@@ -4,13 +4,16 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
 import com.github.alphafoxz.oneboot.core.domain.DomainArgCheckException;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
 import jakarta.annotation.Nonnull;
+import lombok.Builder;
 
 import java.time.OffsetDateTime;
 
 /**
  * 令牌
  */
+@Builder(toBuilder = true)
 public record TokenVo(
+        Long id,
         @Nonnull
         String accessToken,
         @Nonnull

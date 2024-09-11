@@ -10,22 +10,13 @@ import java.util.*
 plugins {
     id("org.jooq.jooq-codegen-gradle")
 }
-dependencyManagement {
-    dependencies {
-        dependency("org.postgresql:postgresql:42.6.0")
-        dependency("org.springframework:spring-context:6.1.1")
-    }
-}
 dependencies {
-    implementation(project(":core"))
-    compileOnly(project(":_tasks:strategy"))
     jooqCodegen("org.jooq:jooq-codegen")
     jooqCodegen("org.jooq:jooq-meta")
     jooqCodegen("org.jooq:jooq-meta-extensions")
     jooqCodegen("org.postgresql:postgresql")
     jooqCodegen("org.springframework:spring-context")
-    jooqCodegen(project(":_tasks:strategy"))
-    jooqCodegen(project(":core"))
+//    jooqCodegen(project(":_tasks:strategy"))
 }
 
 fun getPropertyValue(key: String): String {
@@ -39,18 +30,47 @@ fun getPropertyValue(key: String): String {
 
 class Strategy : Action<StrategyExtension> {
     override fun execute(stra: StrategyExtension) {
-        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
+//        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
+        stra.matchers {
+            tables {
+                table {
+//                    expression = "^.*$"
+//                    tableExtends = "com.example.MyOptionalTableBaseType"
+//                    tableImplements = "com.example.MyOptionalCustomInterface"
+                }
+            }
+        }
     }
 }
 
 class Generate : Action<GenerateExtension> {
     override fun execute(gen: GenerateExtension) {
+        // 强类型Record
+        gen.isRecords = true
+        // 注释
+        gen.isComments = true
+        gen.isCommentsOnTables = false
+        // 数据库实体
+        gen.isPojos = true
+        gen.isImmutablePojos = true
+        gen.isPojosAsJavaRecordClasses = true
+        gen.visibilityModifier = VisibilityModifier.DEFAULT
+        // 类型
+        gen.isJavaTimeTypes = true
+        // 注解
+        gen.isNullableAnnotation = true
+        gen.isNonnullAnnotation = true
+        gen.nullableAnnotationType = "jakarta.annotation.Nullable"
+        gen.nonnullAnnotationType = "jakarta.annotation.Nonnull"
+        gen.isSpringAnnotations = true
+        gen.generatedAnnotationType = GeneratedAnnotationType.DETECT_FROM_JDK
+        // 忽略项
         gen.isGeneratedAnnotation = false
         gen.isGeneratedAnnotationDate = false
+        gen.isJooqVersionReference = false
         gen.isGeneratedAnnotationJooqVersion = false
-        gen.visibilityModifier = VisibilityModifier.NONE
-        gen.isRecords = true
-        gen.generatedAnnotationType = GeneratedAnnotationType.JAVAX_ANNOTATION_GENERATED
+        gen.isInterfaces = false // NOTE 未来版本可能会删除对此功能的支持。
+        gen.isImmutableInterfaces = false // NOTE 未来版本可能会删除对此功能的支持。
     }
 }
 
@@ -71,7 +91,7 @@ class Database(private val schemaName: String) : Action<DatabaseExtension> {
     override fun execute(db: DatabaseExtension) {
         db.name = "org.jooq.meta.postgres.PostgresDatabase"
         db.inputSchema = schemaName
-//        db.recordTimestampFields = "_version"
+        db.recordTimestampFields = "_version"
         db.forcedTypes.addAll(listOf(
             ForcedType().apply {
                 name = "varchar"
@@ -79,6 +99,14 @@ class Database(private val schemaName: String) : Action<DatabaseExtension> {
                 includeTypes = "JSONB?"
             }
         ))
+    }
+}
+
+class Target(private val moduleName: String) : Action<TargetExtension> {
+    override fun execute(tar: TargetExtension) {
+        tar.packageName = "com.github.alphafoxz.oneboot.$moduleName.gen.jooq"
+        tar.directory = outDir(moduleName).path
+        tar.isClean = true
     }
 }
 
@@ -90,20 +118,25 @@ fun publishGen(moduleName: String) {
     val outDir = outDir(moduleName)
     val sourceDir = file("${outDir.path}/com/github/alphafoxz/oneboot/preset_sys/gen/jooq")
     val targetDir = file("$rootDir/preset_sys/src/main/java/com/github/alphafoxz/oneboot/${moduleName}/gen/jooq")
+    if (targetDir.exists()) {
+        System.err.println("jooq目录已存在 $targetDir")
+        return
+    }
     if (!outDir.exists()) {
         System.err.println("生成失败")
         return
     }
     targetDir.deleteOnExit()
     sourceDir.renameTo(targetDir)
+    println("生成成功 $targetDir\n")
 }
 
 jooq {
     configuration {
         generator {
+            generate(Generate())
             strategy(Strategy())
             jdbc(DevJdbc())
-            generate(Generate())
         }
     }
     executions {
@@ -111,12 +144,9 @@ jooq {
             description = "Generate preset_sys"
             configuration {
                 generator {
+                    generate(Generate())
                     database(Database("preset_sys"))
-                    target {
-                        packageName = "com.github.alphafoxz.oneboot.preset_sys.gen.jooq"
-                        directory = outDir("preset_sys").path
-                        isClean = true
-                    }
+                    target(Target("preset_sys"))
                 }
             }
         }
@@ -124,22 +154,43 @@ jooq {
             description = "Generate app"
             configuration {
                 generator {
-                    database(Database("preset_sys"))
-                    target {
-                        packageName = "com.github.alphafoxz.oneboot.preset_sys.gen.jooq"
-                        directory = outDir("preset_sys").path
-                        isClean = true
-                    }
+                    generate(Generate())
+                    database(Database("app"))
+                    target(Target("app"))
                 }
             }
         }
     }
 }
 
+tasks.register("commandTest") {
+    group = "tools"
+    dependsOn("checkNodeDeps", ":_tasks:classes")
+    doLast {
+        val p = exec {
+            commandLine("cmd", "/c", "start", "node", "../.sdk/bin/create-nuxt-content-git-pages.cjs")
+        }
+        println(p.exitValue)
+    }
+}
+
+tasks.register("genTools") {
+    group = "tools"
+    try {
+        exec {
+            commandLine("node", "-v")
+        }
+        exec {
+            commandLine("npm.cmd", "-v")
+        }
+    } catch (e: Exception) {
+        throw RuntimeException("未安装node，请检查环境变量，确保有全局的可执行的npm和node指令", e)
+    }
+}
+
 // 生成之后发布代码
 tasks.withType(CodegenTask::class.java).forEach {
     val split = it.name.split(Regex("\\-"))
-    print(split)
     if (split.size < 3) {
         return@forEach
     }

@@ -44,13 +44,11 @@ public class UserAggImpl implements UserAgg {
                 .email(command.email())
                 .phone(command.phone())
                 .createTime(now)
-                .updateTime(now)
                 .build();
         this.user = User.builder()
                 .id(userId)
                 .username(command.username())
                 .createTime(now)
-                .updateTime(now)
                 .build();
         BeanHolder.get(DomainEventPublisher.class)
                 .publishEvent(new UserRegisterSucceededEvent(userId, command.username(), now, command.ip()));
@@ -86,12 +84,10 @@ public class UserAggImpl implements UserAgg {
         this.account = this.account.toBuilder()
                 .email(command.email())
                 .phone(command.phone())
-                .updateTime(now)
                 .build();
         this.user = this.user.toBuilder()
                 .nickname(command.nickname())
                 .phone(command.phone())
-                .updateTime(now)
                 .build();
         BeanHolder.get(DomainEventPublisher.class)
                 .publishEvent(new UserUpdateInfoSucceededEvent(this.user.id(), command.username(), now));
@@ -121,7 +117,6 @@ public class UserAggImpl implements UserAgg {
         }
         this.account = this.account.toBuilder()
                 .password(new PasswordVo(encoder.encode(command.newPassword().value()), true))
-                .updateTime(OffsetDateTime.now())
                 .build();
     }
 

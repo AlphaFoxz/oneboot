@@ -2,7 +2,6 @@ package com.github.alphafoxz.oneboot.core.toolkit.coding;
 
 import com.github.alphafoxz.oneboot.core.exceptions.OnebootDirtyDataException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 
 @Slf4j
 public class JSONUtil extends cn.hutool.json.JSONUtil {
@@ -24,7 +23,7 @@ public class JSONUtil extends cn.hutool.json.JSONUtil {
         ) {
             String msg = StrUtil.format("无法解引用的值，请检查是否有脏数据：{}", string);
             log.error(msg);
-            throw new OnebootDirtyDataException(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new OnebootDirtyDataException(msg);
         }
         string = StrUtil.replace(string, "\\r\\n", "\n");
         string = StrUtil.replace(string, "\\n", "\n");

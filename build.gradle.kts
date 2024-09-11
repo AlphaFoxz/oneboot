@@ -11,6 +11,7 @@ tasks.jar {
 }
 allprojects {
     apply(plugin = "java-library")
+    apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     group = "com.github.alphafoxz.oneboot"
     version = "0.0.1-alpha.0"
@@ -21,8 +22,9 @@ allprojects {
         }
     }
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
     }
     dependencyManagement {
         imports {
@@ -39,6 +41,7 @@ allprojects {
             dependency("org.mapstruct:mapstruct-processor:1.6.0") // java代码生成器
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0") // api文档
             dependency("org.mockito:mockito-core:3.+")
+            dependency("org.springframework:spring-context:6.1.12")
             /** 持久化组件 */
             dependency("com.mysql:mysql-connector-j:8.4.0") // mysql驱动
             dependency("mysql:mysql-connector-java:8.0.33") // mysql驱动 （停止更新）
@@ -62,12 +65,18 @@ allprojects {
             dependency("com.github.AlphaFoxz.oneboot-processor:starter:dev-SNAPSHOT")
         }
     }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+//    onlyIf {
+//        //在执行build任务时跳过test
+//        !gradle.taskGraph.hasTask(":build")
+//    }
+    }
 }
 subprojects {
     if (name == "_tasks") {
         return@subprojects
     }
-    apply(plugin = "org.springframework.boot")
     tasks.jar {
         enabled = true
         archiveClassifier = ""
@@ -99,12 +108,5 @@ subprojects {
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
         developmentOnly("org.springframework.boot:spring-boot-devtools")
-    }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-//    onlyIf {
-//        //在执行build任务时跳过test
-//        !gradle.taskGraph.hasTask(":build")
-//    }
     }
 }

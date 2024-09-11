@@ -15,6 +15,6 @@ public record Account(
         EmailVo email,
         PhoneVo phone,
         OffsetDateTime createTime,
-        OffsetDateTime updateTime
+        AccountStatus status
 ) {
 }

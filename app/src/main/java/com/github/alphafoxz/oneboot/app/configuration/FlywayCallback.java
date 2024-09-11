@@ -11,7 +11,6 @@ import org.flywaydb.core.api.callback.Callback;
 import org.flywaydb.core.api.callback.Context;
 import org.flywaydb.core.api.callback.Event;
 import org.flywaydb.core.internal.info.MigrationInfoImpl;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 
@@ -19,7 +18,7 @@ import org.springframework.http.HttpStatus;
 @Configuration
 @RequiredArgsConstructor
 public class FlywayCallback implements Callback {
-    private final FlywayAutoConfiguration.FlywayConfiguration flywayConfiguration;
+//    private final FlywayAutoConfiguration flywayConfiguration;
 
     @Override
     @SneakyThrows

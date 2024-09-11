@@ -6,11 +6,12 @@ module oneboot.core {
     requires com.fasterxml.jackson.datatype.jsr310;
     requires io.swagger.v3.oas.models;
     requires jakarta.annotation;
-    requires java.scripting;
     requires java.desktop;
+    requires java.scripting;
     requires org.mapstruct;
-    requires org.springdoc.openapi.common;
+    requires org.jooq;
     requires org.slf4j;
+    requires org.springdoc.openapi.common;
     requires spring.boot;
     requires spring.context;
     requires spring.core;
@@ -26,6 +27,7 @@ module oneboot.core {
     exports com.github.alphafoxz.oneboot.core.standard.persistence;
     exports com.github.alphafoxz.oneboot.core.standard.restful;
     exports com.github.alphafoxz.oneboot.core.standard.service;
+    exports com.github.alphafoxz.oneboot.core.standard.jooq;
     exports com.github.alphafoxz.oneboot.core.toolkit.coding;
     exports com.github.alphafoxz.oneboot.core.toolkit.tuple;
 

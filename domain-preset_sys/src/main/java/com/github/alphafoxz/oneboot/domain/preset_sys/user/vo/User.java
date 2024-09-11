@@ -15,6 +15,6 @@ public record User(
         java.util.Map<String, String> abacAttrs,
         PhoneVo phone,
         UserStatus status,
-        OffsetDateTime createTime,
-        OffsetDateTime updateTime) {
+        OffsetDateTime createTime
+) {
 }
