@@ -6,19 +6,19 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.user.UserRepo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAccountRecord;
-import com.github.alphafoxz.oneboot.preset_sys.gen.mapping.PsysUserMapping;
+import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysTokenRecord;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.ExtensionMethod;
 import org.jooq.DSLContext;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
+
+import java.time.OffsetDateTime;
 
 import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.*;
 
 @Repository
 @RequiredArgsConstructor
-@ExtensionMethod({PsysUserMapping.class})
 public class UserRepoImpl implements UserRepo {
     private final DSLContext dsl;
 
@@ -29,17 +29,21 @@ public class UserRepoImpl implements UserRepo {
                 .where(PSYS_USER.USERNAME.eq(username.value()))
                 .fetchOne();
         PsysAccountRecord account;
+        PsysTokenRecord token;
         if (user != null) {
-            account = dsl
-                    .selectFrom(PSYS_ACCOUNT)
+            account = dsl.selectFrom(PSYS_ACCOUNT)
                     .where(PSYS_ACCOUNT.ID.eq(user.getAccountId()))
+                    .fetchOne();
+            token = dsl.selectFrom(PSYS_TOKEN)
+                    .where(PSYS_TOKEN.SUBJECT_ID.eq(user.getId()))
+                    .and(PSYS_TOKEN.EXPIRE_TIME.gt(OffsetDateTime.now()))
                     .fetchOne();
             return new UserAggImpl(account.toVo(), null, user.toVo());
         } else {
             user = dsl.newRecord(PSYS_USER);
 
         }
-        return new UserAggImpl(dsl.newRecord(PSYS_ACCOUNT).toVo(), dsl.newRecord(PSYS_TOKEN).toVo(), dsl.newRecord(PSYS_USER).toVo());
+        return new UserAggImpl(dsl.newRecord(PSYS_ACCOUNT).toVo(), null, dsl.newRecord(PSYS_USER).toVo());
     }
 
     @Override

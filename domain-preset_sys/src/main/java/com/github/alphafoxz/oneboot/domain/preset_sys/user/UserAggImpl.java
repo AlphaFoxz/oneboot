@@ -10,6 +10,7 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PasswordVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.OffsetDateTime;
 
@@ -17,6 +18,7 @@ import java.time.OffsetDateTime;
  * 用户聚合
  */
 @AllArgsConstructor
+@Getter
 public class UserAggImpl implements UserAgg {
     private Account account;
     private TokenVo token;

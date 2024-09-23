@@ -1,9 +1,4 @@
 package com.github.alphafoxz.oneboot.preset_sys.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequiredArgsConstructor
 public class UserController {
 }

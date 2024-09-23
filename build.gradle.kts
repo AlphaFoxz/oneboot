@@ -36,9 +36,11 @@ allprojects {
             dependency("cn.hutool:hutool-all:5.8.32") // hutool工具包
             dependency("com.google.auto.service:auto-service:1.1.1") // spring自动注入
             dependency("com.github.spotbugs:spotbugs-annotations:4.8.6") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
+            dependency("org.jetbrains:annotations:24.1.0") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
             dependency("com.squareup:javapoet:1.13.0") // java代码生成器（语法树）
-            dependency("org.mapstruct:mapstruct:1.6.0") // java代码生成器
-            dependency("org.mapstruct:mapstruct-processor:1.6.0") // java代码生成器
+            dependency("org.mapstruct:mapstruct:1.6.2") // java代码生成器
+            dependency("org.mapstruct:mapstruct-processor:1.6.2") // java代码生成器
+            dependency("org.projectlombok:lombok-mapstruct-binding:0.2.0") // java代码生成器
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0") // api文档
             dependency("org.mockito:mockito-core:3.+")
             dependency("org.springframework:spring-context:6.1.12")
@@ -99,7 +101,9 @@ subprojects {
         implementation("org.springframework:spring-context")
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok-mapstruct-binding")
         compileOnly("com.github.spotbugs:spotbugs-annotations") // 解决编译警告 找不到 javax.annotation.meta.When 的问题
+        compileOnly("org.jetbrains:annotations")
 
         compileOnly("com.github.AlphaFoxz.oneboot-processor:processor") {
 //            isChanging = false

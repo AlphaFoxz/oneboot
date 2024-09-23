@@ -1,0 +1,9 @@
+namespace java com.github.alphafoxz.oneboot.preset_sys.gen.restl.apis
+namespace ts gen.preset_sys.apis
+
+/* 用户接口 */
+@uri(/preset_sys/user)
+interface UserApi {
+    /* 注册 */
+    
+}

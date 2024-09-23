@@ -25,6 +25,7 @@ module oneboot.preset_sys {
     opens com.github.alphafoxz.oneboot.preset_sys.configuration;
     opens com.github.alphafoxz.oneboot.preset_sys.controller;
 
+    exports com.github.alphafoxz.oneboot.preset_sys.domain;
     exports com.github.alphafoxz.oneboot.preset_sys.service.abac.policy;
     exports com.github.alphafoxz.oneboot.preset_sys.service.framework;
     exports com.github.alphafoxz.oneboot.preset_sys.service.security;

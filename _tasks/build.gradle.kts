@@ -16,7 +16,8 @@ dependencies {
     jooqCodegen("org.jooq:jooq-meta-extensions")
     jooqCodegen("org.postgresql:postgresql")
     jooqCodegen("org.springframework:spring-context")
-//    jooqCodegen(project(":_tasks:strategy"))
+    jooqCodegen(project(":_tasks:strategy"))
+    implementation(project(":_tasks:strategy"))
 }
 
 fun getPropertyValue(key: String): String {
@@ -163,29 +164,17 @@ jooq {
     }
 }
 
-tasks.register("commandTest") {
+tasks.register<JavaExec>("execTools") {
     group = "tools"
-    dependsOn("checkNodeDeps", ":_tasks:classes")
-    doLast {
-        val p = exec {
-            commandLine("cmd", "/c", "start", "node", "../.sdk/bin/create-nuxt-content-git-pages.cjs")
-        }
-        println(p.exitValue)
-    }
+    dependsOn("checkNodeDeps")
+    classpath = project.sourceSets["main"].runtimeClasspath
+    mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.ExecTools"
 }
 
-tasks.register("genTools") {
+tasks.register<JavaExec>("checkNodeDeps") {
     group = "tools"
-    try {
-        exec {
-            commandLine("node", "-v")
-        }
-        exec {
-            commandLine("npm.cmd", "-v")
-        }
-    } catch (e: Exception) {
-        throw RuntimeException("未安装node，请检查环境变量，确保有全局的可执行的npm和node指令", e)
-    }
+    classpath = project.sourceSets["main"].runtimeClasspath
+    mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.CheckTools"
 }
 
 // 生成之后发布代码
