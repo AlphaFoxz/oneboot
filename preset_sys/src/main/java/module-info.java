@@ -12,12 +12,16 @@ module oneboot.preset_sys {
     requires org.jooq;
     requires org.mapstruct;
     requires org.slf4j;
+    requires spring.beans;
     requires spring.context;
     requires spring.core;
     requires spring.data.commons;
     requires spring.security.config;
     requires spring.security.core;
     requires spring.security.crypto;
+    requires spring.security.oauth2.authorization.server;
+    requires spring.security.oauth2.core;
+    requires spring.security.oauth2.jose;
     requires spring.security.web;
     requires spring.web;
     requires spring.webmvc;
