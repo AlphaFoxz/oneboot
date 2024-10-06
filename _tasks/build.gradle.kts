@@ -164,7 +164,15 @@ jooq {
     }
 }
 
-tasks.register<JavaExec>("execTools") {
+tasks.register<JavaExec>("生成preset_sys模块对象映射") {
+    description = "GeneratePresetSys"
+    group = "tools"
+    dependsOn("checkNodeDeps")
+    classpath = project.sourceSets["main"].runtimeClasspath
+    mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.GeneratePresetSys"
+}
+tasks.register<JavaExec>("运行工具") {
+    description = "ExecTools"
     group = "tools"
     dependsOn("checkNodeDeps")
     classpath = project.sourceSets["main"].runtimeClasspath
