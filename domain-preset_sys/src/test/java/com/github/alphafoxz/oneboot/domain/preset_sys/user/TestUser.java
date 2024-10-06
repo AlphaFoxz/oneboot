@@ -31,7 +31,7 @@ public class TestUser {
                 .thenReturn(encoder.matches(Const.rawPassword.value(), Const.encryptedPassword.value()));
         Mockito.when(userRepo.nextUserId()).thenReturn(2L);
         Mockito.when(userRepo.nextAccountId()).thenReturn(2L);
-        Mockito.when(userRepo.createToken(1L)).thenReturn(new TokenVo("123", "123", OffsetDateTime.now()));
+        Mockito.when(userRepo.createToken(1L)).thenReturn(new TokenVo(1L, "123", "123", OffsetDateTime.now()));
         Mockito.when(userRepo.findByUsername(new UsernameVo("admin"))).thenReturn(Const.adminUserAgg);
 
         BeanHolder.setMockBean(userRepo);

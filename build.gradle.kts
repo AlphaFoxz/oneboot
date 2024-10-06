@@ -45,13 +45,14 @@ allprojects {
             dependency("org.mockito:mockito-core:3.+")
             dependency("org.springframework:spring-context:6.1.12")
             /** 持久化组件 */
-            dependency("com.mysql:mysql-connector-j:8.4.0") // mysql驱动
+            dependency("com.mysql:mysql-connector-j:9.0.0") // mysql驱动
             dependency("mysql:mysql-connector-java:8.0.33") // mysql驱动 （停止更新）
-            dependency("org.postgresql:postgresql:42.6.0") // jooq
-            dependency("org.jooq:jooq-postgres-extensions:3.19.11") // jooq
-            dependency("org.jooq:jooq-codegen:3.19.11") // jooq
-            dependency("org.jooq:jooq-meta:3.19.11") // jooq
-            dependency("org.jooq:jooq-meta-extensions:3.19.11") // jooq
+            dependency("org.postgresql:postgresql:42.7.4") // postgres驱动
+            dependency("postgresql:postgresql:9.1-901-1.jdbc4") // postgres驱动（停止更新）
+            dependency("org.jooq:jooq-postgres-extensions:3.19.13") // jooq
+            dependency("org.jooq:jooq-codegen:3.19.13") // jooq
+            dependency("org.jooq:jooq-meta:3.19.13") // jooq
+            dependency("org.jooq:jooq-meta-extensions:3.19.13") // jooq
             dependency("org.hibernate:hibernate-core:6.6.0.Final") // JPA
             /** 文档处理 */
             dependency("org.apache.poi:poi-ooxml:5.3.0") // poi
@@ -85,7 +86,14 @@ subprojects {
         exclude("**/_compile_only/**")
     }
     tasks.withType<JavaCompile> {
-        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.addAll(
+            listOf(
+                "-Amapstruct.defaultComponentModel=spring",
+                "-Amapstruct.disableBuilders=true",
+                "-Amapstruct.unmappedSourcePolicy=WARN",
+                "-Amapstruct.unmappedTargetPolicy=WARN",
+            )
+        )
     }
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)

@@ -1,6 +1,5 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo;
 
-
 /**
  * 动态访问控制类型
  *

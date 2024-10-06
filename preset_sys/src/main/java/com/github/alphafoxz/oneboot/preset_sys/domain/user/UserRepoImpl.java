@@ -21,6 +21,7 @@ import static com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Tables.*;
 @RequiredArgsConstructor
 public class UserRepoImpl implements UserRepo {
     private final DSLContext dsl;
+    private final UserMapper userMapper;
 
     @Override
     public @NonNull UserAgg findBySubjectId(UsernameVo username) {
@@ -38,12 +39,20 @@ public class UserRepoImpl implements UserRepo {
                     .where(PSYS_TOKEN.SUBJECT_ID.eq(user.getId()))
                     .and(PSYS_TOKEN.EXPIRE_TIME.gt(OffsetDateTime.now()))
                     .fetchOne();
-            return new UserAggImpl(account.toVo(), null, user.toVo());
+            return new UserAggImpl(
+                    userMapper.psysAccountRecordToAccountVo(account),
+                    userMapper.psysTokenRecordToTokenVo(token),
+                    userMapper.psysUserRecordToUserVo(user)
+            );
         } else {
             user = dsl.newRecord(PSYS_USER);
-
+            account = dsl.newRecord(PSYS_ACCOUNT);
         }
-        return new UserAggImpl(dsl.newRecord(PSYS_ACCOUNT).toVo(), null, dsl.newRecord(PSYS_USER).toVo());
+        return new UserAggImpl(
+                userMapper.psysAccountRecordToAccountVo(account),
+                userMapper.psysTokenRecordToTokenVo(null),
+                userMapper.psysUserRecordToUserVo(user)
+        );
     }
 
     @Override

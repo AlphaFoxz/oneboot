@@ -1,8 +1,8 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
 
-
 import com.github.alphafoxz.oneboot.core.domain.DomainArgCheckException;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * 密码
@@ -10,10 +10,13 @@ import jakarta.annotation.Nonnull;
 public record PasswordVo(
         @Nonnull
         String value,
-        @Nonnull
+        @Nullable
         Boolean isEncrypt
 ) {
     public PasswordVo {
+        if (isEncrypt == null) {
+            isEncrypt = true;
+        }
         if (!isEncrypt && value.length() > 20) {
             throw new DomainArgCheckException("密码不能超过20个字符");
         } else if (isEncrypt && value.length() != 60) {

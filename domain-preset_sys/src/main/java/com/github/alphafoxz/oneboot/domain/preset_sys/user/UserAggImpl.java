@@ -5,10 +5,10 @@ import com.github.alphafoxz.oneboot.core.domain.DomainBusinessException;
 import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.*;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.event.*;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.Account;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.AccountVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PasswordVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.User;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UserVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,9 +20,9 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Getter
 public class UserAggImpl implements UserAgg {
-    private Account account;
+    private AccountVo account;
     private TokenVo token;
-    private User user;
+    private UserVo user;
 
     @Override
     public void handleRegister(UserRegisterCommand command) {
@@ -40,14 +40,14 @@ public class UserAggImpl implements UserAgg {
         var userId = BeanHolder.get(UserRepo.class).nextUserId();
         var accountId = BeanHolder.get(UserRepo.class).nextAccountId();
         var encryptedPassword = new PasswordVo(encoder.encode(command.password().value()), true);
-        this.account = Account.builder()
+        this.account = AccountVo.builder()
                 .id(accountId)
                 .password(encryptedPassword)
                 .email(command.email())
                 .phone(command.phone())
                 .createTime(now)
                 .build();
-        this.user = User.builder()
+        this.user = UserVo.builder()
                 .id(userId)
                 .username(command.username())
                 .createTime(now)

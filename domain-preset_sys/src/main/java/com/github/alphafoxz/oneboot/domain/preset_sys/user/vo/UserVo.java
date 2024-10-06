@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
  * 用户
  */
 @Builder(toBuilder = true)
-public record User(
+public record UserVo(
         Long id,
         UsernameVo username,
         NicknameVo nickname,
