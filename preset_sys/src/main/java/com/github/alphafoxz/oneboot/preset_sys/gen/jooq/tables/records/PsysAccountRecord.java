@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 /**
  * The table <code>preset_sys.psys_account</code>.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
 
     private static final long serialVersionUID = 1L;

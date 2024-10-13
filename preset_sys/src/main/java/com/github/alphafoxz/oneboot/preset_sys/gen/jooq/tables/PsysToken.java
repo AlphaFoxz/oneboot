@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 /**
  * The table <code>preset_sys.psys_token</code>.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysToken extends TableImpl<PsysTokenRecord> {
 
     private static final long serialVersionUID = 1L;

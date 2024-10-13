@@ -12,7 +12,7 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 /**
  * Convenience access to all tables in preset_sys.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

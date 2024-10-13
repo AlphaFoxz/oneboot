@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 /**
  * The table <code>preset_sys.psys_user</code>.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysUser(
     @Nullable Long id,
     @Nonnull String username,

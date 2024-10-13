@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 /**
  * The table <code>preset_sys.psys_token</code>.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysToken(
     @Nullable Long id,
     @Nonnull String accessToken,

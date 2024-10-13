@@ -31,16 +31,7 @@ fun getPropertyValue(key: String): String {
 
 class Strategy : Action<StrategyExtension> {
     override fun execute(stra: StrategyExtension) {
-//        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
-        stra.matchers {
-            tables {
-                table {
-//                    expression = "^.*$"
-//                    tableExtends = "com.example.MyOptionalTableBaseType"
-//                    tableImplements = "com.example.MyOptionalCustomInterface"
-                }
-            }
-        }
+        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
     }
 }
 
@@ -48,9 +39,13 @@ class Generate : Action<GenerateExtension> {
     override fun execute(gen: GenerateExtension) {
         // 强类型Record
         gen.isRecords = true
+        // 数据库序列
+        gen.isSequences = true
+        gen.isGlobalSequenceReferences = true
         // 注释
         gen.isComments = true
         gen.isCommentsOnTables = false
+        gen.isCommentsOnSequences = true
         // 数据库实体
         gen.isPojos = true
         gen.isImmutablePojos = true

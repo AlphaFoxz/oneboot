@@ -96,7 +96,7 @@ subprojects {
         )
     }
     configurations.all {
-        resolutionStrategy.cacheChangingModulesFor(1, TimeUnit.SECONDS)
+        resolutionStrategy.cacheChangingModulesFor(8, TimeUnit.HOURS)
     }
     java {
         modularity.inferModulePath = true

@@ -82,12 +82,14 @@ public class UserRepoImpl implements UserRepo {
     }
 
     @Override
-    public @NonNull Long nextUserId() {
+    @NonNull
+    public Long nextUserId() {
         return 0L;
     }
 
     @Override
-    public @NonNull Long nextAccountId() {
+    @NonNull
+    public Long nextAccountId() {
         return 0L;
     }
 }

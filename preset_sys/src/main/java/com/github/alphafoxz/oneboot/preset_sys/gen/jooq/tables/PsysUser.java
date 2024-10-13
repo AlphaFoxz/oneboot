@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 /**
  * The table <code>preset_sys.psys_user</code>.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysUser extends TableImpl<PsysUserRecord> {
 
     private static final long serialVersionUID = 1L;

@@ -27,7 +27,6 @@ module oneboot.core {
     exports com.github.alphafoxz.oneboot.core.standard.persistence;
     exports com.github.alphafoxz.oneboot.core.standard.restful;
     exports com.github.alphafoxz.oneboot.core.standard.service;
-    exports com.github.alphafoxz.oneboot.core.standard.jooq;
     exports com.github.alphafoxz.oneboot.core.toolkit.coding;
     exports com.github.alphafoxz.oneboot.core.toolkit.tuple;
 
