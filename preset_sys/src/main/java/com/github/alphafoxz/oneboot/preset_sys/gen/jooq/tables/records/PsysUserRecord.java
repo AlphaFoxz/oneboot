@@ -16,7 +16,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 
 
 /**
- * The table <code>preset_sys.psys_user</code>.
+ * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {

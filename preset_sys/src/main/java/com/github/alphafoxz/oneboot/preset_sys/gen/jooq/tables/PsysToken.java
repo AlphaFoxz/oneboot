@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 
 
 /**
- * The table <code>preset_sys.psys_token</code>.
+ * 令牌表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysToken extends TableImpl<PsysTokenRecord> {
@@ -88,7 +88,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
     }
 
     private PsysToken(Name alias, Table<PsysTokenRecord> aliased, Field<?>[] parameters, Condition where) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table(), where);
+        super(alias, null, aliased, parameters, DSL.comment("令牌表"), TableOptions.table(), where);
     }
 
     /**

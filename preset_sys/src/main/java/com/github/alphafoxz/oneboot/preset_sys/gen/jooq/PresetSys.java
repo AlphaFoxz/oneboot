@@ -32,17 +32,17 @@ public class PresetSys extends SchemaImpl {
     public static final PresetSys PRESET_SYS = new PresetSys();
 
     /**
-     * The table <code>preset_sys.psys_account</code>.
+     * 账户表
      */
     public final PsysAccount PSYS_ACCOUNT = PsysAccount.PSYS_ACCOUNT;
 
     /**
-     * The table <code>preset_sys.psys_token</code>.
+     * 令牌表
      */
     public final PsysToken PSYS_TOKEN = PsysToken.PSYS_TOKEN;
 
     /**
-     * The table <code>preset_sys.psys_user</code>.
+     * 用户表
      */
     public final PsysUser PSYS_USER = PsysUser.PSYS_USER;
 

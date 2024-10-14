@@ -15,7 +15,7 @@ import org.jooq.impl.TableRecordImpl;
 
 
 /**
- * The table <code>preset_sys.psys_token</code>.
+ * 令牌表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {

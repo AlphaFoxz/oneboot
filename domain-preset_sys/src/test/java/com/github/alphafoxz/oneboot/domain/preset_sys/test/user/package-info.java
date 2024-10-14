@@ -1,5 +1,7 @@
-package com.github.alphafoxz.oneboot.domain.preset_sys.user;
+package com.github.alphafoxz.oneboot.domain.preset_sys.test.user;
 
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.UserAgg;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.UserAggImpl;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.*;
 
 import java.time.OffsetDateTime;

@@ -16,17 +16,17 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 public class Tables {
 
     /**
-     * The table <code>preset_sys.psys_account</code>.
+     * 账户表
      */
     public static final PsysAccount PSYS_ACCOUNT = PsysAccount.PSYS_ACCOUNT;
 
     /**
-     * The table <code>preset_sys.psys_token</code>.
+     * 令牌表
      */
     public static final PsysToken PSYS_TOKEN = PsysToken.PSYS_TOKEN;
 
     /**
-     * The table <code>preset_sys.psys_user</code>.
+     * 用户表
      */
     public static final PsysUser PSYS_USER = PsysUser.PSYS_USER;
 }

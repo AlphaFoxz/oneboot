@@ -16,7 +16,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 
 
 /**
- * The table <code>preset_sys.psys_account</code>.
+ * 账户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {

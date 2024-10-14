@@ -31,7 +31,8 @@ fun getPropertyValue(key: String): String {
 
 class Strategy : Action<StrategyExtension> {
     override fun execute(stra: StrategyExtension) {
-        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
+        stra.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+//        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
     }
 }
 
@@ -39,13 +40,18 @@ class Generate : Action<GenerateExtension> {
     override fun execute(gen: GenerateExtension) {
         // 强类型Record
         gen.isRecords = true
+        gen.isDaos = false
+//        gen.isSpringDao = true
         // 数据库序列
         gen.isSequences = true
-        gen.isGlobalSequenceReferences = true
+        gen.isIndexes = true
         // 注释
         gen.isComments = true
-        gen.isCommentsOnTables = false
-        gen.isCommentsOnSequences = true
+//        gen.isCommentsOnTables = true
+//        gen.isCommentsOnKeys = true
+//        gen.isCommentsOnColumns = true
+//        gen.isCommentsOnPackages = true
+//        gen.isCommentsOnParameters = true
         // 数据库实体
         gen.isPojos = true
         gen.isImmutablePojos = true
@@ -165,6 +171,7 @@ tasks.register<JavaExec>("生成preset_sys模块对象映射") {
     dependsOn("checkNodeDeps")
     classpath = project.sourceSets["main"].runtimeClasspath
     mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.GeneratePresetSys"
+    args(rootDir.path)
 }
 tasks.register<JavaExec>("运行工具") {
     description = "ExecTools"
@@ -172,6 +179,14 @@ tasks.register<JavaExec>("运行工具") {
     dependsOn("checkNodeDeps")
     classpath = project.sourceSets["main"].runtimeClasspath
     mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.ExecTools"
+    args(rootDir.path)
+}
+tasks.register<JavaExec>("读取最新工具版本、更新env文件") {
+    description = "UpdateEnvFile"
+    group = "tools"
+    classpath = project.sourceSets["main"].runtimeClasspath
+    mainClass = "com.github.alphafoxz.oneboot.gradle_tasks.UpdateEnvFile"
+    args(rootDir.path)
 }
 
 tasks.register<JavaExec>("checkNodeDeps") {

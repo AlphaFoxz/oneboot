@@ -3,12 +3,17 @@ package com.github.alphafoxz.oneboot.gradle_tasks;
 import cn.hutool.core.util.RuntimeUtil;
 
 public class GeneratePresetSys {
+    public static EnvFile envFile;
+
     public static void main(String[] args) {
+        envFile = new EnvFile(args[0]);
         RuntimeUtil.exec(
                 "cmd", "/c", "start",
-                "pnpm", "create", "@ddd-tool/oneboot@0.0.1-alpha.3",
+                "pnpm", "dlx", "@ddd-tool/create-oneboot@" + envFile.getContent().getOnebootToolVersion(),
                 "genVoMapper",
                 "--domain-module=domain-preset_sys",
-                "--output-module=preset_sys");
+                "--output-module=preset_sys",
+                "--project-root=" + args[0]
+        );
     }
 }

@@ -1,8 +1,10 @@
-package com.github.alphafoxz.oneboot.domain.preset_sys.user;
+package com.github.alphafoxz.oneboot.domain.preset_sys.test.user;
 
 import cn.hutool.core.lang.Assert;
 import com.github.alphafoxz.oneboot.core.configuration.BeanHolder;
 import com.github.alphafoxz.oneboot.core.domain.DomainEventPublisher;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.PasswordEncoder;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.UserRepo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.command.UserLoginCommand;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PasswordVo;

@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 
 
 /**
- * The table <code>preset_sys.psys_user</code>.
+ * 用户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysUser(

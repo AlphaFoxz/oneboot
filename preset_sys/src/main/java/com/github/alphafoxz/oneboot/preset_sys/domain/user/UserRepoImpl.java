@@ -84,12 +84,12 @@ public class UserRepoImpl implements UserRepo {
     @Override
     @NonNull
     public Long nextUserId() {
-        return 0L;
+        return dsl.nextval(PSYS_USER.ID.getQualifiedName()).longValue();
     }
 
     @Override
     @NonNull
     public Long nextAccountId() {
-        return 0L;
+        return dsl.nextval(PSYS_ACCOUNT.ID.getQualifiedName()).longValue();
     }
 }

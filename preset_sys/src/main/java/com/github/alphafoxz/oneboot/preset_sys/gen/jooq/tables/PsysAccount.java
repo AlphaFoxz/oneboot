@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 
 
 /**
- * The table <code>preset_sys.psys_account</code>.
+ * 账户表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PsysAccount extends TableImpl<PsysAccountRecord> {
@@ -95,7 +95,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
     }
 
     private PsysAccount(Name alias, Table<PsysAccountRecord> aliased, Field<?>[] parameters, Condition where) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table(), where);
+        super(alias, null, aliased, parameters, DSL.comment("账户表"), TableOptions.table(), where);
     }
 
     /**

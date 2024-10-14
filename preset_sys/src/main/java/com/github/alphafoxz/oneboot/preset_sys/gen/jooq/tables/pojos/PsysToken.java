@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 
 
 /**
- * The table <code>preset_sys.psys_token</code>.
+ * 令牌表
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysToken(
