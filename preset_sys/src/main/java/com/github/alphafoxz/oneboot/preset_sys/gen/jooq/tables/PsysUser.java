@@ -8,11 +8,10 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysUserRecord;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -31,6 +30,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -50,7 +51,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * The class holding records for this type
      */
     @Override
-    @Nonnull
+    @NonNull
     public Class<PsysUserRecord> getRecordType() {
         return PsysUserRecord.class;
     }
@@ -126,37 +127,43 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public Identity<PsysUserRecord, Long> getIdentity() {
         return (Identity<PsysUserRecord, Long>) super.getIdentity();
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public UniqueKey<PsysUserRecord> getPrimaryKey() {
         return Keys.PSYS_USER_PK;
     }
 
     @Override
-    @Nonnull
+    @NonNull
+    public List<UniqueKey<PsysUserRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.PSYS_USER_USERNAME_UNI);
+    }
+
+    @Override
+    @NonNull
     public TableField<PsysUserRecord, OffsetDateTime> getRecordTimestamp() {
         return _VERSION;
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser as(String alias) {
         return new PsysUser(DSL.name(alias), this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser as(Name alias) {
         return new PsysUser(alias, this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser as(Table<?> alias) {
         return new PsysUser(alias.getQualifiedName(), this);
     }
@@ -165,7 +172,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser rename(String name) {
         return new PsysUser(DSL.name(name), null);
     }
@@ -174,7 +181,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser rename(Name name) {
         return new PsysUser(name, null);
     }
@@ -183,7 +190,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser rename(Table<?> name) {
         return new PsysUser(name.getQualifiedName(), null);
     }
@@ -192,7 +199,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser where(Condition condition) {
         return new PsysUser(getQualifiedName(), aliased() ? this : null, null, condition);
     }
@@ -201,7 +208,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser where(Collection<? extends Condition> conditions) {
         return where(DSL.and(conditions));
     }
@@ -210,7 +217,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser where(Condition... conditions) {
         return where(DSL.and(conditions));
     }
@@ -219,7 +226,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser where(Field<Boolean> condition) {
         return where(DSL.condition(condition));
     }
@@ -228,7 +235,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysUser where(SQL condition) {
         return where(DSL.condition(condition));
@@ -238,7 +245,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysUser where(@Stringly.SQL String condition) {
         return where(DSL.condition(condition));
@@ -248,7 +255,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysUser where(@Stringly.SQL String condition, Object... binds) {
         return where(DSL.condition(condition, binds));
@@ -258,7 +265,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysUser where(@Stringly.SQL String condition, QueryPart... parts) {
         return where(DSL.condition(condition, parts));
@@ -268,7 +275,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser whereExists(Select<?> select) {
         return where(DSL.exists(select));
     }
@@ -277,7 +284,7 @@ public class PsysUser extends TableImpl<PsysUserRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysUser whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
     }

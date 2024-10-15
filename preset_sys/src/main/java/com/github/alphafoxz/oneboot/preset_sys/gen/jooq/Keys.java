@@ -28,4 +28,5 @@ public class Keys {
 
     public static final UniqueKey<PsysAccountRecord> PSYS_ACCOUNT_PK = Internal.createUniqueKey(PsysAccount.PSYS_ACCOUNT, DSL.name("psys_account_pk"), new TableField[] { PsysAccount.PSYS_ACCOUNT.ID }, true);
     public static final UniqueKey<PsysUserRecord> PSYS_USER_PK = Internal.createUniqueKey(PsysUser.PSYS_USER, DSL.name("psys_user_pk"), new TableField[] { PsysUser.PSYS_USER.ID }, true);
+    public static final UniqueKey<PsysUserRecord> PSYS_USER_USERNAME_UNI = Internal.createUniqueKey(PsysUser.PSYS_USER, DSL.name("psys_user_username_uni"), new TableField[] { PsysUser.PSYS_USER.USERNAME }, true);
 }

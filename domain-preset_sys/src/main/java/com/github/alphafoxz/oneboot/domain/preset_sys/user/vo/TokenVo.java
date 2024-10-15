@@ -2,8 +2,8 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
 
 import com.github.alphafoxz.oneboot.core.domain.DomainArgCheckException;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
-import jakarta.annotation.Nonnull;
 import lombok.Builder;
+import org.springframework.lang.NonNull;
 
 import java.time.OffsetDateTime;
 
@@ -13,9 +13,9 @@ import java.time.OffsetDateTime;
 @Builder(toBuilder = true)
 public record TokenVo(
         Long id,
-        @Nonnull
+        @NonNull
         String accessToken,
-        @Nonnull
+        @NonNull
         String refreshToken,
         OffsetDateTime expireTime
 ) {

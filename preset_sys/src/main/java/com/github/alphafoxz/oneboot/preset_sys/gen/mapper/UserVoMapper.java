@@ -1,11 +1,6 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.mapper;
 
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.EmailVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.NicknameVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PasswordVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.PhoneVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
+import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.*;
 
 public interface UserVoMapper {
     default String stringToEmailVo(EmailVo source) {
@@ -55,6 +50,5 @@ public interface UserVoMapper {
     default UsernameVo usernameVoToString(String source) {
         return new UsernameVo(source);
     }
-
 
 }

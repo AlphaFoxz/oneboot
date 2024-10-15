@@ -2,20 +2,20 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user;
 
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 public interface UserRepo {
-    @Nonnull
+    @NonNull
     UserAgg findBySubjectId(UsernameVo username);
 
-    @Nonnull
+    @NonNull
     UserAgg findById(Long userId);
 
-    @Nonnull
+    @NonNull
     UserAgg findByUsername(UsernameVo username);
 
-    @Nonnull
+    @NonNull
     TokenVo createToken(Long userId);
 
     @Nullable
@@ -23,12 +23,11 @@ public interface UserRepo {
 
     void save(UserAgg user);
 
-    @Nonnull
+    @NonNull
     Long nextUserId();
 
-    @Nonnull
+    @NonNull
     Long nextAccountId();
-
 
 }
 

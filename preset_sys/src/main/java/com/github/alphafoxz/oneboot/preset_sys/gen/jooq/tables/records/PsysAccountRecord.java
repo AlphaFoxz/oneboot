@@ -6,13 +6,12 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAccount;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
 
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -41,14 +40,14 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     /**
      * Setter for <code>preset_sys.psys_account.create_time</code>. 创建时间
      */
-    public void setCreateTime(@Nonnull OffsetDateTime value) {
+    public void setCreateTime(@NonNull OffsetDateTime value) {
         set(1, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_account.create_time</code>. 创建时间
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime getCreateTime() {
         return (OffsetDateTime) get(1);
     }
@@ -56,14 +55,14 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     /**
      * Setter for <code>preset_sys.psys_account._version</code>. 版本
      */
-    public void set_Version(@Nonnull OffsetDateTime value) {
+    public void set_Version(@NonNull OffsetDateTime value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_account._version</code>. 版本
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime get_Version() {
         return (OffsetDateTime) get(2);
     }
@@ -71,14 +70,14 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     /**
      * Setter for <code>preset_sys.psys_account.password</code>. 密码
      */
-    public void setPassword(@Nonnull String value) {
+    public void setPassword(@NonNull String value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_account.password</code>. 密码
      */
-    @Nonnull
+    @NonNull
     public String getPassword() {
         return (String) get(3);
     }
@@ -116,14 +115,14 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     /**
      * Setter for <code>preset_sys.psys_account.account_status</code>. 状态
      */
-    public void setAccountStatus(@Nonnull String value) {
+    public void setAccountStatus(@NonNull String value) {
         set(6, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_account.account_status</code>. 状态
      */
-    @Nonnull
+    @NonNull
     public String getAccountStatus() {
         return (String) get(6);
     }
@@ -133,7 +132,7 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    @Nonnull
+    @NonNull
     public Record1<Long> key() {
         return (Record1) super.key();
     }
@@ -152,7 +151,7 @@ public class PsysAccountRecord extends UpdatableRecordImpl<PsysAccountRecord> {
     /**
      * Create a detached, initialised PsysAccountRecord
      */
-    public PsysAccountRecord(@Nullable Long id, @Nonnull OffsetDateTime createTime, @Nonnull OffsetDateTime _Version, @Nonnull String password, @Nullable String email, @Nullable String phone, @Nonnull String accountStatus) {
+    public PsysAccountRecord(@Nullable Long id, @NonNull OffsetDateTime createTime, @NonNull OffsetDateTime _Version, @NonNull String password, @Nullable String email, @Nullable String phone, @NonNull String accountStatus) {
         super(PsysAccount.PSYS_ACCOUNT);
 
         setId(id);

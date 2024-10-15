@@ -6,7 +6,7 @@ import lombok.Builder;
  * 动态访问控制
  */
 @Builder(toBuilder = true)
-public record DacRecord(
+public record DacRecordVo(
         DacType dacType,
         Long resourceId
 ) {

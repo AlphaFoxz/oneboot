@@ -8,14 +8,13 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysAccount;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysToken;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 
-import jakarta.annotation.Nonnull;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
@@ -55,13 +54,13 @@ public class PresetSys extends SchemaImpl {
 
 
     @Override
-    @Nonnull
+    @NonNull
     public Catalog getCatalog() {
         return DefaultCatalog.DEFAULT_CATALOG;
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             PsysAccount.PSYS_ACCOUNT,

@@ -8,9 +8,6 @@ import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.Keys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAccountRecord;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
 import java.util.Collection;
 
@@ -31,6 +28,8 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -50,7 +49,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * The class holding records for this type
      */
     @Override
-    @Nonnull
+    @NonNull
     public Class<PsysAccountRecord> getRecordType() {
         return PsysAccountRecord.class;
     }
@@ -126,37 +125,37 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public Identity<PsysAccountRecord, Long> getIdentity() {
         return (Identity<PsysAccountRecord, Long>) super.getIdentity();
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public UniqueKey<PsysAccountRecord> getPrimaryKey() {
         return Keys.PSYS_ACCOUNT_PK;
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public TableField<PsysAccountRecord, OffsetDateTime> getRecordTimestamp() {
         return _VERSION;
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount as(String alias) {
         return new PsysAccount(DSL.name(alias), this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount as(Name alias) {
         return new PsysAccount(alias, this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount as(Table<?> alias) {
         return new PsysAccount(alias.getQualifiedName(), this);
     }
@@ -165,7 +164,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount rename(String name) {
         return new PsysAccount(DSL.name(name), null);
     }
@@ -174,7 +173,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount rename(Name name) {
         return new PsysAccount(name, null);
     }
@@ -183,7 +182,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount rename(Table<?> name) {
         return new PsysAccount(name.getQualifiedName(), null);
     }
@@ -192,7 +191,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount where(Condition condition) {
         return new PsysAccount(getQualifiedName(), aliased() ? this : null, null, condition);
     }
@@ -201,7 +200,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount where(Collection<? extends Condition> conditions) {
         return where(DSL.and(conditions));
     }
@@ -210,7 +209,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount where(Condition... conditions) {
         return where(DSL.and(conditions));
     }
@@ -219,7 +218,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount where(Field<Boolean> condition) {
         return where(DSL.condition(condition));
     }
@@ -228,7 +227,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysAccount where(SQL condition) {
         return where(DSL.condition(condition));
@@ -238,7 +237,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysAccount where(@Stringly.SQL String condition) {
         return where(DSL.condition(condition));
@@ -248,7 +247,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysAccount where(@Stringly.SQL String condition, Object... binds) {
         return where(DSL.condition(condition, binds));
@@ -258,7 +257,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysAccount where(@Stringly.SQL String condition, QueryPart... parts) {
         return where(DSL.condition(condition, parts));
@@ -268,7 +267,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount whereExists(Select<?> select) {
         return where(DSL.exists(select));
     }
@@ -277,7 +276,7 @@ public class PsysAccount extends TableImpl<PsysAccountRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysAccount whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
     }

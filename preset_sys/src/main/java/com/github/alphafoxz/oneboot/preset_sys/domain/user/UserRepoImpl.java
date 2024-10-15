@@ -7,9 +7,9 @@ import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.TokenVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysAccountRecord;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysTokenRecord;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +25,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public @NonNull UserAgg findBySubjectId(UsernameVo username) {
+//        var user = new PsysUserRecord(psysUserDao.fetchOptionalByUsername(username.value()));
         var user = dsl
                 .selectFrom(PSYS_USER)
                 .where(PSYS_USER.USERNAME.eq(username.value()))
@@ -56,7 +57,8 @@ public class UserRepoImpl implements UserRepo {
     }
 
     @Override
-    public @NonNull UserAgg findById(Long userId) {
+    @NonNull
+    public UserAgg findById(Long userId) {
         var user = dsl;
         return null;
     }
@@ -84,6 +86,7 @@ public class UserRepoImpl implements UserRepo {
     @Override
     @NonNull
     public Long nextUserId() {
+        dsl.nextval(PSYS_USER.ID.getQualifiedName());
         return dsl.nextval(PSYS_USER.ID.getQualifiedName()).longValue();
     }
 

@@ -31,8 +31,8 @@ fun getPropertyValue(key: String): String {
 
 class Strategy : Action<StrategyExtension> {
     override fun execute(stra: StrategyExtension) {
-        stra.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-//        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
+//        stra.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+        stra.name = "com.github.alphafoxz.oneboot.gradle_tasks.jooq.OnebootJooqGeneratorStrategy"
     }
 }
 
@@ -62,8 +62,8 @@ class Generate : Action<GenerateExtension> {
         // 注解
         gen.isNullableAnnotation = true
         gen.isNonnullAnnotation = true
-        gen.nullableAnnotationType = "jakarta.annotation.Nullable"
-        gen.nonnullAnnotationType = "jakarta.annotation.Nonnull"
+        gen.nullableAnnotationType = "org.springframework.lang.Nullable"
+        gen.nonnullAnnotationType = "org.springframework.lang.NonNull"
         gen.isSpringAnnotations = true
         gen.generatedAnnotationType = GeneratedAnnotationType.DETECT_FROM_JDK
         // 忽略项

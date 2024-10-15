@@ -2,17 +2,17 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user.event;
 
 import com.github.alphafoxz.oneboot.core.domain.DomainEvent;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
-import jakarta.annotation.Nonnull;
+import org.springframework.lang.NonNull;
 
 /**
  * 注册失败事件
  */
 public record UserRegisterFailedEvent(
-        @Nonnull
+        @NonNull
         IpVo ip,
-        @Nonnull
+        @NonNull
         String reason,
-        @Nonnull
+        @NonNull
         java.time.OffsetDateTime time
 ) implements DomainEvent {
 }

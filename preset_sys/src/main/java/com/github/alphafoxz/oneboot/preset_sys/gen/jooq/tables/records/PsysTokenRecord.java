@@ -6,12 +6,11 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysToken;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
 
 import org.jooq.impl.TableRecordImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -40,14 +39,14 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Setter for <code>preset_sys.psys_token.access_token</code>. 访问令牌
      */
-    public void setAccessToken(@Nonnull String value) {
+    public void setAccessToken(@NonNull String value) {
         set(1, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_token.access_token</code>. 访问令牌
      */
-    @Nonnull
+    @NonNull
     public String getAccessToken() {
         return (String) get(1);
     }
@@ -55,14 +54,14 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Setter for <code>preset_sys.psys_token.refresh_token</code>. 刷新令牌
      */
-    public void setRefreshToken(@Nonnull String value) {
+    public void setRefreshToken(@NonNull String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_token.refresh_token</code>. 刷新令牌
      */
-    @Nonnull
+    @NonNull
     public String getRefreshToken() {
         return (String) get(2);
     }
@@ -70,14 +69,14 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Setter for <code>preset_sys.psys_token.create_time</code>. 创建时间
      */
-    public void setCreateTime(@Nonnull OffsetDateTime value) {
+    public void setCreateTime(@NonNull OffsetDateTime value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_token.create_time</code>. 创建时间
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime getCreateTime() {
         return (OffsetDateTime) get(3);
     }
@@ -85,14 +84,14 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Setter for <code>preset_sys.psys_token.subject_id</code>. 主体id（用户id）
      */
-    public void setSubjectId(@Nonnull Long value) {
+    public void setSubjectId(@NonNull Long value) {
         set(4, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_token.subject_id</code>. 主体id（用户id）
      */
-    @Nonnull
+    @NonNull
     public Long getSubjectId() {
         return (Long) get(4);
     }
@@ -100,14 +99,14 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Setter for <code>preset_sys.psys_token.expire_time</code>. 过期时间
      */
-    public void setExpireTime(@Nonnull OffsetDateTime value) {
+    public void setExpireTime(@NonNull OffsetDateTime value) {
         set(5, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_token.expire_time</code>. 过期时间
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime getExpireTime() {
         return (OffsetDateTime) get(5);
     }
@@ -126,7 +125,7 @@ public class PsysTokenRecord extends TableRecordImpl<PsysTokenRecord> {
     /**
      * Create a detached, initialised PsysTokenRecord
      */
-    public PsysTokenRecord(@Nullable Long id, @Nonnull String accessToken, @Nonnull String refreshToken, @Nonnull OffsetDateTime createTime, @Nonnull Long subjectId, @Nonnull OffsetDateTime expireTime) {
+    public PsysTokenRecord(@Nullable Long id, @NonNull String accessToken, @NonNull String refreshToken, @NonNull OffsetDateTime createTime, @NonNull Long subjectId, @NonNull OffsetDateTime expireTime) {
         super(PsysToken.PSYS_TOKEN);
 
         setId(id);

@@ -3,20 +3,20 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user.event;
 import com.github.alphafoxz.oneboot.core.domain.DomainEvent;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.IpVo;
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
-import jakarta.annotation.Nonnull;
+import org.springframework.lang.NonNull;
 
 /**
  * 登录失败事件
  */
 public record UserLoginFailedEvent(
         Long userId,
-        @Nonnull
+        @NonNull
         UsernameVo username,
-        @Nonnull
+        @NonNull
         String reason,
-        @Nonnull
+        @NonNull
         java.time.OffsetDateTime time,
-        @Nonnull
+        @NonNull
         IpVo ip
 ) implements DomainEvent {
 }

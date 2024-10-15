@@ -4,11 +4,11 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.pojos;
 
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -17,12 +17,12 @@ import java.time.OffsetDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public record PsysAccount(
     @Nullable Long id,
-    @Nonnull OffsetDateTime createTime,
-    @Nonnull OffsetDateTime _Version,
-    @Nonnull String password,
+    @NonNull OffsetDateTime createTime,
+    @NonNull OffsetDateTime _Version,
+    @NonNull String password,
     @Nullable String email,
     @Nullable String phone,
-    @Nonnull String accountStatus
+    @NonNull String accountStatus
 ) implements Serializable {
 
     private static final long serialVersionUID = 1L;

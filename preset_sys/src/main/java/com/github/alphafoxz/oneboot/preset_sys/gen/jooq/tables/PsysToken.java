@@ -7,9 +7,6 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.PresetSys;
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records.PsysTokenRecord;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
 import java.util.Collection;
 
@@ -29,6 +26,8 @@ import org.jooq.TableOptions;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -48,7 +47,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * The class holding records for this type
      */
     @Override
-    @Nonnull
+    @NonNull
     public Class<PsysTokenRecord> getRecordType() {
         return PsysTokenRecord.class;
     }
@@ -119,25 +118,25 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public Identity<PsysTokenRecord, Long> getIdentity() {
         return (Identity<PsysTokenRecord, Long>) super.getIdentity();
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken as(String alias) {
         return new PsysToken(DSL.name(alias), this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken as(Name alias) {
         return new PsysToken(alias, this);
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken as(Table<?> alias) {
         return new PsysToken(alias.getQualifiedName(), this);
     }
@@ -146,7 +145,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken rename(String name) {
         return new PsysToken(DSL.name(name), null);
     }
@@ -155,7 +154,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken rename(Name name) {
         return new PsysToken(name, null);
     }
@@ -164,7 +163,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Rename this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken rename(Table<?> name) {
         return new PsysToken(name.getQualifiedName(), null);
     }
@@ -173,7 +172,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken where(Condition condition) {
         return new PsysToken(getQualifiedName(), aliased() ? this : null, null, condition);
     }
@@ -182,7 +181,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken where(Collection<? extends Condition> conditions) {
         return where(DSL.and(conditions));
     }
@@ -191,7 +190,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken where(Condition... conditions) {
         return where(DSL.and(conditions));
     }
@@ -200,7 +199,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken where(Field<Boolean> condition) {
         return where(DSL.condition(condition));
     }
@@ -209,7 +208,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysToken where(SQL condition) {
         return where(DSL.condition(condition));
@@ -219,7 +218,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysToken where(@Stringly.SQL String condition) {
         return where(DSL.condition(condition));
@@ -229,7 +228,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysToken where(@Stringly.SQL String condition, Object... binds) {
         return where(DSL.condition(condition, binds));
@@ -239,7 +238,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     @PlainSQL
     public PsysToken where(@Stringly.SQL String condition, QueryPart... parts) {
         return where(DSL.condition(condition, parts));
@@ -249,7 +248,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken whereExists(Select<?> select) {
         return where(DSL.exists(select));
     }
@@ -258,7 +257,7 @@ public class PsysToken extends TableImpl<PsysTokenRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    @Nonnull
+    @NonNull
     public PsysToken whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
     }

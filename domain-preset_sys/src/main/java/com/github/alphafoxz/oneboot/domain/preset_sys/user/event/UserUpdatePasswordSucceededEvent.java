@@ -1,17 +1,17 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user.event;
 
 import com.github.alphafoxz.oneboot.domain.preset_sys.user.vo.UsernameVo;
-import jakarta.annotation.Nonnull;
+import org.springframework.lang.NonNull;
 
 /**
  * 更新密码成功事件
  */
 public record UserUpdatePasswordSucceededEvent(
-        @Nonnull
+        @NonNull
         Long userId,
-        @Nonnull
+        @NonNull
         UsernameVo username,
-        @Nonnull
+        @NonNull
         java.time.OffsetDateTime time
 ) {
 }

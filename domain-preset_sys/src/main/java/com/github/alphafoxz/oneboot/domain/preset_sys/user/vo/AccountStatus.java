@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
 
 import cn.hutool.core.util.EnumUtil;
 import com.github.alphafoxz.oneboot.core.domain.DomainEnum;
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 

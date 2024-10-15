@@ -1,25 +1,25 @@
 package com.github.alphafoxz.oneboot.domain.preset_sys.user.vo;
 
 import com.github.alphafoxz.oneboot.core.domain.DomainArgCheckException;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 /**
  * 密码
  */
 public record PasswordVo(
-        @Nonnull
+        @NonNull
         String value,
         @Nullable
-        Boolean isEncrypt
+        Boolean _isEncrypt
 ) {
     public PasswordVo {
-        if (isEncrypt == null) {
-            isEncrypt = true;
+        if (_isEncrypt == null) {
+            _isEncrypt = true;
         }
-        if (!isEncrypt && value.length() > 20) {
+        if (!_isEncrypt && value.length() > 20) {
             throw new DomainArgCheckException("密码不能超过20个字符");
-        } else if (isEncrypt && value.length() != 60) {
+        } else if (_isEncrypt && value.length() != 60) {
             throw new DomainArgCheckException("密码格式错误");
         }
     }

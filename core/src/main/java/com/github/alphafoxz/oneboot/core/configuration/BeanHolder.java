@@ -2,11 +2,10 @@ package com.github.alphafoxz.oneboot.core.configuration;
 
 import com.github.alphafoxz.oneboot.core.toolkit.coding.MapUtil;
 import com.github.alphafoxz.oneboot.core.toolkit.coding.StrUtil;
-import jakarta.annotation.Nonnull;
-import lombok.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class BeanHolder implements ApplicationContextAware {
         context = applicationContext;
     }
 
-    @Nonnull
+    @NonNull
     @SuppressWarnings("unchecked")
     public static <T> T get(Class<T> beanClass) {
         if (context != null) {
@@ -42,7 +41,7 @@ public class BeanHolder implements ApplicationContextAware {
         return (T) bean;
     }
 
-    @Nonnull
+    @NonNull
     @SuppressWarnings("unchecked")
     public static <T> T get(String beanName) {
         if (context != null) {

@@ -4,13 +4,12 @@
 package com.github.alphafoxz.oneboot.preset_sys.gen.jooq;
 
 
-import jakarta.annotation.Nonnull;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Schema;
 import org.jooq.impl.CatalogImpl;
+import org.springframework.lang.NonNull;
 
 
 /**
@@ -39,7 +38,7 @@ public class DefaultCatalog extends CatalogImpl {
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public final List<Schema> getSchemas() {
         return Arrays.asList(
             PresetSys.PRESET_SYS

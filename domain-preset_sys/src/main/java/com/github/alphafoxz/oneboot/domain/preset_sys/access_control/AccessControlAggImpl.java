@@ -2,7 +2,7 @@ package com.github.alphafoxz.oneboot.domain.preset_sys.access_control;
 
 
 import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.AbacAttrVo;
-import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.DacRecord;
+import com.github.alphafoxz.oneboot.domain.preset_sys.access_control.vo.DacRecordVo;
 import lombok.AllArgsConstructor;
 
 /**
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AccessControlAggImpl implements AccessControlAgg {
     private java.util.Set<AbacAttrVo> abacAttrSet;
-    private java.util.Set<DacRecord> dacSet;
+    private java.util.Set<DacRecordVo> dacSet;
     private Long resourceId;
     /**
      * 用户主键

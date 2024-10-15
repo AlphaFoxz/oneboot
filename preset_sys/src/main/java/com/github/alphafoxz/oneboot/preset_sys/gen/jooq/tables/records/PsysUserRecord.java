@@ -6,13 +6,12 @@ package com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.records;
 
 import com.github.alphafoxz.oneboot.preset_sys.gen.jooq.tables.PsysUser;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 import java.time.OffsetDateTime;
 
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 
 /**
@@ -41,14 +40,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user.username</code>. 用户名
      */
-    public void setUsername(@Nonnull String value) {
+    public void setUsername(@NonNull String value) {
         set(1, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user.username</code>. 用户名
      */
-    @Nonnull
+    @NonNull
     public String getUsername() {
         return (String) get(1);
     }
@@ -56,14 +55,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user.nickname</code>. 昵称
      */
-    public void setNickname(@Nonnull String value) {
+    public void setNickname(@NonNull String value) {
         set(2, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user.nickname</code>. 昵称
      */
-    @Nonnull
+    @NonNull
     public String getNickname() {
         return (String) get(2);
     }
@@ -71,14 +70,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user.user_status</code>. 用户状态
      */
-    public void setUserStatus(@Nonnull String value) {
+    public void setUserStatus(@NonNull String value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user.user_status</code>. 用户状态
      */
-    @Nonnull
+    @NonNull
     public String getUserStatus() {
         return (String) get(3);
     }
@@ -86,14 +85,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user.create_time</code>. 创建时间
      */
-    public void setCreateTime(@Nonnull OffsetDateTime value) {
+    public void setCreateTime(@NonNull OffsetDateTime value) {
         set(4, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user.create_time</code>. 创建时间
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime getCreateTime() {
         return (OffsetDateTime) get(4);
     }
@@ -101,14 +100,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user._version</code>. 版本
      */
-    public void set_Version(@Nonnull OffsetDateTime value) {
+    public void set_Version(@NonNull OffsetDateTime value) {
         set(5, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user._version</code>. 版本
      */
-    @Nonnull
+    @NonNull
     public OffsetDateTime get_Version() {
         return (OffsetDateTime) get(5);
     }
@@ -116,14 +115,14 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Setter for <code>preset_sys.psys_user.account_id</code>. 账户id
      */
-    public void setAccountId(@Nonnull Long value) {
+    public void setAccountId(@NonNull Long value) {
         set(6, value);
     }
 
     /**
      * Getter for <code>preset_sys.psys_user.account_id</code>. 账户id
      */
-    @Nonnull
+    @NonNull
     public Long getAccountId() {
         return (Long) get(6);
     }
@@ -133,7 +132,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    @Nonnull
+    @NonNull
     public Record1<Long> key() {
         return (Record1) super.key();
     }
@@ -152,7 +151,7 @@ public class PsysUserRecord extends UpdatableRecordImpl<PsysUserRecord> {
     /**
      * Create a detached, initialised PsysUserRecord
      */
-    public PsysUserRecord(@Nullable Long id, @Nonnull String username, @Nonnull String nickname, @Nonnull String userStatus, @Nonnull OffsetDateTime createTime, @Nonnull OffsetDateTime _Version, @Nonnull Long accountId) {
+    public PsysUserRecord(@Nullable Long id, @NonNull String username, @NonNull String nickname, @NonNull String userStatus, @NonNull OffsetDateTime createTime, @NonNull OffsetDateTime _Version, @NonNull Long accountId) {
         super(PsysUser.PSYS_USER);
 
         setId(id);
